@@ -1,16 +1,20 @@
 package com.katana.sdk.components;
 
+import com.katana.api.Transport;
 import com.katana.sdk.common.Option;
 import com.katana.sdk.callables.Callable;
 import com.katana.utils.Utils;
+import org.zeromq.ZMQ;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by juan on 27/08/16.
+ * Katana Java SDK
  */
-public class Component {
+public abstract class Component<T> {
 
     private static final String HAS_BEEN_SET_MORE_THAN_ONCE = "has been set more than once";
 
@@ -36,6 +40,10 @@ public class Component {
     private String socket;
 
     private List<String> var;
+
+    protected Callable callable;
+    private ZMQ.Socket responder;
+    private ZMQ.Context context;
 
     /**
      * Initialize the component with the command line arguments
@@ -165,8 +173,38 @@ public class Component {
      *
      * @param callable the logic to be used by the component
      */
-    protected void run(Callable callable) {
+    void run(Callable<T> callable) {
+        this.callable = callable;
 
+        startZQM();
+        while (!Thread.currentThread().isInterrupted()) {
+            byte[] request = responder.recv(0);
+            String message = getMessageAsString(request);
+            Transport transport = getTransport(message);
+            callable.run(getUserlandMessage(transport));
+        }
+        stopZMQ();
+    }
+
+    protected abstract T getUserlandMessage(Transport transport);
+
+    private void startZQM() {
+        context = ZMQ.context(1);
+        responder = context.socket(ZMQ.REP);
+        responder.bind("ipc://" + this.socket);
+    }
+
+    private void stopZMQ() {
+        responder.close();
+        context.term();
+    }
+
+    private Transport getTransport(String message) {
+        return new Transport(message);
+    }
+
+    private String getMessageAsString(byte[] message) {
+        return Arrays.toString(message);
     }
 
     private void setArgs(String[] args) throws IllegalArgumentException {
@@ -222,18 +260,25 @@ public class Component {
 
     private void setMembers(List<Option> options) {
         for (Option option : options) {
-            if (option.getNames()[0].equals("-n")) {
-                this.name = option.getValue();
-            } else if (option.getNames()[0].equals("-v")) {
-                this.version = option.getValue();
-            } else if (option.getNames()[0].equals("-p")) {
-                this.platformVersion = option.getValue();
-            } else if (option.getNames()[0].equals("-s")) {
-                this.socket = option.getValue();
-            } else if (option.getNames()[0].equals("-D")) {
-                this.debug = true;
-            } else if (option.getNames()[0].equals("-V")) {
-                this.var.add(option.getValue());
+            switch (option.getNames()[0]) {
+                case "-n":
+                    this.name = option.getValue();
+                    break;
+                case "-v":
+                    this.version = option.getValue();
+                    break;
+                case "-p":
+                    this.platformVersion = option.getValue();
+                    break;
+                case "-s":
+                    this.socket = option.getValue();
+                    break;
+                case "-D":
+                    this.debug = true;
+                    break;
+                case "-V":
+                    this.var.add(option.getValue());
+                    break;
             }
         }
     }

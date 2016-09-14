@@ -1,14 +1,12 @@
 package com.katana.sdk.components;
 
-import com.katana.api.Action;
+import com.katana.api.Response;
 import com.katana.api.Transport;
-import com.katana.sdk.callables.ActionCallable;
-import com.katana.sdk.callables.Callable;
 
 /**
- * Created by juan on 27/08/16.
+ * Created by juan on 14/09/16.
  */
-public class Service extends Component {
+public class ResponseMiddleware extends Component<Response>{
 
     /**
      * Initialize the component with the command line arguments
@@ -17,18 +15,13 @@ public class Service extends Component {
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
      *                                  if there is an invalid argument or if there are duplicated arguments
      */
-    public Service(String[] args) {
+    public ResponseMiddleware(String[] args) {
         super(args);
     }
 
     @Override
-    protected Action getUserlandMessage(Transport transport) {
+    protected Response getUserlandMessage(Transport transport) {
         return null;
     }
-
-    public void runAction(Callable<Action> callable){
-        run(callable);
-    }
-
-
 }
+

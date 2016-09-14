@@ -60,11 +60,13 @@ public class Option {
     }
 
     public Option clone() {
-        return new Option(
+        Option option = new Option(
                 getNames(),
                 isUnique(),
                 isRequired(),
                 isHasValue()
         );
+        option.setValue(getValue());
+        return option;
     }
 }
