@@ -2,13 +2,14 @@ package com.katana.sdk.components;
 
 import com.katana.api.Transport;
 import com.katana.sdk.common.Option;
-import com.katana.sdk.callables.Callable;
+import com.katana.sdk.common.Callable;
 import com.katana.utils.Utils;
 import org.zeromq.ZMQ;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by juan on 27/08/16.
@@ -23,27 +24,41 @@ public abstract class Component<T> {
     private static final String IS_NOT_VALID = "is not valid";
 
     private static final Option[] APP_OPTIONS = new Option[]{
+            new Option(new String[]{"-c", "--component"}, true, true, true),
+            new Option(new String[]{"-d", "--disable-compact-names"}, true, false, false),
             new Option(new String[]{"-n", "--name"}, true, true, true),
             new Option(new String[]{"-v", "--version"}, true, true, true),
+            new Option(new String[]{"-a", "--action"}, true, true, true),
             new Option(new String[]{"-p", "--platform-version"}, true, true, true),
             new Option(new String[]{"-s", "--socket"}, true, false, true),
+            new Option(new String[]{"-t", "--tcp"}, true, false, true),
             new Option(new String[]{"-D", "--debug"}, true, false, false),
             new Option(new String[]{"-V", "--var"}, false, false, true),
     };
+
+    private String component;
+
+    private boolean disableCompactName;
 
     private String name;
 
     private String version;
 
+    private String action;
+
     private String platformVersion;
 
     private String socket;
 
+    private String tcp;
+
     private List<String> var;
 
-    protected Callable callable;
     private ZMQ.Socket responder;
+
     private ZMQ.Context context;
+
+    private boolean debug;
 
     /**
      * Initialize the component with the command line arguments
@@ -56,9 +71,44 @@ public abstract class Component<T> {
         var = new ArrayList<>();
 
         setArgs(args);
+
+        if (this.tcp == null && this.socket == null) {
+            generateDefaultSocket();
+        }
     }
 
-    private boolean debug;
+    private void generateDefaultSocket() {
+        this.socket = "@katana-" + this.component + "-" + this.name + "-" + UUID.randomUUID().toString();
+    }
+
+    /**
+     * @return
+     */
+    public String getComponent() {
+        return component;
+    }
+
+    /**
+     * @param component
+     */
+    public void setComponent(String component) {
+        this.component = component;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isDisableCompactName() {
+        return disableCompactName;
+    }
+
+    /**
+     * @param disableCompactName
+     */
+    public void setDisableCompactName(boolean disableCompactName) {
+        this.disableCompactName = disableCompactName;
+    }
+
 
     /**
      * Name getter
@@ -97,6 +147,20 @@ public abstract class Component<T> {
     }
 
     /**
+     * @return
+     */
+    public String getAction() {
+        return action;
+    }
+
+    /**
+     * @param action
+     */
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    /**
      * Platform version getter
      *
      * @return return the version of the platform
@@ -130,6 +194,20 @@ public abstract class Component<T> {
      */
     public void setSocket(String socket) {
         this.socket = socket;
+    }
+
+    /**
+     * @return
+     */
+    public String getTcp() {
+        return tcp;
+    }
+
+    /**
+     * @param tcp
+     */
+    public void setTcp(String tcp) {
+        this.tcp = tcp;
     }
 
     /**
@@ -174,37 +252,49 @@ public abstract class Component<T> {
      * @param callable the logic to be used by the component
      */
     void run(Callable<T> callable) {
-        this.callable = callable;
-
         startZQM();
         while (!Thread.currentThread().isInterrupted()) {
-            byte[] request = responder.recv(0);
-            String message = getMessageAsString(request);
-            Transport transport = getTransport(message);
-            callable.run(getUserlandMessage(transport));
+            byte[] messageBytes = responder.recv(0);
+            String request = Arrays.toString(messageBytes);
+            String response = processRequest(callable, request);
+            responder.send(response);
         }
         stopZMQ();
     }
 
-    protected abstract T getUserlandMessage(Transport transport);
+    private String processRequest(Callable<T> callable, String request) {
+        Transport requestTransport = new Transport(request);
+        T requestMessage = getObjectMessage(requestTransport);
+
+        T responseMessage = callable.run(requestMessage);
+        Transport responseTransport = getTransport(responseMessage);
+
+        return responseTransport.getMessage();
+    }
+
+    private Transport getTransport(T response) {
+        return new Transport();
+    }
+
+    protected abstract T getObjectMessage(Transport transport);
 
     private void startZQM() {
         context = ZMQ.context(1);
         responder = context.socket(ZMQ.REP);
-        responder.bind("ipc://" + this.socket);
+        bindSocket();
+    }
+
+    private void bindSocket() {
+        if (this.tcp != null) {
+            responder.bind("tcp://" + this.tcp);
+        } else {
+            responder.bind("ipc://" + this.socket);
+        }
     }
 
     private void stopZMQ() {
         responder.close();
         context.term();
-    }
-
-    private Transport getTransport(String message) {
-        return new Transport(message);
-    }
-
-    private String getMessageAsString(byte[] message) {
-        return Arrays.toString(message);
     }
 
     private void setArgs(String[] args) throws IllegalArgumentException {
@@ -261,6 +351,12 @@ public abstract class Component<T> {
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
+                case "-c":
+                    this.component = option.getValue();
+                    break;
+                case "-d":
+                    this.disableCompactName = true;
+                    break;
                 case "-n":
                     this.name = option.getValue();
                     break;
@@ -272,6 +368,9 @@ public abstract class Component<T> {
                     break;
                 case "-s":
                     this.socket = option.getValue();
+                    break;
+                case "-t":
+                    this.tcp = option.getValue();
                     break;
                 case "-D":
                     this.debug = true;

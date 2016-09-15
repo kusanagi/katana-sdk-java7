@@ -1,4 +1,6 @@
-package com.katana.api;
+package com.katana.api.entity;
+
+import java.util.Map;
 
 /**
  * Created by juan on 14/09/16.
@@ -6,11 +8,16 @@ package com.katana.api;
  */
 public class Meta {
     private String version;
+
     private String id;
+
     private String datetime;
+
     private String[] origin;
+
     private int level;
-    private Object properties;
+
+    private Map<String, String> properties;
 
     public String getVersion() {
         return version;
@@ -52,11 +59,11 @@ public class Meta {
         this.level = level;
     }
 
-    public Object getProperties() {
+    public Map<String, String> getProperties() {
         return properties;
     }
 
-    public void setProperties(Object properties) {
+    public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
 }

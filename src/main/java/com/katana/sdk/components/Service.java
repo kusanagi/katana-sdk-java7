@@ -2,13 +2,12 @@ package com.katana.sdk.components;
 
 import com.katana.api.Action;
 import com.katana.api.Transport;
-import com.katana.sdk.callables.ActionCallable;
-import com.katana.sdk.callables.Callable;
+import com.katana.sdk.common.Callable;
 
 /**
  * Created by juan on 27/08/16.
  */
-public class Service extends Component {
+public class Service extends Component<Action> {
 
     /**
      * Initialize the component with the command line arguments
@@ -22,13 +21,12 @@ public class Service extends Component {
     }
 
     @Override
-    protected Action getUserlandMessage(Transport transport) {
+    protected Action getObjectMessage(Transport transport) {
         return null;
     }
 
     public void runAction(Callable<Action> callable){
         run(callable);
     }
-
 
 }

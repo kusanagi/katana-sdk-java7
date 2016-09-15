@@ -1,8 +1,7 @@
 package com.katana.example;
 
 import com.katana.api.Request;
-import com.katana.sdk.callables.Callable;
-import com.katana.sdk.callables.RequestCallable;
+import com.katana.sdk.common.Callable;
 import com.katana.sdk.components.Middleware;
 
 /**
@@ -13,8 +12,9 @@ public class RequestMiddlewareSample {
     public static void main(String[] args) {
         Callable<Request> callable = new Callable<Request>() {
             @Override
-            public void run(Request request) {
+            public Request run(Request request) {
                 // logic ...
+                return request;
             }
         };
 

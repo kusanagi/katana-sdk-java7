@@ -1,8 +1,7 @@
 package com.katana.example;
 
 import com.katana.api.Action;
-import com.katana.sdk.callables.ActionCallable;
-import com.katana.sdk.callables.Callable;
+import com.katana.sdk.common.Callable;
 import com.katana.sdk.components.Service;
 
 /**
@@ -13,8 +12,9 @@ public class ServiceSample {
     public static void main(String[] args){
         Callable<Action> callable = new Callable<Action>() {
             @Override
-            public void run(Action action) {
+            public Action run(Action action) {
                 // logic ...
+                return action;
             }
         };
 

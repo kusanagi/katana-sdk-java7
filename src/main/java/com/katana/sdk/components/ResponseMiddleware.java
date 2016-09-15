@@ -15,12 +15,12 @@ public class ResponseMiddleware extends Component<Response>{
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
      *                                  if there is an invalid argument or if there are duplicated arguments
      */
-    public ResponseMiddleware(String[] args) {
+    ResponseMiddleware(String[] args) {
         super(args);
     }
 
     @Override
-    protected Response getUserlandMessage(Transport transport) {
+    protected Response getObjectMessage(Transport transport) {
         return null;
     }
 }
