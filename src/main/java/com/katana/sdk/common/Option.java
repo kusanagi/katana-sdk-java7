@@ -1,5 +1,7 @@
 package com.katana.sdk.common;
 
+import java.util.Arrays;
+
 /**
  * Created by juan on 27/08/16.
  */
@@ -68,5 +70,31 @@ public class Option {
         );
         option.setValue(getValue());
         return option;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Option)) return false;
+
+        Option option = (Option) o;
+
+        if (isUnique() != option.isUnique()) return false;
+        if (isRequired() != option.isRequired()) return false;
+        if (isHasValue() != option.isHasValue()) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(getNames(), option.getNames())) return false;
+        return getValue().equals(option.getValue());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(getNames());
+        result = 31 * result + (isUnique() ? 1 : 0);
+        result = 31 * result + (isRequired() ? 1 : 0);
+        result = 31 * result + (isHasValue() ? 1 : 0);
+        result = 31 * result + getValue().hashCode();
+        return result;
     }
 }

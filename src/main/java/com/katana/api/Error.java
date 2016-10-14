@@ -39,4 +39,25 @@ public class Error {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Error)) return false;
+
+        Error error = (Error) o;
+
+        if (!getMessage().equals(error.getMessage())) return false;
+        if (!getCode().equals(error.getCode())) return false;
+        return getStatus().equals(error.getStatus());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getMessage().hashCode();
+        result = 31 * result + getCode().hashCode();
+        result = 31 * result + getStatus().hashCode();
+        return result;
+    }
 }

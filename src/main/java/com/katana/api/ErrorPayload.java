@@ -17,4 +17,20 @@ public class ErrorPayload {
     public void setError(Error error) {
         this.error = error;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ErrorPayload)) return false;
+
+        ErrorPayload that = (ErrorPayload) o;
+
+        return getError().equals(that.getError());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getError().hashCode();
+    }
 }

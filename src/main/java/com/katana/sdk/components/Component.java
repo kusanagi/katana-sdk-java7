@@ -3,7 +3,6 @@ package com.katana.sdk.components;
 import com.katana.api.commands.common.CommandArgument;
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.replies.CommandReplyResult;
-import com.katana.api.replies.CommandReply;
 import com.katana.api.replies.CommandReplyPayload;
 import com.katana.sdk.common.*;
 import com.katana.utils.Utils;
@@ -336,7 +335,7 @@ public abstract class Component<T extends CommandArgument, S extends CommandRepl
 
     private CommandReplyPayload getCommandReplyPayload(T response) {
         CommandReplyPayload commandReplyPayload = new CommandReplyPayload();
-        CommandReply commandReply = new CommandReply();
+        CommandReplyPayload.CommandReply commandReply = new CommandReplyPayload.CommandReply();
         commandReply.setName(getName());
         commandReply.setCommandReplyResult(getReply(response));
         commandReplyPayload.setCommandReply(commandReply);
