@@ -71,28 +71,12 @@ public class Api {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Api)) return false;
-
-        Api api = (Api) o;
-
-        if (isDebug() != api.isDebug()) return false;
-        if (!getPath().equals(api.getPath())) return false;
-        if (!getName().equals(api.getName())) return false;
-        if (!getVersion().equals(api.getVersion())) return false;
-        if (!getPlatformVersion().equals(api.getPlatformVersion())) return false;
-        return getVariables().equals(api.getVariables());
-
-    }
-
-    @Override
     public int hashCode() {
-        int result = getPath().hashCode();
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + getVersion().hashCode();
-        result = 31 * result + getPlatformVersion().hashCode();
-        result = 31 * result + getVariables().hashCode();
+        int result = getPath() != null ? getPath().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
+        result = 31 * result + (getPlatformVersion() != null ? getPlatformVersion().hashCode() : 0);
+        result = 31 * result + (getVariables() != null ? getVariables().hashCode() : 0);
         result = 31 * result + (isDebug() ? 1 : 0);
         return result;
     }

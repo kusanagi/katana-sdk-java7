@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.commands.common.CommandArgument;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,8 +84,8 @@ public class Action extends Api implements CommandArgument {
         return true;
     }
 
-    public boolean setCollection(Object[] collection){
-        return this.transport.addData(getName(), getVersion(), getActionName(), collection);
+    public boolean setCollection(String[] collection){
+        return this.transport.addData(getName(), getVersion(), getActionName(), Arrays.asList(collection));
     }
 
     public boolean relateOne(String primaryKey, String service, String forignKey){
@@ -124,7 +126,8 @@ public class Action extends Api implements CommandArgument {
 
     @Override
     public int hashCode() {
-        int result = getParams().hashCode();
+        int result = super.hashCode();
+        result = 31 * result + getParams().hashCode();
         result = 31 * result + getTransport().hashCode();
         return result;
     }

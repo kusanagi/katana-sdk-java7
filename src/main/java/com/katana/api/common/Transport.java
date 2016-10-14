@@ -7,6 +7,7 @@ import com.katana.api.replies.CommandReplyResult;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ public class Transport implements CommandReplyResult {
     private File[] files;
 
     @JsonProperty("d")
-    private Map<String, Map<String, Map<String, Object[]>>> data;
+    private Map<String, Map<String, Map<String, List<String>>>> data;
 
     @JsonProperty("r")
     private Relation[] relations;
@@ -69,11 +70,11 @@ public class Transport implements CommandReplyResult {
         this.files = files;
     }
 
-    public Map<String, Map<String, Map<String, Object[]>>> getData() {
+    public Map<String, Map<String, Map<String, List<String>>>> getData() {
         return data;
     }
 
-    public void setData(Map<String, Map<String, Map<String, Object[]>>> data) {
+    public void setData(Map<String, Map<String, Map<String, List<String>>>> data) {
         this.data = data;
     }
 
@@ -175,9 +176,9 @@ public class Transport implements CommandReplyResult {
         return this.errors;
     }
 
-    public boolean addData(String name, String version, String actionName, Object[] collection) {
-        Map<String, Map<String, Object[]>> versionMap = new HashMap<>();
-        Map<String, Object[]> actionMap = new HashMap<>();
+    public boolean addData(String name, String version, String actionName, List<String> collection) {
+        Map<String, Map<String, List<String>>> versionMap = new HashMap<>();
+        Map<String, List<String>> actionMap = new HashMap<>();
         actionMap.put(actionName, collection);
         versionMap.put(version, actionMap);
         if (this.data == null) this.data = new HashMap<>();

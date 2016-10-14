@@ -6,6 +6,7 @@ import com.katana.sdk.common.Logger;
 import com.katana.sdk.common.MessagePackSerializer;
 import com.katana.sdk.common.Serializer;
 import org.zeromq.ZMQ;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
@@ -44,14 +45,7 @@ public class TestClient {
                 ZMQ.Socket requester = context.socket(ZMQ.REQ);
                 requester.connect("ipc://" + endpoint);
 
-                ActionCommandPayload actionCommandPayload = new ActionCommandPayload();
-                ActionCommandPayload.ActionCommand actionCommand = new ActionCommandPayload.ActionCommand();
-                Action action = new Action("list", componentName, componentVersion, "12", new HashMap<>(), false);
-                Transport transport = new Transport();
-                transport.setMeta(new TransportMeta());
-                action.setTransport(transport);
-                actionCommand.setArgument(action);
-                actionCommandPayload.setCommand(actionCommand);
+                ActionCommandPayload actionCommandPayload = new PodamFactoryImpl().manufacturePojo(ActionCommandPayload.class);
 
                 Serializer serializer = new MessagePackSerializer();
 
