@@ -1,12 +1,13 @@
 package com.katana.sdk.components;
 
-import com.katana.api.Response;
-import com.katana.api.Transport;
+import com.katana.api.replies.CommandReplyResult;
+import com.katana.api.common.Response;
+import com.katana.api.commands.ResponseCommandPayload;
 
 /**
  * Created by juan on 14/09/16.
  */
-public class ResponseMiddleware extends Component<Response>{
+public class ResponseMiddleware extends Component<Response, Response> {
 
     /**
      * Initialize the component with the command line arguments
@@ -20,8 +21,12 @@ public class ResponseMiddleware extends Component<Response>{
     }
 
     @Override
-    protected Response getObjectMessage(Transport transport) {
-        return null;
+    protected Class<ResponseCommandPayload> getCommandPayloadClass() {
+        return ResponseCommandPayload.class;
+    }
+
+    @Override
+    protected CommandReplyResult getReply(Response response) {
+        return response;
     }
 }
-

@@ -1,12 +1,14 @@
 package com.katana.sdk.components;
 
-import com.katana.api.Request;
-import com.katana.api.Transport;
+import com.katana.api.commands.RequestCommandPayload;
+import com.katana.api.common.Call;
+import com.katana.api.replies.CommandReplyResult;
+import com.katana.api.common.Request;
 
 /**
  * Created by juan on 14/09/16.
  */
-public class RequestMiddleware extends Component<Request>{
+public class RequestMiddleware extends Component<Request, Call>{
 
     /**
      * Initialize the component with the command line arguments
@@ -20,7 +22,12 @@ public class RequestMiddleware extends Component<Request>{
     }
 
     @Override
-    protected Request getObjectMessage(Transport transport) {
-        return null;
+    protected Class<RequestCommandPayload> getCommandPayloadClass() {
+        return RequestCommandPayload.class;
+    }
+
+    @Override
+    protected CommandReplyResult getReply(Request response) {
+        return response.getCall();
     }
 }

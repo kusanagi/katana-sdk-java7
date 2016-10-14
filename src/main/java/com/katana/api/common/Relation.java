@@ -1,8 +1,8 @@
-package com.katana.api.entity;
+package com.katana.api.common;
 
 /**
  * Created by juan on 15/09/16.
  * Katana Java SDK
  */
-public class Link {
+public class Relation {
 }

@@ -1,21 +1,21 @@
 package com.katana.sdk.components;
 
-import com.katana.api.Transport;
-import com.katana.sdk.common.Option;
-import com.katana.sdk.common.Callable;
+import com.katana.api.commands.common.CommandArgument;
+import com.katana.api.commands.common.CommandPayload;
+import com.katana.api.replies.CommandReplyResult;
+import com.katana.api.replies.CommandReply;
+import com.katana.api.replies.CommandReplyPayload;
+import com.katana.sdk.common.*;
 import com.katana.utils.Utils;
 import org.zeromq.ZMQ;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by juan on 27/08/16.
  * Katana Java SDK
  */
-public abstract class Component<T> {
+public abstract class Component<T extends CommandArgument, S extends CommandReplyResult> implements ComponentWorker.WorkerListener<T> {
 
     private static final String HAS_BEEN_SET_MORE_THAN_ONCE = "has been set more than once";
 
@@ -52,13 +52,17 @@ public abstract class Component<T> {
 
     private String tcp;
 
+    private boolean debug;
+
     private List<String> var;
 
-    private ZMQ.Socket responder;
+    private ZMQ.Socket router;
 
     private ZMQ.Context context;
 
-    private boolean debug;
+    private Serializer serializer;
+
+    private ZMQ.Socket dealer;
 
     /**
      * Initialize the component with the command line arguments
@@ -67,14 +71,29 @@ public abstract class Component<T> {
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
      *                                  if there is an invalid argument or if there are duplicated arguments
      */
-    public Component(String[] args) {
-        var = new ArrayList<>();
+    Component(String[] args) {
+        this.var = new ArrayList<>();
+        this.serializer = new MessagePackSerializer();
 
         setArgs(args);
 
         if (this.tcp == null && this.socket == null) {
             generateDefaultSocket();
         }
+
+        Logger.log(toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Component: " + component +
+                ", DisableCompactName: " + disableCompactName +
+                ", Name: " + name +
+                ", Version: " + version +
+                ", Action: " + action +
+                ", platformVersion: " + platformVersion +
+                ", Socket: " + socket +
+                ", Tcp: " + tcp;
     }
 
     private void generateDefaultSocket() {
@@ -252,48 +271,83 @@ public abstract class Component<T> {
      * @param callable the logic to be used by the component
      */
     void run(Callable<T> callable) {
-        startZQM();
-        while (!Thread.currentThread().isInterrupted()) {
-            byte[] messageBytes = responder.recv(0);
-            String request = Arrays.toString(messageBytes);
-            String response = processRequest(callable, request);
-            responder.send(response);
+        Logger.log("Component run");
+
+        try {
+            startSocket();
+            Logger.log("Socket started");
+
+            setWorkers(callable);
+            Logger.log("Component workers are running!");
+
+            ZMQ.proxy(router, dealer, null);
+            Logger.log("ZMQ proxy set");
+        } catch (Exception e) {
+            Logger.log(e);
+        } finally {
+            stopSocket();
+            Logger.log("Socket stopped");
         }
-        stopZMQ();
     }
 
-    private String processRequest(Callable<T> callable, String request) {
-        Transport requestTransport = new Transport(request);
-        T requestMessage = getObjectMessage(requestTransport);
-
-        T responseMessage = callable.run(requestMessage);
-        Transport responseTransport = getTransport(responseMessage);
-
-        return responseTransport.getMessage();
+    private void setWorkers(Callable<T> callable) {
+        ComponentWorker<T> componentWorker = new ComponentWorker<T>(callable);
+        componentWorker.setWorkerListener(this);
+        componentWorker.start();
     }
 
-    private Transport getTransport(T response) {
-        return new Transport();
+    @Override
+    public byte[] onRequestReceived(byte[] commandBytes, Callable<T> callable) {
+        Logger.log("Request received!: " + Arrays.toString(commandBytes));
+        CommandPayload<T> command = serializer.read(commandBytes, getCommandPayloadClass());
+//        Logger.log(serializer.writeToString(command));
+        CommandReplyPayload commandReply = processRequest(callable, command);
+//        Logger.log(serializer.writeToString(commandReply));
+        return serializer.write(commandReply);
     }
 
-    protected abstract T getObjectMessage(Transport transport);
-
-    private void startZQM() {
+    private void startSocket() {
         context = ZMQ.context(1);
-        responder = context.socket(ZMQ.REP);
+        router = context.socket(ZMQ.ROUTER);
+        dealer = context.socket(ZMQ.DEALER);
         bindSocket();
     }
 
     private void bindSocket() {
         if (this.tcp != null) {
-            responder.bind("tcp://" + this.tcp);
+            router.bind("tcp://127.0.0.1:" + this.tcp);
+            Logger.log("Router binded to tcp://127.0.0.1:" + this.tcp);
         } else {
-            responder.bind("ipc://" + this.socket);
+            router.bind("ipc://" + this.socket);
+            Logger.log("Router binded to ipc://" + this.socket);
         }
+
+        dealer.bind(Constants.WORKER_ENDPOINT);
+        Logger.log("Dealer binded to " + Constants.WORKER_ENDPOINT);
     }
 
-    private void stopZMQ() {
-        responder.close();
+    protected abstract Class<? extends CommandPayload<T>> getCommandPayloadClass();
+
+    private CommandReplyPayload processRequest(Callable<T> callable, CommandPayload<T> commandPayload) {
+        T command = commandPayload.getCommand().getArgument();
+        callable.run(command);
+        return getCommandReplyPayload(command);
+    }
+
+    private CommandReplyPayload getCommandReplyPayload(T response) {
+        CommandReplyPayload commandReplyPayload = new CommandReplyPayload();
+        CommandReply commandReply = new CommandReply();
+        commandReply.setName(getName());
+        commandReply.setCommandReplyResult(getReply(response));
+        commandReplyPayload.setCommandReply(commandReply);
+        return commandReplyPayload;
+    }
+
+    protected abstract CommandReplyResult getReply(T response);
+
+    private void stopSocket() {
+        dealer.close();
+        router.close();
         context.term();
     }
 
@@ -362,6 +416,9 @@ public abstract class Component<T> {
                     break;
                 case "-v":
                     this.version = option.getValue();
+                    break;
+                case "-a":
+                    this.action = option.getValue();
                     break;
                 case "-p":
                     this.platformVersion = option.getValue();

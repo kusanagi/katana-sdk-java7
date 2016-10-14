@@ -1,16 +1,23 @@
-package com.katana.api;
+package com.katana.api.common;
 
-import com.katana.api.entity.File;
-import com.katana.api.entity.Meta;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.commands.common.CommandArgument;
 
 import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
  */
-public class Action extends Api {
+public class Action extends Api implements CommandArgument {
+    @JsonProperty("p")
     private Map<String, Map<String, Map<String, String>>> params;
+
+    @JsonProperty("t")
     private Transport transport;
+
+    public Action() {
+    }
 
     public Action(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         super(path, name, version, platformVersion, variables, isDebug);
@@ -34,16 +41,18 @@ public class Action extends Api {
 
     // SDK Methods
 
+    @JsonIgnore
     public boolean isOrigin(){
         return true;
     }
 
+    @JsonIgnore
     public String getActionName(){
         return "";
     }
 
     public boolean setProperty(String name, String value){
-        Meta meta = this.transport.getMeta();
+        TransportMeta meta = this.transport.getMeta();
         Map<String, String> properties = meta.getProperties();
         properties.put(name, value);
         return true;
@@ -74,7 +83,7 @@ public class Action extends Api {
     }
 
     public boolean setCollection(Object[] collection){
-        return true;
+        return this.transport.addData(getName(), getVersion(), getActionName(), collection);
     }
 
     public boolean relateOne(String primaryKey, String service, String forignKey){
@@ -86,7 +95,7 @@ public class Action extends Api {
     }
 
     public boolean setLink(String link, String uri){
-        return true;
+        return this.transport.addLink(getName(), link, uri);
     }
 
     public boolean transaction(String action, Map<String, String>[] params){
@@ -99,5 +108,24 @@ public class Action extends Api {
 
     public boolean error(String message, int code, String status){
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Action)) return false;
+
+        Action action = (Action) o;
+
+        if (!getParams().equals(action.getParams())) return false;
+        return getTransport().equals(action.getTransport());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getParams().hashCode();
+        result = 31 * result + getTransport().hashCode();
+        return result;
     }
 }

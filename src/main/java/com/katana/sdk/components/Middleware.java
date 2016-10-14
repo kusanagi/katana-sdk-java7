@@ -1,7 +1,7 @@
 package com.katana.sdk.components;
 
-import com.katana.api.Request;
-import com.katana.api.Response;
+import com.katana.api.common.Request;
+import com.katana.api.common.Response;
 import com.katana.sdk.common.Callable;
 
 /**

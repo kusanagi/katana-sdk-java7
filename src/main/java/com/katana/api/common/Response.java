@@ -1,18 +1,29 @@
-package com.katana.api;
+package com.katana.api.common;
 
-import com.katana.api.entity.HttpResponse;
-import com.katana.api.entity.Meta;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.commands.common.CommandArgument;
+import com.katana.api.replies.CommandReplyResult;
 
 import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
  */
-public class Response extends Api{
+public class Response extends Api implements CommandArgument, CommandReplyResult {
+    @JsonProperty("T")
     private int type;
+
+    @JsonProperty("m")
     private Meta meta;
+
+    @JsonProperty("R")
     private HttpResponse response;
+
+    @JsonProperty("t")
     private Transport transport;
+
+    public Response() {
+    }
 
     public Response(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         super(path, name, version, platformVersion, variables, isDebug);
@@ -108,4 +119,28 @@ public class Response extends Api{
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Response)) return false;
+        if (!super.equals(o)) return false;
+
+        Response response1 = (Response) o;
+
+        if (getType() != response1.getType()) return false;
+        if (!getMeta().equals(response1.getMeta())) return false;
+        if (!getResponse().equals(response1.getResponse())) return false;
+        return getTransport().equals(response1.getTransport());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + getType();
+        result = 31 * result + getMeta().hashCode();
+        result = 31 * result + getResponse().hashCode();
+        result = 31 * result + getTransport().hashCode();
+        return result;
+    }
 }

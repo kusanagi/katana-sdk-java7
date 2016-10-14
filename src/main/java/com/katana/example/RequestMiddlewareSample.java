@@ -1,6 +1,6 @@
 package com.katana.example;
 
-import com.katana.api.Request;
+import com.katana.api.common.Request;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.components.Middleware;
 

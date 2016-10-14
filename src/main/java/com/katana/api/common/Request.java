@@ -1,9 +1,7 @@
-package com.katana.api;
+package com.katana.api.common;
 
-import com.katana.api.entity.Call;
-import com.katana.api.entity.File;
-import com.katana.api.entity.HttpRequest;
-import com.katana.api.entity.Meta;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.commands.common.CommandArgument;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +9,21 @@ import java.util.Map;
 /**
  * Created by juan on 27/08/16.
  */
-public class Request extends Api {
+public class Request extends Api implements CommandArgument {
+    @JsonProperty("T")
     private int type;
+
+    @JsonProperty("m")
     private Meta meta;
+
+    @JsonProperty("r")
     private HttpRequest request;
+
+    @JsonProperty("c")
     private Call call;
+
+    public Request() {
+    }
 
     public Request(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         super(path, name, version, platformVersion, variables, isDebug);
@@ -190,4 +198,28 @@ public class Request extends Api {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Request)) return false;
+        if (!super.equals(o)) return false;
+
+        Request request1 = (Request) o;
+
+        if (getType() != request1.getType()) return false;
+        if (!getMeta().equals(request1.getMeta())) return false;
+        if (!getRequest().equals(request1.getRequest())) return false;
+        return getCall().equals(request1.getCall());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + getType();
+        result = 31 * result + getMeta().hashCode();
+        result = 31 * result + getRequest().hashCode();
+        result = 31 * result + getCall().hashCode();
+        return result;
+    }
 }
