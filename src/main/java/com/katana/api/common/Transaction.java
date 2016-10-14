@@ -34,4 +34,11 @@ public class Transaction {
     public int hashCode() {
         return getName().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

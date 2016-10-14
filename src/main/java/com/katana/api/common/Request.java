@@ -222,4 +222,14 @@ public class Request extends Api implements CommandArgument {
         result = 31 * result + getCall().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "type=" + type +
+                ", meta=" + meta +
+                ", request=" + request +
+                ", call=" + call +
+                "} " + super.toString();
+    }
 }

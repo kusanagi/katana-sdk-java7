@@ -39,6 +39,13 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "RequestCommandPayload{" +
+                "command=" + command +
+                "} " + super.toString();
+    }
+
     /**
      * Created by juan on 26/09/16.
      */
@@ -54,6 +61,13 @@ public class RequestCommandPayload extends CommandPayload<Request> {
 
         public void setArgument(Request argument) {
             this.argument = argument;
+        }
+
+        @Override
+        public String toString() {
+            return "RequestCommand{" +
+                    "argument=" + argument +
+                    "} " + super.toString();
         }
     }
 }

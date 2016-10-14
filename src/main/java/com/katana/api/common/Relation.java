@@ -34,4 +34,11 @@ public class Relation {
     public int hashCode() {
         return getName().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Relation{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

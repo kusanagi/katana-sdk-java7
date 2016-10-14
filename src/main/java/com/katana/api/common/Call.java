@@ -61,4 +61,13 @@ public class Call implements CommandReplyResult {
         result = 31 * result + getAction().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Call{" +
+                "service='" + service + '\'' +
+                ", version='" + version + '\'' +
+                ", action='" + action + '\'' +
+                '}';
+    }
 }

@@ -34,6 +34,13 @@ public class CommandReplyPayload {
         return getCommandReply().hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "CommandReplyPayload{" +
+                "commandReply=" + commandReply +
+                '}';
+    }
+
     /**
      * Created by juan on 30/09/16.
      */

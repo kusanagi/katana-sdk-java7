@@ -38,6 +38,13 @@ public class CommandPayload<T extends CommandArgument> {
         return getCommandMeta().hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "CommandPayload{" +
+                "commandMeta=" + commandMeta +
+                '}';
+    }
+
     /**
      * Created by juan on 30/09/16.
      */
@@ -72,6 +79,13 @@ public class CommandPayload<T extends CommandArgument> {
         @Override
         public int hashCode() {
             return getName().hashCode();
+        }
+
+        @Override
+        public String toString() {
+            return "Command{" +
+                    "name='" + name + '\'' +
+                    '}';
         }
     }
 }

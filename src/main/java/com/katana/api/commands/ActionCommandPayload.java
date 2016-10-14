@@ -39,6 +39,13 @@ public class ActionCommandPayload extends CommandPayload<Action> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "ActionCommandPayload{" +
+                "command=" + command +
+                "} " + super.toString();
+    }
+
     /**
      * Created by juan on 26/09/16.
      */
@@ -73,6 +80,13 @@ public class ActionCommandPayload extends CommandPayload<Action> {
             int result = super.hashCode();
             result = 31 * result + getArgument().hashCode();
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return "ActionCommand{" +
+                    "argument=" + argument +
+                    "} " + super.toString();
         }
     }
 }

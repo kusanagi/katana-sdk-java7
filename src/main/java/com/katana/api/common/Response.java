@@ -143,4 +143,14 @@ public class Response extends Api implements CommandArgument, CommandReplyResult
         result = 31 * result + getTransport().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "type=" + type +
+                ", meta=" + meta +
+                ", response=" + response +
+                ", transport=" + transport +
+                "} " + super.toString();
+    }
 }

@@ -33,4 +33,11 @@ public class CommandMeta {
     public int hashCode() {
         return getService().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "CommandMeta{" +
+                "service='" + service + '\'' +
+                '}';
+    }
 }

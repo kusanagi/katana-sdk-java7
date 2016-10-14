@@ -63,4 +63,13 @@ public class Meta {
         result = 31 * result + getDatetime().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Meta{" +
+                "version='" + version + '\'' +
+                ", id='" + id + '\'' +
+                ", datetime='" + datetime + '\'' +
+                '}';
+    }
 }

@@ -80,4 +80,16 @@ public class Api {
         result = 31 * result + (isDebug() ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Api{" +
+                "path='" + path + '\'' +
+                ", name='" + name + '\'' +
+                ", version='" + version + '\'' +
+                ", platformVersion='" + platformVersion + '\'' +
+                ", variables=" + variables +
+                ", isDebug=" + isDebug +
+                '}';
+    }
 }

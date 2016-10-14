@@ -131,4 +131,12 @@ public class Action extends Api implements CommandArgument {
         result = 31 * result + getTransport().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Action{" +
+                "params=" + params +
+                ", transport=" + transport +
+                "} " + super.toString();
+    }
 }

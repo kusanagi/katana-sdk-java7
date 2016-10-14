@@ -75,4 +75,14 @@ public class HttpResponse {
         result = 31 * result + getBody().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "HttpResponse{" +
+                "version='" + version + '\'' +
+                ", status='" + status + '\'' +
+                ", headers=" + headers +
+                ", body='" + body + '\'' +
+                '}';
+    }
 }

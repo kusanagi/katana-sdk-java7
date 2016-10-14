@@ -223,4 +223,19 @@ public class Transport implements CommandReplyResult {
         result = 31 * result + Arrays.hashCode(getErrors());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Transport{" +
+                "meta=" + meta +
+                ", body=" + body +
+                ", files=" + Arrays.toString(files) +
+                ", data=" + data +
+                ", relations=" + Arrays.toString(relations) +
+                ", links=" + links +
+                ", calls=" + Arrays.toString(calls) +
+                ", transactions=" + Arrays.toString(transactions) +
+                ", errors=" + Arrays.toString(errors) +
+                '}';
+    }
 }

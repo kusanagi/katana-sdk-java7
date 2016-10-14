@@ -129,4 +129,18 @@ public class HttpRequest {
         result = 31 * result + Arrays.hashCode(getFiles());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "HttpRequest{" +
+                "version='" + version + '\'' +
+                ", method='" + method + '\'' +
+                ", url='" + url + '\'' +
+                ", query=" + query +
+                ", postData=" + postData +
+                ", headers=" + headers +
+                ", body='" + body + '\'' +
+                ", files=" + Arrays.toString(files) +
+                '}';
+    }
 }

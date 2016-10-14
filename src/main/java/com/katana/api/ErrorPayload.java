@@ -33,4 +33,11 @@ public class ErrorPayload {
     public int hashCode() {
         return getError().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "ErrorPayload{" +
+                "error=" + error +
+                '}';
+    }
 }

@@ -103,4 +103,16 @@ public class TransportMeta {
         result = 31 * result + getProperties().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "TransportMeta{" +
+                "version='" + version + '\'' +
+                ", id='" + id + '\'' +
+                ", datetime='" + datetime + '\'' +
+                ", origin=" + Arrays.toString(origin) +
+                ", level=" + level +
+                ", properties=" + properties +
+                '}';
+    }
 }

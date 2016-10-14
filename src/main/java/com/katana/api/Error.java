@@ -60,4 +60,13 @@ public class Error {
         result = 31 * result + getStatus().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Error{" +
+                "message='" + message + '\'' +
+                ", code='" + code + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
