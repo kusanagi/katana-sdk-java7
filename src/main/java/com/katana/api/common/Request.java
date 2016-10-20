@@ -1,7 +1,6 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.commands.common.CommandArgument;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.Map;
 /**
  * Created by juan on 27/08/16.
  */
-public class Request extends Api implements CommandArgument {
+public class Request extends Api {
     @JsonProperty("T")
     private int type;
 

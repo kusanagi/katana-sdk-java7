@@ -1,9 +1,7 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,6 +31,30 @@ public class Api {
         this.platformVersion = platformVersion;
         this.variables = variables;
         this.isDebug = isDebug;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setPlatformVersion(String platformVersion) {
+        this.platformVersion = platformVersion;
+    }
+
+    public void setVariables(Map<String, String> variables) {
+        this.variables = variables;
+    }
+
+    public void setDebug(boolean debug) {
+        isDebug = debug;
     }
 
     @JsonIgnore

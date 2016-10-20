@@ -1,20 +1,23 @@
 package com.katana.sdk.components;
 
-import com.katana.api.commands.common.CommandArgument;
 import com.katana.api.commands.common.CommandPayload;
+import com.katana.api.common.Api;
+import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
-import com.katana.api.replies.CommandReplyPayload;
+import com.katana.api.replies.TransportReplyPayload;
 import com.katana.sdk.common.*;
 import com.katana.utils.Utils;
 import org.zeromq.ZMQ;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by juan on 27/08/16.
  * Katana Java SDK
  */
-public abstract class Component<T extends CommandArgument, S extends CommandReplyResult> implements ComponentWorker.WorkerListener<T> {
+public abstract class Component<T extends Api, S extends CommandReplyResult> implements ComponentWorker.WorkerListener<T> {
 
     private static final String HAS_BEEN_SET_MORE_THAN_ONCE = "has been set more than once";
 
@@ -80,19 +83,11 @@ public abstract class Component<T extends CommandArgument, S extends CommandRepl
             generateDefaultSocket();
         }
 
-        Logger.log(toString());
-    }
+        if (isDebug()) {
+            Logger.activate();
+        }
 
-    @Override
-    public String toString() {
-        return "Component: " + component +
-                ", DisableCompactName: " + disableCompactName +
-                ", Name: " + name +
-                ", Version: " + version +
-                ", Action: " + action +
-                ", platformVersion: " + platformVersion +
-                ", Socket: " + socket +
-                ", Tcp: " + tcp;
+        Logger.log(toString());
     }
 
     private void generateDefaultSocket() {
@@ -272,21 +267,14 @@ public abstract class Component<T extends CommandArgument, S extends CommandRepl
     void run(Callable<T> callable) {
         Logger.log("Component run");
 
-        try {
-            startSocket();
-            Logger.log("Socket started");
+        startSocket();
+        Logger.log("Socket started");
 
-            setWorkers(callable);
-            Logger.log("Component workers are running!");
+        setWorkers(callable);
+        Logger.log("Component workers are running!");
 
-            ZMQ.proxy(router, dealer, null);
-            Logger.log("ZMQ proxy set");
-        } catch (Exception e) {
-            Logger.log(e);
-        } finally {
-            stopSocket();
-            Logger.log("Socket stopped");
-        }
+        ZMQ.proxy(router, dealer, null);
+        Logger.log("ZMQ proxy set");
     }
 
     private void setWorkers(Callable<T> callable) {
@@ -297,11 +285,9 @@ public abstract class Component<T extends CommandArgument, S extends CommandRepl
 
     @Override
     public byte[] onRequestReceived(byte[] commandBytes, Callable<T> callable) {
-        Logger.log("Request received!: " + Arrays.toString(commandBytes));
         CommandPayload<T> command = serializer.read(commandBytes, getCommandPayloadClass());
-//        Logger.log(serializer.writeToString(command));
-        CommandReplyPayload commandReply = processRequest(callable, command);
-//        Logger.log(serializer.writeToString(commandReply));
+        TransportReplyPayload commandReply = processRequest(callable, command);
+        Logger.log(commandReply.toString());
         return serializer.write(commandReply);
     }
 
@@ -327,17 +313,29 @@ public abstract class Component<T extends CommandArgument, S extends CommandRepl
 
     protected abstract Class<? extends CommandPayload<T>> getCommandPayloadClass();
 
-    private CommandReplyPayload processRequest(Callable<T> callable, CommandPayload<T> commandPayload) {
+    private TransportReplyPayload processRequest(Callable<T> callable, CommandPayload<T> commandPayload) {
         T command = commandPayload.getCommand().getArgument();
+        setBaseCommandAttrs(command);
+        Logger.log(commandPayload.toString());
         callable.run(command);
         return getCommandReplyPayload(command);
     }
 
-    private CommandReplyPayload getCommandReplyPayload(T response) {
-        CommandReplyPayload commandReplyPayload = new CommandReplyPayload();
-        CommandReplyPayload.CommandReply commandReply = new CommandReplyPayload.CommandReply();
+    protected void setBaseCommandAttrs(T command) {
+        command.setName(this.getName());
+        command.setVersion(this.getVersion());
+        command.setPlatformVersion(this.getPlatformVersion());
+        command.setDebug(this.isDebug());
+//        command.setVariables(this.getVar());
+    }
+
+    private TransportReplyPayload getCommandReplyPayload(T response) {
+        TransportReplyPayload commandReplyPayload = new TransportReplyPayload();
+        TransportReplyPayload.CommandReply commandReply = new TransportReplyPayload.CommandReply();
+        TransportReplyPayload.Result result = new TransportReplyPayload.Result();
+        result.setTransport((Transport) getReply(response));
         commandReply.setName(getName());
-        commandReply.setCommandReplyResult(getReply(response));
+        commandReply.setResult(result);
         commandReplyPayload.setCommandReply(commandReply);
         return commandReplyPayload;
     }
@@ -438,4 +436,19 @@ public abstract class Component<T extends CommandArgument, S extends CommandRepl
         }
     }
 
+    @Override
+    public String toString() {
+        return "Component{" +
+                "component='" + component + '\'' +
+                ", disableCompactName=" + disableCompactName +
+                ", name='" + name + '\'' +
+                ", version='" + version + '\'' +
+                ", action='" + action + '\'' +
+                ", platformVersion='" + platformVersion + '\'' +
+                ", socket='" + socket + '\'' +
+                ", tcp='" + tcp + '\'' +
+                ", debug=" + debug +
+                ", var=" + var +
+                '}';
+    }
 }

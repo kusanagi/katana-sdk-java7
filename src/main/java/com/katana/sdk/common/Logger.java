@@ -17,9 +17,17 @@ public class Logger {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");;
 
+    private static boolean isActive;
+
+    public static void activate(){
+        isActive = true;
+    }
+
     public static void log(String message) {
-        logToStdout(getLog(message));
-        logToFile(getLog(message));
+        if (isActive) {
+            logToStdout(getLog(message));
+//        logToFile(getLog(message));
+        }
     }
 
     private static String getLog(String message) {

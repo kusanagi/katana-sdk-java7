@@ -2,27 +2,29 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.commands.common.CommandArgument;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
  */
-public class Action extends Api implements CommandArgument {
+public class Action extends Api {
     @JsonProperty("p")
     private Map<String, Map<String, Map<String, String>>> params;
 
     @JsonProperty("t")
     private Transport transport;
+    private String actionName;
 
     public Action() {
     }
 
     public Action(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         super(path, name, version, platformVersion, variables, isDebug);
+    }
+
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 
     public Map<String, Map<String, Map<String, String>>> getParams() {
@@ -50,7 +52,7 @@ public class Action extends Api implements CommandArgument {
 
     @JsonIgnore
     public String getActionName(){
-        return "";
+        return this.actionName;
     }
 
     public boolean setProperty(String name, String value){
@@ -81,11 +83,12 @@ public class Action extends Api implements CommandArgument {
     }
 
     public boolean setEntity(Object entity){
+        this.transport.addData(getName(), getVersion(), actionName, entity);
         return true;
     }
 
-    public boolean setCollection(String[] collection){
-        return this.transport.addData(getName(), getVersion(), getActionName(), Arrays.asList(collection));
+    public boolean setCollection(Object collection){
+        return this.transport.addData(getName(), getVersion(), getActionName(), collection);
     }
 
     public boolean relateOne(String primaryKey, String service, String forignKey){

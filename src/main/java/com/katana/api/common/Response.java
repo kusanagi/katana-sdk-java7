@@ -1,7 +1,6 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.commands.common.CommandArgument;
 import com.katana.api.replies.CommandReplyResult;
 
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.Map;
 /**
  * Created by juan on 27/08/16.
  */
-public class Response extends Api implements CommandArgument, CommandReplyResult {
+public class Response extends Api implements CommandReplyResult {
     @JsonProperty("T")
     private int type;
 
@@ -104,6 +103,10 @@ public class Response extends Api implements CommandArgument, CommandReplyResult
 
     public String getHeader(String name){
         return this.response.getHeaders().get(name);
+    }
+
+    public void setHeader(String key, String value) {
+        this.response.getHeaders().put(key, value);
     }
 
     public boolean hasBody(){

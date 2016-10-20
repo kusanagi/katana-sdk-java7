@@ -1,10 +1,10 @@
 package com.katana.sdk.common;
 
-import com.katana.api.commands.common.CommandArgument;
+import com.katana.api.common.Api;
 
 /**
  * Created by juan on 27/08/16.
  */
-public interface Callable<T extends CommandArgument> {
+public interface Callable<T extends Api> {
     T run(T object);
 }

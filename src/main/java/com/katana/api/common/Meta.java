@@ -2,8 +2,6 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Map;
-
 /**
  * Created by juan on 14/09/16.
  * Katana Java SDK

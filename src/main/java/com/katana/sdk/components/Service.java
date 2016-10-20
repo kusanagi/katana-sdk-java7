@@ -1,7 +1,7 @@
 package com.katana.sdk.components;
 
-import com.katana.api.common.Action;
 import com.katana.api.commands.ActionCommandPayload;
+import com.katana.api.common.Action;
 import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.sdk.common.Callable;
@@ -36,4 +36,9 @@ public class Service extends Component<Action, Transport> {
         run(callable);
     }
 
+    @Override
+    protected void setBaseCommandAttrs(Action command) {
+        super.setBaseCommandAttrs(command);
+        command.setActionName(getAction());
+    }
 }

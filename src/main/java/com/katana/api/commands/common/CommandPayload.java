@@ -1,11 +1,12 @@
 package com.katana.api.commands.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.common.Api;
 
 /**
  * Created by juan on 26/09/16.
  */
-public class CommandPayload<T extends CommandArgument> {
+public class CommandPayload<T extends Api> {
 
     @JsonProperty("m")
     private CommandMeta commandMeta;
@@ -48,7 +49,7 @@ public class CommandPayload<T extends CommandArgument> {
     /**
      * Created by juan on 30/09/16.
      */
-    public static class Command<T extends CommandArgument> {
+    public static class Command<T extends Api> {
 
         @JsonProperty("n")
         private String name;

@@ -11,7 +11,7 @@ public class Error {
     private String message;
 
     @JsonProperty("c")
-    private String code;
+    private int code;
 
     @JsonProperty("s")
     private String status;
@@ -24,11 +24,11 @@ public class Error {
         this.message = message;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
@@ -47,8 +47,8 @@ public class Error {
 
         Error error = (Error) o;
 
+        if (getCode() != error.getCode()) return false;
         if (!getMessage().equals(error.getMessage())) return false;
-        if (!getCode().equals(error.getCode())) return false;
         return getStatus().equals(error.getStatus());
 
     }
@@ -56,7 +56,7 @@ public class Error {
     @Override
     public int hashCode() {
         int result = getMessage().hashCode();
-        result = 31 * result + getCode().hashCode();
+        result = 31 * result + getCode();
         result = 31 * result + getStatus().hashCode();
         return result;
     }

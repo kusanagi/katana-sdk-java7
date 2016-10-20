@@ -1,6 +1,5 @@
 package com.katana.sdk.common;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 
@@ -27,8 +26,10 @@ public class MessagePackSerializer implements Serializer {
     @Override
     public byte[] write(Object message) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            Logger.log(mapper.writeValueAsString(message));
             return objectMapper.writeValueAsBytes(message);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             Logger.log(e.getMessage());
             e.printStackTrace();
             return null;

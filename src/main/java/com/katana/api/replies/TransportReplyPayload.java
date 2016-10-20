@@ -2,13 +2,14 @@ package com.katana.api.replies;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.common.Transport;
 
 /**
  * Created by juan on 30/09/16.
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CommandReplyPayload {
+public class TransportReplyPayload {
 
     @JsonProperty("cr")
     private CommandReply commandReply;
@@ -24,9 +25,9 @@ public class CommandReplyPayload {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CommandReplyPayload)) return false;
+        if (!(o instanceof TransportReplyPayload)) return false;
 
-        CommandReplyPayload that = (CommandReplyPayload) o;
+        TransportReplyPayload that = (TransportReplyPayload) o;
 
         return getCommandReply().equals(that.getCommandReply());
 
@@ -53,7 +54,7 @@ public class CommandReplyPayload {
         private String name;
 
         @JsonProperty("r")
-        private CommandReplyResult commandReplyResult;
+        private Result result;
 
         public String getName() {
             return name;
@@ -63,12 +64,12 @@ public class CommandReplyPayload {
             this.name = name;
         }
 
-        public CommandReplyResult getCommandReplyResult() {
-            return commandReplyResult;
+        public Result getResult() {
+            return result;
         }
 
-        public void setCommandReplyResult(CommandReplyResult commandReplyResult) {
-            this.commandReplyResult = commandReplyResult;
+        public void setResult(Result commandReplyResult) {
+            this.result = commandReplyResult;
         }
 
         @Override
@@ -79,22 +80,59 @@ public class CommandReplyPayload {
             CommandReply that = (CommandReply) o;
 
             if (!getName().equals(that.getName())) return false;
-            return getCommandReplyResult().equals(that.getCommandReplyResult());
+            return getResult().equals(that.getResult());
 
         }
 
         @Override
         public int hashCode() {
             int result = getName().hashCode();
-            result = 31 * result + getCommandReplyResult().hashCode();
+            result = 31 * result + getResult().hashCode();
             return result;
         }
 
         @Override
         public String toString() {
-            return "CommandReply{" +
+            return "Result{" +
                     "name='" + name + '\'' +
-                    ", commandReplyResult=" + commandReplyResult +
+                    ", result=" + result +
+                    '}';
+        }
+    }
+
+    public static class Result{
+
+        @JsonProperty("t")
+        private Transport transport;
+
+        public Transport getTransport() {
+            return transport;
+        }
+
+        public void setTransport(Transport transport) {
+            this.transport = transport;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Result)) return false;
+
+            Result result = (Result) o;
+
+            return getTransport().equals(result.getTransport());
+
+        }
+
+        @Override
+        public int hashCode() {
+            return getTransport().hashCode();
+        }
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "transport=" + transport +
                     '}';
         }
     }

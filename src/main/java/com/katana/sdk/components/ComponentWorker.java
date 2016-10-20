@@ -1,17 +1,16 @@
 package com.katana.sdk.components;
 
-import com.katana.api.commands.common.CommandArgument;
+import com.katana.api.common.Api;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Constants;
 import com.katana.sdk.common.Logger;
 import org.zeromq.ZMQ;
 
-import java.util.Arrays;
 
 /**
  * Created by juan on 1/10/16.
  */
-public class ComponentWorker<T extends CommandArgument> extends Thread {
+public class ComponentWorker<T extends Api> extends Thread {
 
     private final Callable<T> callable;
 
@@ -32,22 +31,16 @@ public class ComponentWorker<T extends CommandArgument> extends Thread {
     @Override
     public void run() {
         Logger.log("Component worker run");
-        try {
-            startSocket();
-            Logger.log("Component worker socket started!");
-            while (!Thread.currentThread().isInterrupted()) {
-                Logger.log("Component worker loop started! ");
-                byte[] request = socketObj.recv();
-                Logger.log("Component worker bytes received!: " + Arrays.toString(request));
-                byte[] reply = workerListener.onRequestReceived(request, this.callable);
-                socketObj.send(reply);
-                Logger.log("Component worker bytes sent!: " + Arrays.toString(reply));
-            }
-        } catch (Exception e) {
-            Logger.log(e);
-        }finally {
-            stopSocket();
-            Logger.log("Component worker socket stopped!");
+        startSocket();
+        Logger.log("Component worker socket started!");
+        while (!Thread.currentThread().isInterrupted()) {
+            Logger.log("Component worker loop started! ");
+            byte[] request = socketObj.recv();
+            Logger.log("Component worker bytes received!");
+            socketObj.sendMore(new byte[]{});
+            byte[] reply = workerListener.onRequestReceived(request, this.callable);
+            socketObj.send(reply);
+            Logger.log("Component worker bytes sent!");
         }
     }
 
@@ -65,7 +58,7 @@ public class ComponentWorker<T extends CommandArgument> extends Thread {
         context.term();
     }
 
-    public interface WorkerListener<T extends CommandArgument> {
+    public interface WorkerListener<T extends Api> {
         byte[] onRequestReceived(byte[] request, Callable<T> callable);
     }
 }

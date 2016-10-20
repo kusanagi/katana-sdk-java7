@@ -1,6 +1,7 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.Error;
 import com.katana.api.replies.CommandReplyResult;
@@ -13,6 +14,8 @@ import java.util.Map;
 /**
  * Created by juan on 14/09/16.
  */
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Transport implements CommandReplyResult {
 
     @JsonProperty("m")
@@ -25,7 +28,7 @@ public class Transport implements CommandReplyResult {
     private File[] files;
 
     @JsonProperty("d")
-    private Map<String, Map<String, Map<String, List<String>>>> data;
+    private Map<String, Map<String, Map<String, Object>>> data;
 
     @JsonProperty("r")
     private Relation[] relations;
@@ -40,7 +43,7 @@ public class Transport implements CommandReplyResult {
     private Transaction[] transactions;
 
     @JsonProperty("e")
-    private Error[] errors;
+    private List<Error> errors;
 
     public Transport() {
         this.links = new HashMap<>();
@@ -70,11 +73,11 @@ public class Transport implements CommandReplyResult {
         this.files = files;
     }
 
-    public Map<String, Map<String, Map<String, List<String>>>> getData() {
+    public Map<String, Map<String, Map<String, Object>>> getData() {
         return data;
     }
 
-    public void setData(Map<String, Map<String, Map<String, List<String>>>> data) {
+    public void setData(Map<String, Map<String, Map<String, Object>>> data) {
         this.data = data;
     }
 
@@ -110,11 +113,11 @@ public class Transport implements CommandReplyResult {
         this.transactions = transactions;
     }
 
-    public Error[] getErrors() {
+    public List<Error> getErrors() {
         return errors;
     }
 
-    public void setErrors(Error[] errors) {
+    public void setErrors(List<Error> errors) {
         this.errors = errors;
     }
 
@@ -172,13 +175,13 @@ public class Transport implements CommandReplyResult {
         return this.transactions;
     }
 
-    public Error[] getErrors(String service){
+    public List<Error> getErrors(String service){
         return this.errors;
     }
 
-    public boolean addData(String name, String version, String actionName, List<String> collection) {
-        Map<String, Map<String, List<String>>> versionMap = new HashMap<>();
-        Map<String, List<String>> actionMap = new HashMap<>();
+    public boolean addData(String name, String version, String actionName, Object collection) {
+        Map<String, Map<String, Object>> versionMap = new HashMap<>();
+        Map<String, Object> actionMap = new HashMap<>();
         actionMap.put(actionName, collection);
         versionMap.put(version, actionMap);
         if (this.data == null) this.data = new HashMap<>();
@@ -193,34 +196,33 @@ public class Transport implements CommandReplyResult {
 
         Transport transport = (Transport) o;
 
-        if (!getMeta().equals(transport.getMeta())) return false;
-        if (!getBody().equals(transport.getBody())) return false;
+        if (getMeta() != null ? !getMeta().equals(transport.getMeta()) : transport.getMeta() != null) return false;
+        if (getBody() != null ? !getBody().equals(transport.getBody()) : transport.getBody() != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(getFiles(), transport.getFiles())) return false;
-        if (!getData().equals(transport.getData())) return false;
+        if (getData() != null ? !getData().equals(transport.getData()) : transport.getData() != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(getRelations(), transport.getRelations())) return false;
-        if (!getLinks().equals(transport.getLinks())) return false;
+        if (getLinks() != null ? !getLinks().equals(transport.getLinks()) : transport.getLinks() != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(getCalls(), transport.getCalls())) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(getTransactions(), transport.getTransactions())) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(getErrors(), transport.getErrors());
+        return getErrors() != null ? getErrors().equals(transport.getErrors()) : transport.getErrors() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getMeta().hashCode();
-        result = 31 * result + getBody().hashCode();
+        int result = getMeta() != null ? getMeta().hashCode() : 0;
+        result = 31 * result + (getBody() != null ? getBody().hashCode() : 0);
         result = 31 * result + Arrays.hashCode(getFiles());
-        result = 31 * result + getData().hashCode();
+        result = 31 * result + (getData() != null ? getData().hashCode() : 0);
         result = 31 * result + Arrays.hashCode(getRelations());
-        result = 31 * result + getLinks().hashCode();
+        result = 31 * result + (getLinks() != null ? getLinks().hashCode() : 0);
         result = 31 * result + Arrays.hashCode(getCalls());
         result = 31 * result + Arrays.hashCode(getTransactions());
-        result = 31 * result + Arrays.hashCode(getErrors());
+        result = 31 * result + (getErrors() != null ? getErrors().hashCode() : 0);
         return result;
     }
 
@@ -235,7 +237,7 @@ public class Transport implements CommandReplyResult {
                 ", links=" + links +
                 ", calls=" + Arrays.toString(calls) +
                 ", transactions=" + Arrays.toString(transactions) +
-                ", errors=" + Arrays.toString(errors) +
+                ", errors=" + errors +
                 '}';
     }
 }

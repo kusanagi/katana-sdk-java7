@@ -1,8 +1,8 @@
 package com.katana.sdk.components;
 
-import com.katana.api.replies.CommandReplyResult;
-import com.katana.api.common.Response;
 import com.katana.api.commands.ResponseCommandPayload;
+import com.katana.api.common.Response;
+import com.katana.api.replies.CommandReplyResult;
 
 /**
  * Created by juan on 14/09/16.
