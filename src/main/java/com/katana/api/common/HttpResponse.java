@@ -1,14 +1,16 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.replies.CommandReplyResult;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by juan on 14/09/16.
  * Katana Java SDK
  */
-public class HttpResponse {
+public class HttpResponse implements CommandReplyResult {
     @JsonProperty("v")
     private String version;
 
@@ -38,6 +40,9 @@ public class HttpResponse {
     }
 
     public Map<String, String> getHeaders() {
+        if (this.headers == null) {
+            this.headers = new HashMap<>();
+        }
         return headers;
     }
 
@@ -55,14 +60,24 @@ public class HttpResponse {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof HttpResponse)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof HttpResponse)) {
+            return false;
+        }
 
         HttpResponse that = (HttpResponse) o;
 
-        if (!getVersion().equals(that.getVersion())) return false;
-        if (!getStatus().equals(that.getStatus())) return false;
-        if (!getHeaders().equals(that.getHeaders())) return false;
+        if (!getVersion().equals(that.getVersion())) {
+            return false;
+        }
+        if (!getStatus().equals(that.getStatus())) {
+            return false;
+        }
+        if (!getHeaders().equals(that.getHeaders())) {
+            return false;
+        }
         return getBody() != null ? getBody().equals(that.getBody()) : that.getBody() == null;
 
     }

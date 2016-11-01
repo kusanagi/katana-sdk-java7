@@ -17,39 +17,71 @@ public class Call implements CommandReplyResult {
     @JsonProperty("a")
     private String action;
 
+    /**
+     *
+     * @return
+     */
     public String getService() {
         return service;
     }
 
+    /**
+     *
+     * @param service
+     */
     public void setService(String service) {
         this.service = service;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     *
+     * @param version
+     */
     public void setVersion(String version) {
         this.version = version;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAction() {
         return action;
     }
 
+    /**
+     *
+     * @param action
+     */
     public void setAction(String action) {
         this.action = action;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Call)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Call)) {
+            return false;
+        }
 
         Call call = (Call) o;
 
-        if (!getService().equals(call.getService())) return false;
-        if (!getVersion().equals(call.getVersion())) return false;
+        if (!getService().equals(call.getService())) {
+            return false;
+        }
+        if (!getVersion().equals(call.getVersion())) {
+            return false;
+        }
         return getAction().equals(call.getAction());
 
     }

@@ -11,7 +11,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  */
 public class MessagePackSerializerTest {
     @Test
-    public void write() throws Exception {
+    public void write() {
         Serializer serializer = new MessagePackSerializer();
         PodamFactoryImpl podamFactory = new PodamFactoryImpl();
         CommandPayload commandPayload = podamFactory.manufacturePojoWithFullData(ActionCommandPayload.class);

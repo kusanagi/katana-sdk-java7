@@ -9,23 +9,35 @@ import com.katana.api.common.Transport;
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransportReplyPayload {
+public class TransportReplyPayload implements CommandReplyResult {
 
     @JsonProperty("cr")
     private CommandReply commandReply;
 
+    /**
+     *
+     * @return
+     */
     public CommandReply getCommandReply() {
         return commandReply;
     }
 
+    /**
+     *
+     * @param commandReply
+     */
     public void setCommandReply(CommandReply commandReply) {
         this.commandReply = commandReply;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TransportReplyPayload)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TransportReplyPayload)) {
+            return false;
+        }
 
         TransportReplyPayload that = (TransportReplyPayload) o;
 
@@ -56,39 +68,61 @@ public class TransportReplyPayload {
         @JsonProperty("r")
         private Result result;
 
+        /**
+         *
+         * @return
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         *
+         * @param name
+         */
         public void setName(String name) {
             this.name = name;
         }
 
+        /**
+         *
+         * @return
+         */
         public Result getResult() {
             return result;
         }
 
+        /**
+         *
+         * @param commandReplyResult
+         */
         public void setResult(Result commandReplyResult) {
             this.result = commandReplyResult;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof CommandReply)) return false;
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof CommandReply)) {
+                return false;
+            }
 
             CommandReply that = (CommandReply) o;
 
-            if (!getName().equals(that.getName())) return false;
+            if (!getName().equals(that.getName())) {
+                return false;
+            }
             return getResult().equals(that.getResult());
 
         }
 
         @Override
         public int hashCode() {
-            int result = getName().hashCode();
-            result = 31 * result + getResult().hashCode();
-            return result;
+            int code = getName().hashCode();
+            code = 31 * code + getResult().hashCode();
+            return code;
         }
 
         @Override
@@ -100,23 +134,38 @@ public class TransportReplyPayload {
         }
     }
 
-    public static class Result{
+    /**
+     *
+     */
+    public static class Result {
 
         @JsonProperty("t")
         private Transport transport;
 
+        /**
+         *
+         * @return
+         */
         public Transport getTransport() {
             return transport;
         }
 
+        /**
+         *
+         * @param transport
+         */
         public void setTransport(Transport transport) {
             this.transport = transport;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Result)) return false;
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof Result)) {
+                return false;
+            }
 
             Result result = (Result) o;
 

@@ -1,138 +1,263 @@
 package com.katana.api.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.replies.CommandReplyResult;
 
 import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
  */
-public class Response extends Api implements CommandReplyResult {
+public class Response extends Api {
     @JsonProperty("T")
-    private int type;
+    private String type;
 
     @JsonProperty("m")
     private Meta meta;
 
     @JsonProperty("R")
-    private HttpResponse response;
+    private HttpResponse httpResponse;
 
     @JsonProperty("t")
     private Transport transport;
 
     public Response() {
+        // Default constructor to make possible the serialization of this object.
     }
 
+    /**
+     *
+     * @param path
+     * @param name
+     * @param version
+     * @param platformVersion
+     * @param variables
+     * @param isDebug
+     */
     public Response(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         super(path, name, version, platformVersion, variables, isDebug);
     }
 
-    public int getType() {
+    /**
+     *
+     * @return
+     */
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    /**
+     *
+     * @param type
+     */
+    public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     *
+     * @return
+     */
     public Meta getMeta() {
         return meta;
     }
 
+    /**
+     *
+     * @param meta
+     */
     public void setMeta(Meta meta) {
         this.meta = meta;
     }
 
-    public HttpResponse getResponse() {
-        return response;
+    /**
+     *
+     * @return
+     */
+    public HttpResponse getHttpResponse() {
+        return httpResponse;
     }
 
-    public void setResponse(HttpResponse response) {
-        this.response = response;
+    /**
+     *
+     * @param httpResponse
+     */
+    public void setHttpResponse(HttpResponse httpResponse) {
+        this.httpResponse = httpResponse;
     }
 
+    /**
+     *
+     * @return
+     */
     public Transport getTransport() {
         return transport;
     }
 
+    /**
+     *
+     * @param transport
+     */
     public void setTransport(Transport transport) {
         this.transport = transport;
     }
 
     // SDK Methods
 
-    public boolean isProtocolVersion(String version){
+    /**
+     *
+     * @param version
+     * @return
+     */
+    public boolean isProtocolVersion(String version) {
         return true;
     }
 
-    public String getProtocolVersion(){
-        return this.response.getVersion();
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    public String getProtocolVersion() {
+        return this.httpResponse.getVersion();
     }
 
-    public boolean setProtocolVersion(String version){
-        this.response.setVersion(version);
+    /**
+     *
+     * @param version
+     * @return
+     */
+    public boolean setProtocolVersion(String version) {
+        this.httpResponse.setVersion(version);
         return true;
     }
 
-    public boolean isStatus(String status){
+    /**
+     *
+     * @param status
+     * @return
+     */
+    public boolean isStatus(String status) {
         return true;
     }
 
-    public String getStatus(){
-        return this.response.getStatus();
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    public String getStatus() {
+        return this.httpResponse.getStatus();
     }
 
-    public int getStatusCode(){
-        String statusCode = this.response.getStatus().split(" ")[0];
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    public int getStatusCode() {
+        String statusCode = this.httpResponse.getStatus().split(" ")[0];
         return Integer.valueOf(statusCode);
     }
 
-    public String getStatusText(){
-        return this.response.getStatus().split(" ")[1];
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    public String getStatusText() {
+        return this.httpResponse.getStatus().split(" ")[1];
     }
 
-    public boolean setStatus(int code, String text){
-       this.response.setStatus(code + " " + text);
+    /**
+     *
+     * @param code
+     * @param text
+     * @return
+     */
+    public boolean setStatus(int code, String text) {
+        this.httpResponse.setStatus(code + " " + text);
         return true;
     }
 
-    public boolean hasHeader(String name){
-        return this.response.getHeaders().get(name) != null;
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public boolean hasHeader(String name) {
+        return this.httpResponse.getHeaders().get(name) != null;
     }
 
-    public String getHeader(String name){
-        return this.response.getHeaders().get(name);
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @JsonIgnore
+    public String getHeader(String name) {
+        return this.httpResponse.getHeaders().get(name);
     }
 
+    /**
+     *
+     * @param key
+     * @param value
+     */
     public void setHeader(String key, String value) {
-        this.response.getHeaders().put(key, value);
+        this.httpResponse.getHeaders().put(key, value);
     }
 
-    public boolean hasBody(){
-        return this.response.getBody() != null;
+    /**
+     *
+     * @return
+     */
+    public boolean hasBody() {
+        return this.httpResponse.getBody() != null;
     }
 
-    public String getBody(){
-        return this.response.getBody();
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    public String getBody() {
+        return this.httpResponse.getBody();
     }
 
-    public boolean setBody(String body){
-        this.response.setBody(body);
+    /**
+     *
+     * @param body
+     * @return
+     */
+    public boolean setBody(String body) {
+        this.httpResponse.setBody(body);
         return true;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Response)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Response)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         Response response1 = (Response) o;
 
-        if (getType() != response1.getType()) return false;
-        if (!getMeta().equals(response1.getMeta())) return false;
-        if (!getResponse().equals(response1.getResponse())) return false;
+        if (getType() != response1.getType()) {
+            return false;
+        }
+        if (!getMeta().equals(response1.getMeta())) {
+            return false;
+        }
+        if (!getHttpResponse().equals(response1.getHttpResponse())) {
+            return false;
+        }
         return getTransport().equals(response1.getTransport());
 
     }
@@ -140,9 +265,9 @@ public class Response extends Api implements CommandReplyResult {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getType();
+        result = 31 * result + getType().hashCode();
         result = 31 * result + getMeta().hashCode();
-        result = 31 * result + getResponse().hashCode();
+        result = 31 * result + getHttpResponse().hashCode();
         result = 31 * result + getTransport().hashCode();
         return result;
     }
@@ -152,7 +277,7 @@ public class Response extends Api implements CommandReplyResult {
         return "Response{" +
                 "type=" + type +
                 ", meta=" + meta +
-                ", response=" + response +
+                ", httpResponse=" + httpResponse +
                 ", transport=" + transport +
                 "} " + super.toString();
     }

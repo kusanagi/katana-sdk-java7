@@ -11,20 +11,34 @@ public class ActionCommandPayload extends CommandPayload<Action> {
     @JsonProperty("c")
     private ActionCommand command;
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ActionCommand getCommand() {
         return command;
     }
 
+    /**
+     *
+     * @param command
+     */
     public void setCommand(ActionCommand command) {
         this.command = command;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ActionCommandPayload)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ActionCommandPayload)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         ActionCommandPayload that = (ActionCommandPayload) o;
 
@@ -54,20 +68,34 @@ public class ActionCommandPayload extends CommandPayload<Action> {
         @JsonProperty("a")
         private Action argument;
 
+        /**
+         *
+         * @return
+         */
         @Override
         public Action getArgument() {
             return argument;
         }
 
+        /**
+         *
+         * @param argument
+         */
         public void setArgument(Action argument) {
             this.argument = argument;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof ActionCommand)) return false;
-            if (!super.equals(o)) return false;
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof ActionCommand)) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
 
             ActionCommand that = (ActionCommand) o;
 

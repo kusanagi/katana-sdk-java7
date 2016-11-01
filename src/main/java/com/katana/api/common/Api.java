@@ -22,8 +22,18 @@ public class Api {
     private boolean isDebug;
 
     public Api() {
+        // Default constructor to make possible the serialization of this object.
     }
 
+    /**
+     *
+     * @param path
+     * @param name
+     * @param version
+     * @param platformVersion
+     * @param variables
+     * @param isDebug
+     */
     public Api(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         this.path = path;
         this.name = name;
@@ -33,63 +43,146 @@ public class Api {
         this.isDebug = isDebug;
     }
 
+    /**
+     *
+     * @param path
+     */
     public void setPath(String path) {
         this.path = path;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @param version
+     */
     public void setVersion(String version) {
         this.version = version;
     }
 
+    /**
+     *
+     * @param platformVersion
+     */
     public void setPlatformVersion(String platformVersion) {
         this.platformVersion = platformVersion;
     }
 
+    /**
+     *
+     * @param variables
+     */
     public void setVariables(Map<String, String> variables) {
         this.variables = variables;
     }
 
+    /**
+     *
+     * @param debug
+     */
     public void setDebug(boolean debug) {
         isDebug = debug;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public String getPath() {
         return path;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public String getVersion() {
         return version;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public String getPlatformVersion() {
         return platformVersion;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public Map<String, String> getVariables() {
         return variables;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
     public boolean isDebug() {
         return isDebug;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     @JsonIgnore
-    public String getVariable(String name){
+    public String getVariable(String name) {
         return this.variables.get(name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Api)) {
+            return false;
+        }
+
+        Api api = (Api) o;
+
+        if (isDebug() != api.isDebug()) {
+            return false;
+        }
+        if (getPath() != null ? !getPath().equals(api.getPath()) : api.getPath() != null) {
+            return false;
+        }
+        if (getName() != null ? !getName().equals(api.getName()) : api.getName() != null) {
+            return false;
+        }
+        if (getVersion() != null ? !getVersion().equals(api.getVersion()) : api.getVersion() != null) {
+            return false;
+        }
+        if (getPlatformVersion() != null ? !getPlatformVersion().equals(api.getPlatformVersion()) : api.getPlatformVersion() != null) {
+            return false;
+        }
+        return getVariables() != null ? getVariables().equals(api.getVariables()) : api.getVariables() == null;
+
     }
 
     @Override

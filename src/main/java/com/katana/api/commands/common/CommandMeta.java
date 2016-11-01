@@ -10,18 +10,30 @@ public class CommandMeta {
     @JsonProperty("s")
     private String service;
 
+    /**
+     *
+     * @return
+     */
     public String getService() {
         return service;
     }
 
+    /**
+     *
+     * @param service
+     */
     public void setService(String service) {
         this.service = service;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CommandMeta)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CommandMeta)) {
+            return false;
+        }
 
         CommandMeta that = (CommandMeta) o;
 

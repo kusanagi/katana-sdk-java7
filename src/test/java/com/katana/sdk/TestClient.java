@@ -1,14 +1,12 @@
 package com.katana.sdk;
 
 import com.katana.api.commands.ActionCommandPayload;
-import com.katana.api.common.*;
 import com.katana.sdk.common.Logger;
 import com.katana.sdk.common.MessagePackSerializer;
 import com.katana.sdk.common.Serializer;
 import org.zeromq.ZMQ;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
-import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 /**

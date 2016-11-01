@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by juan on 20/10/16.
  */
 
-public class Record{
+public class Record {
 
     @JsonProperty("id")
     private int id;

@@ -6,27 +6,48 @@ import com.katana.api.common.Api;
 /**
  * Created by juan on 26/09/16.
  */
+
+/**
+ *
+ * @param <T>
+ */
 public class CommandPayload<T extends Api> {
 
     @JsonProperty("m")
     private CommandMeta commandMeta;
 
+    /**
+     *
+     * @return
+     */
     public CommandMeta getCommandMeta() {
         return commandMeta;
     }
 
+    /**
+     *
+     * @param commandMeta
+     */
     public void setCommandMeta(CommandMeta commandMeta) {
         this.commandMeta = commandMeta;
     }
 
-    public Command<T> getCommand(){
+    /**
+     *
+     * @return
+     */
+    public Command<T> getCommand() {
         return null;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CommandPayload)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CommandPayload)) {
+            return false;
+        }
 
         CommandPayload<?> that = (CommandPayload<?>) o;
 
@@ -49,27 +70,48 @@ public class CommandPayload<T extends Api> {
     /**
      * Created by juan on 30/09/16.
      */
+
+    /**
+     *
+     * @param <T>
+     */
     public static class Command<T extends Api> {
 
         @JsonProperty("n")
         private String name;
 
+        /**
+         *
+         * @return
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         *
+         * @param name
+         */
         public void setName(String name) {
             this.name = name;
         }
 
+        /**
+         *
+         * @return
+         */
         public T getArgument() {
             return null;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Command)) return false;
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof Command)) {
+                return false;
+            }
 
             Command<?> command = (Command<?>) o;
 

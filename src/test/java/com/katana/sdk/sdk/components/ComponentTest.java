@@ -1,11 +1,12 @@
 package com.katana.sdk.sdk.components;
 
+import com.katana.sdk.common.Logger;
+import com.katana.sdk.components.Component;
 import com.katana.sdk.components.Service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import com.katana.sdk.components.Component;
 
 /**
  * Created by juan on 26/08/16.
@@ -19,7 +20,7 @@ public class ComponentTest {
     public static final String HAS_MORE_THAN_ONE_VALUE = "has been set more than once";
 
     @Test
-    public void main_withRequiredArgs_dontThrowException(){
+    public void main_withRequiredArgs_dontThrowException() {
         String[][] valid_cases = new String[][]{
                 {"-c component -a action -n name -v version -p platform", null},
                 {"-c component -a action --name name --version version --platform-version platform", null},
@@ -32,7 +33,7 @@ public class ComponentTest {
     }
 
     @Test
-    public void main_withOptionalArgs_dontThrowException(){
+    public void main_withOptionalArgs_dontThrowException() {
         String[][] cases = new String[][]{
                 {"-c component -a action -n name -v version -p platform -s socket", null},
                 {"-c component -a action -n name -v version -p platform -D", null},
@@ -74,22 +75,23 @@ public class ComponentTest {
     }
 
     private void assertOptions(String[][] cases) {
-        for (String[] aCase : cases){
-            try{
+        for (String[] aCase : cases) {
+            try {
                 new Service(aCase[0].split(" "));
                 Assert.assertTrue(aCase[1] == null);
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
+                Logger.log(e);
                 Assert.assertEquals(aCase[1], e.getMessage());
             }
         }
     }
 
     @Test
-    public void main_withValidArguments_setClassMembers(){
+    public void main_withValidArguments_setClassMembers() {
         String args = "-c component -a action -n name -v version -p platform -s socket --debug -V var1 -V var2 --var var3";
         Component component = new Service(args.split(" "));
 
-        Assert.assertEquals("component", component.getComponent());
+        Assert.assertEquals("component", component.getComponentName());
         Assert.assertEquals("action", component.getAction());
         Assert.assertEquals("name", component.getName());
         Assert.assertEquals("version", component.getVersion());

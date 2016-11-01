@@ -17,39 +17,71 @@ public class Meta {
     @JsonProperty("d")
     private String datetime;
 
+    /**
+     *
+     * @return
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     *
+     * @param version
+     */
     public void setVersion(String version) {
         this.version = version;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDatetime() {
         return datetime;
     }
 
+    /**
+     *
+     * @param datetime
+     */
     public void setDatetime(String datetime) {
         this.datetime = datetime;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Meta)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Meta)) {
+            return false;
+        }
 
         Meta meta = (Meta) o;
 
-        if (!getVersion().equals(meta.getVersion())) return false;
-        if (!getId().equals(meta.getId())) return false;
+        if (!getVersion().equals(meta.getVersion())) {
+            return false;
+        }
+        if (!getId().equals(meta.getId())) {
+            return false;
+        }
         return getDatetime().equals(meta.getDatetime());
 
     }

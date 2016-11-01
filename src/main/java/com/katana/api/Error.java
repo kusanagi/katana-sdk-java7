@@ -16,39 +16,71 @@ public class Error {
     @JsonProperty("s")
     private String status;
 
+    /**
+     *
+     * @return
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     *
+     * @param message
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCode() {
         return code;
     }
 
+    /**
+     *
+     * @param code
+     */
     public void setCode(int code) {
         this.code = code;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setStatus(String status) {
         this.status = status;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Error)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Error)) {
+            return false;
+        }
 
         Error error = (Error) o;
 
-        if (getCode() != error.getCode()) return false;
-        if (!getMessage().equals(error.getMessage())) return false;
+        if (getCode() != error.getCode()) {
+            return false;
+        }
+        if (!getMessage().equals(error.getMessage())) {
+            return false;
+        }
         return getStatus().equals(error.getStatus());
 
     }

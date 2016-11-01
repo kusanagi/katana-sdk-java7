@@ -4,12 +4,13 @@ import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.common.Action;
 import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
+import com.katana.api.replies.TransportReplyPayload;
 import com.katana.sdk.common.Callable;
 
 /**
  * Created by juan on 27/08/16.
  */
-public class Service extends Component<Action, Transport> {
+public class Service extends Component<Action, TransportReplyPayload> {
 
     /**
      * Initialize the component with the command line arguments
@@ -22,6 +23,14 @@ public class Service extends Component<Action, Transport> {
         super(args);
     }
 
+    /**
+     *
+     * @param callable
+     */
+    public void runAction(Callable<Action> callable) {
+        run(callable);
+    }
+
     @Override
     protected Class<ActionCommandPayload> getCommandPayloadClass() {
         return ActionCommandPayload.class;
@@ -32,13 +41,21 @@ public class Service extends Component<Action, Transport> {
         return response.getTransport();
     }
 
-    public void runAction(Callable<Action> callable){
-        run(callable);
-    }
-
     @Override
     protected void setBaseCommandAttrs(Action command) {
         super.setBaseCommandAttrs(command);
         command.setActionName(getAction());
+    }
+
+    @Override
+    protected TransportReplyPayload getCommandReplyPayload(Action response) {
+        TransportReplyPayload commandReplyPayload = new TransportReplyPayload();
+        TransportReplyPayload.CommandReply commandReply = new TransportReplyPayload.CommandReply();
+        TransportReplyPayload.Result result = new TransportReplyPayload.Result();
+        result.setTransport((Transport) getReply(response));
+        commandReply.setName(getName());
+        commandReply.setResult(result);
+        commandReplyPayload.setCommandReply(commandReply);
+        return commandReplyPayload;
     }
 }

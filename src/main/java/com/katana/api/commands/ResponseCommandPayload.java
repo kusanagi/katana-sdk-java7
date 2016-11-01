@@ -12,20 +12,34 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
     @JsonProperty("c")
     private ResponseCommand command;
 
+    /**
+     *
+     * @return
+     */
     @Override
     public ResponseCommand getCommand() {
         return command;
     }
 
+    /**
+     *
+     * @param command
+     */
     public void setCommand(ResponseCommand command) {
         this.command = command;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ResponseCommandPayload)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ResponseCommandPayload)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         ResponseCommandPayload that = (ResponseCommandPayload) o;
 
@@ -55,11 +69,19 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
         @JsonProperty("a")
         private Response argument;
 
+        /**
+         *
+         * @return
+         */
         @Override
         public Response getArgument() {
             return argument;
         }
 
+        /**
+         *
+         * @param argument
+         */
         public void setArgument(Response argument) {
             this.argument = argument;
         }

@@ -12,17 +12,28 @@ public class MessagePackSerializer implements Serializer {
 
     private ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 
+    /**
+     *
+     * @param message
+     * @param aClass
+     * @param <T>
+     * @return
+     */
     @Override
     public <T> T read(byte[] message, Class<T> aClass) {
         try {
             return objectMapper.readValue(message, aClass);
         } catch (IOException e) {
-            Logger.log(e.getMessage());
-            e.printStackTrace();
+            Logger.log(e);
             return null;
         }
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
     @Override
     public byte[] write(Object message) {
         try {
@@ -30,9 +41,8 @@ public class MessagePackSerializer implements Serializer {
             Logger.log(mapper.writeValueAsString(message));
             return objectMapper.writeValueAsBytes(message);
         } catch (Exception e) {
-            Logger.log(e.getMessage());
-            e.printStackTrace();
-            return null;
+            Logger.log(e);
+            return new byte[0];
         }
     }
 

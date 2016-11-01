@@ -23,10 +23,10 @@ public class DeleteServiceSample {
                 records.add(new Record(4, "Ricardo"));
                 records.add(new Record(5, "Hugo"));
 
-                int userId = Integer.parseInt(action.getParam("path", "id").get("id"));
+                int userId = Integer.parseInt(action.getParam("p", "id"));
 
                 Record entity = null;
-                for (Record record : records){
+                for (Record record : records) {
                     if (record.getId() == userId) {
                         entity = record;
                         break;

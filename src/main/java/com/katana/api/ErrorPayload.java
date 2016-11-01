@@ -10,18 +10,30 @@ public class ErrorPayload {
     @JsonProperty("E")
     private Error error;
 
+    /**
+     *
+     * @return
+     */
     public Error getError() {
         return error;
     }
 
+    /**
+     *
+     * @param error
+     */
     public void setError(Error error) {
         this.error = error;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ErrorPayload)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ErrorPayload)) {
+            return false;
+        }
 
         ErrorPayload that = (ErrorPayload) o;
 

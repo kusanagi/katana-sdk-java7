@@ -11,16 +11,7 @@ import java.util.Map;
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransportMeta {
-
-    @JsonProperty("v")
-    private String version;
-
-    @JsonProperty("i")
-    private String id;
-
-    @JsonProperty("d")
-    private String datetime;
+public class TransportMeta extends Meta {
 
     @JsonProperty("o")
     private String[] origin;
@@ -31,77 +22,82 @@ public class TransportMeta {
     @JsonProperty("p")
     private Map<String, String> properties;
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
-    }
-
+    /**
+     *
+     * @return
+     */
     public String[] getOrigin() {
         return origin;
     }
 
+    /**
+     *
+     * @param origin
+     */
     public void setOrigin(String[] origin) {
         this.origin = origin;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     *
+     * @param level
+     */
     public void setLevel(int level) {
         this.level = level;
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<String, String> getProperties() {
         return properties;
     }
 
+    /**
+     *
+     * @param properties
+     */
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TransportMeta)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TransportMeta)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         TransportMeta that = (TransportMeta) o;
 
-        if (getLevel() != that.getLevel()) return false;
-        if (getVersion() != null ? !getVersion().equals(that.getVersion()) : that.getVersion() != null) return false;
-        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
-        if (getDatetime() != null ? !getDatetime().equals(that.getDatetime()) : that.getDatetime() != null)
+        if (getLevel() != that.getLevel()) {
             return false;
+        }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getOrigin(), that.getOrigin())) return false;
+        if (!Arrays.equals(getOrigin(), that.getOrigin())) {
+            return false;
+        }
         return getProperties() != null ? getProperties().equals(that.getProperties()) : that.getProperties() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getVersion() != null ? getVersion().hashCode() : 0;
-        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
-        result = 31 * result + (getDatetime() != null ? getDatetime().hashCode() : 0);
+        int result = super.hashCode();
         result = 31 * result + Arrays.hashCode(getOrigin());
         result = 31 * result + getLevel();
         result = 31 * result + (getProperties() != null ? getProperties().hashCode() : 0);
@@ -111,12 +107,9 @@ public class TransportMeta {
     @Override
     public String toString() {
         return "TransportMeta{" +
-                "version='" + version + '\'' +
-                ", id='" + id + '\'' +
-                ", datetime='" + datetime + '\'' +
-                ", origin=" + Arrays.toString(origin) +
+                "origin=" + Arrays.toString(origin) +
                 ", level=" + level +
                 ", properties=" + properties +
-                '}';
+                "} " + super.toString();
     }
 }

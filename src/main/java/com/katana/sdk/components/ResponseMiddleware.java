@@ -1,13 +1,16 @@
 package com.katana.sdk.components;
 
+import com.katana.api.Error;
 import com.katana.api.commands.ResponseCommandPayload;
+import com.katana.api.common.HttpResponse;
 import com.katana.api.common.Response;
 import com.katana.api.replies.CommandReplyResult;
+import com.katana.api.replies.ResponseReplyPayload;
 
 /**
  * Created by juan on 14/09/16.
  */
-public class ResponseMiddleware extends Component<Response, Response> {
+public class ResponseMiddleware extends Component<Response, ResponseReplyPayload> {
 
     /**
      * Initialize the component with the command line arguments
@@ -27,6 +30,23 @@ public class ResponseMiddleware extends Component<Response, Response> {
 
     @Override
     protected CommandReplyResult getReply(Response response) {
-        return response;
+        return response.getHttpResponse();
+    }
+
+    @Override
+    protected ResponseReplyPayload getCommandReplyPayload(Response response) {
+        ResponseReplyPayload commandReplyPayload = new ResponseReplyPayload();
+        ResponseReplyPayload.CommandReply commandReply = new ResponseReplyPayload.CommandReply();
+        ResponseReplyPayload.Result result = new ResponseReplyPayload.Result();
+        result.setResponse((HttpResponse) getReply(response));
+        Error error = new Error();
+        error.setCode(response.getStatusCode());
+        error.setMessage(response.getStatusText());
+        error.setStatus(response.getStatus());
+//        result.setError(error);
+        commandReply.setName(getName());
+        commandReply.setResult(result);
+        commandReplyPayload.setCommandReply(commandReply);
+        return commandReplyPayload;
     }
 }

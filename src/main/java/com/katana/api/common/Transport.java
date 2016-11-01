@@ -45,121 +45,241 @@ public class Transport implements CommandReplyResult {
     @JsonProperty("e")
     private List<Error> errors;
 
+    /**
+     *
+     */
     public Transport() {
         this.links = new HashMap<>();
     }
 
+    /**
+     *
+     * @return
+     */
     public TransportMeta getMeta() {
         return meta;
     }
 
+    /**
+     *
+     * @param meta
+     */
     public void setMeta(TransportMeta meta) {
         this.meta = meta;
     }
 
+    /**
+     *
+     * @return
+     */
     public File getBody() {
         return body;
     }
 
+    /**
+     *
+     * @param body
+     */
     public void setBody(File body) {
         this.body = body;
     }
 
+    /**
+     *
+     * @return
+     */
     public File[] getFiles() {
         return files;
     }
 
+    /**
+     *
+     * @param files
+     */
     public void setFiles(File[] files) {
         this.files = files;
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<String, Map<String, Map<String, Object>>> getData() {
         return data;
     }
 
+    /**
+     *
+     * @param data
+     */
     public void setData(Map<String, Map<String, Map<String, Object>>> data) {
         this.data = data;
     }
 
+    /**
+     *
+     * @return
+     */
     public Relation[] getRelations() {
         return relations;
     }
 
+    /**
+     *
+     * @param relations
+     */
     public void setRelations(Relation[] relations) {
         this.relations = relations;
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<String, Map<String, String>> getLinks() {
         return links;
     }
 
+    /**
+     *
+     * @param links
+     */
     public void setLinks(Map<String, Map<String, String>> links) {
         this.links = links;
     }
 
+    /**
+     *
+     * @return
+     */
     public Call[] getCalls() {
         return calls;
     }
 
+    /**
+     *
+     * @param calls
+     */
     public void setCalls(Call[] calls) {
         this.calls = calls;
     }
 
+    /**
+     *
+     * @return
+     */
     public Transaction[] getTransactions() {
         return transactions;
     }
 
+    /**
+     *
+     * @param transactions
+     */
     public void setTransactions(Transaction[] transactions) {
         this.transactions = transactions;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Error> getErrors() {
         return errors;
     }
 
+    /**
+     *
+     * @param errors
+     */
     public void setErrors(List<Error> errors) {
         this.errors = errors;
     }
 
     // SDK Methods
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
-    public String getRequestId(){
+    public String getRequestId() {
         return this.meta.getId();
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
-    public String getRequestTimeStamp(){
+    public String getRequestTimeStamp() {
         return this.meta.getDatetime();
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
-    public String[] getOrigin(){
+    public String[] getOrigin() {
         return new String[2];
     }
 
-    public String getProperty(String name, String defaultString){
+    /**
+     *
+     * @param name
+     * @param defaultString
+     * @return
+     */
+    public String getProperty(String name, String defaultString) {
         String property = this.meta.getProperties().get(name);
         return property == null ? defaultString == null ? "" : defaultString : property;
     }
 
-    public boolean hasDownload(){
+    /**
+     *
+     * @return
+     */
+    public boolean hasDownload() {
         return this.body != null;
     }
 
+    /**
+     *
+     * @return
+     */
     @JsonIgnore
-    public File getDownload(){
+    public File getDownload() {
         return this.body;
     }
 
-    public Object getData(String service, String version, String action){
+    /**
+     *
+     * @param service
+     * @param version
+     * @param action
+     * @return
+     */
+    public Object getData(String service, String version, String action) {
         return null;
     }
 
-    public Relation[] getRelations(String service){
+    /**
+     *
+     * @param service
+     * @return
+     */
+    public Relation[] getRelations(String service) {
         return this.relations;
     }
 
+    /**
+     *
+     * @param name
+     * @param link
+     * @param uri
+     * @return
+     */
     public boolean addLink(String name, String link, String uri) {
         Map<String, String> linkDic = new HashMap<>();
         linkDic.put(link, uri);
@@ -167,47 +287,92 @@ public class Transport implements CommandReplyResult {
         return true;
     }
 
-    public Map<String, Map<String, String>> getLinks(String service){
+    /**
+     *
+     * @param service
+     * @return
+     */
+    public Map<String, Map<String, String>> getLinks(String service) {
         return this.links;
     }
 
-    public Transaction[] getTransactions(String service){
+    /**
+     *
+     * @param service
+     * @return
+     */
+    public Transaction[] getTransactions(String service) {
         return this.transactions;
     }
 
-    public List<Error> getErrors(String service){
+    /**
+     *
+     * @param service
+     * @return
+     */
+    public List<Error> getErrors(String service) {
         return this.errors;
     }
 
+    /**
+     *
+     * @param name
+     * @param version
+     * @param actionName
+     * @param collection
+     * @return
+     */
     public boolean addData(String name, String version, String actionName, Object collection) {
         Map<String, Map<String, Object>> versionMap = new HashMap<>();
         Map<String, Object> actionMap = new HashMap<>();
         actionMap.put(actionName, collection);
         versionMap.put(version, actionMap);
-        if (this.data == null) this.data = new HashMap<>();
+        if (this.data == null) {
+            this.data = new HashMap<>();
+        }
         this.data.put(name, versionMap);
         return true;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Transport)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Transport)) {
+            return false;
+        }
 
         Transport transport = (Transport) o;
 
-        if (getMeta() != null ? !getMeta().equals(transport.getMeta()) : transport.getMeta() != null) return false;
-        if (getBody() != null ? !getBody().equals(transport.getBody()) : transport.getBody() != null) return false;
+        if (getMeta() != null ? !getMeta().equals(transport.getMeta()) : transport.getMeta() != null) {
+            return false;
+        }
+        if (getBody() != null ? !getBody().equals(transport.getBody()) : transport.getBody() != null) {
+            return false;
+        }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getFiles(), transport.getFiles())) return false;
-        if (getData() != null ? !getData().equals(transport.getData()) : transport.getData() != null) return false;
+        if (!Arrays.equals(getFiles(), transport.getFiles())) {
+            return false;
+        }
+        if (getData() != null ? !getData().equals(transport.getData()) : transport.getData() != null) {
+            return false;
+        }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getRelations(), transport.getRelations())) return false;
-        if (getLinks() != null ? !getLinks().equals(transport.getLinks()) : transport.getLinks() != null) return false;
+        if (!Arrays.equals(getRelations(), transport.getRelations())) {
+            return false;
+        }
+        if (getLinks() != null ? !getLinks().equals(transport.getLinks()) : transport.getLinks() != null) {
+            return false;
+        }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getCalls(), transport.getCalls())) return false;
+        if (!Arrays.equals(getCalls(), transport.getCalls())) {
+            return false;
+        }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getTransactions(), transport.getTransactions())) return false;
+        if (!Arrays.equals(getTransactions(), transport.getTransactions())) {
+            return false;
+        }
         return getErrors() != null ? getErrors().equals(transport.getErrors()) : transport.getErrors() == null;
 
     }

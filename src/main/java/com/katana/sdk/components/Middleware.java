@@ -15,12 +15,20 @@ public class Middleware {
         this.args = args;
     }
 
-    public void runRequest(Callable<Request> callable){
+    /**
+     *
+     * @param callable
+     */
+    public void runRequest(Callable<Request> callable) {
         RequestMiddleware middleware = new RequestMiddleware(args);
         middleware.run(callable);
     }
 
-    public void runResponse(Callable<Response> callable){
+    /**
+     *
+     * @param callable
+     */
+    public void runResponse(Callable<Response> callable) {
         ResponseMiddleware middleware = new ResponseMiddleware(args);
         middleware.run(callable);
     }

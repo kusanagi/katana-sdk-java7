@@ -11,20 +11,34 @@ public class RequestCommandPayload extends CommandPayload<Request> {
     @JsonProperty("c")
     private RequestCommand command;
 
+    /**
+     *
+     * @return
+     */
     @Override
     public RequestCommand getCommand() {
         return command;
     }
 
+    /**
+     *
+     * @param command
+     */
     public void setCommand(RequestCommand command) {
         this.command = command;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RequestCommandPayload)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RequestCommandPayload)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         RequestCommandPayload that = (RequestCommandPayload) o;
 
@@ -54,11 +68,19 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         @JsonProperty("a")
         private Request argument;
 
+        /**
+         *
+         * @return
+         */
         @Override
         public Request getArgument() {
             return argument;
         }
 
+        /**
+         *
+         * @param argument
+         */
         public void setArgument(Request argument) {
             this.argument = argument;
         }

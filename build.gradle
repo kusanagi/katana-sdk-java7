@@ -3,7 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
 
-mainClassName = "com.katana.example.services.ListServiceSample"
+mainClassName = "com.katana.example.middlewares.JsonMiddlewareSample"
 
 applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib"]
 
@@ -31,7 +31,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'com.katana.example.services.ListServiceSample'
+                'Main-Class': 'com.katana.example.middlewares.JsonMiddlewareSample'
         )
     }
     from {

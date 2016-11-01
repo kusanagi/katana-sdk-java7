@@ -23,7 +23,7 @@ public class ReadServiceSample {
                 records.add(new Record(4, "Ricardo"));
                 records.add(new Record(5, "Hugo"));
 
-                int userId = Integer.parseInt(action.getParam("path", "id").get("id"));
+                int userId = Integer.parseInt(action.getParam("p", "id"));
 
                 Record entity = null;
                 for (Record record : records) {
@@ -36,7 +36,9 @@ public class ReadServiceSample {
                 if (entity == null) {
                     action.error("User does not exist", 1, "404 Not Found");
                 } else {
-                    action.setEntity(entity);
+                    List<Record> responseList = new ArrayList<>();
+                    responseList.add(entity);
+                    action.setEntity(responseList);
                     action.setLink("self", "/v1/users/" + userId);
                 }
 

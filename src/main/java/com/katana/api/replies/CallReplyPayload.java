@@ -2,13 +2,14 @@ package com.katana.api.replies;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.common.Call;
 
 /**
  * Created by juan on 30/09/16.
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CommandReplyPayload {
+public class CallReplyPayload implements CommandReplyResult {
 
     @JsonProperty("cr")
     private CommandReply commandReply;
@@ -34,11 +35,11 @@ public class CommandReplyPayload {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof CommandReplyPayload)) {
+        if (!(o instanceof CallReplyPayload)) {
             return false;
         }
 
-        CommandReplyPayload that = (CommandReplyPayload) o;
+        CallReplyPayload that = (CallReplyPayload) o;
 
         return getCommandReply().equals(that.getCommandReply());
 
@@ -65,7 +66,7 @@ public class CommandReplyPayload {
         private String name;
 
         @JsonProperty("r")
-        private CommandReplyResult commandReplyResult;
+        private Result result;
 
         /**
          *
@@ -87,16 +88,16 @@ public class CommandReplyPayload {
          *
          * @return
          */
-        public CommandReplyResult getCommandReplyResult() {
-            return commandReplyResult;
+        public Result getResult() {
+            return result;
         }
 
         /**
          *
          * @param commandReplyResult
          */
-        public void setCommandReplyResult(CommandReplyResult commandReplyResult) {
-            this.commandReplyResult = commandReplyResult;
+        public void setResult(Result commandReplyResult) {
+            this.result = commandReplyResult;
         }
 
         @Override
@@ -113,22 +114,74 @@ public class CommandReplyPayload {
             if (!getName().equals(that.getName())) {
                 return false;
             }
-            return getCommandReplyResult().equals(that.getCommandReplyResult());
+            return getResult().equals(that.getResult());
 
         }
 
         @Override
         public int hashCode() {
-            int result = getName().hashCode();
-            result = 31 * result + getCommandReplyResult().hashCode();
-            return result;
+            int code = getName().hashCode();
+            code = 31 * code + getResult().hashCode();
+            return code;
         }
 
         @Override
         public String toString() {
-            return "CommandReply{" +
+            return "Result{" +
                     "name='" + name + '\'' +
-                    ", commandReplyResult=" + commandReplyResult +
+                    ", result=" + result +
+                    '}';
+        }
+    }
+
+    /**
+     *
+     */
+    public static class Result {
+
+        @JsonProperty("c")
+        private Call call;
+
+        /**
+         *
+         * @return
+         */
+        public Call getCall() {
+            return call;
+        }
+
+        /**
+         *
+         * @param call
+         */
+        public void setCall(Call call) {
+            this.call = call;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof Result)) {
+                return false;
+            }
+
+            Result result = (Result) o;
+
+            return getCall().equals(result.getCall());
+
+        }
+
+        @Override
+        public int hashCode() {
+            return getCall().hashCode();
+        }
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "call=" + call +
                     '}';
         }
     }

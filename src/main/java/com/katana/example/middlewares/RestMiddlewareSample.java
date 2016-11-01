@@ -2,6 +2,7 @@ package com.katana.example.middlewares;
 
 import com.katana.api.common.Request;
 import com.katana.sdk.common.Callable;
+import com.katana.sdk.common.Logger;
 import com.katana.sdk.components.Middleware;
 
 /**
@@ -15,10 +16,11 @@ public class RestMiddlewareSample {
             public Request run(Request request) {
                 // logic ...
                 // /{version}/{service}/{extra}
-                String[] parts = request.getUrlPath().split("///");
-                request.setServiceVersion(parts[1]);
-                request.setServiceName(parts[2]);
-                boolean hasExtraPath = parts.length == 4;
+                Logger.log(request.toString());
+                String[] parts = request.getUrlPath().split("/");
+                request.setServiceVersion(parts[3]);
+                request.setServiceName(parts[4]);
+                boolean hasExtraPath = parts.length == 6;
 
                 String method = request.getMethod();
 
@@ -45,7 +47,7 @@ public class RestMiddlewareSample {
                 if (actionName != null) {
                     request.setActionName(actionName);
                 }
-
+                Logger.log(request.toString());
                 return request;
             }
         };

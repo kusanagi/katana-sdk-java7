@@ -7,4 +7,8 @@ public class Constants {
 
     public static final String WORKER_ENDPOINT = "ipc://workers";
 
+    private Constants() {
+
+    }
+
 }

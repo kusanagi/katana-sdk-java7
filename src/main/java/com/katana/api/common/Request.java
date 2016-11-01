@@ -3,6 +3,7 @@ package com.katana.api.common;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,204 +11,406 @@ import java.util.Map;
  */
 public class Request extends Api {
     @JsonProperty("T")
-    private int type;
+    private String type;
 
     @JsonProperty("m")
     private Meta meta;
 
     @JsonProperty("r")
-    private HttpRequest request;
+    private HttpRequest httpRequest;
 
     @JsonProperty("c")
     private Call call;
 
     public Request() {
+        // Default constructor to make possible the serialization of this object.
     }
 
+    /**
+     *
+     * @param path
+     * @param name
+     * @param version
+     * @param platformVersion
+     * @param variables
+     * @param isDebug
+     */
     public Request(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         super(path, name, version, platformVersion, variables, isDebug);
     }
 
-    public int getType() {
+    /**
+     *
+     * @return
+     */
+    public String getType() {
         return this.type;
     }
 
-    public void setType(int type) {
+    /**
+     *
+     * @param type
+     */
+    public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     *
+     * @return
+     */
     public Meta getMeta() {
         return this.meta;
     }
 
+    /**
+     *
+     * @param meta
+     */
     public void setMeta(Meta meta) {
         this.meta = meta;
     }
 
-    public HttpRequest getRequest() {
-        return this.request;
+    /**
+     *
+     * @return
+     */
+    public HttpRequest getHttpRequest() {
+        return this.httpRequest;
     }
 
-    public void setRequest(HttpRequest request) {
-        this.request = request;
+    /**
+     *
+     * @param httpRequest
+     */
+    public void setHttpRequest(HttpRequest httpRequest) {
+        this.httpRequest = httpRequest;
     }
 
+    /**
+     *
+     * @return
+     */
     public Call getCall() {
         return this.call;
     }
 
+    /**
+     *
+     * @param call
+     */
     public void setCall(Call call) {
         this.call = call;
     }
 
     // SDK Methods
 
-    public boolean isMethod(String method){
+    /**
+     *
+     * @param method
+     * @return
+     */
+    public boolean isMethod(String method) {
         return true;
     }
 
-    public String getMethod(){
-        return this.request.getMethod();
+    /**
+     *
+     * @return
+     */
+    public String getMethod() {
+        return this.httpRequest.getMethod();
     }
 
-    public String getUrl(){
-        return this.request.getUrl();
+    /**
+     *
+     * @return
+     */
+    public String getUrl() {
+        return this.httpRequest.getUrl();
     }
 
-    public String getUrlScheme(){
+    /**
+     *
+     * @return
+     */
+    public String getUrlScheme() {
         return "";
     }
 
-    public String getUrlHost(){
+    /**
+     *
+     * @return
+     */
+    public String getUrlHost() {
         return "";
     }
 
-    public String getUrlPath(){
-        return "";
+    /**
+     *
+     * @return
+     */
+    public String getUrlPath() {
+        return this.httpRequest.getUrl();
     }
 
-    public boolean hasQueryParam(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public boolean hasQueryParam(String name) {
         return true;
     }
 
-    public String getQueryParam(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public String getQueryParam(String name) {
         return "";
     }
 
-    public String[] getQueryParamArray(){
+    /**
+     *
+     * @return
+     */
+    public String[] getQueryParamArray() {
         return new String[0];
     }
 
-    public Map<String, String> getQueryParam(){
-        return this.request.getQuery();
+    /**
+     *
+     * @return
+     */
+    public Map<String, String> getQueryParam() {
+        return this.httpRequest.getQuery();
     }
 
-    public Map<String, String[]> getQueryParamsArray(){
+    /**
+     *
+     * @return
+     */
+    public Map<String, String[]> getQueryParamsArray() {
         return new HashMap<>();
     }
 
-    public boolean hasPostParam(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public boolean hasPostParam(String name) {
         return true;
     }
 
-    public String getPostParam(String name){
-       return "";
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public String getPostParam(String name) {
+        return "";
     }
 
-    public String[] getPostParamArray(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public String[] getPostParamArray(String name) {
         return new String[0];
     }
 
-    public Map<String, String> getPostParams(){
-        return this.request.getPostData();
+    /**
+     *
+     * @return
+     */
+    public Map<String, String> getPostParams() {
+        return this.httpRequest.getPostData();
     }
 
-    public Map<String, String[]> getPostParamsArray(){
+    /**
+     *
+     * @return
+     */
+    public Map<String, String[]> getPostParamsArray() {
         return new HashMap<>();
     }
 
-    public boolean isPortocolVersion(String version){
+    /**
+     *
+     * @param version
+     * @return
+     */
+    public boolean isPortocolVersion(String version) {
         return true;
     }
 
-    public String getProtocolVersion(){
-        return this.request.getVersion();
+    /**
+     *
+     * @return
+     */
+    public String getProtocolVersion() {
+        return this.httpRequest.getVersion();
     }
 
-    public boolean hasHeader(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public boolean hasHeader(String name) {
         return true;
     }
 
-    public String getHeader(String name){
-        return this.request.getHeaders().get(name);
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public String getHeader(String name) {
+        return this.httpRequest.getHeaders().get(name).get(0);
     }
 
-    public Map<String, String> getHeaders(){
-        return this.request.getHeaders();
+    /**
+     *
+     * @return
+     */
+    public Map<String, List<String>> getHeaders() {
+        return this.httpRequest.getHeaders();
     }
 
-    public boolean hasBody(){
+    /**
+     *
+     * @return
+     */
+    public boolean hasBody() {
         return true;
     }
 
-    public String getBody(){
-        return request.getBody();
+    /**
+     *
+     * @return
+     */
+    public String getBody() {
+        return httpRequest.getBody();
     }
 
-    public boolean hasFile(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public boolean hasFile(String name) {
         return true;
     }
 
-    public File getFile(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public File getFile(String name) {
         return new File();
     }
 
-    public File[] getFiles(){
-        return this.request.getFiles();
+    /**
+     *
+     * @return
+     */
+    public File[] getFiles() {
+        return this.httpRequest.getFiles();
     }
 
-    public String getServiceName(){
+    /**
+     *
+     * @return
+     */
+    public String getServiceName() {
         return this.call.getService();
     }
 
-    public boolean setServiceName(String name){
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public boolean setServiceName(String name) {
         this.call.setService(name);
         return true;
     }
 
-    public String getServiceVersion(){
+    /**
+     *
+     * @return
+     */
+    public String getServiceVersion() {
         return this.call.getVersion();
     }
 
-    public boolean setServiceVersion(String version){
+    /**
+     *
+     * @param version
+     * @return
+     */
+    public boolean setServiceVersion(String version) {
         this.call.setVersion(version);
         return true;
     }
 
-    public String getActionName(){
+    /**
+     *
+     * @return
+     */
+    public String getActionName() {
         return this.call.getAction();
     }
 
-    public boolean setActionName(String action){
+    /**
+     *
+     * @param action
+     * @return
+     */
+    public boolean setActionName(String action) {
         this.call.setAction(action);
         return true;
     }
 
+    /**
+     *
+     * @param code
+     * @param text
+     * @return
+     */
     public Response newResponse(int code, String text) {
         return null;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Request)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Request)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         Request request1 = (Request) o;
 
-        if (getType() != request1.getType()) return false;
-        if (!getMeta().equals(request1.getMeta())) return false;
-        if (!getRequest().equals(request1.getRequest())) return false;
+        if (getType() != request1.getType()) {
+            return false;
+        }
+        if (!getMeta().equals(request1.getMeta())) {
+            return false;
+        }
+        if (!getHttpRequest().equals(request1.getHttpRequest())) {
+            return false;
+        }
         return getCall().equals(request1.getCall());
 
     }
@@ -215,9 +418,9 @@ public class Request extends Api {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getType();
+        result = 31 * result + getType().hashCode();
         result = 31 * result + getMeta().hashCode();
-        result = 31 * result + getRequest().hashCode();
+        result = 31 * result + getHttpRequest().hashCode();
         result = 31 * result + getCall().hashCode();
         return result;
     }
@@ -227,7 +430,7 @@ public class Request extends Api {
         return "Request{" +
                 "type=" + type +
                 ", meta=" + meta +
-                ", request=" + request +
+                ", httpRequest=" + httpRequest +
                 ", call=" + call +
                 "} " + super.toString();
     }

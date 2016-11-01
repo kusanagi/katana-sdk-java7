@@ -23,8 +23,8 @@ public class ReplaceServiceSample {
                 records.add(new Record(4, "Ricardo"));
                 records.add(new Record(5, "Hugo"));
 
-                int userId = Integer.parseInt(action.getParam("path", "id").get("id"));
-                String name = action.getParam("query", "name").get("name");
+                int userId = Integer.parseInt(action.getParam("p", "id"));
+                String name = action.getParam("q", "name");
 
                 Record entity = null;
                 for (Record record : records) {
@@ -38,7 +38,9 @@ public class ReplaceServiceSample {
                     action.error("User does not exist", 1, "404 Not Found");
                 } else {
                     entity.setName(name);
-                    action.setEntity(entity);
+                    List<Record> responseList = new ArrayList<>();
+                    responseList.add(entity);
+                    action.setEntity(responseList);
                     action.setLink("self", "/v1/users/" + userId);
                 }
 

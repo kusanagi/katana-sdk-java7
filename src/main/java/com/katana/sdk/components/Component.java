@@ -2,9 +2,7 @@ package com.katana.sdk.components;
 
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.common.Api;
-import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
-import com.katana.api.replies.TransportReplyPayload;
 import com.katana.sdk.common.*;
 import com.katana.utils.Utils;
 import org.zeromq.ZMQ;
@@ -17,6 +15,12 @@ import java.util.UUID;
  * Created by juan on 27/08/16.
  * Katana Java SDK
  */
+
+/**
+ *
+ * @param <T>
+ * @param <S>
+ */
 public abstract class Component<T extends Api, S extends CommandReplyResult> implements ComponentWorker.WorkerListener<T> {
 
     private static final String HAS_BEEN_SET_MORE_THAN_ONCE = "has been set more than once";
@@ -26,7 +30,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     private static final String IS_NOT_VALID = "is not valid";
 
     private static final Option[] APP_OPTIONS = new Option[]{
-            new Option(new String[]{"-c", "--component"}, true, true, true),
+            new Option(new String[]{"-c", "--componentName"}, true, true, true),
             new Option(new String[]{"-d", "--disable-compact-names"}, true, false, false),
             new Option(new String[]{"-n", "--name"}, true, true, true),
             new Option(new String[]{"-v", "--version"}, true, true, true),
@@ -38,7 +42,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
             new Option(new String[]{"-V", "--var"}, false, false, true),
     };
 
-    private String component;
+    private final String workerEnpoint;
+
+    private String componentName;
 
     private boolean disableCompactName;
 
@@ -67,7 +73,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     private ZMQ.Socket dealer;
 
     /**
-     * Initialize the component with the command line arguments
+     * Initialize the componentName with the command line arguments
      *
      * @param args list of command line arguments
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
@@ -87,25 +93,27 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
             Logger.activate();
         }
 
+        this.workerEnpoint = Constants.WORKER_ENDPOINT + "_" + UUID.randomUUID().toString();
+
         Logger.log(toString());
     }
 
     private void generateDefaultSocket() {
-        this.socket = "@katana-" + this.component + "-" + this.name + "-" + UUID.randomUUID().toString();
+        this.socket = "@katana-" + this.componentName + "-" + this.name + "-" + UUID.randomUUID().toString();
     }
 
     /**
      * @return
      */
-    public String getComponent() {
-        return component;
+    public String getComponentName() {
+        return componentName;
     }
 
     /**
-     * @param component
+     * @param componentName
      */
-    public void setComponent(String component) {
-        this.component = component;
+    public void setComponentName(String componentName) {
+        this.componentName = componentName;
     }
 
     /**
@@ -126,7 +134,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * Name getter
      *
-     * @return return the name of the component
+     * @return return the name of the componentName
      */
     public String getName() {
         return name;
@@ -135,7 +143,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * Name setter
      *
-     * @param name name of the component
+     * @param name name of the componentName
      */
     public void setName(String name) {
         this.name = name;
@@ -144,7 +152,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * Version getter
      *
-     * @return return the version of the component
+     * @return return the version of the componentName
      */
     public String getVersion() {
         return version;
@@ -153,7 +161,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * Version setter
      *
-     * @param version version of the component
+     * @param version version of the componentName
      */
     public void setVersion(String version) {
         this.version = version;
@@ -194,7 +202,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * Socket getter
      *
-     * @return returns the socket of the component
+     * @return returns the socket of the componentName
      */
     public String getSocket() {
         return socket;
@@ -203,7 +211,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * Socket setter
      *
-     * @param socket socket of the component
+     * @param socket socket of the componentName
      */
     public void setSocket(String socket) {
         this.socket = socket;
@@ -226,7 +234,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * com.katana.sdk.components.Component variable getter
      *
-     * @return return a the list of variable for the component
+     * @return return a the list of variable for the componentName
      */
     public List<String> getVar() {
         return var;
@@ -235,7 +243,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * com.katana.sdk.components.Component variable setter
      *
-     * @param var list of variables to be used by the component
+     * @param var list of variables to be used by the componentName
      */
     public void setVar(List<String> var) {
         this.var = var;
@@ -244,7 +252,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     /**
      * Debug mode getter
      *
-     * @return true is the component is in debug mode and false otherwise
+     * @return true is the componentName is in debug mode and false otherwise
      */
     public boolean isDebug() {
         return debug;
@@ -260,11 +268,11 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     }
 
     /**
-     * The method to run the component
+     * The method to run the componentName
      *
-     * @param callable the logic to be used by the component
+     * @param callable the logic to be used by the componentName
      */
-    void run(Callable<T> callable) {
+    public void run(Callable<T> callable) {
         Logger.log("Component run");
 
         startSocket();
@@ -277,18 +285,56 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
         Logger.log("ZMQ proxy set");
     }
 
-    private void setWorkers(Callable<T> callable) {
-        ComponentWorker<T> componentWorker = new ComponentWorker<T>(callable);
-        componentWorker.setWorkerListener(this);
-        componentWorker.start();
-    }
-
+    /**
+     *
+     * @param commandBytes
+     * @param callable
+     * @return
+     */
     @Override
     public byte[] onRequestReceived(byte[] commandBytes, Callable<T> callable) {
         CommandPayload<T> command = serializer.read(commandBytes, getCommandPayloadClass());
-        TransportReplyPayload commandReply = processRequest(callable, command);
+        S commandReply = processRequest(callable, command);
         Logger.log(commandReply.toString());
         return serializer.write(commandReply);
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected abstract Class<? extends CommandPayload<T>> getCommandPayloadClass();
+
+    /**
+     *
+     * @param command
+     */
+    protected void setBaseCommandAttrs(T command) {
+        command.setName(this.getName());
+        command.setVersion(this.getVersion());
+        command.setPlatformVersion(this.getPlatformVersion());
+        command.setDebug(this.isDebug());
+//        command.setVariables(this.getVar());
+    }
+
+    /**
+     *
+     * @param response
+     * @return
+     */
+    protected abstract S getCommandReplyPayload(T response);
+
+    /**
+     *
+     * @param response
+     * @return
+     */
+    protected abstract CommandReplyResult getReply(T response);
+
+    private void setWorkers(Callable<T> callable) {
+        ComponentWorker<T> componentWorker = new ComponentWorker<>(callable, workerEnpoint);
+        componentWorker.setWorkerListener(this);
+        componentWorker.start();
     }
 
     private void startSocket() {
@@ -307,40 +353,17 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
             Logger.log("Router binded to ipc://" + this.socket);
         }
 
-        dealer.bind(Constants.WORKER_ENDPOINT);
-        Logger.log("Dealer binded to " + Constants.WORKER_ENDPOINT);
+        dealer.bind(this.workerEnpoint);
+        Logger.log("Dealer binded to " + this.workerEnpoint);
     }
 
-    protected abstract Class<? extends CommandPayload<T>> getCommandPayloadClass();
-
-    private TransportReplyPayload processRequest(Callable<T> callable, CommandPayload<T> commandPayload) {
+    private S processRequest(Callable<T> callable, CommandPayload<T> commandPayload) {
         T command = commandPayload.getCommand().getArgument();
         setBaseCommandAttrs(command);
         Logger.log(commandPayload.toString());
         callable.run(command);
         return getCommandReplyPayload(command);
     }
-
-    protected void setBaseCommandAttrs(T command) {
-        command.setName(this.getName());
-        command.setVersion(this.getVersion());
-        command.setPlatformVersion(this.getPlatformVersion());
-        command.setDebug(this.isDebug());
-//        command.setVariables(this.getVar());
-    }
-
-    private TransportReplyPayload getCommandReplyPayload(T response) {
-        TransportReplyPayload commandReplyPayload = new TransportReplyPayload();
-        TransportReplyPayload.CommandReply commandReply = new TransportReplyPayload.CommandReply();
-        TransportReplyPayload.Result result = new TransportReplyPayload.Result();
-        result.setTransport((Transport) getReply(response));
-        commandReply.setName(getName());
-        commandReply.setResult(result);
-        commandReplyPayload.setCommandReply(commandReply);
-        return commandReplyPayload;
-    }
-
-    protected abstract CommandReplyResult getReply(T response);
 
     private void stopSocket() {
         dealer.close();
@@ -363,7 +386,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
                 boolean exist = false;
                 for (int j = 0; j < APP_OPTIONS.length && !exist; j++) {
                     if (Utils.contain(APP_OPTIONS[j].getNames(), args[i])) {
-                        Option option = APP_OPTIONS[j].clone();
+                        Option option = new Option(APP_OPTIONS[j]);
                         if (APP_OPTIONS[j].isHasValue()) {
                             i++;
                             option.setValue(args[i]);
@@ -403,7 +426,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
         for (Option option : options) {
             switch (option.getNames()[0]) {
                 case "-c":
-                    this.component = option.getValue();
+                    this.componentName = option.getValue();
                     break;
                 case "-d":
                     this.disableCompactName = true;
@@ -432,6 +455,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
                 case "-V":
                     this.var.add(option.getValue());
                     break;
+                default:
+                    Logger.log("Unsupported parameter " + option.getNames()[0]);
+                    break;
             }
         }
     }
@@ -439,7 +465,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     @Override
     public String toString() {
         return "Component{" +
-                "component='" + component + '\'' +
+                "componentName='" + componentName + '\'' +
                 ", disableCompactName=" + disableCompactName +
                 ", name='" + name + '\'' +
                 ", version='" + version + '\'' +
