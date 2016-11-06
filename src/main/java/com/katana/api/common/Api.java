@@ -21,18 +21,21 @@ public class Api {
 
     private boolean isDebug;
 
+    /**
+     * Default constructor
+     */
     public Api() {
         // Default constructor to make possible the serialization of this object.
     }
 
     /**
-     *
-     * @param path
-     * @param name
-     * @param version
-     * @param platformVersion
-     * @param variables
-     * @param isDebug
+     * Constructor with params
+     * @param path Path of the call
+     * @param name Name of the Service
+     * @param version Version of the Service
+     * @param platformVersion Version of the Platform
+     * @param variables Sdk variables
+     * @param isDebug Debug state
      */
     public Api(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         this.path = path;
@@ -44,56 +47,55 @@ public class Api {
     }
 
     /**
-     *
-     * @param path
+     * Path setter
+     * @param path Path of the call
      */
     public void setPath(String path) {
         this.path = path;
     }
 
     /**
-     *
-     * @param name
+     * Name setter
+     * @param name Name of the Service
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     *
-     * @param version
+     * Version setter
+     * @param version Version of the service
      */
     public void setVersion(String version) {
         this.version = version;
     }
 
     /**
-     *
-     * @param platformVersion
+     * Platform version setter
+     * @param platformVersion Version of the platform
      */
     public void setPlatformVersion(String platformVersion) {
         this.platformVersion = platformVersion;
     }
 
     /**
-     *
-     * @param variables
+     * Variables setter
+     * @param variables Sdk variables
      */
     public void setVariables(Map<String, String> variables) {
         this.variables = variables;
     }
 
     /**
-     *
-     * @param debug
+     * Debug state setter
+     * @param debug Debug state
      */
     public void setDebug(boolean debug) {
         isDebug = debug;
     }
 
     /**
-     *
-     * @return
+     * @return Return the path to the executing userland source file.
      */
     @JsonIgnore
     public String getPath() {
@@ -101,8 +103,7 @@ public class Api {
     }
 
     /**
-     *
-     * @return
+     * @return Return the unique name of the component.
      */
     @JsonIgnore
     public String getName() {
@@ -110,8 +111,7 @@ public class Api {
     }
 
     /**
-     *
-     * @return
+     * @return Return the version of the component.
      */
     @JsonIgnore
     public String getVersion() {
@@ -119,8 +119,7 @@ public class Api {
     }
 
     /**
-     *
-     * @return
+     * @return Return the version of the platform
      */
     @JsonIgnore
     public String getPlatformVersion() {
@@ -128,8 +127,7 @@ public class Api {
     }
 
     /**
-     *
-     * @return
+     * @return Return an object, where each property name is the name of the variable, and the value to the variable value.
      */
     @JsonIgnore
     public Map<String, String> getVariables() {
@@ -137,22 +135,57 @@ public class Api {
     }
 
     /**
-     *
-     * @return
+     * @return Return whether or not the component is currently running in debug mode.
      */
     @JsonIgnore
     public boolean isDebug() {
         return isDebug;
     }
 
+    // SDK Method
+
     /**
-     *
-     * @param name
-     * @return
+     * Get the variable with the REQUIRED case-sensitive name argument, and which MUST be returned as a string.
+     * @param name Name of the variable
+     * @return Return the value of the variable
      */
     @JsonIgnore
     public String getVariable(String name) {
         return this.variables.get(name);
+    }
+
+    /**
+     *
+     * @param name Name of the resource
+     * @return Determine if a resource has been registered with the component using the REQUIRED case sensitive name argument.
+     */
+    public boolean hasResource(String name){
+        // TODO do this method
+        return false;
+    }
+
+    /**
+     *
+     * @param name Name of the resource
+     * @return Return the resource registered with the component using the REQUIRED case sensitive name argument.
+     */
+    public String getResource(String name){
+        // TODO do this method
+        return null;
+    }
+
+    /**
+     * Return an instance of the ServiceSchema class for the Service defined by the REQUIRED case sensitive name and
+     * version arguments, using the stored mapping of schemas.
+     * If a Service with the specified name and version does not exist in the stored schema mapping then an exception
+     * MUST be thrown with the following message:
+     * Cannot resolve schema for Service: %SERVICE% (%VERSION%)
+     * Where %SERVICE% is the name and %VERSION% is the version provided for the Service.
+     * @return
+     */
+    public String getServiceSchema(String name, String version){
+        // TODO do this method
+        return null;
     }
 
     @Override

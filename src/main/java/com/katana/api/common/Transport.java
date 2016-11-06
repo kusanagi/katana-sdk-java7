@@ -25,7 +25,7 @@ public class Transport implements CommandReplyResult {
     private File body;
 
     @JsonProperty("f")
-    private File[] files;
+    private List<File> files;
 
     @JsonProperty("d")
     private Map<String, Map<String, Map<String, Object>>> data;
@@ -53,144 +53,144 @@ public class Transport implements CommandReplyResult {
     }
 
     /**
-     *
-     * @return
+     * Transport meta getter
+     * @return Return the transport meta
      */
     public TransportMeta getMeta() {
         return meta;
     }
 
     /**
-     *
-     * @param meta
+     * Transport meta setter
+     * @param meta Transport meta object
      */
     public void setMeta(TransportMeta meta) {
         this.meta = meta;
     }
 
     /**
-     *
-     * @return
+     * File getter
+     * @return Return the file
      */
     public File getBody() {
         return body;
     }
 
     /**
-     *
-     * @param body
+     * File body setter
+     * @param body File object
      */
     public void setBody(File body) {
         this.body = body;
     }
 
     /**
-     *
-     * @return
+     * File list getter
+     * @return Return the list of files
      */
-    public File[] getFiles() {
+    public List<File> getFiles() {
         return files;
     }
 
     /**
-     *
-     * @param files
+     * File list setter
+     * @param files File list
      */
-    public void setFiles(File[] files) {
+    public void setFiles(List<File> files) {
         this.files = files;
     }
 
     /**
-     *
-     * @return
+     * Data getter
+     * @return Return data object
      */
     public Map<String, Map<String, Map<String, Object>>> getData() {
         return data;
     }
 
     /**
-     *
-     * @param data
+     * Data setter
+     * @param data Data object
      */
     public void setData(Map<String, Map<String, Map<String, Object>>> data) {
         this.data = data;
     }
 
     /**
-     *
-     * @return
+     * Relations getter
+     * @return Return the list of the relations
      */
     public Relation[] getRelations() {
         return relations;
     }
 
     /**
-     *
-     * @param relations
+     * Relations setter
+     * @param relations Relation list
      */
     public void setRelations(Relation[] relations) {
         this.relations = relations;
     }
 
     /**
-     *
-     * @return
+     * Links getter
+     * @return Return the links
      */
     public Map<String, Map<String, String>> getLinks() {
         return links;
     }
 
     /**
-     *
-     * @param links
+     * Links setter
+     * @param links Links to set
      */
     public void setLinks(Map<String, Map<String, String>> links) {
         this.links = links;
     }
 
     /**
-     *
-     * @return
+     * Calls getter
+     * @return Return the call
      */
     public Call[] getCalls() {
         return calls;
     }
 
     /**
-     *
-     * @param calls
+     * Calls setter
+     * @param calls Call list
      */
     public void setCalls(Call[] calls) {
         this.calls = calls;
     }
 
     /**
-     *
-     * @return
+     * Transaction getter
+     * @return Return the transactions
      */
     public Transaction[] getTransactions() {
         return transactions;
     }
 
     /**
-     *
-     * @param transactions
+     * Transaction setter
+     * @param transactions Transaction list
      */
     public void setTransactions(Transaction[] transactions) {
         this.transactions = transactions;
     }
 
     /**
-     *
-     * @return
+     * Errors getter
+     * @return Return the error list
      */
     public List<Error> getErrors() {
         return errors;
     }
 
     /**
-     *
-     * @param errors
+     * Error setter
+     * @param errors Error list
      */
     public void setErrors(List<Error> errors) {
         this.errors = errors;
@@ -199,8 +199,7 @@ public class Transport implements CommandReplyResult {
     // SDK Methods
 
     /**
-     *
-     * @return
+     * @return Return the UUID of the request.
      */
     @JsonIgnore
     public String getRequestId() {
@@ -208,8 +207,7 @@ public class Transport implements CommandReplyResult {
     }
 
     /**
-     *
-     * @return
+     * @return Return the creation datetime of the request.
      */
     @JsonIgnore
     public String getRequestTimeStamp() {
@@ -217,19 +215,25 @@ public class Transport implements CommandReplyResult {
     }
 
     /**
-     *
-     * @return
+     * @return Return the array containing name, version and action of the Service that was the origin of the request.
+     * If an origin was not set this MUST return an empty array.
      */
     @JsonIgnore
-    public String[] getOrigin() {
-        return new String[2];
+    public String[] getOriginService() {
+        return this.meta.getOrigin();
     }
 
     /**
+     * Get a custom userland property with the REQUIRED case sensitive name argument.
+     * The default argument is the OPTIONAL value to use if the property does not exist. If the property is defined in
+     * the Transport, but does not have a value, the value of the default argument SHOULD NOT be applied.
+     * If a property with the specified name does not exist, and no default is provided, and empty string MUST be
+     * returned.
      *
-     * @param name
-     * @param defaultString
-     * @return
+     * @param name          Argument name
+     * @param defaultString Value to use if the property does not exist
+     * @return If a property with the specified name does not exist, and no default is provided, and empty string MUST be
+     * returned, otherwise the value of the property will be returned
      */
     public String getProperty(String name, String defaultString) {
         String property = this.meta.getProperties().get(name);
@@ -237,48 +241,68 @@ public class Transport implements CommandReplyResult {
     }
 
     /**
+     * Determine if a file download has been registered for the HTTP response.
      *
-     * @return
+     * @return Return true if a download file has been registered
      */
     public boolean hasDownload() {
+        //TODO review this method
         return this.body != null;
     }
 
     /**
-     *
-     * @return
+     * @return Return the file download defined for the HTTP response as a File object.
      */
     @JsonIgnore
     public File getDownload() {
+        //TODO review this method
         return this.body;
     }
 
     /**
+     * Return all of the data as an object, as it is stored in the Transport. If the OPTIONAL case sensitive service
+     * argument is specified, it MUST only return the data stored under that Service namespace. If the OPTIONAL case
+     * sensitive version argument is specified, it MUST only return the data stored under the specified Service
+     * namespace and version. If the OPTIONAL case sensitive action argument is specified, it MUST only return the
+     * data stored under the specified Service namespace, version and action name.
      *
-     * @param service
-     * @param version
-     * @param action
-     * @return
+     * @param service Service name
+     * @param version Version of the service
+     * @param action  Name of the action
+     * @return Return all the data as an object, as it is stored in the transport
      */
     public Object getData(String service, String version, String action) {
-        return null;
+        if (service != null) {
+            if (version != null) {
+                if (action != null) {
+                    return this.data.get(service).get(version).get(action);
+                }
+                return this.data.get(service).get(version);
+            }
+            return this.data.get(service);
+        }
+        return this.data;
     }
 
     /**
+     * Return all of the relations as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
+     * service argument is specified, it MUST only return the relations stored under that Service namespace.
      *
-     * @param service
-     * @return
+     * @param service Service name
+     * @return Return the relations
      */
     public Relation[] getRelations(String service) {
         return this.relations;
     }
 
     /**
+     * Return all of the links as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
+     * service argument is specified, it MUST only return the links stored under that Service namespace.
      *
-     * @param name
-     * @param link
-     * @param uri
-     * @return
+     * @param name Service name
+     * @param link Link name
+     * @param uri  Uri of the link
+     * @return Return all the links as an object, as they are stored in the Transport
      */
     public boolean addLink(String name, String link, String uri) {
         Map<String, String> linkDic = new HashMap<>();
@@ -288,48 +312,85 @@ public class Transport implements CommandReplyResult {
     }
 
     /**
+     * Return all of the links as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
+     * service argument is specified, it MUST only return the links stored under that Service namespace.
      *
-     * @param service
-     * @return
+     * @param service Service name
+     * @return Return all the links as an object, as they are stored in the Transport
      */
-    public Map<String, Map<String, String>> getLinks(String service) {
-        return this.links;
+    public Map<String, String> getLinks(String service) {
+        if (service != null) {
+            return this.links.get(service);
+        } else {
+            Map<String, String> linkMap = new HashMap<>();
+            for (Map<String, String> links : this.links.values()) {
+                linkMap.putAll(links);
+            }
+            return linkMap;
+        }
     }
 
     /**
+     * Return all of the calls as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
+     * service argument is specified, it MUST only return the calls stored under that Service namespace.
      *
-     * @param service
-     * @return
+     * @param service Service name
+     * @return Return all the calls as an object, as they are stored in the Transport.
+     */
+    public Call[] getCalls(String service) {
+        //TODO calls
+        return this.calls;
+    }
+
+    /**
+     * Return all of the transactions as an object, as they are stored in the Transport. If the OPTIONAL case
+     * sensitive service argument is specified, it MUST only return the transactions stored under that Service
+     * namespace.
+     *
+     * @param service Service name
+     * @return Return all the transactions as an object, as they are stored in the Transport.
      */
     public Transaction[] getTransactions(String service) {
+        //TODO transactions
         return this.transactions;
     }
 
     /**
+     * Return all of the errors as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
+     * service argument is specified, it MUST only return the links stored under that Service namespace.
      *
-     * @param service
-     * @return
+     * @param service Service name
+     * @return Return all the errors as an object, as they are stored in the Transport.
      */
     public List<Error> getErrors(String service) {
         return this.errors;
     }
 
     /**
-     *
-     * @param name
-     * @param version
-     * @param actionName
-     * @param collection
-     * @return
+     * Register a data in the transport
+     * @param name Service name
+     * @param version Version of the service
+     * @param actionName Name of the action
+     * @param collection Data collection
+     * @return Return true if the operation was successful
      */
     public boolean addData(String name, String version, String actionName, Object collection) {
-        Map<String, Map<String, Object>> versionMap = new HashMap<>();
-        Map<String, Object> actionMap = new HashMap<>();
-        actionMap.put(actionName, collection);
-        versionMap.put(version, actionMap);
         if (this.data == null) {
             this.data = new HashMap<>();
         }
+
+        Map<String, Map<String, Object>> versionMap = new HashMap<>();
+        Map<String, Object> actionMap = new HashMap<>();
+
+        if (this.data.containsKey(version)) {
+            versionMap = this.data.get(name);
+            if (this.data.get(version).containsKey(actionName)) {
+                actionMap = this.data.get(version).get(version);
+            }
+        }
+
+        actionMap.put(actionName, collection);
+        versionMap.put(version, actionMap);
         this.data.put(name, versionMap);
         return true;
     }
@@ -351,8 +412,7 @@ public class Transport implements CommandReplyResult {
         if (getBody() != null ? !getBody().equals(transport.getBody()) : transport.getBody() != null) {
             return false;
         }
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getFiles(), transport.getFiles())) {
+        if (getFiles() != null ? !getFiles().equals(transport.getFiles()) : transport.getFiles() != null) {
             return false;
         }
         if (getData() != null ? !getData().equals(transport.getData()) : transport.getData() != null) {
@@ -381,7 +441,7 @@ public class Transport implements CommandReplyResult {
     public int hashCode() {
         int result = getMeta() != null ? getMeta().hashCode() : 0;
         result = 31 * result + (getBody() != null ? getBody().hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(getFiles());
+        result = 31 * result + (getFiles() != null ? getFiles().hashCode() : 0);
         result = 31 * result + (getData() != null ? getData().hashCode() : 0);
         result = 31 * result + Arrays.hashCode(getRelations());
         result = 31 * result + (getLinks() != null ? getLinks().hashCode() : 0);
@@ -396,7 +456,7 @@ public class Transport implements CommandReplyResult {
         return "Transport{" +
                 "meta=" + meta +
                 ", body=" + body +
-                ", files=" + Arrays.toString(files) +
+                ", files=" + files +
                 ", data=" + data +
                 ", relations=" + Arrays.toString(relations) +
                 ", links=" + links +

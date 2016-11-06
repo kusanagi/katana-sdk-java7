@@ -23,8 +23,8 @@ public class UpdateServiceSample {
                 records.add(new Record(4, "Ricardo"));
                 records.add(new Record(5, "Hugo"));
 
-                int userId = Integer.parseInt(action.getParam("p", "id"));
-                String name = action.getParam("q", "name");
+                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
+                String name = action.getParam("q", "name").get("v");
 
                 Record entity = null;
                 for (Record record : records) {

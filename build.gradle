@@ -2,6 +2,7 @@ group 'katana'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
+apply plugin: "jacoco"
 
 mainClassName = "com.katana.example.middlewares.JsonMiddlewareSample"
 
@@ -38,6 +39,14 @@ jar {
         configurations.compile.collect {
             it.isDirectory() ? it : zipTree(it)
         }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
     }
 }
 

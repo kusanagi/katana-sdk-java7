@@ -40,9 +40,9 @@ public class ResponseMiddleware extends Component<Response, ResponseReplyPayload
         ResponseReplyPayload.Result result = new ResponseReplyPayload.Result();
         result.setResponse((HttpResponse) getReply(response));
         Error error = new Error();
-        error.setCode(response.getStatusCode());
-        error.setMessage(response.getStatusText());
-        error.setStatus(response.getStatus());
+        error.setCode(response.getHttpResponse().getStatusCode());
+        error.setMessage(response.getHttpResponse().getStatusText());
+        error.setStatus(response.getHttpResponse().getStatus());
 //        result.setError(error);
         commandReply.setName(getName());
         commandReply.setResult(result);

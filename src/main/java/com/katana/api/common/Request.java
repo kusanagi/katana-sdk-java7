@@ -73,7 +73,8 @@ public class Request extends Api {
 
     /**
      *
-     * @return
+     * @return Return the instance of the HttpRequest class which contains the HTTP semantics of the request made to
+     * the Gateway component.
      */
     public HttpRequest getHttpRequest() {
         return this.httpRequest;
@@ -107,235 +108,16 @@ public class Request extends Api {
 
     /**
      *
-     * @param method
-     * @return
-     */
-    public boolean isMethod(String method) {
-        return true;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getMethod() {
-        return this.httpRequest.getMethod();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getUrl() {
-        return this.httpRequest.getUrl();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getUrlScheme() {
-        return "";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getUrlHost() {
-        return "";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getUrlPath() {
-        return this.httpRequest.getUrl();
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public boolean hasQueryParam(String name) {
-        return true;
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public String getQueryParam(String name) {
-        return "";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String[] getQueryParamArray() {
-        return new String[0];
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Map<String, String> getQueryParam() {
-        return this.httpRequest.getQuery();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Map<String, String[]> getQueryParamsArray() {
-        return new HashMap<>();
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public boolean hasPostParam(String name) {
-        return true;
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public String getPostParam(String name) {
-        return "";
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public String[] getPostParamArray(String name) {
-        return new String[0];
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Map<String, String> getPostParams() {
-        return this.httpRequest.getPostData();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Map<String, String[]> getPostParamsArray() {
-        return new HashMap<>();
-    }
-
-    /**
-     *
-     * @param version
-     * @return
-     */
-    public boolean isPortocolVersion(String version) {
-        return true;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getProtocolVersion() {
-        return this.httpRequest.getVersion();
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public boolean hasHeader(String name) {
-        return true;
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public String getHeader(String name) {
-        return this.httpRequest.getHeaders().get(name).get(0);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Map<String, List<String>> getHeaders() {
-        return this.httpRequest.getHeaders();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean hasBody() {
-        return true;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getBody() {
-        return httpRequest.getBody();
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public boolean hasFile(String name) {
-        return true;
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public File getFile(String name) {
-        return new File();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public File[] getFiles() {
-        return this.httpRequest.getFiles();
-    }
-
-    /**
-     *
-     * @return
+     * @return Return the name currently defined for the Service, or an empty string if not defined.
      */
     public String getServiceName() {
         return this.call.getService();
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Set the name for the Service with the value specified by the REQUIRED service argument.
+     * @param name Name of the service
+     * @return Return true if the operation was successful
      */
     public boolean setServiceName(String name) {
         this.call.setService(name);
@@ -344,16 +126,16 @@ public class Request extends Api {
 
     /**
      *
-     * @return
+     * @return Return the version currently defined for the Service, or an empty string if not defined.
      */
     public String getServiceVersion() {
         return this.call.getVersion();
     }
 
     /**
-     *
-     * @param version
-     * @return
+     * Set the version for the Service with the value specified by the REQUIRED version argument.
+     * @param version Version for the service
+     * @return Return true if the operation was successful
      */
     public boolean setServiceVersion(String version) {
         this.call.setVersion(version);
@@ -362,16 +144,16 @@ public class Request extends Api {
 
     /**
      *
-     * @return
+     * @return Return the name currently defined for the Service action, or an empty string if not defined.
      */
     public String getActionName() {
         return this.call.getAction();
     }
 
     /**
-     *
-     * @param action
-     * @return
+     * Set the name for the Service action with the value specified by the REQUIRED action argument.
+     * @param action Action name
+     * @return Return true if the operation was successful
      */
     public boolean setActionName(String action) {
         this.call.setAction(action);
@@ -380,12 +162,18 @@ public class Request extends Api {
 
     /**
      *
-     * @param code
-     * @param text
-     * @return
+     * @param code Response code
+     * @param text Response text
+     * @return Return a new instance of the Response class, setting the HTTP status code with the value specified by the
+     * REQUIRED code argument and the status text with the REQUIRED text argument.
      */
     public Response newResponse(int code, String text) {
-        return null;
+        HttpResponse httpResponse = new HttpResponse();
+        httpResponse.setStatus(code + " " + text);
+
+        Response response = new Response();
+        response.setHttpResponse(httpResponse);
+        return response;
     }
 
     @Override

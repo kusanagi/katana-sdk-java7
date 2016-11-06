@@ -72,7 +72,8 @@ public class Response extends Api {
 
     /**
      *
-     * @return
+     * @return Return the instance of the HttpResponse class which contains the HTTP semantics for the response to be
+     * made from the Gateway component.
      */
     public HttpResponse getHttpResponse() {
         return httpResponse;
@@ -88,7 +89,7 @@ public class Response extends Api {
 
     /**
      *
-     * @return
+     * @return Return an instance of the read-only Transport interface.
      */
     public Transport getTransport() {
         return transport;
@@ -100,139 +101,6 @@ public class Response extends Api {
      */
     public void setTransport(Transport transport) {
         this.transport = transport;
-    }
-
-    // SDK Methods
-
-    /**
-     *
-     * @param version
-     * @return
-     */
-    public boolean isProtocolVersion(String version) {
-        return true;
-    }
-
-    /**
-     *
-     * @return
-     */
-    @JsonIgnore
-    public String getProtocolVersion() {
-        return this.httpResponse.getVersion();
-    }
-
-    /**
-     *
-     * @param version
-     * @return
-     */
-    public boolean setProtocolVersion(String version) {
-        this.httpResponse.setVersion(version);
-        return true;
-    }
-
-    /**
-     *
-     * @param status
-     * @return
-     */
-    public boolean isStatus(String status) {
-        return true;
-    }
-
-    /**
-     *
-     * @return
-     */
-    @JsonIgnore
-    public String getStatus() {
-        return this.httpResponse.getStatus();
-    }
-
-    /**
-     *
-     * @return
-     */
-    @JsonIgnore
-    public int getStatusCode() {
-        String statusCode = this.httpResponse.getStatus().split(" ")[0];
-        return Integer.valueOf(statusCode);
-    }
-
-    /**
-     *
-     * @return
-     */
-    @JsonIgnore
-    public String getStatusText() {
-        return this.httpResponse.getStatus().split(" ")[1];
-    }
-
-    /**
-     *
-     * @param code
-     * @param text
-     * @return
-     */
-    public boolean setStatus(int code, String text) {
-        this.httpResponse.setStatus(code + " " + text);
-        return true;
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    public boolean hasHeader(String name) {
-        return this.httpResponse.getHeaders().get(name) != null;
-    }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    @JsonIgnore
-    public String getHeader(String name) {
-        return this.httpResponse.getHeaders().get(name);
-    }
-
-    /**
-     *
-     * @param key
-     * @param value
-     */
-    public void setHeader(String key, String value) {
-        this.httpResponse.getHeaders().put(key, value);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean hasBody() {
-        return this.httpResponse.getBody() != null;
-    }
-
-    /**
-     *
-     * @return
-     */
-    @JsonIgnore
-    public String getBody() {
-        return this.httpResponse.getBody();
-    }
-
-    /**
-     *
-     * @param body
-     * @return
-     */
-    public boolean setBody(String body) {
-        this.httpResponse.setBody(body);
-        return true;
     }
 
     @Override

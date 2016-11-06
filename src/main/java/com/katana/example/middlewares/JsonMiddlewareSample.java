@@ -54,6 +54,6 @@ public class JsonMiddlewareSample {
         };
 
         Middleware middleware = new Middleware(args);
-        middleware.runResponse(callable);
+        middleware.response(callable);
     }
 }

@@ -36,7 +36,7 @@ public class RequestMiddleware extends Component<Request, CallReplyPayload> {
     @Override
     protected void setBaseCommandAttrs(Request command) {
         super.setBaseCommandAttrs(command);
-        command.setPath(command.getUrlPath());
+        command.setPath(command.getHttpRequest().getUrlPath());
     }
 
     @Override

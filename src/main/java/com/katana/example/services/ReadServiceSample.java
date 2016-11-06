@@ -23,7 +23,7 @@ public class ReadServiceSample {
                 records.add(new Record(4, "Ricardo"));
                 records.add(new Record(5, "Hugo"));
 
-                int userId = Integer.parseInt(action.getParam("p", "id"));
+                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
 
                 Record entity = null;
                 for (Record record : records) {

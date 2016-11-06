@@ -14,12 +14,13 @@ public class MessagePackSerializerTest {
     public void write() {
         Serializer serializer = new MessagePackSerializer();
         PodamFactoryImpl podamFactory = new PodamFactoryImpl();
-        CommandPayload commandPayload = podamFactory.manufacturePojoWithFullData(ActionCommandPayload.class);
+        ActionCommandPayload commandPayload = podamFactory.manufacturePojoWithFullData(ActionCommandPayload.class);
 
         byte[] bytes = serializer.write(commandPayload);
-        CommandPayload deserializeCommandPayload = serializer.read(bytes, ActionCommandPayload.class);
+        ActionCommandPayload deserializeCommandPayload = serializer.read(bytes, ActionCommandPayload.class);
 
         Assert.assertTrue(commandPayload.equals(deserializeCommandPayload));
+        Assert.assertTrue(true);
     }
 
 }

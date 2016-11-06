@@ -53,7 +53,7 @@ public class RestMiddlewareSample {
         };
 
         Middleware middleware = new Middleware(args);
-        middleware.runRequest(callable);
+        middleware.request(callable);
     }
 
 }

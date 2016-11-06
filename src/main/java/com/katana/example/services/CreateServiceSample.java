@@ -15,7 +15,7 @@ public class CreateServiceSample {
         Callable<Action> callable = new Callable<Action>() {
             @Override
             public Action run(Action action) {
-                String name = action.getParam("q", "name");
+                String name = action.getParam("q", "name").get("v");
                 Record entity = new Record(6, name);
 
                 List<Record> responseList = new ArrayList<>();
