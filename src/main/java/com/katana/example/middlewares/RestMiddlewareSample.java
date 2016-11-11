@@ -17,12 +17,12 @@ public class RestMiddlewareSample {
                 // logic ...
                 // /{version}/{service}/{extra}
                 Logger.log(request.toString());
-                String[] parts = request.getUrlPath().split("/");
+                String[] parts = request.getHttpRequest().getUrlPath().split("/");
                 request.setServiceVersion(parts[3]);
                 request.setServiceName(parts[4]);
                 boolean hasExtraPath = parts.length == 6;
 
-                String method = request.getMethod();
+                String method = request.getHttpRequest().getMethod();
 
                 String actionName = null;
 

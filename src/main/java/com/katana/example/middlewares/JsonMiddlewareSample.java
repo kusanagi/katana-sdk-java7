@@ -22,15 +22,15 @@ public class JsonMiddlewareSample {
             @Override
             public Response run(Response response) {
 //                // logic ...
-                response.setHeader("Content-Type", "application/json");
+                response.getHttpResponse().setHeader("Content-Type", "application/json");
                 Transport transport = response.getTransport();
                 List<Error> errors = new ArrayList<>();
-                Logger.log(response.getStatusCode() + "");
-                if (response.getStatusCode() > 500) {
+                Logger.log(response.getHttpResponse().getStatusCode() + "");
+                if (response.getHttpResponse().getStatusCode() > 500) {
                     Logger.log("if response.getStatusCode");
                     Error error = new Error();
-                    error.setCode(response.getStatusCode());
-                    error.setMessage(response.getBody());
+                    error.setCode(response.getHttpResponse().getStatusCode());
+                    error.setMessage(response.getHttpResponse().getBody());
                     errors.add(error);
                 } else {
                     Logger.log("else response.getStatudCode");
@@ -38,12 +38,12 @@ public class JsonMiddlewareSample {
                 }
                 if (errors != null) {
                     Logger.log("if errors != null");
-                    response.setBody(errors.toString());
+                    response.getHttpResponse().setBody(errors.toString());
                 } else {
                     Logger.log("else errors != null");
                     ObjectMapper mapper = new ObjectMapper();
                     try {
-                        response.setBody(transport.getData() == null ? "" : mapper.writeValueAsString(transport.getData()));
+                        response.getHttpResponse().setBody(transport.getData() == null ? "" : mapper.writeValueAsString(transport.getData()));
                     } catch (JsonProcessingException e) {
                         Logger.log(e);
                     }

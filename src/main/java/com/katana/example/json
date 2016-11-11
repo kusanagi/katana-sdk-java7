@@ -1,0 +1,39 @@
+{
+  "cr": {
+    "n": "users",
+    "r": {
+      "m": {
+        "v": "1.0.0-alpha.12",
+        "i": "3aa57902-9089-49a3-b797-8bfa616ccbb3",
+        "d": "2016-10-16T15:20:27.247847+00:00",
+        "o": [],
+        "l": 1,
+        "p": null
+      },
+      "b": null,
+      "f": null,
+      "d": {
+        "users": {
+          "0.1.0": {
+            "list": [
+              "{'id':1, 'name':'James'}",
+              "{'id':2, 'name':'Jeronimo'}",
+              "{'id':3, 'name':'Fernando'}",
+              "{'id':4, 'name':'Ricardo'}",
+              "{'id':5, 'name':'Hugo'}"
+            ]
+          }
+        }
+      },
+      "r": null,
+      "l": {
+        "users": {
+          "self": "/v1/users"
+        }
+      },
+      "c": null,
+      "t": null,
+      "e": null
+    }
+  }
+}

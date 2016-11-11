@@ -157,6 +157,15 @@ public class HttpResponse implements CommandReplyResult {
         return this.body != null;
     }
 
+    /**
+     * Add a header to the Http Response
+     * @param name Header name
+     * @param value Header value
+     */
+    public void setHeader(String name, String value) {
+        this.headers.put(name, value);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
