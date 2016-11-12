@@ -170,11 +170,14 @@ public class Action extends Api {
 
         if (this.params.containsKey(location)){
             locationMap = this.params.get(location);
-            if (locationMap.containsKey(value)){
-                nameMap = locationMap.get(value);
+            if (locationMap.containsKey(name)){
+                nameMap = locationMap.get(name);
+            } else {
+                locationMap.put(name, nameMap);
             }
         } else {
-            locationMap.put("location", nameMap);
+            this.params.put(location, locationMap);
+            locationMap.put(name, nameMap);
         }
 
         nameMap.put("v", value);
