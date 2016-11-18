@@ -160,6 +160,11 @@ public class Request extends Api {
         httpResponse.setStatus(code + " " + text);
 
         Response response = new Response();
+        response.setPath(this.getPath());
+        response.setName(this.getName());
+        response.setVersion(this.getVersion());
+        response.setPlatformVersion(this.getPlatformVersion());
+        response.setTransport(new Transport());
         response.setHttpResponse(httpResponse);
         return response;
     }
