@@ -176,10 +176,10 @@ public class TransportTest {
     public void getCalls() {
         // SETUP
         RequestCall[] requestCalls = new RequestCall[0];
-        this.transport.setRequestCalls(requestCalls);
+        this.transport.setCalls(requestCalls);
 
         // ACTION
-        RequestCall[] callsObtained = this.transport.getRequestCalls();
+        RequestCall[] callsObtained = this.transport.getCalls();
 
         // EXPECTED
         Assert.assertEquals(requestCalls, callsObtained);
@@ -191,10 +191,10 @@ public class TransportTest {
         RequestCall[] requestCalls = new RequestCall[0];
 
         // ACTION
-        this.transport.setRequestCalls(requestCalls);
+        this.transport.setCalls(requestCalls);
 
         // EXPECTED
-        Assert.assertEquals(requestCalls, this.transport.getRequestCalls());
+        Assert.assertEquals(requestCalls, this.transport.getCalls());
     }
 
     @Test
