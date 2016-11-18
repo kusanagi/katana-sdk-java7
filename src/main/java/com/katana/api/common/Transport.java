@@ -25,7 +25,7 @@ public class Transport implements CommandReplyResult {
     private File body;
 
     @JsonProperty("f")
-    private List<File> files;
+    private Map<String, Map<String, Map<String, Map<String, File>>>> files;
 
     @JsonProperty("d")
     private Map<String, Map<String, Map<String, Object>>> data;
@@ -93,7 +93,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the list of files
      */
-    public List<File> getFiles() {
+    public Map<String, Map<String, Map<String, Map<String, File>>>> getFiles() {
         return files;
     }
 
@@ -102,7 +102,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param files File list
      */
-    public void setFiles(List<File> files) {
+    public void setFiles(Map<String, Map<String, Map<String, Map<String, File>>>> files) {
         this.files = files;
     }
 
