@@ -329,6 +329,9 @@ public class Transport implements CommandReplyResult {
      * @return Return all the links as an object, as they are stored in the Transport
      */
     public boolean addLink(String name, String link, String uri) {
+        if (this.links == null){
+            this.links = new HashMap<>();
+        }
         Map<String, String> linkDic = new HashMap<>();
         linkDic.put(link, uri);
         this.links.put(name, linkDic);
@@ -342,15 +345,15 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the links as an object, as they are stored in the Transport
      */
-    public Map<String, String> getLinks(String service) {
-        if (service != null) {
-            return this.links.get(service);
+    public Map<String, Map<String, String>> getLinks(String service) {
+        if (service == null) {
+            return this.links;
         } else {
-            Map<String, String> linkMap = new HashMap<>();
-            for (Map<String, String> links : this.links.values()) {
-                linkMap.putAll(links);
+            Map<String, Map<String, String>> serviceLinks = new HashMap<>();
+            if (this.links.containsKey(service)) {
+                serviceLinks.put(service, this.links.get(service));
             }
-            return linkMap;
+            return serviceLinks;
         }
     }
 
