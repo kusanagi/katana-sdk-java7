@@ -31,7 +31,7 @@ public class Transport implements CommandReplyResult {
     private Map<String, Map<String, Map<String, Object>>> data;
 
     @JsonProperty("r")
-    private Relation[] relations;
+    private Map<String, Map<String, Map<String, Object>>> relations;
 
     @JsonProperty("l")
     private Map<String, Map<String, String>> links;
@@ -129,7 +129,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the list of the relations
      */
-    public Relation[] getRelations() {
+    public Map<String, Map<String, Map<String, Object>>> getRelations() {
         return relations;
     }
 
@@ -138,7 +138,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param relations Relation list
      */
-    public void setRelations(Relation[] relations) {
+    public void setRelations(Map<String, Map<String, Map<String, Object>>> relations) {
         this.relations = relations;
     }
 
@@ -264,7 +264,6 @@ public class Transport implements CommandReplyResult {
      * @return Return true if a download file has been registered
      */
     public boolean hasDownload() {
-        //TODO review this method
         return this.body != null;
     }
 
@@ -273,7 +272,6 @@ public class Transport implements CommandReplyResult {
      */
     @JsonIgnore
     public File getDownload() {
-        //TODO review this method
         return this.body;
     }
 
@@ -309,8 +307,16 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return the relations
      */
-    public Relation[] getRelations(String service) {
-        return this.relations;
+    public Map<String, Map<String, Map<String, Object>>> getRelations(String service) {
+        if (service == null) {
+            return this.relations;
+        } else {
+            Map<String, Map<String, Map<String, Object>>> serviceRelations = new HashMap<>();
+            if (this.relations.containsKey(service)) {
+                serviceRelations.put(service, this.relations.get(service));
+            }
+            return serviceRelations;
+        }
     }
 
     /**
@@ -444,8 +450,7 @@ public class Transport implements CommandReplyResult {
         if (getData() != null ? !getData().equals(transport.getData()) : transport.getData() != null) {
             return false;
         }
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getRelations(), transport.getRelations())) {
+        if (getRelations() != null ? !getRelations().equals(transport.getRelations()) : transport.getRelations() != null) {
             return false;
         }
         if (getLinks() != null ? !getLinks().equals(transport.getLinks()) : transport.getLinks() != null) {
@@ -468,7 +473,7 @@ public class Transport implements CommandReplyResult {
         result = 31 * result + (getBody() != null ? getBody().hashCode() : 0);
         result = 31 * result + (getFiles() != null ? getFiles().hashCode() : 0);
         result = 31 * result + (getData() != null ? getData().hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(getRelations());
+        result = 31 * result + (getRelations() != null ? getRelations().hashCode() : 0);
         result = 31 * result + (getLinks() != null ? getLinks().hashCode() : 0);
         result = 31 * result + (getCalls() != null ? getCalls().hashCode() : 0);
         result = 31 * result + Arrays.hashCode(getTransactions());
@@ -483,7 +488,7 @@ public class Transport implements CommandReplyResult {
                 ", body=" + body +
                 ", files=" + files +
                 ", data=" + data +
-                ", relations=" + Arrays.toString(relations) +
+                ", relations=" + relations +
                 ", links=" + links +
                 ", calls=" + calls +
                 ", transactions=" + Arrays.toString(transactions) +
