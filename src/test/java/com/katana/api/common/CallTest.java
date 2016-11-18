@@ -4,20 +4,18 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by juan on 12/11/16.
  */
 public class CallTest {
-    
+
     private Call call;
-    
+
     @Before
-    public void setup(){
+    public void setup() {
         this.call = new Call();
     }
-    
+
     @Test
     public void getService() {
         // SETUP
@@ -26,7 +24,7 @@ public class CallTest {
 
         // ACTION
         String serviceObtained = this.call.getService();
-        
+
         // EXPECTED
         Assert.assertEquals(service, serviceObtained);
     }

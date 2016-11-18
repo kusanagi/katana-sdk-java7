@@ -22,7 +22,7 @@ public class ActionTest {
     private Action action;
 
     @Before
-    public void setup(){
+    public void setup() {
         action = new Action();
     }
 
@@ -161,15 +161,47 @@ public class ActionTest {
     @Test
     public void hasParam_hasParam_true() {
         // SETUP
+        String location = "location";
+        String name = "name";
         Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
         Map<String, Map<String, String>> params = new HashMap<>();
         Map<String, String> param = new HashMap<>();
-        params.put("name", param);
-        locations.put("location", params);
+        params.put(name, param);
+        locations.put(location, params);
         this.action.setParams(locations);
 
         // ACTION EXPECTED
-        Assert.assertTrue(this.action.hasParam("location", "name"));
+        Assert.assertTrue(this.action.hasParam(location, name));
+    }
+
+    @Test
+    public void hasParam_doesNotHasParam_false() {
+        // SETUP
+        String location = "location";
+        String name = "name";
+        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
+        Map<String, Map<String, String>> params = new HashMap<>();
+        locations.put(location, params);
+        this.action.setParams(locations);
+
+        // ACTION EXPECTED
+        Assert.assertTrue(!this.action.hasParam(location, name));
+    }
+
+    @Test
+    public void hasParam_nullLocation_locationDefaultsToQuery() {
+        // SETUP
+        String location = "query";
+        String name = "name";
+        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
+        Map<String, Map<String, String>> params = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
+        params.put(name, param);
+        locations.put(location, params);
+        this.action.setParams(locations);
+
+        // ACTION EXPECTED
+        Assert.assertTrue(this.action.hasParam(null, name));
     }
 
     @Test
@@ -195,7 +227,29 @@ public class ActionTest {
     }
 
     @Test
-    public void getParams1() {
+    public void getParam_nullLocation_locationDefaultsToQuery() {
+        // SETUP
+        String location = "query";
+        String name = "name";
+
+        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
+        Map<String, Map<String, String>> params = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
+
+        params.put(name, param);
+        locations.put(location, params);
+
+        this.action.setParams(locations);
+
+        // ACTION
+        Map<String, String> paramObtained = this.action.getParam(null, name);
+
+        //EXPECTED
+        Assert.assertEquals(paramObtained, param);
+    }
+
+    @Test
+    public void getParams_hasParamWithLocation_paramsAtLocation() {
         // SETUP
         String location = "location";
 
@@ -208,6 +262,25 @@ public class ActionTest {
 
         // ACTION
         Map<String, Map<String, String>> paramsObtained = this.action.getParams(location);
+
+        // EXPECTED
+        Assert.assertEquals(params, paramsObtained);
+    }
+
+    @Test
+    public void getParams_nullLocation_locationDefaultsToQuery() {
+        // SETUP
+        String location = "query";
+
+        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
+        Map<String, Map<String, String>> params = new HashMap<>();
+
+        locations.put(location, params);
+
+        this.action.setParams(locations);
+
+        // ACTION
+        Map<String, Map<String, String>> paramsObtained = this.action.getParams(null);
 
         // EXPECTED
         Assert.assertEquals(params, paramsObtained);
@@ -233,7 +306,26 @@ public class ActionTest {
     }
 
     @Test
-    public void hasFile() {
+    public void newParam_nullLocation_locationDefaultsToQuery() {
+        //SETUP
+        String name = "name";
+        String location = "query";
+        String paramValue = "value";
+
+        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
+
+        this.action.setParams(locations);
+
+        //ACTION
+        Map<String, String> paramObtained = this.action.newParam(null, name, paramValue, null);
+
+        // EXPECTED
+        Assert.assertEquals(this.action.getParams().get(location).get(name).get("v"), paramValue);
+        Assert.assertEquals(paramObtained.get("v"), paramValue);
+    }
+
+    @Test
+    public void hasFile_hasFile_true() {
         //SETUP
         Transport transport = Mockito.mock(Transport.class);
 
@@ -252,7 +344,23 @@ public class ActionTest {
     }
 
     @Test
-    public void getFile() {
+    public void hasFile_doesNotHasFile_false() {
+        //SETUP
+        Transport transport = Mockito.mock(Transport.class);
+
+        String fileName = "File name";
+        List<File> files = new ArrayList<>();
+
+        Mockito.when(transport.getFiles()).thenReturn(files);
+
+        this.action.setTransport(transport);
+
+        // ACTION EXPECTED
+        Assert.assertTrue(!this.action.hasFile(fileName));
+    }
+
+    @Test
+    public void getFile_fileExists_file() {
         //SETUP
         Transport transport = Mockito.mock(Transport.class);
 
@@ -274,13 +382,31 @@ public class ActionTest {
     }
 
     @Test
+    public void getFile_fileDoesNotExists_fileWithTheSameNameAndEmptyPath() {
+        //SETUP
+        Transport transport = Mockito.mock(Transport.class);
+
+        String fileName = "File name";
+        List<File> files = new ArrayList<>();
+
+        Mockito.when(transport.getFiles()).thenReturn(files);
+
+        this.action.setTransport(transport);
+
+        // ACTION
+        File fileObtained = this.action.getFile(fileName);
+
+        // EXPECTED
+        Assert.assertEquals(fileName, fileObtained.getName());
+        //Assert.assertEquals("", fileObtained.getPath()); // TODO path
+    }
+
+    @Test
     public void getFiles() {
         //SETUP
         Transport transport = Mockito.mock(Transport.class);
 
         File file = new File();
-        String fileName = "File name";
-        file.setName(fileName);
         List<File> files = new ArrayList<>();
         files.add(file);
 
@@ -293,6 +419,24 @@ public class ActionTest {
 
         // EXPECTED
         Assert.assertEquals(files, filesObtained);
+    }
+
+    @Test
+    public void getFiles_noFiles_emptyListOfFiles() {
+        //SETUP
+        Transport transport = Mockito.mock(Transport.class);
+
+        List<File> files = new ArrayList<>();
+
+        Mockito.when(transport.getFiles()).thenReturn(files);
+
+        this.action.setTransport(transport);
+
+        // ACTION
+        List<File> filesObtained = this.action.getFiles();
+
+        // EXPECTED
+        Assert.assertTrue(filesObtained.isEmpty());
     }
 
     @Test

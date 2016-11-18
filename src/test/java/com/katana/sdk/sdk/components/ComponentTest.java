@@ -91,8 +91,7 @@ public class ComponentTest {
         String args = "-c component -a action -n name -v version -p platform -s socket --debug -V var1 -V var2 --var var3";
         Component component = new Service(args.split(" "));
 
-        Assert.assertEquals("component", component.getComponentName());
-        Assert.assertEquals("action", component.getAction());
+        Assert.assertEquals("component", component.getComponent());
         Assert.assertEquals("name", component.getName());
         Assert.assertEquals("version", component.getVersion());
         Assert.assertEquals("platform", component.getPlatformVersion());

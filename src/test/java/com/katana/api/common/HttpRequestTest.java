@@ -1,93 +1,227 @@
 package com.katana.api.common;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juan on 12/11/16.
  */
 public class HttpRequestTest {
+
+    private HttpRequest httpRequest;
+
+    @Before
+    public void setup() {
+        httpRequest = new HttpRequest();
+    }
+
     @Test
     public void getProtocolVersion() {
-        Assert.assertTrue(true);
+        // SETUP
+        String protocolVersion = "Protocol version";
+        this.httpRequest.setProtocolVersion(protocolVersion);
+
+        // ACTION
+        String protocolVersionObtained = this.httpRequest.getProtocolVersion();
+
+        // EXPECTED
+        Assert.assertEquals(protocolVersion, protocolVersionObtained);
     }
 
     @Test
     public void setProtocolVersion() {
-        Assert.assertTrue(true);
+        // SETUP
+        String protocolVersion = "protocolVersion";
+
+        // ACTION
+        this.httpRequest.setProtocolVersion(protocolVersion);
+
+        // EXPECTED
+        Assert.assertEquals(protocolVersion, this.httpRequest.getProtocolVersion());
     }
 
     @Test
     public void getMethod() {
-        Assert.assertTrue(true);
+        // SETUP
+        String method = "method";
+        this.httpRequest.setMethod(method);
+
+        // ACTION
+        String methodObtained = this.httpRequest.getMethod();
+
+        // EXPECTED
+        Assert.assertEquals(method, methodObtained);
     }
 
     @Test
     public void setMethod() {
-        Assert.assertTrue(true);
+        // SETUP
+        String method = "method";
+
+        // ACTION
+        this.httpRequest.setMethod(method);
+
+        // EXPECTED
+        Assert.assertEquals(method, this.httpRequest.getMethod());
     }
 
     @Test
     public void getUrl() {
-        Assert.assertTrue(true);
+        // SETUP
+        String url = "url";
+        this.httpRequest.setUrl(url);
+
+        // ACTION
+        String urlObtained = this.httpRequest.getUrl();
+
+        // EXPECTED
+        Assert.assertEquals(url, urlObtained);
     }
 
     @Test
     public void setUrl() {
-        Assert.assertTrue(true);
+        // SETUP
+        String url = "url";
+
+        // ACTION
+        this.httpRequest.setUrl(url);
+
+        // EXPECTED
+        Assert.assertEquals(url, this.httpRequest.getUrl());
     }
 
     @Test
     public void getQuery() {
-        Assert.assertTrue(true);
+        // SETUP
+        Map<String, String> query = new HashMap<>();
+        this.httpRequest.setQuery(query);
+
+        // ACTION
+        Map<String, String> queryObtained = this.httpRequest.getQuery();
+
+        // EXPECTED
+        Assert.assertEquals(query, queryObtained);
     }
 
     @Test
     public void setQuery() {
-        Assert.assertTrue(true);
+        // SETUP
+        Map<String, String> query = new HashMap<>();
+
+        // ACTION
+        this.httpRequest.setQuery(query);
+
+        // EXPECTED
+        Assert.assertEquals(query, this.httpRequest.getQuery());
     }
 
     @Test
     public void getPostData() {
-        Assert.assertTrue(true);
+        // SETUP
+        Map<String, String> postData = new HashMap<>();
+        this.httpRequest.setPostData(postData);
+
+        // ACTION
+        Map<String, String> postDataObtained = this.httpRequest.getPostData();
+
+        // EXPECTED
+        Assert.assertEquals(postData, postDataObtained);
     }
 
     @Test
     public void setPostData() {
-        Assert.assertTrue(true);
+        // SETUP
+        Map<String, String> postData = new HashMap<>();
+
+        // ACTION
+        this.httpRequest.setPostData(postData);
+
+        // EXPECTED
+        Assert.assertEquals(postData, this.httpRequest.getPostData());
     }
 
     @Test
     public void getHeaders() {
-        Assert.assertTrue(true);
+        // SETUP
+        Map<String, List<String>> headers = new HashMap<>();
+        this.httpRequest.setHeaders(headers);
+
+        // ACTION
+        Map<String, List<String>> headersObtained = this.httpRequest.getHeaders();
+
+        // EXPECTED
+        Assert.assertEquals(headers, headersObtained);
     }
 
     @Test
     public void setHeaders() {
-        Assert.assertTrue(true);
+        // SETUP
+        Map<String, List<String>> headers = new HashMap<>();
+
+        // ACTION
+        this.httpRequest.setHeaders(headers);
+
+        // EXPECTED
+        Assert.assertEquals(headers, this.httpRequest.getHeaders());
     }
 
     @Test
     public void getBody() {
-        Assert.assertTrue(true);
+        // SETUP
+        String body = "body";
+        this.httpRequest.setBody(body);
+
+        // ACTION
+        String bodyObtained = this.httpRequest.getBody();
+
+        // EXPECTED
+        Assert.assertEquals(body, bodyObtained);
     }
 
     @Test
     public void setBody() {
-        Assert.assertTrue(true);
+        // SETUP
+        String body = "body";
+
+        // ACTION
+        this.httpRequest.setBody(body);
+
+        // EXPECTED
+        Assert.assertEquals(body, this.httpRequest.getBody());
     }
 
     @Test
     public void getFiles() {
-        Assert.assertTrue(true);
+        // SETUP
+        List<File> files = new ArrayList<>();
+        this.httpRequest.setFiles(files);
+
+        // ACTION
+        List<File> filesObtained = this.httpRequest.getFiles();
+
+        // EXPECTED
+        Assert.assertEquals(files, filesObtained);
     }
 
     @Test
     public void setFiles() {
-        Assert.assertTrue(true);
+        // SETUP
+        List<File> files = new ArrayList<>();
+
+        // ACTION
+        this.httpRequest.setFiles(files);
+
+        // EXPECTED
+        Assert.assertEquals(files, this.httpRequest.getFiles());
     }
+
+    // SDK Methods
 
     @Test
     public void isMethod() {
