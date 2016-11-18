@@ -2,27 +2,34 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by juan on 15/09/16.
  * Katana Java SDK
  */
 public class Transaction {
 
-    @JsonProperty("n")
-    private String name;
+    @JsonProperty("a")
+    private String action;
 
-    /**
-     * @return
-     */
-    public String getName() {
-        return name;
+    @JsonProperty("p")
+    private List<Param> params;
+
+    public String getAction() {
+        return action;
     }
 
-    /**
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public List<Param> getParams() {
+        return params;
+    }
+
+    public void setParams(List<Param> params) {
+        this.params = params;
     }
 
     @Override
@@ -36,19 +43,25 @@ public class Transaction {
 
         Transaction that = (Transaction) o;
 
-        return getName().equals(that.getName());
+        if (getAction() != null ? !getAction().equals(that.getAction()) : that.getAction() != null) {
+            return false;
+        }
+        return getParams() != null ? getParams().equals(that.getParams()) : that.getParams() == null;
 
     }
 
     @Override
     public int hashCode() {
-        return getName().hashCode();
+        int result = getAction() != null ? getAction().hashCode() : 0;
+        result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
         return "Transaction{" +
-                "name='" + name + '\'' +
+                "action='" + action + '\'' +
+                ", params=" + params +
                 '}';
     }
 }
