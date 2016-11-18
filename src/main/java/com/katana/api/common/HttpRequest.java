@@ -5,9 +5,7 @@ import com.katana.sdk.common.Logger;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by juan on 14/09/16.
@@ -24,10 +22,10 @@ public class HttpRequest {
     private String url;
 
     @JsonProperty("q")
-    private Map<String, String> query;
+    private Map<String, List<String>> query;
 
     @JsonProperty("p")
-    private Map<String, String> postData;
+    private Map<String, List<String>> postData;
 
     @JsonProperty("h")
     private Map<String, List<String>> headers;
@@ -81,31 +79,33 @@ public class HttpRequest {
     }
 
     /**
-     * @return Return an object with the parameters provided in the query string, where each property name is the
-     * parameter name, and the value the parameter value as a string.
+     * @return Return an object with the parameters provided in the query string, where each property name is the parameter
+     * name, and the value an array with the parameter value(s), each as a string.
      */
-    public Map<String, String> getQuery() {
+    public Map<String, List<String>> getQueryParamsArray() {
         return query;
     }
 
     /**
      * @param query
      */
-    public void setQuery(Map<String, String> query) {
+    public void setQuery(Map<String, List<String>> query) {
         this.query = query;
     }
 
+
     /**
-     * @return return an object with the parameters provided in the post data, where each property name is the parameter name, and the value the parameter value as a string.
+     * @return Return an object with the parameters provided in the post data, where each property name is the
+     * parameter name, and the value an array with the parameter value(s), each as a string.
      */
-    public Map<String, String> getPostData() {
-        return postData;
+    public Map<String, List<String>> getPostParamsArray() {
+        return this.postData;
     }
 
     /**
      * @param postData
      */
-    public void setPostData(Map<String, String> postData) {
+    public void setPostData(Map<String, List<String>> postData) {
         this.postData = postData;
     }
 
@@ -225,8 +225,8 @@ public class HttpRequest {
      * @return Return the value of the param or the default value if the param doesn't exist.
      */
     public String getQueryParam(String name, String defaultValue) {
-        String value = this.query.get(name);
-        return value == null ? defaultValue == null ? "" : defaultValue : value;
+        List<String> values = this.query.get(name);
+        return values == null || values.isEmpty() ? defaultValue == null ? "" : defaultValue : values.get(0);
     }
 
     /**
@@ -243,18 +243,29 @@ public class HttpRequest {
      * @return Return the values of the parameter specified in the argument, if the parameter does not exist, the
      * default array will be returned, if no default is specified an empty array will be returned
      */
-    public String[] getQueryParamArray(String name, String[] defaultArray) {
-        //TODO review this method
-        return new String[0];
+    public List<String> getQueryParamArray(String name, List<String> defaultArray) {
+        List<String> values = this.query.get(name);
+        return values == null || values.isEmpty()
+                ? defaultArray == null
+                ? new ArrayList<>()
+                : defaultArray
+                : values;
     }
 
     /**
      * @return Return an object with the parameters provided in the query string, where each property name is the parameter
-     * name, and the value an array with the parameter value(s), each as a string.
+     * name, and the value the parameter value as a string.
      */
-    public Map<String, String[]> getQueryParamsArray() {
-        //TODO review this method
-        return new HashMap<>();
+    public Map<String, String> getQueryParams() {
+        Map<String, String> queryParams = new HashMap<>();
+
+        Iterator<String> iterator = this.query.keySet().iterator();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            queryParams.put(key, this.query.get(key).get(0));
+        }
+
+        return queryParams;
     }
 
     /**
@@ -278,8 +289,8 @@ public class HttpRequest {
      * default value will be returned, if the default value is not specified, an empty string will be returned.
      */
     public String getPostParam(String name, String defaultValue) {
-        String value = this.postData.get(name);
-        return value == null ? defaultValue == null ? "" : defaultValue : value;
+        List<String> values = this.postData.get(name);
+        return values == null || values.isEmpty() ? defaultValue == null ? "" : defaultValue : values.get(0);
     }
 
     /**
@@ -296,18 +307,29 @@ public class HttpRequest {
      * @return Return the values of the Post parameter, if the post parameter does not exist the default array will be
      * returned, if the default array is not specified, an empty array will be returned.
      */
-    public String[] getPostParamArray(String name, String[] defaultArray) {
-        //TODO review this method
-        return new String[0];
+    public List<String> getPostParamArray(String name, List<String> defaultArray) {
+        List<String> values = this.postData.get(name);
+        return values == null || values.isEmpty()
+                ? defaultArray == null
+                ? new ArrayList<>()
+                : defaultArray
+                : values;
     }
 
     /**
-     * @return Return an object with the parameters provided in the post data, where each property name is the
-     * parameter name, and the value an array with the parameter value(s), each as a string.
+     * @return return an object with the parameters provided in the post data, where each property name is the parameter
+     * name, and the value the parameter value as a string.
      */
-    public Map<String, String[]> getPostParamsArray() {
-        //TODO review this method
-        return new HashMap<>();
+    public Map<String, String> getPostParams() {
+        Map<String, String> postParams = new HashMap<>();
+
+        Iterator<String> iterator = this.postData.keySet().iterator();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            postParams.put(key, this.postData.get(key).get(0));
+        }
+
+        return postParams;
     }
 
     /**
@@ -405,10 +427,10 @@ public class HttpRequest {
         if (getUrl() != null ? !getUrl().equals(that.getUrl()) : that.getUrl() != null) {
             return false;
         }
-        if (getQuery() != null ? !getQuery().equals(that.getQuery()) : that.getQuery() != null) {
+        if (query != null ? !query.equals(that.query) : that.query != null) {
             return false;
         }
-        if (getPostData() != null ? !getPostData().equals(that.getPostData()) : that.getPostData() != null) {
+        if (postData != null ? !postData.equals(that.postData) : that.postData != null) {
             return false;
         }
         if (getHeaders() != null ? !getHeaders().equals(that.getHeaders()) : that.getHeaders() != null) {
@@ -426,8 +448,8 @@ public class HttpRequest {
         int result = getProtocolVersion() != null ? getProtocolVersion().hashCode() : 0;
         result = 31 * result + (getMethod() != null ? getMethod().hashCode() : 0);
         result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
-        result = 31 * result + (getQuery() != null ? getQuery().hashCode() : 0);
-        result = 31 * result + (getPostData() != null ? getPostData().hashCode() : 0);
+        result = 31 * result + (query != null ? query.hashCode() : 0);
+        result = 31 * result + (postData != null ? postData.hashCode() : 0);
         result = 31 * result + (getHeaders() != null ? getHeaders().hashCode() : 0);
         result = 31 * result + (getBody() != null ? getBody().hashCode() : 0);
         result = 31 * result + (getFiles() != null ? getFiles().hashCode() : 0);
