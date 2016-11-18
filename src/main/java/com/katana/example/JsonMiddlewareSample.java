@@ -2,8 +2,7 @@ package com.katana.example;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.katana.api.Error;
-import com.katana.api.common.Request;
+import com.katana.api.common.Error;
 import com.katana.api.common.Response;
 import com.katana.api.common.Transport;
 import com.katana.sdk.common.Callable;

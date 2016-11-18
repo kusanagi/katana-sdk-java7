@@ -1,6 +1,6 @@
 package com.katana.sdk.components;
 
-import com.katana.api.Error;
+import com.katana.api.common.Error;
 import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
 import com.katana.api.commands.common.CommandPayload;

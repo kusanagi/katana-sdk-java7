@@ -2,7 +2,6 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.Error;
 
 import java.util.HashMap;
 import java.util.List;

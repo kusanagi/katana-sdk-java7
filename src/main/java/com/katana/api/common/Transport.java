@@ -3,10 +3,8 @@ package com.katana.api.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.Error;
 import com.katana.api.replies.CommandReplyResult;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +41,7 @@ public class Transport implements CommandReplyResult {
     private Map<String, Map<String, Map<String, List<Transaction>>>> transactions;
 
     @JsonProperty("e")
-    private List<Error> errors;
+    private Map<String, Map<String, List<Error>>> errors;
 
     /**
      *
@@ -201,7 +199,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the error list
      */
-    public List<Error> getErrors() {
+    public Map<String, Map<String, List<Error>>> getErrors() {
         return errors;
     }
 
@@ -210,7 +208,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param errors Error list
      */
-    public void setErrors(List<Error> errors) {
+    public void setErrors(Map<String, Map<String, List<Error>>> errors) {
         this.errors = errors;
     }
 
@@ -403,8 +401,16 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the errors as an object, as they are stored in the Transport.
      */
-    public List<Error> getErrors(String service) {
-        return this.errors;
+    public Map<String, Map<String, List<Error>>> getErrors(String service) {
+        if (service == null) {
+            return this.errors;
+        } else {
+            Map<String, Map<String, List<Error>>> serviceErrors = new HashMap<>();
+            if (this.errors.containsKey(service)) {
+                serviceErrors.put(service, this.errors.get(service));
+            }
+            return serviceErrors;
+        }
     }
 
     /**
