@@ -40,7 +40,7 @@ public class Transport implements CommandReplyResult {
     private Map<String, Map<String, List<Call>>> calls;
 
     @JsonProperty("t")
-    private Transaction[] transactions;
+    private Map<String, Map<String, Map<String, List<Transaction>>>> transactions;
 
     @JsonProperty("e")
     private List<Error> errors;
@@ -183,7 +183,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the transactions
      */
-    public Transaction[] getTransactions() {
+    public Map<String, Map<String, Map<String, List<Transaction>>>> getTransactions() {
         return transactions;
     }
 
@@ -192,7 +192,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param transactions Transaction list
      */
-    public void setTransactions(Transaction[] transactions) {
+    public void setTransactions(Map<String, Map<String, Map<String, List<Transaction>>>> transactions) {
         this.transactions = transactions;
     }
 
@@ -384,9 +384,16 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the transactions as an object, as they are stored in the Transport.
      */
-    public Transaction[] getTransactions(String service) {
-        //TODO transactions
-        return this.transactions;
+    public Map<String, Map<String, Map<String, List<Transaction>>>> getTransactions(String service) {
+        if (service == null) {
+            return this.transactions;
+        } else {
+            Map<String, Map<String, Map<String, List<Transaction>>>> serviceTransactions = new HashMap<>();
+            if (this.transactions.containsKey(service)) {
+                serviceTransactions.put(service, this.transactions.get(service));
+            }
+            return serviceTransactions;
+        }
     }
 
     /**
@@ -462,8 +469,7 @@ public class Transport implements CommandReplyResult {
         if (getCalls() != null ? !getCalls().equals(transport.getCalls()) : transport.getCalls() != null) {
             return false;
         }
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getTransactions(), transport.getTransactions())) {
+        if (getTransactions() != null ? !getTransactions().equals(transport.getTransactions()) : transport.getTransactions() != null) {
             return false;
         }
         return getErrors() != null ? getErrors().equals(transport.getErrors()) : transport.getErrors() == null;
@@ -479,7 +485,7 @@ public class Transport implements CommandReplyResult {
         result = 31 * result + (getRelations() != null ? getRelations().hashCode() : 0);
         result = 31 * result + (getLinks() != null ? getLinks().hashCode() : 0);
         result = 31 * result + (getCalls() != null ? getCalls().hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(getTransactions());
+        result = 31 * result + (getTransactions() != null ? getTransactions().hashCode() : 0);
         result = 31 * result + (getErrors() != null ? getErrors().hashCode() : 0);
         return result;
     }
@@ -494,7 +500,7 @@ public class Transport implements CommandReplyResult {
                 ", relations=" + relations +
                 ", links=" + links +
                 ", calls=" + calls +
-                ", transactions=" + Arrays.toString(transactions) +
+                ", transactions=" + transactions +
                 ", errors=" + errors +
                 '}';
     }
