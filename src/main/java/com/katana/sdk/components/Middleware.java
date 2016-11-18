@@ -65,7 +65,7 @@ public class Middleware extends Component {
             CallReplyPayload commandReplyPayload = new CallReplyPayload();
             CallReplyPayload.CallCommandReply callCommandReply = new CallReplyPayload.CallCommandReply();
             CallReplyPayload.CallResult callResult = new CallReplyPayload.CallResult();
-            callResult.setCall((Call) getReply(componentType, response));
+            callResult.setRequestCall((RequestCall) getReply(componentType, response));
             callCommandReply.setName(getName());
             callCommandReply.setResult(callResult);
             commandReplyPayload.setCommandReply(callCommandReply);
@@ -90,7 +90,7 @@ public class Middleware extends Component {
     @Override
     protected CommandReplyResult getReply(String componentType, Api response) {
         if (componentType.equals("request")) {
-            return ((Request) response).getCall();
+            return ((Request) response).getRequestCall();
         } else {
             return ((Response) response).getHttpResponse();
         }

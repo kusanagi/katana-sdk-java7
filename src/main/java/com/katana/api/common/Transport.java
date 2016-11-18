@@ -37,7 +37,7 @@ public class Transport implements CommandReplyResult {
     private Map<String, Map<String, String>> links;
 
     @JsonProperty("c")
-    private Call[] calls;
+    private RequestCall[] requestCalls;
 
     @JsonProperty("t")
     private Transaction[] transactions;
@@ -165,17 +165,17 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the call
      */
-    public Call[] getCalls() {
-        return calls;
+    public RequestCall[] getRequestCalls() {
+        return requestCalls;
     }
 
     /**
      * Calls setter
      *
-     * @param calls Call list
+     * @param requestCalls RequestCall list
      */
-    public void setCalls(Call[] calls) {
-        this.calls = calls;
+    public void setRequestCalls(RequestCall[] requestCalls) {
+        this.requestCalls = requestCalls;
     }
 
     /**
@@ -349,15 +349,15 @@ public class Transport implements CommandReplyResult {
     }
 
     /**
-     * Return all of the calls as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
-     * service argument is specified, it MUST only return the calls stored under that Service namespace.
+     * Return all of the requestCalls as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
+     * service argument is specified, it MUST only return the requestCalls stored under that Service namespace.
      *
      * @param service Service name
-     * @return Return all the calls as an object, as they are stored in the Transport.
+     * @return Return all the requestCalls as an object, as they are stored in the Transport.
      */
-    public Call[] getCalls(String service) {
-        //TODO calls
-        return this.calls;
+    public RequestCall[] getCalls(String service) {
+        //TODO requestCalls
+        return this.requestCalls;
     }
 
     /**
@@ -445,7 +445,7 @@ public class Transport implements CommandReplyResult {
             return false;
         }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getCalls(), transport.getCalls())) {
+        if (!Arrays.equals(getRequestCalls(), transport.getRequestCalls())) {
             return false;
         }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
@@ -464,7 +464,7 @@ public class Transport implements CommandReplyResult {
         result = 31 * result + (getData() != null ? getData().hashCode() : 0);
         result = 31 * result + Arrays.hashCode(getRelations());
         result = 31 * result + (getLinks() != null ? getLinks().hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(getCalls());
+        result = 31 * result + Arrays.hashCode(getRequestCalls());
         result = 31 * result + Arrays.hashCode(getTransactions());
         result = 31 * result + (getErrors() != null ? getErrors().hashCode() : 0);
         return result;
@@ -479,7 +479,7 @@ public class Transport implements CommandReplyResult {
                 ", data=" + data +
                 ", relations=" + Arrays.toString(relations) +
                 ", links=" + links +
-                ", calls=" + Arrays.toString(calls) +
+                ", requestCalls=" + Arrays.toString(requestCalls) +
                 ", transactions=" + Arrays.toString(transactions) +
                 ", errors=" + errors +
                 '}';

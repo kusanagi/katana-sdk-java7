@@ -94,26 +94,26 @@ public class RequestTest {
     @Test
     public void getCall() {
         // SETUP
-        Call call = new Call();
-        this.request.setCall(call);
+        RequestCall requestCall = new RequestCall();
+        this.request.setRequestCall(requestCall);
 
         // ACTION
-        Call callObtained = this.request.getCall();
+        RequestCall requestCallObtained = this.request.getRequestCall();
 
         // EXPECTED
-        Assert.assertEquals(call, callObtained);
+        Assert.assertEquals(requestCall, requestCallObtained);
     }
 
     @Test
     public void setCall() {
         // SETUP
-        Call call = new Call();
+        RequestCall requestCall = new RequestCall();
 
         // ACTION
-        this.request.setCall(call);
+        this.request.setRequestCall(requestCall);
 
         // EXPECTED
-        Assert.assertEquals(call, this.request.getCall());
+        Assert.assertEquals(requestCall, this.request.getRequestCall());
     }
 
     @Test

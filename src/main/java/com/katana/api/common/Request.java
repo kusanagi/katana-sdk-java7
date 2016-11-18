@@ -18,7 +18,7 @@ public class Request extends Api {
     private HttpRequest httpRequest;
 
     @JsonProperty("c")
-    private Call call;
+    private RequestCall requestCall;
 
     public Request() {
         // Default constructor to make possible the serialization of this object.
@@ -82,15 +82,15 @@ public class Request extends Api {
     /**
      * @return
      */
-    public Call getCall() {
-        return this.call;
+    public RequestCall getRequestCall() {
+        return this.requestCall;
     }
 
     /**
-     * @param call
+     * @param requestCall
      */
-    public void setCall(Call call) {
-        this.call = call;
+    public void setRequestCall(RequestCall requestCall) {
+        this.requestCall = requestCall;
     }
 
     // SDK Methods
@@ -99,7 +99,7 @@ public class Request extends Api {
      * @return Return the name currently defined for the Service, or an empty string if not defined.
      */
     public String getServiceName() {
-        return this.call.getService();
+        return this.requestCall.getService();
     }
 
     /**
@@ -109,7 +109,7 @@ public class Request extends Api {
      * @return Return true if the operation was successful
      */
     public boolean setServiceName(String name) {
-        this.call.setService(name);
+        this.requestCall.setService(name);
         return true;
     }
 
@@ -117,7 +117,7 @@ public class Request extends Api {
      * @return Return the version currently defined for the Service, or an empty string if not defined.
      */
     public String getServiceVersion() {
-        return this.call.getVersion();
+        return this.requestCall.getVersion();
     }
 
     /**
@@ -127,7 +127,7 @@ public class Request extends Api {
      * @return Return true if the operation was successful
      */
     public boolean setServiceVersion(String version) {
-        this.call.setVersion(version);
+        this.requestCall.setVersion(version);
         return true;
     }
 
@@ -135,7 +135,7 @@ public class Request extends Api {
      * @return Return the name currently defined for the Service action, or an empty string if not defined.
      */
     public String getActionName() {
-        return this.call.getAction();
+        return this.requestCall.getAction();
     }
 
     /**
@@ -145,7 +145,7 @@ public class Request extends Api {
      * @return Return true if the operation was successful
      */
     public boolean setActionName(String action) {
-        this.call.setAction(action);
+        this.requestCall.setAction(action);
         return true;
     }
 
@@ -192,7 +192,7 @@ public class Request extends Api {
         if (!getHttpRequest().equals(request1.getHttpRequest())) {
             return false;
         }
-        return getCall().equals(request1.getCall());
+        return getRequestCall().equals(request1.getRequestCall());
 
     }
 
@@ -202,7 +202,7 @@ public class Request extends Api {
         result = 31 * result + getType();
         result = 31 * result + getMeta().hashCode();
         result = 31 * result + getHttpRequest().hashCode();
-        result = 31 * result + getCall().hashCode();
+        result = 31 * result + getRequestCall().hashCode();
         return result;
     }
 
@@ -212,7 +212,7 @@ public class Request extends Api {
                 "type=" + type +
                 ", meta=" + meta +
                 ", httpRequest=" + httpRequest +
-                ", call=" + call +
+                ", requestCall=" + requestCall +
                 "} " + super.toString();
     }
 }

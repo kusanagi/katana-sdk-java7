@@ -7,23 +7,23 @@ import org.junit.Test;
 /**
  * Created by juan on 12/11/16.
  */
-public class CallTest {
+public class RequestCallTest {
 
-    private Call call;
+    private RequestCall requestCall;
 
     @Before
     public void setup() {
-        this.call = new Call();
+        this.requestCall = new RequestCall();
     }
 
     @Test
     public void getService() {
         // SETUP
         String service = "Service";
-        this.call.setService(service);
+        this.requestCall.setService(service);
 
         // ACTION
-        String serviceObtained = this.call.getService();
+        String serviceObtained = this.requestCall.getService();
 
         // EXPECTED
         Assert.assertEquals(service, serviceObtained);
@@ -35,20 +35,20 @@ public class CallTest {
         String service = "Service";
 
         // ACTION
-        this.call.setService(service);
+        this.requestCall.setService(service);
 
         // EXPECTED
-        Assert.assertEquals(service, this.call.getService());
+        Assert.assertEquals(service, this.requestCall.getService());
     }
 
     @Test
     public void getVersion() {
         // SETUP
         String version = "Version";
-        this.call.setVersion(version);
+        this.requestCall.setVersion(version);
 
         // ACTION
-        String versionObtained = this.call.getVersion();
+        String versionObtained = this.requestCall.getVersion();
 
         // EXPECTED
         Assert.assertEquals(version, versionObtained);
@@ -60,20 +60,20 @@ public class CallTest {
         String version = "Version";
 
         // ACTION
-        this.call.setVersion(version);
+        this.requestCall.setVersion(version);
 
         // EXPECTED
-        Assert.assertEquals(version, this.call.getVersion());
+        Assert.assertEquals(version, this.requestCall.getVersion());
     }
 
     @Test
     public void getAction() {
         // SETUP
         String action = "Action";
-        this.call.setAction(action);
+        this.requestCall.setAction(action);
 
         // ACTION
-        String actionObtained = this.call.getAction();
+        String actionObtained = this.requestCall.getAction();
 
         // EXPECTED
         Assert.assertEquals(action, actionObtained);
@@ -85,10 +85,10 @@ public class CallTest {
         String action = "Action";
 
         // ACTION
-        this.call.setAction(action);
+        this.requestCall.setAction(action);
 
         // EXPECTED
-        Assert.assertEquals(action, this.call.getAction());
+        Assert.assertEquals(action, this.requestCall.getAction());
     }
 
 }

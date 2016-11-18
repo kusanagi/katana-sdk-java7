@@ -3,7 +3,7 @@ package com.katana.api.replies;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.common.Call;
+import com.katana.api.common.RequestCall;
 
 /**
  * Created by juan on 30/09/16.
@@ -138,21 +138,21 @@ public class CallReplyPayload implements CommandReplyResult {
     public static class CallResult {
 
         @JsonProperty("c")
-        private Call call;
+        private RequestCall requestCall;
 
         /**
          * @return
          */
         @JsonIgnore
-        public Call getCall() {
-            return call;
+        public RequestCall getRequestCall() {
+            return requestCall;
         }
 
         /**
-         * @param call
+         * @param requestCall
          */
-        public void setCall(Call call) {
-            this.call = call;
+        public void setRequestCall(RequestCall requestCall) {
+            this.requestCall = requestCall;
         }
 
         @Override
@@ -166,19 +166,19 @@ public class CallReplyPayload implements CommandReplyResult {
 
             CallResult callResult = (CallResult) o;
 
-            return getCall().equals(callResult.getCall());
+            return getRequestCall().equals(callResult.getRequestCall());
 
         }
 
         @Override
         public int hashCode() {
-            return getCall().hashCode();
+            return getRequestCall().hashCode();
         }
 
         @Override
         public String toString() {
             return "CallResult{" +
-                    "call=" + call +
+                    "requestCall=" + requestCall +
                     '}';
         }
     }

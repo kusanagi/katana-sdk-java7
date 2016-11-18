@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * Created by juan on 12/11/16.
  */
-public class CallReplyPayloadTest {
+public class RequestCallReplyPayloadTest {
 
     private CallReplyPayload callReplyPayload;
 

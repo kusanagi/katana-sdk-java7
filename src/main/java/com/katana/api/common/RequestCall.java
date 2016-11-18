@@ -7,7 +7,7 @@ import com.katana.api.replies.CommandReplyResult;
  * Created by juan on 14/09/16.
  * Katana Java SDK
  */
-public class Call implements CommandReplyResult {
+public class RequestCall implements CommandReplyResult {
     @JsonProperty("s")
     private String service;
 
@@ -64,19 +64,19 @@ public class Call implements CommandReplyResult {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Call)) {
+        if (!(o instanceof RequestCall)) {
             return false;
         }
 
-        Call call = (Call) o;
+        RequestCall requestCall = (RequestCall) o;
 
-        if (!getService().equals(call.getService())) {
+        if (!getService().equals(requestCall.getService())) {
             return false;
         }
-        if (!getVersion().equals(call.getVersion())) {
+        if (!getVersion().equals(requestCall.getVersion())) {
             return false;
         }
-        return getAction().equals(call.getAction());
+        return getAction().equals(requestCall.getAction());
 
     }
 
@@ -90,7 +90,7 @@ public class Call implements CommandReplyResult {
 
     @Override
     public String toString() {
-        return "Call{" +
+        return "RequestCall{" +
                 "service='" + service + '\'' +
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +

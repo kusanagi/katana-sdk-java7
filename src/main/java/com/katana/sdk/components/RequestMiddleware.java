@@ -1,7 +1,7 @@
 package com.katana.sdk.components;
 
 import com.katana.api.commands.RequestCommandPayload;
-import com.katana.api.common.Call;
+import com.katana.api.common.RequestCall;
 import com.katana.api.common.Request;
 import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.CommandReplyResult;
@@ -35,7 +35,7 @@ public class RequestMiddleware extends Component<Request, CallReplyPayload> {
 
     @Override
     protected CommandReplyResult getReply(String oomponentType, Request response) {
-        return response.getCall();
+        return response.getRequestCall();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RequestMiddleware extends Component<Request, CallReplyPayload> {
         CallReplyPayload commandReplyPayload = new CallReplyPayload();
         CallReplyPayload.CallCommandReply callCommandReply = new CallReplyPayload.CallCommandReply();
         CallReplyPayload.CallResult callResult = new CallReplyPayload.CallResult();
-        callResult.setCall((Call) getReply(componentType, response));
+        callResult.setRequestCall((RequestCall) getReply(componentType, response));
         callCommandReply.setName(getName());
         callCommandReply.setResult(callResult);
         commandReplyPayload.setCommandReply(callCommandReply);

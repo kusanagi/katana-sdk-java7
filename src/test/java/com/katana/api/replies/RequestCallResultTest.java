@@ -1,6 +1,6 @@
 package com.katana.api.replies;
 
-import com.katana.api.common.Call;
+import com.katana.api.common.RequestCall;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Created by juan on 12/11/16.
  */
-public class CallResultTest {
+public class RequestCallResultTest {
 
     private CallReplyPayload.CallResult callResult;
 
@@ -20,26 +20,26 @@ public class CallResultTest {
     @Test
     public void getCall() {
         // SETUP
-        Call call = new Call();
-        this.callResult.setCall(call);
+        RequestCall requestCall = new RequestCall();
+        this.callResult.setRequestCall(requestCall);
 
         // ACTION
-        Call callObtained = this.callResult.getCall();
+        RequestCall requestCallObtained = this.callResult.getRequestCall();
 
         // EXPECTED
-        Assert.assertEquals(call, callObtained);
+        Assert.assertEquals(requestCall, requestCallObtained);
     }
 
     @Test
     public void setCall() {
         // SETUP
-        Call call = new Call();
+        RequestCall requestCall = new RequestCall();
 
         // ACTION
-        this.callResult.setCall(call);
+        this.callResult.setRequestCall(requestCall);
 
         // EXPECTED
-        Assert.assertEquals(call, this.callResult.getCall());
+        Assert.assertEquals(requestCall, this.callResult.getRequestCall());
     }
 
 }
