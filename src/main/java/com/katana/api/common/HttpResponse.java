@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.replies.CommandReplyResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +21,7 @@ public class HttpResponse implements CommandReplyResult {
     private String status;
 
     @JsonProperty("h")
-    private Map<String, String> headers;
+    private Map<String, List<String>> headers;
 
     @JsonProperty("b")
     private String body;
@@ -66,7 +68,7 @@ public class HttpResponse implements CommandReplyResult {
      * @return Return an object with the HTTP headers defined for the response, where each property name is the header
      * name, and the value the header value as a string.
      */
-    public Map<String, String> getHeaders() {
+    public Map<String, List<String>> getHeaders() {
         if (this.headers == null) {
             this.headers = new HashMap<>();
         }
@@ -78,7 +80,7 @@ public class HttpResponse implements CommandReplyResult {
      *
      * @param headers Headers to set
      */
-    public void setHeaders(Map<String, String> headers) {
+    public void setHeaders(Map<String, List<String>> headers) {
         this.headers = headers;
     }
 
@@ -156,7 +158,7 @@ public class HttpResponse implements CommandReplyResult {
      * argument, or an empty string if the header does not exist.
      */
     public String getHeader(String name) {
-        return this.headers.get(name);
+        return this.headers.get(name).get(0);
     }
 
     /**
@@ -176,10 +178,16 @@ public class HttpResponse implements CommandReplyResult {
      * @param value Header value
      */
     public void setHeader(String name, String value) {
-        if (this.headers == null){
-            this.headers = new HashMap<>();
+        if (this.headers != null && this.headers.containsKey(name)) {
+            this.headers.get(name).add(value);
+        } else {
+            if (this.headers == null) {
+                this.headers = new HashMap<>();
+            }
+            List<String> values = new ArrayList<>();
+            values.add(value);
+            this.headers.put(name, values);
         }
-        this.headers.put(name, value);
     }
 
     @Override
