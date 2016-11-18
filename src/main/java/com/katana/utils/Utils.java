@@ -6,7 +6,6 @@ package com.katana.utils;
 public class Utils {
 
     /**
-     *
      * @param options
      * @param optionName
      * @return

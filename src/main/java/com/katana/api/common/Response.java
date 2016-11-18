@@ -1,7 +1,7 @@
 package com.katana.api.common;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.replies.CommandReplyResult;
 
 import java.util.Map;
 
@@ -9,8 +9,8 @@ import java.util.Map;
  * Created by juan on 27/08/16.
  */
 public class Response extends Api {
-    @JsonProperty("T")
-    private String type;
+    @JsonProperty("t")
+    private int type;
 
     @JsonProperty("m")
     private Meta meta;
@@ -18,7 +18,7 @@ public class Response extends Api {
     @JsonProperty("R")
     private HttpResponse httpResponse;
 
-    @JsonProperty("t")
+    @JsonProperty("T")
     private Transport transport;
 
     public Response() {
@@ -26,7 +26,6 @@ public class Response extends Api {
     }
 
     /**
-     *
      * @param path
      * @param name
      * @param version
@@ -39,23 +38,20 @@ public class Response extends Api {
     }
 
     /**
-     *
      * @return
      */
-    public String getType() {
+    public int getType() {
         return type;
     }
 
     /**
-     *
      * @param type
      */
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
     /**
-     *
      * @return
      */
     public Meta getMeta() {
@@ -63,7 +59,6 @@ public class Response extends Api {
     }
 
     /**
-     *
      * @param meta
      */
     public void setMeta(Meta meta) {
@@ -71,7 +66,6 @@ public class Response extends Api {
     }
 
     /**
-     *
      * @return Return the instance of the HttpResponse class which contains the HTTP semantics for the response to be
      * made from the Gateway component.
      */
@@ -80,7 +74,6 @@ public class Response extends Api {
     }
 
     /**
-     *
      * @param httpResponse
      */
     public void setHttpResponse(HttpResponse httpResponse) {
@@ -88,7 +81,6 @@ public class Response extends Api {
     }
 
     /**
-     *
      * @return Return an instance of the read-only Transport interface.
      */
     public Transport getTransport() {
@@ -96,7 +88,6 @@ public class Response extends Api {
     }
 
     /**
-     *
      * @param transport
      */
     public void setTransport(Transport transport) {
@@ -133,7 +124,7 @@ public class Response extends Api {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getType().hashCode();
+        result = 31 * result + getType();
         result = 31 * result + getMeta().hashCode();
         result = 31 * result + getHttpResponse().hashCode();
         result = 31 * result + getTransport().hashCode();

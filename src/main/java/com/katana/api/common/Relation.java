@@ -12,7 +12,6 @@ public class Relation {
     private String name;
 
     /**
-     *
      * @return
      */
     public String getName() {
@@ -20,7 +19,6 @@ public class Relation {
     }
 
     /**
-     *
      * @param name
      */
     public void setName(String name) {

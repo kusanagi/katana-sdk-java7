@@ -6,11 +6,15 @@ import com.katana.api.common.HttpResponse;
 import com.katana.api.common.Response;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.api.replies.ResponseReplyPayload;
+import com.katana.sdk.common.Callable;
+import com.katana.sdk.common.Logger;
 
 /**
  * Created by juan on 14/09/16.
  */
 public class ResponseMiddleware extends Component<Response, ResponseReplyPayload> {
+
+    private final Callable<Response> callable;
 
     /**
      * Initialize the component with the command line arguments
@@ -19,34 +23,41 @@ public class ResponseMiddleware extends Component<Response, ResponseReplyPayload
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
      *                                  if there is an invalid argument or if there are duplicated arguments
      */
-    ResponseMiddleware(String[] args) {
+    ResponseMiddleware(String[] args, Callable<Response> callable) {
         super(args);
+        this.callable = callable;
     }
 
     @Override
-    protected Class<ResponseCommandPayload> getCommandPayloadClass() {
+    protected Class<ResponseCommandPayload> getCommandPayloadClass(String componentType) {
         return ResponseCommandPayload.class;
     }
 
     @Override
-    protected CommandReplyResult getReply(Response response) {
+    protected CommandReplyResult getReply(String componentType, Response response) {
         return response.getHttpResponse();
     }
 
     @Override
-    protected ResponseReplyPayload getCommandReplyPayload(Response response) {
+    protected Callable<Response> getCallable(String componentType) {
+        Logger.log("Getting response middleware callable");
+        return callable;
+    }
+
+    @Override
+    protected ResponseReplyPayload getCommandReplyPayload(String componentType, Response response) {
         ResponseReplyPayload commandReplyPayload = new ResponseReplyPayload();
-        ResponseReplyPayload.CommandReply commandReply = new ResponseReplyPayload.CommandReply();
-        ResponseReplyPayload.Result result = new ResponseReplyPayload.Result();
-        result.setResponse((HttpResponse) getReply(response));
+        ResponseReplyPayload.ResponseCommandReply responseCommandReply = new ResponseReplyPayload.ResponseCommandReply();
+        ResponseReplyPayload.ResponseResult responseResult = new ResponseReplyPayload.ResponseResult();
+        responseResult.setHttpResponse((HttpResponse) getReply(componentType, response));
         Error error = new Error();
         error.setCode(response.getHttpResponse().getStatusCode());
         error.setMessage(response.getHttpResponse().getStatusText());
         error.setStatus(response.getHttpResponse().getStatus());
-//        result.setError(error);
-        commandReply.setName(getName());
-        commandReply.setResult(result);
-        commandReplyPayload.setCommandReply(commandReply);
+//        responseResult.setError(error);
+        responseCommandReply.setName(getName());
+        responseCommandReply.setResult(responseResult);
+        commandReplyPayload.setCommandReply(responseCommandReply);
         return commandReplyPayload;
     }
 }

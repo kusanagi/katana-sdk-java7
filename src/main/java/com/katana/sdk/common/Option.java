@@ -15,7 +15,6 @@ public class Option {
     private String value;
 
     /**
-     *
      * @param names
      * @param unique
      * @param required
@@ -29,7 +28,6 @@ public class Option {
     }
 
     /**
-     *
      * @param option
      */
     public Option(Option option) {
@@ -41,7 +39,6 @@ public class Option {
     }
 
     /**
-     *
      * @return
      */
     public String[] getNames() {
@@ -49,7 +46,6 @@ public class Option {
     }
 
     /**
-     *
      * @param names
      */
     public void setNames(String[] names) {
@@ -57,7 +53,6 @@ public class Option {
     }
 
     /**
-     *
      * @return
      */
     public boolean isUnique() {
@@ -65,7 +60,6 @@ public class Option {
     }
 
     /**
-     *
      * @param unique
      */
     public void setUnique(boolean unique) {
@@ -73,7 +67,6 @@ public class Option {
     }
 
     /**
-     *
      * @return
      */
     public boolean isRequired() {
@@ -81,7 +74,6 @@ public class Option {
     }
 
     /**
-     *
      * @param required
      */
     public void setRequired(boolean required) {
@@ -89,7 +81,6 @@ public class Option {
     }
 
     /**
-     *
      * @return
      */
     public boolean isHasValue() {
@@ -97,7 +88,6 @@ public class Option {
     }
 
     /**
-     *
      * @param hasValue
      */
     public void setHasValue(boolean hasValue) {
@@ -105,7 +95,6 @@ public class Option {
     }
 
     /**
-     *
      * @return
      */
     public String getValue() {
@@ -113,7 +102,6 @@ public class Option {
     }
 
     /**
-     *
      * @param value
      */
     public void setValue(String value) {

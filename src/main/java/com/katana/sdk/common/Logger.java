@@ -32,7 +32,6 @@ public class Logger {
     }
 
     /**
-     *
      * @param message
      */
     public static void log(String message) {
@@ -43,7 +42,6 @@ public class Logger {
     }
 
     /**
-     *
      * @param e
      */
     public static void log(Exception e) {

@@ -14,7 +14,6 @@ public class CommandReplyPayload {
     private CommandReply commandReply;
 
     /**
-     *
      * @return
      */
     public CommandReply getCommandReply() {
@@ -22,7 +21,6 @@ public class CommandReplyPayload {
     }
 
     /**
-     *
      * @param commandReply
      */
     public void setCommandReply(CommandReply commandReply) {
@@ -68,7 +66,6 @@ public class CommandReplyPayload {
         private CommandReplyResult commandReplyResult;
 
         /**
-         *
          * @return
          */
         public String getName() {
@@ -76,7 +73,6 @@ public class CommandReplyPayload {
         }
 
         /**
-         *
          * @param name
          */
         public void setName(String name) {
@@ -84,7 +80,6 @@ public class CommandReplyPayload {
         }
 
         /**
-         *
          * @return
          */
         public CommandReplyResult getCommandReplyResult() {
@@ -92,7 +87,6 @@ public class CommandReplyPayload {
         }
 
         /**
-         *
          * @param commandReplyResult
          */
         public void setCommandReplyResult(CommandReplyResult commandReplyResult) {
@@ -126,7 +120,7 @@ public class CommandReplyPayload {
 
         @Override
         public String toString() {
-            return "CommandReply{" +
+            return "CallCommandReply{" +
                     "name='" + name + '\'' +
                     ", commandReplyResult=" + commandReplyResult +
                     '}';

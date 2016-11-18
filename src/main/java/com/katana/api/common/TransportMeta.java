@@ -23,7 +23,6 @@ public class TransportMeta extends Meta {
     private Map<String, String> properties;
 
     /**
-     *
      * @return
      */
     public String[] getOrigin() {
@@ -31,7 +30,6 @@ public class TransportMeta extends Meta {
     }
 
     /**
-     *
      * @param origin
      */
     public void setOrigin(String[] origin) {
@@ -39,7 +37,6 @@ public class TransportMeta extends Meta {
     }
 
     /**
-     *
      * @return
      */
     public int getLevel() {
@@ -47,7 +44,6 @@ public class TransportMeta extends Meta {
     }
 
     /**
-     *
      * @param level
      */
     public void setLevel(int level) {
@@ -55,7 +51,6 @@ public class TransportMeta extends Meta {
     }
 
     /**
-     *
      * @return
      */
     public Map<String, String> getProperties() {
@@ -63,7 +58,6 @@ public class TransportMeta extends Meta {
     }
 
     /**
-     *
      * @param properties
      */
     public void setProperties(Map<String, String> properties) {

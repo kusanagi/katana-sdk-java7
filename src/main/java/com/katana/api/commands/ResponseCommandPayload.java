@@ -13,7 +13,6 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
     private ResponseCommand command;
 
     /**
-     *
      * @return
      */
     @Override
@@ -22,7 +21,6 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
     }
 
     /**
-     *
      * @param command
      */
     public void setCommand(ResponseCommand command) {
@@ -70,7 +68,6 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
         private Response argument;
 
         /**
-         *
          * @return
          */
         @Override
@@ -79,11 +76,35 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
         }
 
         /**
-         *
          * @param argument
          */
         public void setArgument(Response argument) {
             this.argument = argument;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof ResponseCommand)) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+
+            ResponseCommand that = (ResponseCommand) o;
+
+            return getArgument().equals(that.getArgument());
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            result = 31 * result + getArgument().hashCode();
+            return result;
         }
 
         @Override

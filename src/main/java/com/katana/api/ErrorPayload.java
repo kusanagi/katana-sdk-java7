@@ -11,7 +11,6 @@ public class ErrorPayload {
     private Error error;
 
     /**
-     *
      * @return
      */
     public Error getError() {
@@ -19,7 +18,6 @@ public class ErrorPayload {
     }
 
     /**
-     *
      * @param error
      */
     public void setError(Error error) {

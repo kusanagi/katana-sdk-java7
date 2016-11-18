@@ -18,7 +18,6 @@ public class Meta {
     private String datetime;
 
     /**
-     *
      * @return
      */
     public String getVersion() {
@@ -26,7 +25,6 @@ public class Meta {
     }
 
     /**
-     *
      * @param version
      */
     public void setVersion(String version) {
@@ -34,7 +32,6 @@ public class Meta {
     }
 
     /**
-     *
      * @return
      */
     public String getId() {
@@ -42,7 +39,6 @@ public class Meta {
     }
 
     /**
-     *
      * @param id
      */
     public void setId(String id) {
@@ -50,7 +46,6 @@ public class Meta {
     }
 
     /**
-     *
      * @return
      */
     public String getDatetime() {
@@ -58,7 +53,6 @@ public class Meta {
     }
 
     /**
-     *
      * @param datetime
      */
     public void setDatetime(String datetime) {

@@ -54,6 +54,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Transport meta getter
+     *
      * @return Return the transport meta
      */
     public TransportMeta getMeta() {
@@ -62,6 +63,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Transport meta setter
+     *
      * @param meta Transport meta object
      */
     public void setMeta(TransportMeta meta) {
@@ -70,6 +72,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * File getter
+     *
      * @return Return the file
      */
     public File getBody() {
@@ -78,6 +81,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * File body setter
+     *
      * @param body File object
      */
     public void setBody(File body) {
@@ -86,6 +90,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * File list getter
+     *
      * @return Return the list of files
      */
     public List<File> getFiles() {
@@ -94,6 +99,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * File list setter
+     *
      * @param files File list
      */
     public void setFiles(List<File> files) {
@@ -102,6 +108,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Data getter
+     *
      * @return Return data object
      */
     public Map<String, Map<String, Map<String, Object>>> getData() {
@@ -110,6 +117,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Data setter
+     *
      * @param data Data object
      */
     public void setData(Map<String, Map<String, Map<String, Object>>> data) {
@@ -118,6 +126,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Relations getter
+     *
      * @return Return the list of the relations
      */
     public Relation[] getRelations() {
@@ -126,6 +135,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Relations setter
+     *
      * @param relations Relation list
      */
     public void setRelations(Relation[] relations) {
@@ -134,6 +144,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Links getter
+     *
      * @return Return the links
      */
     public Map<String, Map<String, String>> getLinks() {
@@ -142,6 +153,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Links setter
+     *
      * @param links Links to set
      */
     public void setLinks(Map<String, Map<String, String>> links) {
@@ -150,6 +162,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Calls getter
+     *
      * @return Return the call
      */
     public Call[] getCalls() {
@@ -158,6 +171,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Calls setter
+     *
      * @param calls Call list
      */
     public void setCalls(Call[] calls) {
@@ -166,6 +180,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Transaction getter
+     *
      * @return Return the transactions
      */
     public Transaction[] getTransactions() {
@@ -174,6 +189,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Transaction setter
+     *
      * @param transactions Transaction list
      */
     public void setTransactions(Transaction[] transactions) {
@@ -182,6 +198,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Errors getter
+     *
      * @return Return the error list
      */
     public List<Error> getErrors() {
@@ -190,6 +207,7 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Error setter
+     *
      * @param errors Error list
      */
     public void setErrors(List<Error> errors) {
@@ -368,8 +386,9 @@ public class Transport implements CommandReplyResult {
 
     /**
      * Register a data in the transport
-     * @param name Service name
-     * @param version Version of the service
+     *
+     * @param name       Service name
+     * @param version    Version of the service
      * @param actionName Name of the action
      * @param collection Data collection
      * @return Return true if the operation was successful

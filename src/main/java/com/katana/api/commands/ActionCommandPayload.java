@@ -12,7 +12,6 @@ public class ActionCommandPayload extends CommandPayload<Action> {
     private ActionCommand command;
 
     /**
-     *
      * @return
      */
     @Override
@@ -21,7 +20,6 @@ public class ActionCommandPayload extends CommandPayload<Action> {
     }
 
     /**
-     *
      * @param command
      */
     public void setCommand(ActionCommand command) {
@@ -69,7 +67,6 @@ public class ActionCommandPayload extends CommandPayload<Action> {
         private Action argument;
 
         /**
-         *
          * @return
          */
         @Override
@@ -78,7 +75,6 @@ public class ActionCommandPayload extends CommandPayload<Action> {
         }
 
         /**
-         *
          * @param argument
          */
         public void setArgument(Action argument) {

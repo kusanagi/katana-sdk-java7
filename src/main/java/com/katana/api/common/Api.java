@@ -30,12 +30,13 @@ public class Api {
 
     /**
      * Constructor with params
-     * @param path Path of the call
-     * @param name Name of the Service
-     * @param version Version of the Service
+     *
+     * @param path            Path of the call
+     * @param name            Name of the Service
+     * @param version         Version of the Service
      * @param platformVersion Version of the Platform
-     * @param variables Sdk variables
-     * @param isDebug Debug state
+     * @param variables       Sdk variables
+     * @param isDebug         Debug state
      */
     public Api(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         this.path = path;
@@ -48,6 +49,7 @@ public class Api {
 
     /**
      * Path setter
+     *
      * @param path Path of the call
      */
     public void setPath(String path) {
@@ -56,6 +58,7 @@ public class Api {
 
     /**
      * Name setter
+     *
      * @param name Name of the Service
      */
     public void setName(String name) {
@@ -64,6 +67,7 @@ public class Api {
 
     /**
      * Version setter
+     *
      * @param version Version of the service
      */
     public void setVersion(String version) {
@@ -72,6 +76,7 @@ public class Api {
 
     /**
      * Platform version setter
+     *
      * @param platformVersion Version of the platform
      */
     public void setPlatformVersion(String platformVersion) {
@@ -80,6 +85,7 @@ public class Api {
 
     /**
      * Variables setter
+     *
      * @param variables Sdk variables
      */
     public void setVariables(Map<String, String> variables) {
@@ -88,6 +94,7 @@ public class Api {
 
     /**
      * Debug state setter
+     *
      * @param debug Debug state
      */
     public void setDebug(boolean debug) {
@@ -146,6 +153,7 @@ public class Api {
 
     /**
      * Get the variable with the REQUIRED case-sensitive name argument, and which MUST be returned as a string.
+     *
      * @param name Name of the variable
      * @return Return the value of the variable
      */
@@ -155,21 +163,19 @@ public class Api {
     }
 
     /**
-     *
      * @param name Name of the resource
      * @return Determine if a resource has been registered with the component using the REQUIRED case sensitive name argument.
      */
-    public boolean hasResource(String name){
+    public boolean hasResource(String name) {
         // TODO do this method
         return false;
     }
 
     /**
-     *
      * @param name Name of the resource
      * @return Return the resource registered with the component using the REQUIRED case sensitive name argument.
      */
-    public String getResource(String name){
+    public String getResource(String name) {
         // TODO do this method
         return null;
     }
@@ -181,9 +187,10 @@ public class Api {
      * MUST be thrown with the following message:
      * Cannot resolve schema for Service: %SERVICE% (%VERSION%)
      * Where %SERVICE% is the name and %VERSION% is the version provided for the Service.
+     *
      * @return
      */
-    public String getServiceSchema(String name, String version){
+    public String getServiceSchema(String name, String version) {
         // TODO do this method
         return null;
     }

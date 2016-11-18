@@ -5,7 +5,6 @@ package com.katana.sdk.common;
  */
 public interface Serializer {
     /**
-     *
      * @param message
      * @param aClass
      * @param <T>
@@ -14,7 +13,6 @@ public interface Serializer {
     <T> T read(byte[] message, Class<T> aClass);
 
     /**
-     *
      * @param message
      * @return
      */

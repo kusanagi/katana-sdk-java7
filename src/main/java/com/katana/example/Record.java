@@ -1,4 +1,4 @@
-package com.katana.example.services;
+package com.katana.example;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,5 +1,6 @@
 package com.katana.api.replies;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.common.Transport;
@@ -12,22 +13,21 @@ import com.katana.api.common.Transport;
 public class TransportReplyPayload implements CommandReplyResult {
 
     @JsonProperty("cr")
-    private CommandReply commandReply;
+    private TransportCommandReply transportCommandReply;
 
     /**
-     *
      * @return
      */
-    public CommandReply getCommandReply() {
-        return commandReply;
+    @JsonIgnore
+    public TransportCommandReply getCommandReply() {
+        return transportCommandReply;
     }
 
     /**
-     *
-     * @param commandReply
+     * @param transportCommandReply
      */
-    public void setCommandReply(CommandReply commandReply) {
-        this.commandReply = commandReply;
+    public void setCommandReply(TransportCommandReply transportCommandReply) {
+        this.transportCommandReply = transportCommandReply;
     }
 
     @Override
@@ -53,31 +53,30 @@ public class TransportReplyPayload implements CommandReplyResult {
     @Override
     public String toString() {
         return "CommandReplyPayload{" +
-                "commandReply=" + commandReply +
+                "transportCommandReply=" + transportCommandReply +
                 '}';
     }
 
     /**
      * Created by juan on 30/09/16.
      */
-    public static class CommandReply {
+    public static class TransportCommandReply {
 
         @JsonProperty("n")
         private String name;
 
         @JsonProperty("r")
-        private Result result;
+        private TransportResult transportResult;
 
         /**
-         *
          * @return
          */
+        @JsonIgnore
         public String getName() {
             return name;
         }
 
         /**
-         *
          * @param name
          */
         public void setName(String name) {
@@ -85,19 +84,18 @@ public class TransportReplyPayload implements CommandReplyResult {
         }
 
         /**
-         *
          * @return
          */
-        public Result getResult() {
-            return result;
+        @JsonIgnore
+        public TransportResult getResult() {
+            return transportResult;
         }
 
         /**
-         *
-         * @param commandReplyResult
+         * @param commandReplyTransportResult
          */
-        public void setResult(Result commandReplyResult) {
-            this.result = commandReplyResult;
+        public void setResult(TransportResult commandReplyTransportResult) {
+            this.transportResult = commandReplyTransportResult;
         }
 
         @Override
@@ -105,11 +103,11 @@ public class TransportReplyPayload implements CommandReplyResult {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof CommandReply)) {
+            if (!(o instanceof TransportCommandReply)) {
                 return false;
             }
 
-            CommandReply that = (CommandReply) o;
+            TransportCommandReply that = (TransportCommandReply) o;
 
             if (!getName().equals(that.getName())) {
                 return false;
@@ -127,9 +125,9 @@ public class TransportReplyPayload implements CommandReplyResult {
 
         @Override
         public String toString() {
-            return "Result{" +
+            return "CallResult{" +
                     "name='" + name + '\'' +
-                    ", result=" + result +
+                    ", transportResult=" + transportResult +
                     '}';
         }
     }
@@ -137,21 +135,20 @@ public class TransportReplyPayload implements CommandReplyResult {
     /**
      *
      */
-    public static class Result {
+    public static class TransportResult {
 
-        @JsonProperty("t")
+        @JsonProperty("T")
         private Transport transport;
 
         /**
-         *
          * @return
          */
+        @JsonIgnore
         public Transport getTransport() {
             return transport;
         }
 
         /**
-         *
          * @param transport
          */
         public void setTransport(Transport transport) {
@@ -163,13 +160,13 @@ public class TransportReplyPayload implements CommandReplyResult {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof Result)) {
+            if (!(o instanceof TransportResult)) {
                 return false;
             }
 
-            Result result = (Result) o;
+            TransportResult transportResult = (TransportResult) o;
 
-            return getTransport().equals(result.getTransport());
+            return getTransport().equals(transportResult.getTransport());
 
         }
 
@@ -180,7 +177,7 @@ public class TransportReplyPayload implements CommandReplyResult {
 
         @Override
         public String toString() {
-            return "Result{" +
+            return "CallResult{" +
                     "transport=" + transport +
                     '}';
         }

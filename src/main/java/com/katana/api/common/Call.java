@@ -18,7 +18,6 @@ public class Call implements CommandReplyResult {
     private String action;
 
     /**
-     *
      * @return
      */
     public String getService() {
@@ -26,7 +25,6 @@ public class Call implements CommandReplyResult {
     }
 
     /**
-     *
      * @param service
      */
     public void setService(String service) {
@@ -34,7 +32,6 @@ public class Call implements CommandReplyResult {
     }
 
     /**
-     *
      * @return
      */
     public String getVersion() {
@@ -42,7 +39,6 @@ public class Call implements CommandReplyResult {
     }
 
     /**
-     *
      * @param version
      */
     public void setVersion(String version) {
@@ -50,7 +46,6 @@ public class Call implements CommandReplyResult {
     }
 
     /**
-     *
      * @return
      */
     public String getAction() {
@@ -58,7 +53,6 @@ public class Call implements CommandReplyResult {
     }
 
     /**
-     *
      * @param action
      */
     public void setAction(String action) {

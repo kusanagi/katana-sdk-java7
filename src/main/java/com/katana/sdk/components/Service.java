@@ -6,11 +6,19 @@ import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.sdk.common.Callable;
+import com.katana.sdk.common.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
  */
 public class Service extends Component<Action, TransportReplyPayload> {
+
+    private boolean isRunning;
+
+    private Map<String, Callable<Action>> callables;
 
     /**
      * Initialize the component with the command line arguments
@@ -21,41 +29,48 @@ public class Service extends Component<Action, TransportReplyPayload> {
      */
     public Service(String[] args) {
         super(args);
+        this.callables = new HashMap<>();
     }
 
     /**
-     *
      * @param callable
      */
-    public void runAction(Callable<Action> callable) {
-        run(callable);
+    public void action(String action, Callable<Action> callable) {
+        Logger.log("registering callback " + action);
+        this.callables.put(action, callable);
     }
 
     @Override
-    protected Class<ActionCommandPayload> getCommandPayloadClass() {
+    protected Class<ActionCommandPayload> getCommandPayloadClass(String componentType) {
         return ActionCommandPayload.class;
     }
 
     @Override
-    protected CommandReplyResult getReply(Action response) {
+    protected CommandReplyResult getReply(String componentType, Action response) {
         return response.getTransport();
     }
 
     @Override
-    protected void setBaseCommandAttrs(Action command) {
-        super.setBaseCommandAttrs(command);
-        command.setActionName(getAction());
+    protected Callable<Action> getCallable(String componentType) {
+        Logger.log("Getting callable " + callables.size() + " : " + componentType);
+        return callables.get(componentType);
     }
 
     @Override
-    protected TransportReplyPayload getCommandReplyPayload(Action response) {
+    protected void setBaseCommandAttrs(String componentType, Action command) {
+        super.setBaseCommandAttrs(componentType, command);
+        command.setActionName(componentType);
+    }
+
+    @Override
+    protected TransportReplyPayload getCommandReplyPayload(String componentType, Action response) {
         TransportReplyPayload commandReplyPayload = new TransportReplyPayload();
-        TransportReplyPayload.CommandReply commandReply = new TransportReplyPayload.CommandReply();
-        TransportReplyPayload.Result result = new TransportReplyPayload.Result();
-        result.setTransport((Transport) getReply(response));
-        commandReply.setName(getName());
-        commandReply.setResult(result);
-        commandReplyPayload.setCommandReply(commandReply);
+        TransportReplyPayload.TransportCommandReply transportCommandReply = new TransportReplyPayload.TransportCommandReply();
+        TransportReplyPayload.TransportResult transportResult = new TransportReplyPayload.TransportResult();
+        transportResult.setTransport((Transport) getReply(componentType, response));
+        transportCommandReply.setName(getName());
+        transportCommandReply.setResult(transportResult);
+        commandReplyPayload.setCommandReply(transportCommandReply);
         return commandReplyPayload;
     }
 }

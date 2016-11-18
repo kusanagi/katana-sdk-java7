@@ -12,7 +12,6 @@ public class File {
     private String name;
 
     /**
-     *
      * @return
      */
     public String getName() {
@@ -20,7 +19,6 @@ public class File {
     }
 
     /**
-     *
      * @param name
      */
     public void setName(String name) {

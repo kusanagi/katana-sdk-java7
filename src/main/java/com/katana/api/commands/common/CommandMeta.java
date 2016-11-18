@@ -11,7 +11,6 @@ public class CommandMeta {
     private String service;
 
     /**
-     *
      * @return
      */
     public String getService() {
@@ -19,7 +18,6 @@ public class CommandMeta {
     }
 
     /**
-     *
      * @param service
      */
     public void setService(String service) {

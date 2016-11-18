@@ -1,5 +1,6 @@
 package com.katana.api.replies;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.common.Call;
@@ -12,22 +13,21 @@ import com.katana.api.common.Call;
 public class CallReplyPayload implements CommandReplyResult {
 
     @JsonProperty("cr")
-    private CommandReply commandReply;
+    private CallCommandReply callCommandReply;
 
     /**
-     *
      * @return
      */
-    public CommandReply getCommandReply() {
-        return commandReply;
+    @JsonIgnore
+    public CallCommandReply getCommandReply() {
+        return callCommandReply;
     }
 
     /**
-     *
-     * @param commandReply
+     * @param callCommandReply
      */
-    public void setCommandReply(CommandReply commandReply) {
-        this.commandReply = commandReply;
+    public void setCommandReply(CallCommandReply callCommandReply) {
+        this.callCommandReply = callCommandReply;
     }
 
     @Override
@@ -53,31 +53,30 @@ public class CallReplyPayload implements CommandReplyResult {
     @Override
     public String toString() {
         return "CommandReplyPayload{" +
-                "commandReply=" + commandReply +
+                "callCommandReply=" + callCommandReply +
                 '}';
     }
 
     /**
      * Created by juan on 30/09/16.
      */
-    public static class CommandReply {
+    public static class CallCommandReply {
 
         @JsonProperty("n")
         private String name;
 
         @JsonProperty("r")
-        private Result result;
+        private CallResult callResult;
 
         /**
-         *
          * @return
          */
+        @JsonIgnore
         public String getName() {
             return name;
         }
 
         /**
-         *
          * @param name
          */
         public void setName(String name) {
@@ -85,19 +84,18 @@ public class CallReplyPayload implements CommandReplyResult {
         }
 
         /**
-         *
          * @return
          */
-        public Result getResult() {
-            return result;
+        @JsonIgnore
+        public CallResult getResult() {
+            return callResult;
         }
 
         /**
-         *
-         * @param commandReplyResult
+         * @param commandReplyCallResult
          */
-        public void setResult(Result commandReplyResult) {
-            this.result = commandReplyResult;
+        public void setResult(CallResult commandReplyCallResult) {
+            this.callResult = commandReplyCallResult;
         }
 
         @Override
@@ -105,11 +103,11 @@ public class CallReplyPayload implements CommandReplyResult {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof CommandReply)) {
+            if (!(o instanceof CallCommandReply)) {
                 return false;
             }
 
-            CommandReply that = (CommandReply) o;
+            CallCommandReply that = (CallCommandReply) o;
 
             if (!getName().equals(that.getName())) {
                 return false;
@@ -127,9 +125,9 @@ public class CallReplyPayload implements CommandReplyResult {
 
         @Override
         public String toString() {
-            return "Result{" +
+            return "CallResult{" +
                     "name='" + name + '\'' +
-                    ", result=" + result +
+                    ", callResult=" + callResult +
                     '}';
         }
     }
@@ -137,21 +135,20 @@ public class CallReplyPayload implements CommandReplyResult {
     /**
      *
      */
-    public static class Result {
+    public static class CallResult {
 
         @JsonProperty("c")
         private Call call;
 
         /**
-         *
          * @return
          */
+        @JsonIgnore
         public Call getCall() {
             return call;
         }
 
         /**
-         *
          * @param call
          */
         public void setCall(Call call) {
@@ -163,13 +160,13 @@ public class CallReplyPayload implements CommandReplyResult {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof Result)) {
+            if (!(o instanceof CallResult)) {
                 return false;
             }
 
-            Result result = (Result) o;
+            CallResult callResult = (CallResult) o;
 
-            return getCall().equals(result.getCall());
+            return getCall().equals(callResult.getCall());
 
         }
 
@@ -180,7 +177,7 @@ public class CallReplyPayload implements CommandReplyResult {
 
         @Override
         public String toString() {
-            return "Result{" +
+            return "CallResult{" +
                     "call=" + call +
                     '}';
         }

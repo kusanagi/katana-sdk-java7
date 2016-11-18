@@ -16,57 +16,14 @@ import java.util.List;
 /**
  * Created by juan on 27/08/16.
  */
-public class MiddlewareSample {
+public class JsonMiddlewareSample {
 
     public static void main(String[] args) {
-        Callable<Request> requestCallable = getRequestCallable();
         Callable<Response> responseCallable = getResponseCallable();
 
         Middleware middleware = new Middleware(args);
-        middleware.request(requestCallable);
         middleware.response(responseCallable);
         middleware.run();
-    }
-
-    private static Callable<Request> getRequestCallable() {
-        return new Callable<Request>() {
-                @Override
-                public Request run(Request request) {
-                    // logic ...
-                    // /{version}/{service}/{extra}
-                    String[] parts = request.getHttpRequest().getUrlPath().split("/");
-                    request.setServiceVersion(parts[1]);
-                    request.setServiceName(parts[2]);
-                    boolean hasExtraPath = parts.length == 6;
-
-                    String method = request.getHttpRequest().getMethod();
-
-                    String actionName = null;
-
-                    switch (method) {
-                        case "GET":
-                            actionName = hasExtraPath ? "read" : "list";
-                            break;
-                        case "POST":
-                            actionName = "create";
-                            break;
-                        case "PUT":
-                            actionName = "replace";
-                            break;
-                        case "PATCH":
-                            actionName = "update";
-                            break;
-                        case "DELETE":
-                            actionName = "delete";
-                            break;
-                    }
-
-                    if (actionName != null) {
-                        request.setActionName(actionName);
-                    }
-                    return request;
-                }
-            };
     }
 
     private static Callable<Response> getResponseCallable() {

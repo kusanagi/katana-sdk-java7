@@ -1,5 +1,6 @@
 package com.katana.api.replies;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.common.HttpResponse;
@@ -12,22 +13,21 @@ import com.katana.api.common.HttpResponse;
 public class ResponseReplyPayload implements CommandReplyResult {
 
     @JsonProperty("cr")
-    private CommandReply commandReply;
+    private ResponseCommandReply responseCommandReply;
 
     /**
-     *
      * @return
      */
-    public CommandReply getCommandReply() {
-        return commandReply;
+    @JsonIgnore
+    public ResponseCommandReply getCommandReply() {
+        return responseCommandReply;
     }
 
     /**
-     *
-     * @param commandReply
+     * @param responseCommandReply
      */
-    public void setCommandReply(CommandReply commandReply) {
-        this.commandReply = commandReply;
+    public void setCommandReply(ResponseCommandReply responseCommandReply) {
+        this.responseCommandReply = responseCommandReply;
     }
 
     @Override
@@ -53,31 +53,30 @@ public class ResponseReplyPayload implements CommandReplyResult {
     @Override
     public String toString() {
         return "CommandReplyPayload{" +
-                "commandReply=" + commandReply +
+                "responseCommandReply=" + responseCommandReply +
                 '}';
     }
 
     /**
      * Created by juan on 30/09/16.
      */
-    public static class CommandReply {
+    public static class ResponseCommandReply {
 
         @JsonProperty("n")
         private String name;
 
         @JsonProperty("r")
-        private Result result;
+        private ResponseResult responseResult;
 
         /**
-         *
          * @return
          */
+        @JsonIgnore
         public String getName() {
             return name;
         }
 
         /**
-         *
          * @param name
          */
         public void setName(String name) {
@@ -85,19 +84,18 @@ public class ResponseReplyPayload implements CommandReplyResult {
         }
 
         /**
-         *
          * @return
          */
-        public Result getResult() {
-            return result;
+        @JsonIgnore
+        public ResponseResult getResult() {
+            return responseResult;
         }
 
         /**
-         *
-         * @param commandReplyResult
+         * @param commandReplyResponseResult
          */
-        public void setResult(Result commandReplyResult) {
-            this.result = commandReplyResult;
+        public void setResult(ResponseResult commandReplyResponseResult) {
+            this.responseResult = commandReplyResponseResult;
         }
 
         @Override
@@ -105,11 +103,11 @@ public class ResponseReplyPayload implements CommandReplyResult {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof CommandReply)) {
+            if (!(o instanceof ResponseCommandReply)) {
                 return false;
             }
 
-            CommandReply that = (CommandReply) o;
+            ResponseCommandReply that = (ResponseCommandReply) o;
 
             if (!getName().equals(that.getName())) {
                 return false;
@@ -127,9 +125,9 @@ public class ResponseReplyPayload implements CommandReplyResult {
 
         @Override
         public String toString() {
-            return "Result{" +
+            return "CallResult{" +
                     "name='" + name + '\'' +
-                    ", result=" + result +
+                    ", responseResult=" + responseResult +
                     '}';
         }
     }
@@ -137,25 +135,24 @@ public class ResponseReplyPayload implements CommandReplyResult {
     /**
      *
      */
-    public static class Result {
+    public static class ResponseResult {
 
         @JsonProperty("R")
-        private HttpResponse response;
+        private HttpResponse httpResponse;
 
         /**
-         *
          * @return
          */
-        public HttpResponse getResponse() {
-            return response;
+        @JsonIgnore
+        public HttpResponse getHttpResponse() {
+            return httpResponse;
         }
 
         /**
-         *
-         * @param response
+         * @param httpResponse
          */
-        public void setResponse(HttpResponse response) {
-            this.response = response;
+        public void setHttpResponse(HttpResponse httpResponse) {
+            this.httpResponse = httpResponse;
         }
 
         @Override
@@ -163,25 +160,25 @@ public class ResponseReplyPayload implements CommandReplyResult {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof Result)) {
+            if (!(o instanceof ResponseResult)) {
                 return false;
             }
 
-            Result result = (Result) o;
+            ResponseResult responseResult = (ResponseResult) o;
 
-            return getResponse().equals(result.getResponse());
+            return getHttpResponse().equals(responseResult.getHttpResponse());
 
         }
 
         @Override
         public int hashCode() {
-            return getResponse().hashCode();
+            return getHttpResponse().hashCode();
         }
 
         @Override
         public String toString() {
-            return "Result{" +
-                    "response=" + response +
+            return "CallResult{" +
+                    "httpResponse=" + httpResponse +
                     '}';
         }
     }

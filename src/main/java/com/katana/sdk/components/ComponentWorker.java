@@ -5,18 +5,14 @@ import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Logger;
 import org.zeromq.ZMQ;
 
+import java.util.Arrays;
+
 
 /**
  * Created by juan on 1/10/16.
  */
 
-/**
- *
- * @param <T>
- */
-public class ComponentWorker<T extends Api> extends Thread {
-
-    private final Callable<T> callable;
+public class ComponentWorker extends Thread {
 
     private final String workerEndpoint;
 
@@ -24,14 +20,13 @@ public class ComponentWorker<T extends Api> extends Thread {
 
     private ZMQ.Socket socketObj;
 
-    private WorkerListener<T> workerListener;
+    private WorkerListener workerListener;
 
-    public ComponentWorker(Callable<T> callable, String workerEnpoint) {
-        this.callable = callable;
+    public ComponentWorker(String workerEnpoint) {
         this.workerEndpoint = workerEnpoint;
     }
 
-    public void setWorkerListener(WorkerListener<T> workerListener) {
+    public void setWorkerListener(WorkerListener workerListener) {
         this.workerListener = workerListener;
     }
 
@@ -40,17 +35,32 @@ public class ComponentWorker<T extends Api> extends Thread {
         Logger.log("Component worker run");
         startSocket();
         Logger.log("Component worker socket started!");
+        int part = 0;
+        String part1 = "";
+        byte[] part2 = new byte[0];
+        byte[] part3 = new byte[0];
         while (!Thread.currentThread().isInterrupted()) {
             Logger.log("Component worker loop started! ");
-//            String requestString = socketObj.recvStr();
-//            Logger.log(requestString);
-//            byte[] request = new byte[0];
-            byte[] request = socketObj.recv();
-            Logger.log("Component worker bytes received!");
-            socketObj.sendMore(new byte[]{});
-            byte[] reply = workerListener.onRequestReceived(request, this.callable);
-            socketObj.send(reply);
-            Logger.log("Component worker bytes sent!");
+            part++;
+            if (part == 1){
+                part1 = socketObj.recvStr();
+                Logger.log("Part 1 received: " + part1);
+            } else if (part == 2 && socketObj.hasReceiveMore()){
+//                String requestString = socketObj.recvStr(0);
+//                Logger.log(requestString);
+                part2 = socketObj.recv();
+                Logger.log("Part 2 received: " + Arrays.toString(part2));
+            } else {
+                part3 = socketObj.recv();
+                Logger.log("Part 3 received: " + Arrays.toString(part3));
+            }
+            if (!socketObj.hasReceiveMore()) {
+                part = 0;
+                socketObj.sendMore(new byte[]{});
+                byte[] reply = workerListener.onRequestReceived(part1, part2);
+                socketObj.send(reply);
+                Logger.log("Component worker bytes sent!");
+            }
         }
     }
 
@@ -68,7 +78,7 @@ public class ComponentWorker<T extends Api> extends Thread {
         context.term();
     }
 
-    public interface WorkerListener<T extends Api> {
-        byte[] onRequestReceived(byte[] request, Callable<T> callable);
+    public interface WorkerListener {
+        byte[] onRequestReceived(String componentType, byte[] request);
     }
 }

@@ -13,7 +13,6 @@ public class MessagePackSerializer implements Serializer {
     private ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 
     /**
-     *
      * @param message
      * @param aClass
      * @param <T>
@@ -22,6 +21,7 @@ public class MessagePackSerializer implements Serializer {
     @Override
     public <T> T read(byte[] message, Class<T> aClass) {
         try {
+            Logger.log(new String(message));
             return objectMapper.readValue(message, aClass);
         } catch (IOException e) {
             Logger.log(e);
@@ -30,7 +30,6 @@ public class MessagePackSerializer implements Serializer {
     }
 
     /**
-     *
      * @param message
      * @return
      */

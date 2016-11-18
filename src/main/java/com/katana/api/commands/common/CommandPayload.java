@@ -8,7 +8,6 @@ import com.katana.api.common.Api;
  */
 
 /**
- *
  * @param <T>
  */
 public class CommandPayload<T extends Api> {
@@ -17,7 +16,6 @@ public class CommandPayload<T extends Api> {
     private CommandMeta commandMeta;
 
     /**
-     *
      * @return
      */
     public CommandMeta getCommandMeta() {
@@ -25,7 +23,6 @@ public class CommandPayload<T extends Api> {
     }
 
     /**
-     *
      * @param commandMeta
      */
     public void setCommandMeta(CommandMeta commandMeta) {
@@ -33,7 +30,6 @@ public class CommandPayload<T extends Api> {
     }
 
     /**
-     *
      * @return
      */
     public Command<T> getCommand() {
@@ -72,7 +68,6 @@ public class CommandPayload<T extends Api> {
      */
 
     /**
-     *
      * @param <T>
      */
     public static class Command<T extends Api> {
@@ -81,7 +76,6 @@ public class CommandPayload<T extends Api> {
         private String name;
 
         /**
-         *
          * @return
          */
         public String getName() {
@@ -89,7 +83,6 @@ public class CommandPayload<T extends Api> {
         }
 
         /**
-         *
          * @param name
          */
         public void setName(String name) {
@@ -97,7 +90,6 @@ public class CommandPayload<T extends Api> {
         }
 
         /**
-         *
          * @return
          */
         public T getArgument() {

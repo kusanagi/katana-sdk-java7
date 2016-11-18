@@ -1,4 +1,4 @@
-package com.katana.example.services;
+package com.katana.example;
 
 import com.katana.api.common.Action;
 import com.katana.sdk.common.Callable;
@@ -20,12 +20,13 @@ public class ServiceSample {
         Callable<Action> replaceCallable = getReplaceCallable();
 
         Service service = new Service(args);
-        service.runAction("create", callable);
-        service.runAction("read", readCallable);
-        service.runAction("list", listCallable);
-        service.runAction("delete", deleteCallable);
-        service.runAction("update", updateCallable);
-        service.runAction("replace", replaceCallable);
+        service.action("create", callable);
+        service.action("read", readCallable);
+        service.action("list", listCallable);
+        service.action("delete", deleteCallable);
+        service.action("update", updateCallable);
+        service.action("replace", replaceCallable);
+        service.run();
     }
 
     private static Callable<Action> getReplaceCallable() {

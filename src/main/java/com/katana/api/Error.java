@@ -17,7 +17,6 @@ public class Error {
     private String status;
 
     /**
-     *
      * @return
      */
     public String getMessage() {
@@ -25,7 +24,6 @@ public class Error {
     }
 
     /**
-     *
      * @param message
      */
     public void setMessage(String message) {
@@ -33,7 +31,6 @@ public class Error {
     }
 
     /**
-     *
      * @return
      */
     public int getCode() {
@@ -41,7 +38,6 @@ public class Error {
     }
 
     /**
-     *
      * @param code
      */
     public void setCode(int code) {
@@ -49,7 +45,6 @@ public class Error {
     }
 
     /**
-     *
      * @return
      */
     public String getStatus() {
@@ -57,7 +52,6 @@ public class Error {
     }
 
     /**
-     *
      * @param status
      */
     public void setStatus(String status) {

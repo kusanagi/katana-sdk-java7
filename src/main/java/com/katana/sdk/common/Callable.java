@@ -7,12 +7,10 @@ import com.katana.api.common.Api;
  */
 
 /**
- *
  * @param <T>
  */
 public interface Callable<T extends Api> {
     /**
-     *
      * @param object
      * @return
      */

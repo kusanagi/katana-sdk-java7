@@ -2,16 +2,14 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
  */
 public class Request extends Api {
-    @JsonProperty("T")
-    private String type;
+    @JsonProperty("t")
+    private int type;
 
     @JsonProperty("m")
     private Meta meta;
@@ -27,7 +25,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @param path
      * @param name
      * @param version
@@ -40,23 +37,20 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @return
      */
-    public String getType() {
+    public int getType() {
         return this.type;
     }
 
     /**
-     *
      * @param type
      */
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
     /**
-     *
      * @return
      */
     public Meta getMeta() {
@@ -64,7 +58,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @param meta
      */
     public void setMeta(Meta meta) {
@@ -72,7 +65,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @return Return the instance of the HttpRequest class which contains the HTTP semantics of the request made to
      * the Gateway component.
      */
@@ -81,7 +73,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @param httpRequest
      */
     public void setHttpRequest(HttpRequest httpRequest) {
@@ -89,7 +80,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @return
      */
     public Call getCall() {
@@ -97,7 +87,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @param call
      */
     public void setCall(Call call) {
@@ -107,7 +96,6 @@ public class Request extends Api {
     // SDK Methods
 
     /**
-     *
      * @return Return the name currently defined for the Service, or an empty string if not defined.
      */
     public String getServiceName() {
@@ -116,6 +104,7 @@ public class Request extends Api {
 
     /**
      * Set the name for the Service with the value specified by the REQUIRED service argument.
+     *
      * @param name Name of the service
      * @return Return true if the operation was successful
      */
@@ -125,7 +114,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @return Return the version currently defined for the Service, or an empty string if not defined.
      */
     public String getServiceVersion() {
@@ -134,6 +122,7 @@ public class Request extends Api {
 
     /**
      * Set the version for the Service with the value specified by the REQUIRED version argument.
+     *
      * @param version Version for the service
      * @return Return true if the operation was successful
      */
@@ -143,7 +132,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @return Return the name currently defined for the Service action, or an empty string if not defined.
      */
     public String getActionName() {
@@ -152,6 +140,7 @@ public class Request extends Api {
 
     /**
      * Set the name for the Service action with the value specified by the REQUIRED action argument.
+     *
      * @param action Action name
      * @return Return true if the operation was successful
      */
@@ -161,7 +150,6 @@ public class Request extends Api {
     }
 
     /**
-     *
      * @param code Response code
      * @param text Response text
      * @return Return a new instance of the Response class, setting the HTTP status code with the value specified by the
@@ -206,7 +194,7 @@ public class Request extends Api {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getType().hashCode();
+        result = 31 * result + getType();
         result = 31 * result + getMeta().hashCode();
         result = 31 * result + getHttpRequest().hashCode();
         result = 31 * result + getCall().hashCode();

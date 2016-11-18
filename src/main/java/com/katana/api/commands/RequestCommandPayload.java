@@ -12,7 +12,6 @@ public class RequestCommandPayload extends CommandPayload<Request> {
     private RequestCommand command;
 
     /**
-     *
      * @return
      */
     @Override
@@ -21,7 +20,6 @@ public class RequestCommandPayload extends CommandPayload<Request> {
     }
 
     /**
-     *
      * @param command
      */
     public void setCommand(RequestCommand command) {
@@ -69,7 +67,6 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         private Request argument;
 
         /**
-         *
          * @return
          */
         @Override
@@ -78,11 +75,35 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         }
 
         /**
-         *
          * @param argument
          */
         public void setArgument(Request argument) {
             this.argument = argument;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof RequestCommand)) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+
+            RequestCommand that = (RequestCommand) o;
+
+            return getArgument().equals(that.getArgument());
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            result = 31 * result + getArgument().hashCode();
+            return result;
         }
 
         @Override

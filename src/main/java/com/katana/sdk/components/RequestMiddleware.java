@@ -5,11 +5,15 @@ import com.katana.api.common.Call;
 import com.katana.api.common.Request;
 import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.CommandReplyResult;
+import com.katana.sdk.common.Callable;
+import com.katana.sdk.common.Logger;
 
 /**
  * Created by juan on 14/09/16.
  */
 public class RequestMiddleware extends Component<Request, CallReplyPayload> {
+
+    private final Callable<Request> callable;
 
     /**
      * Initialize the component with the command line arguments
@@ -18,36 +22,43 @@ public class RequestMiddleware extends Component<Request, CallReplyPayload> {
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
      *                                  if there is an invalid argument or if there are duplicated arguments
      */
-    RequestMiddleware(String[] args) {
+    RequestMiddleware(String[] args, Callable<Request> callable) {
         super(args);
+        this.callable = callable;
     }
 
     @Override
-    protected Class<RequestCommandPayload> getCommandPayloadClass() {
+    protected Class<RequestCommandPayload> getCommandPayloadClass(String componentType) {
         return RequestCommandPayload.class;
     }
 
 
     @Override
-    protected CommandReplyResult getReply(Request response) {
+    protected CommandReplyResult getReply(String oomponentType, Request response) {
         return response.getCall();
     }
 
     @Override
-    protected void setBaseCommandAttrs(Request command) {
-        super.setBaseCommandAttrs(command);
+    protected Callable<Request> getCallable(String componentType) {
+        Logger.log("Getting request middleware callable");
+        return callable;
+    }
+
+    @Override
+    protected void setBaseCommandAttrs(String componentType, Request command) {
+        super.setBaseCommandAttrs(componentType, command);
         command.setPath(command.getHttpRequest().getUrlPath());
     }
 
     @Override
-    protected CallReplyPayload getCommandReplyPayload(Request response) {
+    protected CallReplyPayload getCommandReplyPayload(String componentType, Request response) {
         CallReplyPayload commandReplyPayload = new CallReplyPayload();
-        CallReplyPayload.CommandReply commandReply = new CallReplyPayload.CommandReply();
-        CallReplyPayload.Result result = new CallReplyPayload.Result();
-        result.setCall((Call) getReply(response));
-        commandReply.setName(getName());
-        commandReply.setResult(result);
-        commandReplyPayload.setCommandReply(commandReply);
+        CallReplyPayload.CallCommandReply callCommandReply = new CallReplyPayload.CallCommandReply();
+        CallReplyPayload.CallResult callResult = new CallReplyPayload.CallResult();
+        callResult.setCall((Call) getReply(componentType, response));
+        callCommandReply.setName(getName());
+        callCommandReply.setResult(callResult);
+        commandReplyPayload.setCommandReply(callCommandReply);
         return commandReplyPayload;
     }
 

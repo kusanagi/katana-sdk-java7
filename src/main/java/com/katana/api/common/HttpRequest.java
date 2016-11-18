@@ -5,7 +5,9 @@ import com.katana.sdk.common.Logger;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juan on 14/09/16.
@@ -34,7 +36,7 @@ public class HttpRequest {
     private String body;
 
     @JsonProperty("f")
-    private File[] files;
+    private List<File> files;
 
     /**
      * @return Return the value of the HTTP protocol protocolVersion specified by the request.
@@ -140,14 +142,14 @@ public class HttpRequest {
     /**
      * @return Return an array with the files uploaded in the request, where each MUST be a File object.
      */
-    public File[] getFiles() {
+    public List<File> getFiles() {
         return files;
     }
 
     /**
      * @param files
      */
-    public void setFiles(File[] files) {
+    public void setFiles(List<File> files) {
         this.files = files;
     }
 
@@ -165,7 +167,6 @@ public class HttpRequest {
     }
 
     /**
-     *
      * @return Return the scheme used for the URL provided for the request.
      */
     public String getUrlScheme() {
@@ -178,10 +179,9 @@ public class HttpRequest {
     }
 
     /**
-     *
      * @return Return the hostname from the URL provided for the request.
      */
-    public String getUrlHost(){
+    public String getUrlHost() {
         try {
             return new URL(this.url).getHost();
         } catch (MalformedURLException e) {
@@ -191,10 +191,9 @@ public class HttpRequest {
     }
 
     /**
-     *
      * @return Return the path part of the URL provided for the request.
      */
-    public String getUrlPath(){
+    public String getUrlPath() {
         try {
             return new URL(this.url).getPath();
         } catch (MalformedURLException e) {
@@ -206,9 +205,10 @@ public class HttpRequest {
     /**
      * Determine if the parameter name, specified by the REQUIRED case sensitive name argument, is defined in the query
      * object. If the parameter is defined but does not have a value it MUST consider that it exists.
+     *
      * @return Return true if the Http request has a query param that matches the name specified in the parameter
      */
-    public boolean hasQueryParam(String name){
+    public boolean hasQueryParam(String name) {
         return this.query.containsKey(name);
     }
 
@@ -219,11 +219,12 @@ public class HttpRequest {
      * in the query string, but does not have a value, the value of the default argument SHOULD NOT be applied.
      * If a parameter with the specified name does not exist, and no default is provided, and empty string MUST be
      * returned.
-     * @param name Name of the query
+     *
+     * @param name         Name of the query
      * @param defaultValue Default value is the query doesn't exist.
      * @return Return the value of the param or the default value if the param doesn't exist.
      */
-    public String getQueryParam(String name, String defaultValue){
+    public String getQueryParam(String name, String defaultValue) {
         String value = this.query.get(name);
         return value == null ? defaultValue == null ? "" : defaultValue : value;
     }
@@ -236,22 +237,22 @@ public class HttpRequest {
      * default argument SHOULD NOT be applied.
      * If a parameter with the specified name does not exist, and no default is provided, and empty array MUST be
      * returned.
-     * @param name Name of the param
+     *
+     * @param name         Name of the param
      * @param defaultArray default array if the param does not exist
      * @return Return the values of the parameter specified in the argument, if the parameter does not exist, the
      * default array will be returned, if no default is specified an empty array will be returned
      */
-    public String[] getQueryParamArray(String name, String[] defaultArray){
+    public String[] getQueryParamArray(String name, String[] defaultArray) {
         //TODO review this method
         return new String[0];
     }
 
     /**
-     *
      * @return Return an object with the parameters provided in the query string, where each property name is the parameter
      * name, and the value an array with the parameter value(s), each as a string.
      */
-    public Map<String, String[]> getQueryParamsArray(){
+    public Map<String, String[]> getQueryParamsArray() {
         //TODO review this method
         return new HashMap<>();
     }
@@ -259,22 +260,24 @@ public class HttpRequest {
     /**
      * Determine if the parameter name, specified by the REQUIRED case sensitive name argument, is defined in the post
      * data. If the parameter is defined but does not have a value it MUST consider that it exists.
+     *
      * @param name Name of the post parameter
      * @return Return true if the post param exist in the http request
      */
-    public boolean hasPostParam(String name){
+    public boolean hasPostParam(String name) {
         return this.postData.containsKey(name);
     }
 
     /**
      * Return the value of the parameter specified by the REQUIRED case sensitive name argument. If more than 1
      * parameter exists with the specified name it MUST return the value of the first occurrence in the post data.
-     * @param name Name of the post parameter
+     *
+     * @param name         Name of the post parameter
      * @param defaultValue Default value
      * @return Return the value of the first occurrence of the Post parameter, if the post parameter does not exist the
      * default value will be returned, if the default value is not specified, an empty string will be returned.
      */
-    public String getPostParam(String name, String defaultValue){
+    public String getPostParam(String name, String defaultValue) {
         String value = this.postData.get(name);
         return value == null ? defaultValue == null ? "" : defaultValue : value;
     }
@@ -287,12 +290,13 @@ public class HttpRequest {
      * argument SHOULD NOT be applied.
      * If a parameter with the specified name does not exist, and no default is provided, and empty array MUST be
      * returned.
-     * @param name Name of the post parameter
+     *
+     * @param name         Name of the post parameter
      * @param defaultArray Default array
      * @return Return the values of the Post parameter, if the post parameter does not exist the default array will be
      * returned, if the default array is not specified, an empty array will be returned.
      */
-    public String[]  getPostParamArray(String name, String[] defaultArray){
+    public String[] getPostParamArray(String name, String[] defaultArray) {
         //TODO review this method
         return new String[0];
     }
@@ -301,59 +305,59 @@ public class HttpRequest {
      * @return Return an object with the parameters provided in the post data, where each property name is the
      * parameter name, and the value an array with the parameter value(s), each as a string.
      */
-    public Map<String, String[]> getPostParamsArray(){
+    public Map<String, String[]> getPostParamsArray() {
         //TODO review this method
         return new HashMap<>();
     }
 
     /**
      * Determine if the HTTP protocolVersion of the request is equal to that specified by the REQUIRED protocolVersion argument.
+     *
      * @param version Version to compare
      * @return Return true if the protocolVersion of the http request is the same protocolVersion as the one specified in the parameters
      */
-    public boolean isProtocolVersion(String version){
+    public boolean isProtocolVersion(String version) {
         return this.protocolVersion.equals(version);
     }
 
     /**
      * Determine if the request contains the HTTP header specified by the REQUIRED case sensitive name argument.
+     *
      * @param name Header name
      * @return Return true if the http request has the header specified in the parameter
      */
-    public boolean hasHeader(String name){
+    public boolean hasHeader(String name) {
         return this.headers.containsKey(name);
     }
 
     /**
-     *
-     * @param name Header name
+     * @param name         Header name
      * @param defaultValue Default value
      * @return Return the value of the HTTP header specified by the REQUIRED case sensitive name argument.
      * The default argument is the OPTIONAL value to use if the header does not exist.
      * If a header with the specified name does not exist, and no default is provided, and empty string MUST be returned.
      */
-    public String getHeader(String name, String defaultValue){
+    public String getHeader(String name, String defaultValue) {
         List<String> values = this.headers.get(name);
         return values == null || values.isEmpty() ? defaultValue == null ? "" : defaultValue : values.get(0);
-     }
+    }
 
     /**
      * @return Determine if the HTTP request body contains content. If the request body contains only whitespace this
      * MUST be considered valid content.
      */
-    public boolean hasBody(){
+    public boolean hasBody() {
         return this.body != null;
     }
 
     /**
-     *
      * @param name File name
      * @return Determine if a file with the parameter name specified by the REQUIRED case sensitive name argument was
      * uploaded in the request.
      */
-    public boolean hasFile(String name){
-        for (File file : this.files){
-            if (file.getName().equals(name)){
+    public boolean hasFile(String name) {
+        for (File file : this.files) {
+            if (file.getName().equals(name)) {
                 return true;
             }
         }
@@ -364,13 +368,14 @@ public class HttpRequest {
      * Get the file with the REQUIRED case sensitive name argument, which MUST be returned as a File object. If the
      * file is not found, a File object with the REQUIRED name as first argument and an empty path as second argument
      * MUST be returned.
+     *
      * @param name File name
      * @return Return the file specified in the parameter. If the file is not found, a File object with the REQUIRED
      * name as first argument and an empty path as second argument will be returned.
      */
-    public File getFile(String name){
-        for (File file : this.files){
-            if (file.getName().equals(name)){
+    public File getFile(String name) {
+        for (File file : this.files) {
+            if (file.getName().equals(name)) {
                 return file;
             }
         }
@@ -391,42 +396,41 @@ public class HttpRequest {
 
         HttpRequest that = (HttpRequest) o;
 
-        if (!getProtocolVersion().equals(that.getProtocolVersion())) {
+        if (getProtocolVersion() != null ? !getProtocolVersion().equals(that.getProtocolVersion()) : that.getProtocolVersion() != null) {
             return false;
         }
-        if (!getMethod().equals(that.getMethod())) {
+        if (getMethod() != null ? !getMethod().equals(that.getMethod()) : that.getMethod() != null) {
             return false;
         }
-        if (!getUrl().equals(that.getUrl())) {
+        if (getUrl() != null ? !getUrl().equals(that.getUrl()) : that.getUrl() != null) {
             return false;
         }
-        if (!getQuery().equals(that.getQuery())) {
+        if (getQuery() != null ? !getQuery().equals(that.getQuery()) : that.getQuery() != null) {
             return false;
         }
-        if (!getPostData().equals(that.getPostData())) {
+        if (getPostData() != null ? !getPostData().equals(that.getPostData()) : that.getPostData() != null) {
             return false;
         }
-        if (!getHeaders().equals(that.getHeaders())) {
+        if (getHeaders() != null ? !getHeaders().equals(that.getHeaders()) : that.getHeaders() != null) {
             return false;
         }
-        if (!getBody().equals(that.getBody())) {
+        if (getBody() != null ? !getBody().equals(that.getBody()) : that.getBody() != null) {
             return false;
         }
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(getFiles(), that.getFiles());
+        return getFiles() != null ? getFiles().equals(that.getFiles()) : that.getFiles() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getProtocolVersion().hashCode();
-        result = 31 * result + getMethod().hashCode();
-        result = 31 * result + getUrl().hashCode();
-        result = 31 * result + getQuery().hashCode();
-        result = 31 * result + getPostData().hashCode();
-        result = 31 * result + getHeaders().hashCode();
-        result = 31 * result + getBody().hashCode();
-        result = 31 * result + Arrays.hashCode(getFiles());
+        int result = getProtocolVersion() != null ? getProtocolVersion().hashCode() : 0;
+        result = 31 * result + (getMethod() != null ? getMethod().hashCode() : 0);
+        result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
+        result = 31 * result + (getQuery() != null ? getQuery().hashCode() : 0);
+        result = 31 * result + (getPostData() != null ? getPostData().hashCode() : 0);
+        result = 31 * result + (getHeaders() != null ? getHeaders().hashCode() : 0);
+        result = 31 * result + (getBody() != null ? getBody().hashCode() : 0);
+        result = 31 * result + (getFiles() != null ? getFiles().hashCode() : 0);
         return result;
     }
 
@@ -440,7 +444,7 @@ public class HttpRequest {
                 ", postData=" + postData +
                 ", headers=" + headers +
                 ", body='" + body + '\'' +
-                ", files=" + Arrays.toString(files) +
+                ", files=" + files +
                 '}';
     }
 }
