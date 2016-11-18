@@ -37,7 +37,7 @@ public class Transport implements CommandReplyResult {
     private Map<String, Map<String, String>> links;
 
     @JsonProperty("c")
-    private Map<String, Map<String, Map<String, List<Call>>>> calls;
+    private Map<String, Map<String, List<Call>>> calls;
 
     @JsonProperty("t")
     private Transaction[] transactions;
@@ -165,7 +165,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the call
      */
-    public Map<String, Map<String, Map<String, List<Call>>>> getCalls() {
+    public Map<String, Map<String, List<Call>>> getCalls() {
         return calls;
     }
 
@@ -174,7 +174,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param calls RequestCall list
      */
-    public void setCalls(Map<String, Map<String, Map<String, List<Call>>>> calls) {
+    public void setCalls(Map<String, Map<String, List<Call>>> calls) {
         this.calls = calls;
     }
 
@@ -355,9 +355,16 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the calls as an object, as they are stored in the Transport.
      */
-    public Map<String, Map<String, Map<String, List<Call>>>> getCalls(String service) {
-        //TODO calls
-        return this.calls;
+    public Map<String, Map<String, List<Call>>> getCalls(String service) {
+        if (service == null) {
+            return this.calls;
+        } else {
+            Map<String, Map<String, List<Call>>> serviceCalls = new HashMap<>();
+            if (this.calls.containsKey(service)) {
+                serviceCalls.put(service, this.calls.get(service));
+            }
+            return serviceCalls;
+        }
     }
 
     /**
