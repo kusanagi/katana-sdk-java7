@@ -331,8 +331,7 @@ public class ActionTest {
         File file = new File();
         String fileName = "File name";
         file.setName(fileName);
-        List<File> files = new ArrayList<>();
-        files.add(file);
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -348,7 +347,7 @@ public class ActionTest {
         Transport transport = Mockito.mock(Transport.class);
 
         String fileName = "File name";
-        List<File> files = new ArrayList<>();
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -366,8 +365,7 @@ public class ActionTest {
         File file = new File();
         String fileName = "File name";
         file.setName(fileName);
-        List<File> files = new ArrayList<>();
-        files.add(file);
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -386,7 +384,7 @@ public class ActionTest {
         Transport transport = Mockito.mock(Transport.class);
 
         String fileName = "File name";
-        List<File> files = new ArrayList<>();
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -406,8 +404,7 @@ public class ActionTest {
         Transport transport = Mockito.mock(Transport.class);
 
         File file = new File();
-        List<File> files = new ArrayList<>();
-        files.add(file);
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -425,7 +422,7 @@ public class ActionTest {
         //SETUP
         Transport transport = Mockito.mock(Transport.class);
 
-        List<File> files = new ArrayList<>();
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -446,8 +443,7 @@ public class ActionTest {
         File file = new File();
         String fileName = "File name";
         file.setName(fileName);
-        List<File> files = Mockito.spy(new ArrayList<>());
-        files.add(file);
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = Mockito.spy(new HashMap<String, Map<String, Map<String, Map<String, File>>>>());
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -536,8 +532,12 @@ public class ActionTest {
 
         Transport transport = Mockito.mock(Transport.class);
         List<Error> errors = new ArrayList<>();
+        Map<String, List<Error>> versionErrors = new HashMap<>();
+        Map<String, Map<String, List<Error>>> serviceErrors = new HashMap<>();
+        serviceErrors.put("service", versionErrors);
+        versionErrors.put("version", errors);
 
-        Mockito.when(transport.getErrors()).thenReturn(errors);
+        Mockito.when(transport.getErrors()).thenReturn(serviceErrors);
 
         this.action.setTransport(transport);
 

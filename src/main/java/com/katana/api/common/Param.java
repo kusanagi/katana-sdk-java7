@@ -51,6 +51,43 @@ public class Param {
         this.type = type;
     }
 
+    // SDK Methods
+    public Param copyWithName(String name){
+        Param param = new Param();
+        param.setName(name);
+        param.setLocation(this.location);
+        param.setType(this.type);
+        param.setValue(this.value);
+        return param;
+    }
+
+    public Param copyWithLocation(String location){
+        Param param = new Param();
+        param.setName(this.name);
+        param.setLocation(location);
+        param.setType(this.type);
+        param.setValue(this.value);
+        return param;
+    }
+
+    public Param copyWithValue(String value){
+        Param param = new Param();
+        param.setName(this.name);
+        param.setLocation(this.location);
+        param.setType(this.type);
+        param.setValue(value);
+        return param;
+    }
+
+    public Param copyWithType(String location){
+        Param param = new Param();
+        param.setName(this.name);
+        param.setLocation(this.location);
+        param.setType(type);
+        param.setValue(this.value);
+        return param;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

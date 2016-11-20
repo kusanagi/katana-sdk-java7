@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.management.relation.Relation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,11 +75,11 @@ public class TransportTest {
     @Test
     public void getFiles() {
         // SETUP
-        List<File> files = new ArrayList<>();
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
         this.transport.setFiles(files);
 
         // ACTION
-        List<File> filesObtained = this.transport.getFiles();
+        Map<String, Map<String, Map<String, Map<String, File>>>> filesObtained = this.transport.getFiles();
 
         // EXPECTED
         Assert.assertEquals(files, filesObtained);
@@ -87,7 +88,7 @@ public class TransportTest {
     @Test
     public void setFiles() {
         // SETUP
-        List<File> files = new ArrayList<>();
+        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
         // ACTION
         this.transport.setFiles(files);
@@ -124,11 +125,11 @@ public class TransportTest {
     @Test
     public void getRelations() {
         // SETUP
-        Relation[] relations = new Relation[0];
+        Map<String, Map<String, Map<String, Object>>> relations = new HashMap<>();
         this.transport.setRelations(relations);
 
         // ACTION
-        Relation[] relationsObtained = this.transport.getRelations();
+        Map<String, Map<String, Map<String, Object>>> relationsObtained = this.transport.getRelations();
 
         // EXPECTED
         Assert.assertEquals(relations, relationsObtained);
@@ -137,7 +138,7 @@ public class TransportTest {
     @Test
     public void setRelations() {
         // SETUP
-        Relation[] relations = new Relation[0];
+        Map<String, Map<String, Map<String, Object>>> relations = new HashMap<>();
 
         // ACTION
         this.transport.setRelations(relations);
@@ -174,11 +175,11 @@ public class TransportTest {
     @Test
     public void getCalls() {
         // SETUP
-        RequestCall[] requestCalls = new RequestCall[0];
+        Map<String, Map<String, List<Call>>> requestCalls = new HashMap<>();
         this.transport.setCalls(requestCalls);
 
         // ACTION
-        RequestCall[] callsObtained = this.transport.getCalls();
+        Map<String, Map<String, List<Call>>> callsObtained = this.transport.getCalls();
 
         // EXPECTED
         Assert.assertEquals(requestCalls, callsObtained);
@@ -187,7 +188,7 @@ public class TransportTest {
     @Test
     public void setCalls() {
         // SETUP
-        RequestCall[] requestCalls = new RequestCall[0];
+        Map<String, Map<String, List<Call>>> requestCalls = new HashMap<>();
 
         // ACTION
         this.transport.setCalls(requestCalls);
@@ -199,11 +200,11 @@ public class TransportTest {
     @Test
     public void getTransactions() {
         // SETUP
-        Transaction[] transactions = new Transaction[0];
+        Map<String, Map<String, Map<String, List<Transaction>>>> transactions = new HashMap<>();
         this.transport.setTransactions(transactions);
 
         // ACTION
-        Transaction[] transactionsObtained = this.transport.getTransactions();
+        Map<String, Map<String, Map<String, List<Transaction>>>> transactionsObtained = this.transport.getTransactions();
 
         // EXPECTED
         Assert.assertEquals(transactions, transactionsObtained);
@@ -212,7 +213,7 @@ public class TransportTest {
     @Test
     public void setTransactions() {
         // SETUP
-        Transaction[] transactions = new Transaction[0];
+        Map<String, Map<String, Map<String, List<Transaction>>>> transactions = new HashMap<>();
 
         // ACTION
         this.transport.setTransactions(transactions);
@@ -224,11 +225,11 @@ public class TransportTest {
     @Test
     public void getErrors() {
         // SETUP
-        List<Error> errors = new ArrayList<>();
+        Map<String, Map<String, List<Error>>> errors = new HashMap<>();
         this.transport.setErrors(errors);
 
         // ACTION
-        List<Error> errorsObtained = this.transport.getErrors();
+        Map<String, Map<String, List<Error>>> errorsObtained = this.transport.getErrors();
 
         // EXPECTED
         Assert.assertEquals(errors, errorsObtained);
@@ -237,7 +238,7 @@ public class TransportTest {
     @Test
     public void setErrors() {
         // SETUP
-        List<Error> errors = new ArrayList<>();
+        Map<String, Map<String, List<Error>>> errors = new HashMap<>();
 
         // ACTION
         this.transport.setErrors(errors);

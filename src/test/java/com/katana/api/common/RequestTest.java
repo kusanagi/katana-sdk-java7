@@ -19,11 +19,11 @@ public class RequestTest {
     @Test
     public void getType() {
         // SETUP
-        String type = "Type";
+        int type = 1;
         this.request.setType(type);
 
         // ACTION
-        String typeObtained = this.request.getType();
+        int typeObtained = this.request.getType();
 
         // EXPECTED
         Assert.assertEquals(type, typeObtained);
@@ -32,7 +32,7 @@ public class RequestTest {
     @Test
     public void setType() {
         // SETUP
-        String type = "Type";
+        int type = 1;
 
         // ACTION
         this.request.setType(type);

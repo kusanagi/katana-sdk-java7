@@ -33,18 +33,13 @@ public class JsonMiddlewareSample {
                     response.getHttpResponse().setHeader("Content-Type", "application/json");
                     Transport transport = response.getTransport();
                     List<Error> errors = new ArrayList<>();
-                    Logger.log(response.getHttpResponse().getStatusCode() + "");
                     if (response.getHttpResponse().getStatusCode() > 500) {
                         Error error = new Error();
                         error.setCode(response.getHttpResponse().getStatusCode());
                         error.setMessage(response.getHttpResponse().getBody());
                         errors.add(error);
-                    } else {
-                        errors = transport.getErrors();
-                    }
-                    if (errors != null) {
                         response.getHttpResponse().setBody(errors.toString());
-                    } else {
+                    }else {
                         ObjectMapper mapper = new ObjectMapper();
                         try {
                             response.getHttpResponse().setBody(transport.getData() == null ? "" : mapper.writeValueAsString(transport.getData()));

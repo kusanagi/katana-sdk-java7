@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,11 +73,11 @@ public class HttpResponseTest {
     @Test
     public void getHeaders() {
         // SETUP
-        Map<String, String> headers = new HashMap<>();
+        Map<String, List<String>> headers = new HashMap<>();
         this.httpResponse.setHeaders(headers);
 
         // ACTION
-        Map<String, String> headersObtained = this.httpResponse.getHeaders();
+        Map<String, List<String>> headersObtained = this.httpResponse.getHeaders();
 
         // EXPECTED
         Assert.assertEquals(headers, headersObtained);
@@ -85,7 +86,7 @@ public class HttpResponseTest {
     @Test
     public void setHeaders() {
         // SETUP
-        Map<String, String> headers = new HashMap<>();
+        Map<String, List<String>> headers = new HashMap<>();
 
         // ACTION
         this.httpResponse.setHeaders(headers);

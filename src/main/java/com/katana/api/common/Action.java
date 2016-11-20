@@ -3,9 +3,7 @@ package com.katana.api.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by juan on 27/08/16.
@@ -212,9 +210,17 @@ public class Action extends Api {
      * @return Return true if the action has the file
      */
     public boolean hasFile(String name) {
-        for (File file : this.transport.getFiles()) {
-            if (file.getName().equals(name)) {
-                return true;
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = this.transport.getFiles();
+        for (String service : serviceFiles.keySet()) {
+            Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
+            for (String version : versionFiles.keySet()) {
+                Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
+                for (String action : actionFiles.keySet()) {
+                    Map<String, File> nameFiles = actionFiles.get(action);
+                    if (nameFiles.containsKey(name)) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -229,12 +235,23 @@ public class Action extends Api {
      * @return Return the File
      */
     public File getFile(String name) {
-        for (File file : this.transport.getFiles()) {
-            if (file.getName().equals(name)) {
-                return file;
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = this.transport.getFiles();
+        for (String service : serviceFiles.keySet()) {
+            Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
+            for (String version : versionFiles.keySet()) {
+                Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
+                for (String action : actionFiles.keySet()) {
+                    Map<String, File> nameFiles = actionFiles.get(action);
+                    if (nameFiles.containsKey(name)) {
+                        return nameFiles.get(name);
+                    }
+                }
             }
         }
-        return newFile(name, "", "");
+        File file = new File();
+        file.setName(name);
+        file.setPath("");
+        return file;
     }
 
     /**
@@ -244,7 +261,21 @@ public class Action extends Api {
      * @return Return all the files
      */
     public List<File> getFiles() {
-        return this.transport.getFiles();
+        List<File> files = new ArrayList<>();
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = this.transport.getFiles();
+        for (String service : serviceFiles.keySet()) {
+            Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
+            for (String version : versionFiles.keySet()) {
+                Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
+                for (String action : actionFiles.keySet()) {
+                    Map<String, File> nameFiles = actionFiles.get(action);
+                    for (String name : actionFiles.keySet()) {
+                        files.add(nameFiles.get(name));
+                    }
+                }
+            }
+        }
+        return files;
     }
 
     /**
@@ -260,7 +291,34 @@ public class Action extends Api {
     public File newFile(String name, String path, String mime) { //TODO path and mime
         File file = new File();
         file.setName(name);
-        this.transport.getFiles().add(file);
+        file.setPath(path);
+        file.setMime(mime);
+
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFile = this.transport.getFiles();
+        Map<String, Map<String, Map<String, File>>> versionFile = new HashMap<>();
+        Map<String, Map<String, File>> actionFile = new HashMap<>();
+        Map<String, File> nameFile = new HashMap<>();
+
+        if (serviceFile.containsKey(getName())){
+            versionFile = serviceFile.get(getName());
+            if (versionFile.containsKey(getVersion())){
+                actionFile = versionFile.get(getVersion());
+                if (actionFile.containsKey(getActionName())){
+                    nameFile = actionFile.get(getActionName());
+                } else {
+                    actionFile.put(getActionName(), nameFile);
+                }
+            } else {
+                actionFile.put(getActionName(), nameFile);
+                versionFile.put(getVersion(), actionFile);
+            }
+        } else {
+            actionFile.put(getActionName(), nameFile);
+            versionFile.put(getVersion(), actionFile);
+            serviceFile.put(getName(), versionFile);
+        }
+
+        nameFile.put(name, file);
         return file;
     }
 
@@ -487,7 +545,25 @@ public class Action extends Api {
         error.setMessage(message);
         error.setCode(code);
         error.setStatus(status);
-        this.transport.getErrors().add(error);
+
+        Map<String, Map<String, List<Error>>> serviceError = this.transport.getErrors();
+        Map<String, List<Error>> versionError = new HashMap<>();
+        List<Error> errors = new ArrayList<>();
+
+        if (serviceError.containsKey(getName())){
+            versionError = serviceError.get(getName());
+            if (versionError.containsKey(getVersion())){
+                errors = versionError.get(getVersion());
+            } else {
+                versionError.put(getVersion(), errors);
+            }
+        } else {
+            versionError.put(getVersion(), errors);
+            serviceError.put(getName(), versionError);
+        }
+
+        errors.add(error);
+
         return true;
     }
 

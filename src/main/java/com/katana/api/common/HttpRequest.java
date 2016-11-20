@@ -379,7 +379,7 @@ public class HttpRequest {
      */
     public boolean hasFile(String name) {
         for (File file : this.files) {
-            if (file.getName().equals(name)) {
+            if (file.getFilename().equals(name)) {
                 return true;
             }
         }
@@ -397,13 +397,13 @@ public class HttpRequest {
      */
     public File getFile(String name) {
         for (File file : this.files) {
-            if (file.getName().equals(name)) {
+            if (file.getFilename().equals(name)) {
                 return file;
             }
         }
 
         File file = new File();
-        file.setName(name);
+        file.setFilename(name);
         return file;
     }
 

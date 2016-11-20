@@ -99,11 +99,11 @@ public class HttpRequestTest {
     @Test
     public void getQuery() {
         // SETUP
-        Map<String, String> query = new HashMap<>();
+        Map<String, List<String>> query = new HashMap<>();
         this.httpRequest.setQuery(query);
 
         // ACTION
-        Map<String, String> queryObtained = this.httpRequest.getQuery();
+        Map<String, List<String>> queryObtained = this.httpRequest.getQueryParamsArray();
 
         // EXPECTED
         Assert.assertEquals(query, queryObtained);
@@ -112,23 +112,23 @@ public class HttpRequestTest {
     @Test
     public void setQuery() {
         // SETUP
-        Map<String, String> query = new HashMap<>();
+        Map<String, List<String>> query = new HashMap<>();
 
         // ACTION
         this.httpRequest.setQuery(query);
 
         // EXPECTED
-        Assert.assertEquals(query, this.httpRequest.getQuery());
+        Assert.assertEquals(query, this.httpRequest.getQueryParamsArray());
     }
 
     @Test
     public void getPostData() {
         // SETUP
-        Map<String, String> postData = new HashMap<>();
+        Map<String, List<String>> postData = new HashMap<>();
         this.httpRequest.setPostData(postData);
 
         // ACTION
-        Map<String, String> postDataObtained = this.httpRequest.getPostData();
+        Map<String, List<String>> postDataObtained = this.httpRequest.getPostParamsArray();
 
         // EXPECTED
         Assert.assertEquals(postData, postDataObtained);
@@ -137,13 +137,13 @@ public class HttpRequestTest {
     @Test
     public void setPostData() {
         // SETUP
-        Map<String, String> postData = new HashMap<>();
+        Map<String, List<String>> postData = new HashMap<>();
 
         // ACTION
         this.httpRequest.setPostData(postData);
 
         // EXPECTED
-        Assert.assertEquals(postData, this.httpRequest.getPostData());
+        Assert.assertEquals(postData, this.httpRequest.getPostParamsArray());
     }
 
     @Test

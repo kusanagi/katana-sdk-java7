@@ -42,14 +42,14 @@ public class TestService {
     }
 
     private void startService(String[] args) {
-        Service service = new Service(args);
-        service.action(new Callable<Action>() {
-            @Override
-            public Action run(Action object) {
-                Assert.assertTrue(true);
-                return object;
-            }
-        });
+//        Service service = new Service(args);
+//        service.action(new Callable<Action>() {
+//            @Override
+//            public Action run(Action object) {
+//                Assert.assertTrue(true);
+//                return object;
+//            }
+//        });
     }
 
     private void startClient(CountDownLatch countDownLatch) throws InterruptedException {

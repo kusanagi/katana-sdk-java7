@@ -19,11 +19,11 @@ public class ResponseTest {
     @Test
     public void getType() {
         // SETUP
-        String type = "Type";
+        int type = 2;
         this.response.setType(type);
 
         // ACTION
-        String typeObtained = this.response.getType();
+        int typeObtained = this.response.getType();
 
         // EXPECTED
         Assert.assertEquals(type, typeObtained);
@@ -32,7 +32,7 @@ public class ResponseTest {
     @Test
     public void setType() {
         // SETUP
-        String type = "Type";
+        int type = 2;
 
         // ACTION
         this.response.setType(type);

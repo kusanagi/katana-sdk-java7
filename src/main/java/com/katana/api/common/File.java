@@ -1,5 +1,6 @@
 package com.katana.api.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Katana Java SDK
  */
 public class File {
+
+    private String name;
 
     @JsonProperty("p")
     private String path;
@@ -22,6 +25,15 @@ public class File {
 
     @JsonProperty("m")
     private String mime;
+
+    @JsonIgnore
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getPath() {
         return path;
@@ -61,6 +73,40 @@ public class File {
 
     public void setMime(String mime) {
         this.mime = mime;
+    }
+
+    //SDK Methods
+
+    public boolean exists(){
+        //TODO Review
+        return path != null && !path.isEmpty();
+    }
+
+    public String read(){
+        //TODO implement this method
+        return "";
+    }
+
+    public File copyWithName(String name){
+        File file = new File();
+        file.setName(name);
+        file.setFilename(this.filename);
+        file.setMime(this.mime);
+        file.setPath(this.path);
+        file.setSize(this.size);
+        file.setToken(this.token);
+        return file;
+    }
+
+    public File copyWithMime(String mime){
+        File file = new File();
+        file.setName(this.name);
+        file.setFilename(this.filename);
+        file.setMime(mime);
+        file.setPath(this.path);
+        file.setSize(this.size);
+        file.setToken(this.token);
+        return file;
     }
 
     @Override
