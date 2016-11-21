@@ -200,6 +200,9 @@ public class Transport implements CommandReplyResult {
      * @return Return the error list
      */
     public Map<String, Map<String, List<Error>>> getErrors() {
+        if (this.errors == null){
+            this.errors = new HashMap<>();
+        }
         return errors;
     }
 

@@ -269,7 +269,7 @@ public class Action extends Api {
                 Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
                 for (String action : actionFiles.keySet()) {
                     Map<String, File> nameFiles = actionFiles.get(action);
-                    for (String name : actionFiles.keySet()) {
+                    for (String name : nameFiles.keySet()) {
                         files.add(nameFiles.get(name));
                     }
                 }

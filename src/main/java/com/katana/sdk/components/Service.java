@@ -16,8 +16,6 @@ import java.util.Map;
  */
 public class Service extends Component<Action, TransportReplyPayload> {
 
-    private boolean isRunning;
-
     private Map<String, Callable<Action>> callables;
 
     /**
@@ -36,7 +34,6 @@ public class Service extends Component<Action, TransportReplyPayload> {
      * @param callable
      */
     public void action(String action, Callable<Action> callable) {
-        Logger.log("registering callback " + action);
         this.callables.put(action, callable);
     }
 
@@ -52,7 +49,6 @@ public class Service extends Component<Action, TransportReplyPayload> {
 
     @Override
     protected Callable<Action> getCallable(String componentType) {
-        Logger.log("Getting callable " + callables.size() + " : " + componentType);
         return callables.get(componentType);
     }
 

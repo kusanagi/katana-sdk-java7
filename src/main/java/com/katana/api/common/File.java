@@ -120,29 +120,33 @@ public class File {
 
         File file = (File) o;
 
-        if (!getPath().equals(file.getPath())) {
+        if (getName() != null ? !getName().equals(file.getName()) : file.getName() != null) {
             return false;
         }
-        if (!getToken().equals(file.getToken())) {
+        if (getPath() != null ? !getPath().equals(file.getPath()) : file.getPath() != null) {
             return false;
         }
-        if (!getFilename().equals(file.getFilename())) {
+        if (getToken() != null ? !getToken().equals(file.getToken()) : file.getToken() != null) {
             return false;
         }
-        if (!getSize().equals(file.getSize())) {
+        if (getFilename() != null ? !getFilename().equals(file.getFilename()) : file.getFilename() != null) {
             return false;
         }
-        return getMime().equals(file.getMime());
+        if (getSize() != null ? !getSize().equals(file.getSize()) : file.getSize() != null) {
+            return false;
+        }
+        return getMime() != null ? getMime().equals(file.getMime()) : file.getMime() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getPath().hashCode();
-        result = 31 * result + getToken().hashCode();
-        result = 31 * result + getFilename().hashCode();
-        result = 31 * result + getSize().hashCode();
-        result = 31 * result + getMime().hashCode();
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getPath() != null ? getPath().hashCode() : 0);
+        result = 31 * result + (getToken() != null ? getToken().hashCode() : 0);
+        result = 31 * result + (getFilename() != null ? getFilename().hashCode() : 0);
+        result = 31 * result + (getSize() != null ? getSize().hashCode() : 0);
+        result = 31 * result + (getMime() != null ? getMime().hashCode() : 0);
         return result;
     }
 

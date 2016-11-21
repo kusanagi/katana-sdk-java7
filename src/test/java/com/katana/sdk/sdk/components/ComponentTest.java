@@ -22,11 +22,11 @@ public class ComponentTest {
     @Test
     public void main_withRequiredArgs_dontThrowException() {
         String[][] valid_cases = new String[][]{
-                {"-c component -a action -n name -v version -p platform", null},
-                {"-c component -a action --name name --version version --platform-version platform", null},
-                {"-c component -a action -n name --version version --platform-version platform", null},
-                {"-c component -a action --name name -v version --platform-version platform", null},
-                {"-c component -a action --name name --version version -p platform", null},
+                {"-c component -n name -v version -p platform", null},
+                {"-c component --name name --version version --platform-version platform", null},
+                {"-c component -n name --version version --platform-version platform", null},
+                {"-c component --name name -v version --platform-version platform", null},
+                {"-c component --name name --version version -p platform", null},
         };
 
         assertOptions(valid_cases);
@@ -35,14 +35,14 @@ public class ComponentTest {
     @Test
     public void main_withOptionalArgs_dontThrowException() {
         String[][] cases = new String[][]{
-                {"-c component -a action -n name -v version -p platform -s socket", null},
-                {"-c component -a action -n name -v version -p platform -D", null},
-                {"-c component -a action -n name -v version -p platform -V var", null},
-                {"-c component -a action -n name -v version -p platform --socket socket", null},
-                {"-c component -a action -n name -v version -p platform --debug", null},
-                {"-c component -a action -n name -v version -p platform --var var", null},
-                {"-c component -a action -n name -v version -p platform -s socket --debug -V var", null},
-                {"-c component -a action -n name -v version -p platform -s socket --debug -V var1 -V var2 --var var3", null},
+                {"-c component -n name -v version -p platform -s socket", null},
+                {"-c component -n name -v version -p platform -D", null},
+                {"-c component -n name -v version -p platform -V var", null},
+                {"-c component -n name -v version -p platform --socket socket", null},
+                {"-c component -n name -v version -p platform --debug", null},
+                {"-c component -n name -v version -p platform --var var", null},
+                {"-c component -n name -v version -p platform -s socket --debug -V var", null},
+                {"-c component -n name -v version -p platform -s socket --debug -V var1 -V var2 --var var3", null},
         };
 
         assertOptions(cases);
@@ -51,11 +51,11 @@ public class ComponentTest {
     @Test
     public void main_withoutRequiredArgs_throwException() {
         String[][] cases = new String[][]{
-                {"-c component -a action -n name -v version", "-p or --platform-version " + IS_REQUIRED},
-                {"-c component -a action -n name -p platform", "-v or --version " + IS_REQUIRED},
-                {"-c component -a action -v version -p platform", "-n or --name " + IS_REQUIRED},
-                {"-c component -a action -v version -p platform -l invalid option", "-l " + IS_NOT_VALID},
-                {"-c component -a action -V var -s socket -D", "-n or --name " + IS_REQUIRED}
+                {"-c component -n name -v version", "-p or --platform-version " + IS_REQUIRED},
+                {"-c component -n name -p platform", "-v or --version " + IS_REQUIRED},
+                {"-c component -v version -p platform", "-n or --name " + IS_REQUIRED},
+                {"-c component -v version -p platform -l invalid option", "-l " + IS_NOT_VALID},
+                {"-c component -V var -s socket -D", "-n or --name " + IS_REQUIRED}
         };
 
         assertOptions(cases);
@@ -65,10 +65,10 @@ public class ComponentTest {
     public void main_withInvalidArgs_throwException() {
         String[][] cases = new String[][]{
                 {"--name name -i invalid_option --version version -p platform", "-i " + IS_NOT_VALID},
-                {"-c component -a action -n name --name name --version version -p platform", "-n or --name " + HAS_MORE_THAN_ONE_VALUE},
+                {"-c component -n name --name name --version version -p platform", "-n or --name " + HAS_MORE_THAN_ONE_VALUE},
                 {"--name name --version version -p platform version", "version " + IS_NOT_VALID},
-                {"-c component -a action -n name -v version -p platform -s socket --socket socket2 --debug -V var", "-s or --socket " + HAS_MORE_THAN_ONE_VALUE},
-                {"-c component -a action -n name -v version -p platform -s socket --debug -D -V var", "-D or --debug " + HAS_MORE_THAN_ONE_VALUE},
+                {"-c component -n name -v version -p platform -s socket --socket socket2 --debug -V var", "-s or --socket " + HAS_MORE_THAN_ONE_VALUE},
+                {"-c component -n name -v version -p platform -s socket --debug -D -V var", "-D or --debug " + HAS_MORE_THAN_ONE_VALUE},
         };
 
         assertOptions(cases);
@@ -88,7 +88,7 @@ public class ComponentTest {
 
     @Test
     public void main_withValidArguments_setClassMembers() {
-        String args = "-c component -a action -n name -v version -p platform -s socket --debug -V var1 -V var2 --var var3";
+        String args = "-c component -n name -v version -p platform -s socket --debug -V var1 -V var2 --var var3";
         Component component = new Service(args.split(" "));
 
         Assert.assertEquals("component", component.getComponent());

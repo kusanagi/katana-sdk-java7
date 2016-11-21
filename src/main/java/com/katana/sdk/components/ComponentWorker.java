@@ -46,13 +46,11 @@ public class ComponentWorker extends Thread {
                 part1 = socketObj.recvStr();
                 Logger.log("Part 1 received: " + part1);
             } else if (part == 2 && socketObj.hasReceiveMore()){
-//                String requestString = socketObj.recvStr(0);
-//                Logger.log(requestString);
                 part2 = socketObj.recv();
-                Logger.log("Part 2 received: " + Arrays.toString(part2));
+                Logger.log("Part 2 received: " + new String(part2));
             } else {
                 part3 = socketObj.recv();
-                Logger.log("Part 3 received: " + Arrays.toString(part3));
+                Logger.log("Part 3 received: " + new String(part3));
             }
             if (!socketObj.hasReceiveMore()) {
                 part = 0;

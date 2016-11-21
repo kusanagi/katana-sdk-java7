@@ -40,7 +40,6 @@ public class ResponseMiddleware extends Component<Response, ResponseReplyPayload
 
     @Override
     protected Callable<Response> getCallable(String componentType) {
-        Logger.log("Getting response middleware callable");
         return callable;
     }
 
@@ -50,11 +49,6 @@ public class ResponseMiddleware extends Component<Response, ResponseReplyPayload
         ResponseReplyPayload.ResponseCommandReply responseCommandReply = new ResponseReplyPayload.ResponseCommandReply();
         ResponseReplyPayload.ResponseResult responseResult = new ResponseReplyPayload.ResponseResult();
         responseResult.setHttpResponse((HttpResponse) getReply(componentType, response));
-        Error error = new Error();
-        error.setCode(response.getHttpResponse().getStatusCode());
-        error.setMessage(response.getHttpResponse().getStatusText());
-        error.setStatus(response.getHttpResponse().getStatus());
-//        responseResult.setError(error);
         responseCommandReply.setName(getName());
         responseCommandReply.setResult(responseResult);
         commandReplyPayload.setCommandReply(responseCommandReply);

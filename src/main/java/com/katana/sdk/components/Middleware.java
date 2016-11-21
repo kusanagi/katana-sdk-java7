@@ -1,6 +1,5 @@
 package com.katana.sdk.components;
 
-import com.katana.api.common.Error;
 import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
 import com.katana.api.commands.common.CommandPayload;
@@ -9,7 +8,6 @@ import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.api.replies.ResponseReplyPayload;
 import com.katana.sdk.common.Callable;
-import com.katana.sdk.common.Logger;
 
 /**
  * Created by juan on 27/08/16.
@@ -18,7 +16,6 @@ public class Middleware extends Component {
 
     private Callable<Request> requestCallable;
     private Callable<Response> responseCallable;
-    private boolean isRunning;
 
     public Middleware(String[] args) {
         super(args);
@@ -34,7 +31,6 @@ public class Middleware extends Component {
      * @return Return the instance of the middleware
      */
     public Middleware request(Callable<Request> callable) {
-        Logger.log("Registering request middleware");
         this.requestCallable = callable;
         return this;
     }
@@ -49,7 +45,6 @@ public class Middleware extends Component {
      * @return Return the instance of the middleware
      */
     public Middleware response(Callable<Response> callable) {
-        Logger.log("Registering response middleware");
         this.responseCallable = callable;
         return this;
     }
@@ -75,11 +70,6 @@ public class Middleware extends Component {
             ResponseReplyPayload.ResponseCommandReply responseCommandReply = new ResponseReplyPayload.ResponseCommandReply();
             ResponseReplyPayload.ResponseResult responseResult = new ResponseReplyPayload.ResponseResult();
             responseResult.setHttpResponse((HttpResponse) getReply(componentType, response));
-            Error error = new Error();
-            error.setCode(((Response)response).getHttpResponse().getStatusCode());
-            error.setMessage(((Response)response).getHttpResponse().getStatusText());
-            error.setStatus(((Response)response).getHttpResponse().getStatus());
-//            responseResult.setError(error);
             responseCommandReply.setName(getName());
             responseCommandReply.setResult(responseResult);
             commandReplyPayload.setCommandReply(responseCommandReply);
@@ -89,19 +79,11 @@ public class Middleware extends Component {
 
     @Override
     protected CommandReplyResult getReply(String componentType, Api response) {
-        if (componentType.equals("request")) {
-            return ((Request) response).getRequestCall();
-        } else {
-            return ((Response) response).getHttpResponse();
-        }
+        return componentType.equals("request") ? ((Request) response).getRequestCall() : ((Response) response).getHttpResponse();
     }
 
     @Override
     protected Callable getCallable(String componentType) {
-        if (componentType.equals("request")) {
-            return requestCallable;
-        } else {
-            return responseCallable;
-        }
+        return componentType.equals("request") ? requestCallable : responseCallable;
     }
 }

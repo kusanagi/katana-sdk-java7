@@ -331,9 +331,17 @@ public class ActionTest {
         File file = new File();
         String fileName = "File name";
         file.setName(fileName);
-        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = new HashMap<>();
+        Map<String, Map<String, Map<String, File>>> versionFiles = new HashMap<>();
+        Map<String, Map<String, File>> actionFiles = new HashMap<>();
+        Map<String, File> nameFiles = new HashMap<>();
 
-        Mockito.when(transport.getFiles()).thenReturn(files);
+        nameFiles.put(fileName, file);
+        actionFiles.put("action", nameFiles);
+        versionFiles.put("version", actionFiles);
+        serviceFiles.put("service", versionFiles);
+
+        Mockito.when(transport.getFiles()).thenReturn(serviceFiles);
 
         this.action.setTransport(transport);
 
@@ -365,9 +373,18 @@ public class ActionTest {
         File file = new File();
         String fileName = "File name";
         file.setName(fileName);
-        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
 
-        Mockito.when(transport.getFiles()).thenReturn(files);
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = new HashMap<>();
+        Map<String, Map<String, Map<String, File>>> versionFiles = new HashMap<>();
+        Map<String, Map<String, File>> actionFiles = new HashMap<>();
+        Map<String, File> nameFiles = new HashMap<>();
+
+        nameFiles.put(fileName, file);
+        actionFiles.put("action", nameFiles);
+        versionFiles.put("version", actionFiles);
+        serviceFiles.put("service", versionFiles);
+
+        Mockito.when(transport.getFiles()).thenReturn(serviceFiles);
 
         this.action.setTransport(transport);
 
@@ -403,10 +420,22 @@ public class ActionTest {
         //SETUP
         Transport transport = Mockito.mock(Transport.class);
 
-        File file = new File();
-        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
+        File file1 = new File();
+        File file2 = new File();
+        File file3 = new File();
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = new HashMap<>();
+        Map<String, Map<String, Map<String, File>>> versionFiles = new HashMap<>();
+        Map<String, Map<String, File>> actionFiles = new HashMap<>();
+        Map<String, File> nameFiles = new HashMap<>();
 
-        Mockito.when(transport.getFiles()).thenReturn(files);
+        nameFiles.put("name1", file1);
+        nameFiles.put("name2", file2);
+        nameFiles.put("name3", file3);
+        actionFiles.put("action", nameFiles);
+        versionFiles.put("version", actionFiles);
+        serviceFiles.put("service", versionFiles);
+
+        Mockito.when(transport.getFiles()).thenReturn(serviceFiles);
 
         this.action.setTransport(transport);
 
@@ -414,7 +443,10 @@ public class ActionTest {
         List<File> filesObtained = this.action.getFiles();
 
         // EXPECTED
-        Assert.assertEquals(files, filesObtained);
+        Assert.assertEquals(3, filesObtained.size());
+        Assert.assertEquals(file1, filesObtained.get(0));
+        Assert.assertEquals(file2, filesObtained.get(1));
+        Assert.assertEquals(file3, filesObtained.get(2));
     }
 
     @Test
@@ -530,16 +562,22 @@ public class ActionTest {
         int code = 500;
         String status = "500 message";
 
+        String service = "service";
+        String version = "version";
+
         Transport transport = Mockito.mock(Transport.class);
         List<Error> errors = new ArrayList<>();
-        Map<String, List<Error>> versionErrors = new HashMap<>();
+
         Map<String, Map<String, List<Error>>> serviceErrors = new HashMap<>();
-        serviceErrors.put("service", versionErrors);
-        versionErrors.put("version", errors);
+        Map<String, List<Error>> versionErrors = new HashMap<>();
+        serviceErrors.put(service, versionErrors);
+        versionErrors.put(version, errors);
 
         Mockito.when(transport.getErrors()).thenReturn(serviceErrors);
 
         this.action.setTransport(transport);
+        this.action.setName(service);
+        this.action.setVersion(version);
 
         // ACTION
         this.action.error(message, code, status);

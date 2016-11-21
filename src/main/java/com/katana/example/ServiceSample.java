@@ -34,12 +34,7 @@ public class ServiceSample {
                 @Override
                 public Action run(Action action) {
                     // logic ...
-                    List<Record> records = new ArrayList<>();
-                    records.add(new Record(1, "James"));
-                    records.add(new Record(2, "Jeronimo"));
-                    records.add(new Record(3, "Fernando"));
-                    records.add(new Record(4, "Ricardo"));
-                    records.add(new Record(5, "Hugo"));
+                    List<Record> records = getData();
 
                     int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
                     String name = action.getParam("q", "name").get("v");
@@ -67,17 +62,22 @@ public class ServiceSample {
             };
     }
 
+    private static List<Record> getData() {
+        List<Record> records = new ArrayList<>();
+        records.add(new Record(1, "James"));
+        records.add(new Record(2, "Jeronimo"));
+        records.add(new Record(3, "Fernando"));
+        records.add(new Record(4, "Ricardo"));
+        records.add(new Record(5, "Hugo"));
+        return records;
+    }
+
     private static Callable<Action> getUpdateCallable() {
         return new Callable<Action>() {
                 @Override
                 public Action run(Action action) {
                     // logic ...
-                    List<Record> records = new ArrayList<>();
-                    records.add(new Record(1, "James"));
-                    records.add(new Record(2, "Jeronimo"));
-                    records.add(new Record(3, "Fernando"));
-                    records.add(new Record(4, "Ricardo"));
-                    records.add(new Record(5, "Hugo"));
+                    List<Record> records = getData();
 
                     int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
                     String name = action.getParam("q", "name").get("v");
@@ -113,12 +113,7 @@ public class ServiceSample {
                 @Override
                 public Action run(Action action) {
                     // logic ...
-                    List<Record> records = new ArrayList<>();
-                    records.add(new Record(1, "James"));
-                    records.add(new Record(2, "Jeronimo"));
-                    records.add(new Record(3, "Fernando"));
-                    records.add(new Record(4, "Ricardo"));
-                    records.add(new Record(5, "Hugo"));
+                    List<Record> records = getData();
 
                     int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
 
@@ -144,12 +139,7 @@ public class ServiceSample {
                 @Override
                 public Action run(Action action) {
                     // logic ...
-                    List<Record> records = new ArrayList<>();
-                    records.add(new Record(1, "James"));
-                    records.add(new Record(2, "Jeronimo"));
-                    records.add(new Record(3, "Fernando"));
-                    records.add(new Record(4, "Ricardo"));
-                    records.add(new Record(5, "Hugo"));
+                    List<Record> records = getData();
 
                     action.setCollection(records);
                     action.setLink("self", "/v1/users");
@@ -181,12 +171,7 @@ public class ServiceSample {
                 @Override
                 public Action run(Action action) {
                     // logic ...
-                    List<Record> records = new ArrayList<>();
-                    records.add(new Record(1, "James"));
-                    records.add(new Record(2, "Jeronimo"));
-                    records.add(new Record(3, "Fernando"));
-                    records.add(new Record(4, "Ricardo"));
-                    records.add(new Record(5, "Hugo"));
+                    List<Record> records = getData();
 
                     int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
 

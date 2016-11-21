@@ -40,7 +40,6 @@ public class RequestMiddleware extends Component<Request, CallReplyPayload> {
 
     @Override
     protected Callable<Request> getCallable(String componentType) {
-        Logger.log("Getting request middleware callable");
         return callable;
     }
 
