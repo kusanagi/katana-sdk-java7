@@ -3,6 +3,8 @@ package com.katana.api.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
  * Created by juan on 12/11/16.
@@ -89,5 +91,16 @@ public class MetaTest {
 
         // EXPECTED
         Assert.assertEquals(datetime, this.meta.getDatetime());
+    }
+
+    @Test
+    public void equals() {
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        Meta mockMeta1 = podamFactory.manufacturePojoWithFullData(Meta.class);
+        Meta mockMeta2 = podamFactory.manufacturePojoWithFullData(Meta.class);
+        Meta mockMeta3 = new Meta(mockMeta1);
+        Assert.assertNotEquals(mockMeta1, mockMeta2);
+        Assert.assertNotEquals(mockMeta1, new Object());
+        Assert.assertEquals(mockMeta1, mockMeta3);
     }
 }

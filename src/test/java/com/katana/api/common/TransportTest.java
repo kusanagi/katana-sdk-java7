@@ -3,9 +3,9 @@ package com.katana.api.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
-import javax.management.relation.Relation;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -315,5 +315,16 @@ public class TransportTest {
     @Test
     public void addData() {
         Assert.assertTrue(true);
+    }
+
+    @Test
+    public void equals() {
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        Transport mockTransport1 = podamFactory.manufacturePojoWithFullData(Transport.class);
+        Transport mockTransport2 = podamFactory.manufacturePojoWithFullData(Transport.class);
+        Transport mockTransport3 = new Transport(mockTransport1);
+        Assert.assertNotEquals(mockTransport1, mockTransport2);
+        Assert.assertNotEquals(mockTransport1, new Object());
+        Assert.assertEquals(mockTransport1, mockTransport3);
     }
 }

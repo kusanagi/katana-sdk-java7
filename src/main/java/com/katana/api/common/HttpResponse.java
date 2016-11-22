@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class HttpResponse implements CommandReplyResult {
     @JsonProperty("v")
-    private String version;
+    private String protocolVersion;
 
     @JsonProperty("s")
     private String status;
@@ -30,20 +30,20 @@ public class HttpResponse implements CommandReplyResult {
     }
 
     /**
-     * @return Return the value set for the HTTP version of the response.
+     * @return Return the value set for the HTTP protocolVersion of the response.
      */
     @JsonIgnore
     public String getProtocolVersion() {
-        return version;
+        return protocolVersion;
     }
 
     /**
-     * Set the value specified by the REQUIRED version argument as the HTTP version of the response.
+     * Set the value specified by the REQUIRED protocolVersion argument as the HTTP protocolVersion of the response.
      *
-     * @param version Protocol version to set
+     * @param version Protocol protocolVersion to set
      */
     public void setProtocolVersion(String version) {
-        this.version = version;
+        this.protocolVersion = version;
     }
 
     /**
@@ -109,13 +109,13 @@ public class HttpResponse implements CommandReplyResult {
     // SDK Methods
 
     /**
-     * Determine if the HTTP version set for the response is equal to that specified by the REQUIRED version argument.
+     * Determine if the HTTP protocolVersion set for the response is equal to that specified by the REQUIRED protocolVersion argument.
      *
      * @param version Version of the protocol
-     * @return Return true if the response has the version specified in the parameter
+     * @return Return true if the response has the protocolVersion specified in the parameter
      */
     public boolean isProtocolVersion(String version) {
-        return this.version.equals(version);
+        return this.protocolVersion.equals(version);
     }
 
     /**
@@ -229,7 +229,7 @@ public class HttpResponse implements CommandReplyResult {
     @Override
     public String toString() {
         return "HttpResponse{" +
-                "version='" + version + '\'' +
+                "protocolVersion='" + protocolVersion + '\'' +
                 ", status='" + status + '\'' +
                 ", headers=" + headers +
                 ", body='" + body + '\'' +
@@ -237,7 +237,7 @@ public class HttpResponse implements CommandReplyResult {
     }
 
     public HttpResponse(HttpResponse other) {
-        this.version = other.version;
+        this.protocolVersion = other.protocolVersion;
         this.status = other.status;
         this.headers = other.headers;
         this.body = other.body;

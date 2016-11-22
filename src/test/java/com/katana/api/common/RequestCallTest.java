@@ -3,6 +3,8 @@ package com.katana.api.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
  * Created by juan on 12/11/16.
@@ -91,4 +93,15 @@ public class RequestCallTest {
         Assert.assertEquals(action, this.requestCall.getAction());
     }
 
+
+    @Test
+    public void equals() {
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        RequestCall mockRequestCall1 = podamFactory.manufacturePojoWithFullData(RequestCall.class);
+        RequestCall mockRequestCall2 = podamFactory.manufacturePojoWithFullData(RequestCall.class);
+        RequestCall mockRequestCall3 = new RequestCall(mockRequestCall1);
+        Assert.assertNotEquals(mockRequestCall1, mockRequestCall2);
+        Assert.assertNotEquals(mockRequestCall1, new Object());
+        Assert.assertEquals(mockRequestCall1, mockRequestCall3);
+    }
 }

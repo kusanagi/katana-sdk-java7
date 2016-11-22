@@ -590,14 +590,15 @@ public class ActionTest {
         Assert.assertEquals(status, errors.get(0).getStatus());
     }
 
-    @Test
-    public void equals(){
-        PodamFactory podamFactory = new PodamFactoryImpl();
-        Action action1 = podamFactory.manufacturePojoWithFullData(Action.class);
-        Action action2 = podamFactory.manufacturePojoWithFullData(Action.class);
-        Action action3 = new Action(action1);
-        Assert.assertNotEquals(action1, action2);
-        Assert.assertEquals(action1, action3);
-    }
 
+    @Test
+    public void equals() {
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        Action mockAction1 = podamFactory.manufacturePojoWithFullData(Action.class);
+        Action mockAction2 = podamFactory.manufacturePojoWithFullData(Action.class);
+        Action mockAction3 = new Action(mockAction1);
+        Assert.assertNotEquals(mockAction1, mockAction2);
+        Assert.assertNotEquals(mockAction1, new Object());
+        Assert.assertEquals(mockAction1, mockAction3);
+    }
 }

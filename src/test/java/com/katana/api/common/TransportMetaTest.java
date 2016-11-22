@@ -3,6 +3,8 @@ package com.katana.api.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,5 +94,16 @@ public class TransportMetaTest {
 
         // EXPECTED
         Assert.assertEquals(properties, this.transportMeta.getProperties());
+    }
+
+    @Test
+    public void equals() {
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        TransportMeta mockTransportMeta1 = podamFactory.manufacturePojoWithFullData(TransportMeta.class);
+        TransportMeta mockTransportMeta2 = podamFactory.manufacturePojoWithFullData(TransportMeta.class);
+        TransportMeta mockTransportMeta3 = new TransportMeta(mockTransportMeta1);
+        Assert.assertNotEquals(mockTransportMeta1, mockTransportMeta2);
+        Assert.assertNotEquals(mockTransportMeta1, new Object());
+        Assert.assertEquals(mockTransportMeta1, mockTransportMeta3);
     }
 }

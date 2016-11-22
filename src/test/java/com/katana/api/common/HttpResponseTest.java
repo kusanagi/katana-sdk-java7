@@ -3,6 +3,8 @@ package com.katana.api.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -160,4 +162,15 @@ public class HttpResponseTest {
         Assert.assertTrue(true);
     }
 
+
+    @Test
+    public void equals() {
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        HttpResponse mockHttpResponse1 = podamFactory.manufacturePojoWithFullData(HttpResponse.class);
+        HttpResponse mockHttpResponse2 = podamFactory.manufacturePojoWithFullData(HttpResponse.class);
+        HttpResponse mockHttpResponse3 = new HttpResponse(mockHttpResponse1);
+        Assert.assertNotEquals(mockHttpResponse1, mockHttpResponse2);
+        Assert.assertNotEquals(mockHttpResponse1, new Object());
+        Assert.assertEquals(mockHttpResponse1, mockHttpResponse3);
+    }
 }
