@@ -603,4 +603,10 @@ public class Action extends Api {
                 ", transport=" + transport +
                 "} " + super.toString();
     }
+
+    public Action(Action other) {
+        this.params = other.params;
+        this.transport = other.transport;
+        this.actionName = other.actionName;
+    }
 }

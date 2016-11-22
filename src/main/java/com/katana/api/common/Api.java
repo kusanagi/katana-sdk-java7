@@ -247,4 +247,13 @@ public class Api {
                 ", isDebug=" + isDebug +
                 '}';
     }
+
+    public Api(Api other) {
+        this.path = other.path;
+        this.name = other.name;
+        this.version = other.version;
+        this.platformVersion = other.platformVersion;
+        this.variables = other.variables;
+        this.isDebug = other.isDebug;
+    }
 }

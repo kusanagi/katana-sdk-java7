@@ -17,6 +17,9 @@ public class Meta {
     @JsonProperty("d")
     private String datetime;
 
+    public Meta() {
+    }
+
     /**
      * @return
      */
@@ -95,5 +98,11 @@ public class Meta {
                 ", id='" + id + '\'' +
                 ", datetime='" + datetime + '\'' +
                 '}';
+    }
+
+    public Meta(Meta other) {
+        this.version = other.version;
+        this.id = other.id;
+        this.datetime = other.datetime;
     }
 }

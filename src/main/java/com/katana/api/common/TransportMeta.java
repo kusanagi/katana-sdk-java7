@@ -22,6 +22,9 @@ public class TransportMeta extends Meta {
     @JsonProperty("p")
     private Map<String, String> properties;
 
+    public TransportMeta() {
+    }
+
     /**
      * @return
      */
@@ -105,5 +108,12 @@ public class TransportMeta extends Meta {
                 ", level=" + level +
                 ", properties=" + properties +
                 "} " + super.toString();
+    }
+
+    public TransportMeta(TransportMeta other) {
+        super(other);
+        this.origin = other.origin;
+        this.level = other.level;
+        this.properties = other.properties;
     }
 }

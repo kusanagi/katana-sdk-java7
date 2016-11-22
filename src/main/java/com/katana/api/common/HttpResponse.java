@@ -26,6 +26,9 @@ public class HttpResponse implements CommandReplyResult {
     @JsonProperty("b")
     private String body;
 
+    public HttpResponse() {
+    }
+
     /**
      * @return Return the value set for the HTTP version of the response.
      */
@@ -231,5 +234,12 @@ public class HttpResponse implements CommandReplyResult {
                 ", headers=" + headers +
                 ", body='" + body + '\'' +
                 '}';
+    }
+
+    public HttpResponse(HttpResponse other) {
+        this.version = other.version;
+        this.status = other.status;
+        this.headers = other.headers;
+        this.body = other.body;
     }
 }

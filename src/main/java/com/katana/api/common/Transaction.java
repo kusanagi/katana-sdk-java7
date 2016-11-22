@@ -16,6 +16,9 @@ public class Transaction {
     @JsonProperty("p")
     private List<Param> params;
 
+    public Transaction() {
+    }
+
     public String getAction() {
         return action;
     }
@@ -63,5 +66,10 @@ public class Transaction {
                 "action='" + action + '\'' +
                 ", params=" + params +
                 '}';
+    }
+
+    public Transaction(Transaction other) {
+        this.action = other.action;
+        this.params = other.params;
     }
 }

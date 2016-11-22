@@ -95,4 +95,11 @@ public class Call {
                 ", params=" + params +
                 '}';
     }
+
+    public Call(Call other) {
+        this.name = other.name;
+        this.version = other.version;
+        this.action = other.action;
+        this.params = other.params;
+    }
 }

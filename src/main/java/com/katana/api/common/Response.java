@@ -139,4 +139,12 @@ public class Response extends Api {
                 ", transport=" + transport +
                 "} " + super.toString();
     }
+
+    public Response(Response other) {
+        super(other);
+        this.type = other.type;
+        this.meta = other.meta;
+        this.httpResponse = other.httpResponse;
+        this.transport = other.transport;
+    }
 }

@@ -215,4 +215,12 @@ public class Request extends Api {
                 ", requestCall=" + requestCall +
                 "} " + super.toString();
     }
+
+    public Request(Request other) {
+        super(other);
+        this.type = other.type;
+        this.meta = other.meta;
+        this.httpRequest = other.httpRequest;
+        this.requestCall = other.requestCall;
+    }
 }

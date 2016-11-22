@@ -26,6 +26,9 @@ public class File {
     @JsonProperty("m")
     private String mime;
 
+    public File() {
+    }
+
     @JsonIgnore
     public String getName() {
         return name;
@@ -159,5 +162,14 @@ public class File {
                 ", size='" + size + '\'' +
                 ", mime='" + mime + '\'' +
                 '}';
+    }
+
+    public File(File other) {
+        this.name = other.name;
+        this.path = other.path;
+        this.token = other.token;
+        this.filename = other.filename;
+        this.size = other.size;
+        this.mime = other.mime;
     }
 }

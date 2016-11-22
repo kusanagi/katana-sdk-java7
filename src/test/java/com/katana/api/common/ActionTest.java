@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -586,6 +588,16 @@ public class ActionTest {
         Assert.assertEquals(message, errors.get(0).getMessage());
         Assert.assertEquals(code, errors.get(0).getCode());
         Assert.assertEquals(status, errors.get(0).getStatus());
+    }
+
+    @Test
+    public void equals(){
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        Action action1 = podamFactory.manufacturePojoWithFullData(Action.class);
+        Action action2 = podamFactory.manufacturePojoWithFullData(Action.class);
+        Action action3 = new Action(action1);
+        Assert.assertNotEquals(action1, action2);
+        Assert.assertEquals(action1, action3);
     }
 
 }

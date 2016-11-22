@@ -17,6 +17,9 @@ public class RequestCall implements CommandReplyResult {
     @JsonProperty("a")
     private String action;
 
+    public RequestCall() {
+    }
+
     /**
      * @return
      */
@@ -95,5 +98,11 @@ public class RequestCall implements CommandReplyResult {
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +
                 '}';
+    }
+
+    public RequestCall(RequestCall other) {
+        this.service = other.service;
+        this.version = other.version;
+        this.action = other.action;
     }
 }

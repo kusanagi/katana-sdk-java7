@@ -19,6 +19,9 @@ public class Param {
     @JsonProperty("t")
     private String type;
 
+    public Param() {
+    }
+
     public String getLocation() {
         return location;
     }
@@ -129,5 +132,12 @@ public class Param {
                 ", value='" + value + '\'' +
                 ", type='" + type + '\'' +
                 '}';
+    }
+
+    public Param(Param other) {
+        this.location = other.location;
+        this.name = other.name;
+        this.value = other.value;
+        this.type = other.type;
     }
 }

@@ -513,4 +513,16 @@ public class Transport implements CommandReplyResult {
                 ", errors=" + errors +
                 '}';
     }
+
+    public Transport(Transport other) {
+        this.meta = other.meta;
+        this.body = other.body;
+        this.files = other.files;
+        this.data = other.data;
+        this.relations = other.relations;
+        this.links = other.links;
+        this.calls = other.calls;
+        this.transactions = other.transactions;
+        this.errors = other.errors;
+    }
 }

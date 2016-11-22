@@ -36,6 +36,9 @@ public class HttpRequest {
     @JsonProperty("f")
     private List<File> files;
 
+    public HttpRequest() {
+    }
+
     /**
      * @return Return the value of the HTTP protocol protocolVersion specified by the request.
      */
@@ -468,5 +471,16 @@ public class HttpRequest {
                 ", body='" + body + '\'' +
                 ", files=" + files +
                 '}';
+    }
+
+    public HttpRequest(HttpRequest other) {
+        this.protocolVersion = other.protocolVersion;
+        this.method = other.method;
+        this.url = other.url;
+        this.query = other.query;
+        this.postData = other.postData;
+        this.headers = other.headers;
+        this.body = other.body;
+        this.files = other.files;
     }
 }

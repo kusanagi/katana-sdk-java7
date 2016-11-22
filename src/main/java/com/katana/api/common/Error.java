@@ -16,6 +16,9 @@ public class Error {
     @JsonProperty("s")
     private String status;
 
+    public Error() {
+    }
+
     /**
      * @return
      */
@@ -94,5 +97,11 @@ public class Error {
                 ", code='" + code + '\'' +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    public Error(Error other) {
+        this.message = other.message;
+        this.code = other.code;
+        this.status = other.status;
     }
 }
