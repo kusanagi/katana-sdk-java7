@@ -19,42 +19,42 @@ public class RestMiddlewareSample {
 
     private static Callable<Request> getRequestCallable() {
         return new Callable<Request>() {
-                @Override
-                public Request run(Request request) {
-                    // logic ...
-                    // /{version}/{service}/{extra}
-                    String[] parts = request.getHttpRequest().getUrlPath().split("/");
-                    request.setServiceVersion(parts[1]);
-                    request.setServiceName(parts[2]);
-                    boolean hasExtraPath = parts.length == 4 && !parts[3].isEmpty();
+            @Override
+            public Request run(Request request) {
+                // logic ...
+                // /{version}/{service}/{extra}
+                String[] parts = request.getHttpRequest().getUrlPath().split("/");
+                request.setServiceVersion(parts[1]);
+                request.setServiceName(parts[2]);
+                boolean hasExtraPath = parts.length == 4 && !parts[3].isEmpty();
 
-                    String method = request.getHttpRequest().getMethod();
+                String method = request.getHttpRequest().getMethod();
 
-                    String actionName = null;
+                String actionName = null;
 
-                    switch (method) {
-                        case "GET":
-                            actionName = hasExtraPath ? "read" : "list";
-                            break;
-                        case "POST":
-                            actionName = "create";
-                            break;
-                        case "PUT":
-                            actionName = "replace";
-                            break;
-                        case "PATCH":
-                            actionName = "update";
-                            break;
-                        case "DELETE":
-                            actionName = "delete";
-                            break;
-                    }
-
-                    if (actionName != null) {
-                        request.setActionName(actionName);
-                    }
-                    return request;
+                switch (method) {
+                    case "GET":
+                        actionName = hasExtraPath ? "read" : "list";
+                        break;
+                    case "POST":
+                        actionName = "create";
+                        break;
+                    case "PUT":
+                        actionName = "replace";
+                        break;
+                    case "PATCH":
+                        actionName = "update";
+                        break;
+                    case "DELETE":
+                        actionName = "delete";
+                        break;
                 }
-            };
+
+                if (actionName != null) {
+                    request.setActionName(actionName);
+                }
+                return request;
+            }
+        };
     }
 }

@@ -31,35 +31,35 @@ public class ServiceSample {
 
     private static Callable<Action> getReplaceCallable() {
         return new Callable<Action>() {
-                @Override
-                public Action run(Action action) {
-                    // logic ...
-                    List<Record> records = getData();
+            @Override
+            public Action run(Action action) {
+                // logic ...
+                List<Record> records = getData();
 
-                    int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
-                    String name = action.getParam("q", "name").get("v");
+                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
+                String name = action.getParam("q", "name").get("v");
 
-                    Record entity = null;
-                    for (Record record : records) {
-                        if (record.getId() == userId) {
-                            entity = record;
-                            break;
-                        }
+                Record entity = null;
+                for (Record record : records) {
+                    if (record.getId() == userId) {
+                        entity = record;
+                        break;
                     }
-
-                    if (entity == null) {
-                        action.error("User does not exist", 1, "404 Not Found");
-                    } else {
-                        entity.setName(name);
-                        List<Record> responseList = new ArrayList<>();
-                        responseList.add(entity);
-                        action.setEntity(responseList);
-                        action.setLink("self", "/v1/users/" + userId);
-                    }
-
-                    return action;
                 }
-            };
+
+                if (entity == null) {
+                    action.error("User does not exist", 1, "404 Not Found");
+                } else {
+                    entity.setName(name);
+                    List<Record> responseList = new ArrayList<>();
+                    responseList.add(entity);
+                    action.setEntity(responseList);
+                    action.setLink("self", "/v1/users/" + userId);
+                }
+
+                return action;
+            }
+        };
     }
 
     private static List<Record> getData() {
@@ -74,126 +74,126 @@ public class ServiceSample {
 
     private static Callable<Action> getUpdateCallable() {
         return new Callable<Action>() {
-                @Override
-                public Action run(Action action) {
-                    // logic ...
-                    List<Record> records = getData();
+            @Override
+            public Action run(Action action) {
+                // logic ...
+                List<Record> records = getData();
 
-                    int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
-                    String name = action.getParam("q", "name").get("v");
+                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
+                String name = action.getParam("q", "name").get("v");
 
-                    Record entity = null;
-                    for (Record record : records) {
-                        if (record.getId() == userId) {
-                            entity = record;
-                            break;
-                        }
+                Record entity = null;
+                for (Record record : records) {
+                    if (record.getId() == userId) {
+                        entity = record;
+                        break;
                     }
-
-                    if (entity == null) {
-                        action.error("User does not exist", 1, "404 Not Found");
-                    } else {
-                        if (!name.isEmpty()) {
-                            entity.setName(name);
-                        }
-                    }
-
-                    List<Record> responseList = new ArrayList<>();
-                    responseList.add(entity);
-                    action.setEntity(responseList);
-                    action.setLink("self", "/v1/users/" + userId);
-
-                    return action;
                 }
-            };
+
+                if (entity == null) {
+                    action.error("User does not exist", 1, "404 Not Found");
+                } else {
+                    if (!name.isEmpty()) {
+                        entity.setName(name);
+                    }
+                }
+
+                List<Record> responseList = new ArrayList<>();
+                responseList.add(entity);
+                action.setEntity(responseList);
+                action.setLink("self", "/v1/users/" + userId);
+
+                return action;
+            }
+        };
     }
 
     private static Callable<Action> getDeleteCallable() {
         return new Callable<Action>() {
-                @Override
-                public Action run(Action action) {
-                    // logic ...
-                    List<Record> records = getData();
+            @Override
+            public Action run(Action action) {
+                // logic ...
+                List<Record> records = getData();
 
-                    int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
+                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
 
-                    Record entity = null;
-                    for (Record record : records) {
-                        if (record.getId() == userId) {
-                            entity = record;
-                            break;
-                        }
+                Record entity = null;
+                for (Record record : records) {
+                    if (record.getId() == userId) {
+                        entity = record;
+                        break;
                     }
-
-                    if (entity == null) {
-                        action.error("User does not exist", 1, "404 Not Found");
-                    }
-
-                    return action;
                 }
-            };
+
+                if (entity == null) {
+                    action.error("User does not exist", 1, "404 Not Found");
+                }
+
+                return action;
+            }
+        };
     }
 
     private static Callable<Action> getListCallable() {
         return new Callable<Action>() {
-                @Override
-                public Action run(Action action) {
-                    // logic ...
-                    List<Record> records = getData();
+            @Override
+            public Action run(Action action) {
+                // logic ...
+                List<Record> records = getData();
 
-                    action.setCollection(records);
-                    action.setLink("self", "/v1/users");
+                action.setCollection(records);
+                action.setLink("self", "/v1/users");
 
-                    return action;
-                }
-            };
+                return action;
+            }
+        };
     }
 
     private static Callable<Action> getCreateCallable() {
         return new Callable<Action>() {
-                @Override
-                public Action run(Action action) {
-                    String name = action.getParam("q", "name").get("v");
-                    Record entity = new Record(6, name);
+            @Override
+            public Action run(Action action) {
+                String name = action.getParam("q", "name").get("v");
+                Record entity = new Record(6, name);
 
-                    List<Record> responseList = new ArrayList<>();
-                    responseList.add(entity);
-                    action.setEntity(responseList);
-                    action.setLink("self", "/v1/users/" + entity.getId());
+                List<Record> responseList = new ArrayList<>();
+                responseList.add(entity);
+                action.setEntity(responseList);
+                action.setLink("self", "/v1/users/" + entity.getId());
 
-                    return action;
-                }
-            };
+                return action;
+            }
+        };
     }
 
     private static Callable<Action> getReadCallable() {
         return new Callable<Action>() {
-                @Override
-                public Action run(Action action) {
-                    // logic ...
-                    List<Record> records = getData();
+            @Override
+            public Action run(Action action) {
+                // logic ...
+                List<Record> records = getData();
 
-                    int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
+                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
 
-                    Record entity = null;
-                    for (Record record : records) {
-                        if (record.getId() == userId) {
-                            entity = record;
-                            break;
-                        }
+                Record entity = null;
+                for (Record record : records) {
+                    if (record.getId() == userId) {
+                        entity = record;
+                        break;
                     }
-
-                    if (entity == null) {
-                        action.error("User does not exist", 1, "404 Not Found");
-                    } else {
-                        List<Record> responseList = new ArrayList<>();
-                        responseList.add(entity);
-                        action.setEntity(responseList);
-                        action.setLink("self", "/v1/users/" + userId);
-                    }
-
-                    return action;
                 }
-            };
+
+                if (entity == null) {
+                    action.error("User does not exist", 1, "404 Not Found");
+                } else {
+                    List<Record> responseList = new ArrayList<>();
+                    responseList.add(entity);
+                    action.setEntity(responseList);
+                    action.setLink("self", "/v1/users/" + userId);
+                }
+
+                return action;
+            }
+        };
     }
 }

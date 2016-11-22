@@ -1,12 +1,11 @@
 package com.katana.sdk.components;
 
 import com.katana.api.commands.RequestCommandPayload;
-import com.katana.api.common.RequestCall;
 import com.katana.api.common.Request;
+import com.katana.api.common.RequestCall;
 import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.sdk.common.Callable;
-import com.katana.sdk.common.Logger;
 
 /**
  * Created by juan on 14/09/16.

@@ -77,17 +77,17 @@ public class File {
 
     //SDK Methods
 
-    public boolean exists(){
+    public boolean exists() {
         //TODO Review
         return path != null && !path.isEmpty();
     }
 
-    public String read(){
+    public String read() {
         //TODO implement this method
         return "";
     }
 
-    public File copyWithName(String name){
+    public File copyWithName(String name) {
         File file = new File();
         file.setName(name);
         file.setFilename(this.filename);
@@ -98,7 +98,7 @@ public class File {
         return file;
     }
 
-    public File copyWithMime(String mime){
+    public File copyWithMime(String mime) {
         File file = new File();
         file.setName(this.name);
         file.setFilename(this.filename);

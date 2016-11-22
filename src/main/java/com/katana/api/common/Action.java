@@ -3,7 +3,10 @@ package com.katana.api.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
@@ -299,11 +302,11 @@ public class Action extends Api {
         Map<String, Map<String, File>> actionFile = new HashMap<>();
         Map<String, File> nameFile = new HashMap<>();
 
-        if (serviceFile.containsKey(getName())){
+        if (serviceFile.containsKey(getName())) {
             versionFile = serviceFile.get(getName());
-            if (versionFile.containsKey(getVersion())){
+            if (versionFile.containsKey(getVersion())) {
                 actionFile = versionFile.get(getVersion());
-                if (actionFile.containsKey(getActionName())){
+                if (actionFile.containsKey(getActionName())) {
                     nameFile = actionFile.get(getActionName());
                 } else {
                     actionFile.put(getActionName(), nameFile);
@@ -550,9 +553,9 @@ public class Action extends Api {
         Map<String, List<Error>> versionError = new HashMap<>();
         List<Error> errors = new ArrayList<>();
 
-        if (serviceError.containsKey(getName())){
+        if (serviceError.containsKey(getName())) {
             versionError = serviceError.get(getName());
-            if (versionError.containsKey(getVersion())){
+            if (versionError.containsKey(getVersion())) {
                 errors = versionError.get(getVersion());
             } else {
                 versionError.put(getVersion(), errors);

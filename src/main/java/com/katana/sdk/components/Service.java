@@ -6,7 +6,6 @@ import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.sdk.common.Callable;
-import com.katana.sdk.common.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

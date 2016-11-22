@@ -200,7 +200,7 @@ public class Transport implements CommandReplyResult {
      * @return Return the error list
      */
     public Map<String, Map<String, List<Error>>> getErrors() {
-        if (this.errors == null){
+        if (this.errors == null) {
             this.errors = new HashMap<>();
         }
         return errors;
@@ -330,7 +330,7 @@ public class Transport implements CommandReplyResult {
      * @return Return all the links as an object, as they are stored in the Transport
      */
     public boolean addLink(String name, String link, String uri) {
-        if (this.links == null){
+        if (this.links == null) {
             this.links = new HashMap<>();
         }
         Map<String, String> linkDic = new HashMap<>();

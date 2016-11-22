@@ -27,29 +27,29 @@ public class JsonMiddlewareSample {
 
     private static Callable<Response> getResponseCallable() {
         return new Callable<Response>() {
-                @Override
-                public Response run(Response response) {
-    //                // logic ...
-                    response.getHttpResponse().setHeader("Content-Type", "application/json");
-                    Transport transport = response.getTransport();
-                    List<Error> errors = new ArrayList<>();
-                    if (response.getHttpResponse().getStatusCode() > 500) {
-                        Error error = new Error();
-                        error.setCode(response.getHttpResponse().getStatusCode());
-                        error.setMessage(response.getHttpResponse().getBody());
-                        errors.add(error);
-                        response.getHttpResponse().setBody(errors.toString());
-                    }else {
-                        ObjectMapper mapper = new ObjectMapper();
-                        try {
-                            response.getHttpResponse().setBody(transport.getData() == null ? "" : mapper.writeValueAsString(transport.getData()));
-                        } catch (JsonProcessingException e) {
-                            Logger.log(e);
-                        }
+            @Override
+            public Response run(Response response) {
+                //                // logic ...
+                response.getHttpResponse().setHeader("Content-Type", "application/json");
+                Transport transport = response.getTransport();
+                List<Error> errors = new ArrayList<>();
+                if (response.getHttpResponse().getStatusCode() > 500) {
+                    Error error = new Error();
+                    error.setCode(response.getHttpResponse().getStatusCode());
+                    error.setMessage(response.getHttpResponse().getBody());
+                    errors.add(error);
+                    response.getHttpResponse().setBody(errors.toString());
+                } else {
+                    ObjectMapper mapper = new ObjectMapper();
+                    try {
+                        response.getHttpResponse().setBody(transport.getData() == null ? "" : mapper.writeValueAsString(transport.getData()));
+                    } catch (JsonProcessingException e) {
+                        Logger.log(e);
                     }
-                    return response;
                 }
-            };
+                return response;
+            }
+        };
     }
 
 }

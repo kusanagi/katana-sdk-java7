@@ -284,8 +284,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     }
 
     /**
-     * @return
      * @param componentType
+     * @return
      */
     protected abstract Class<? extends CommandPayload<T>> getCommandPayloadClass(String componentType);
 
@@ -302,7 +302,6 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     }
 
     /**
-     *
      * @param componentType
      * @param response
      * @return

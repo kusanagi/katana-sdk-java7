@@ -52,7 +52,7 @@ public class Param {
     }
 
     // SDK Methods
-    public Param copyWithName(String name){
+    public Param copyWithName(String name) {
         Param param = new Param();
         param.setName(name);
         param.setLocation(this.location);
@@ -61,7 +61,7 @@ public class Param {
         return param;
     }
 
-    public Param copyWithLocation(String location){
+    public Param copyWithLocation(String location) {
         Param param = new Param();
         param.setName(this.name);
         param.setLocation(location);
@@ -70,7 +70,7 @@ public class Param {
         return param;
     }
 
-    public Param copyWithValue(String value){
+    public Param copyWithValue(String value) {
         Param param = new Param();
         param.setName(this.name);
         param.setLocation(this.location);
@@ -79,7 +79,7 @@ public class Param {
         return param;
     }
 
-    public Param copyWithType(String location){
+    public Param copyWithType(String location) {
         Param param = new Param();
         param.setName(this.name);
         param.setLocation(this.location);

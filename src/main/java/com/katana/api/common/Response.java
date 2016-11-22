@@ -1,7 +1,6 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.replies.CommandReplyResult;
 
 import java.util.Map;
 

@@ -1,11 +1,7 @@
 package com.katana.sdk.components;
 
-import com.katana.api.common.Api;
-import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Logger;
 import org.zeromq.ZMQ;
-
-import java.util.Arrays;
 
 
 /**
@@ -42,10 +38,10 @@ public class ComponentWorker extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             Logger.log("Component worker loop started! ");
             part++;
-            if (part == 1){
+            if (part == 1) {
                 part1 = socketObj.recvStr();
                 Logger.log("Part 1 received: " + part1);
-            } else if (part == 2 && socketObj.hasReceiveMore()){
+            } else if (part == 2 && socketObj.hasReceiveMore()) {
                 part2 = socketObj.recv();
                 Logger.log("Part 2 received: " + new String(part2));
             } else {

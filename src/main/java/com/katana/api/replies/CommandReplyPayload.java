@@ -39,7 +39,6 @@ public class CommandReplyPayload {
         CommandReplyPayload that = (CommandReplyPayload) o;
 
         return getCommandReply().equals(that.getCommandReply());
-
     }
 
     @Override

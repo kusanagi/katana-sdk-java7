@@ -260,7 +260,7 @@ public class HttpRequest {
         Map<String, String> queryParams = new HashMap<>();
 
         Iterator<String> iterator = this.query.keySet().iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             String key = iterator.next();
             queryParams.put(key, this.query.get(key).get(0));
         }
@@ -324,7 +324,7 @@ public class HttpRequest {
         Map<String, String> postParams = new HashMap<>();
 
         Iterator<String> iterator = this.postData.keySet().iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             String key = iterator.next();
             postParams.put(key, this.postData.get(key).get(0));
         }
