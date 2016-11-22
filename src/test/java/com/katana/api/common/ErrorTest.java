@@ -1,9 +1,10 @@
-package com.katana.api;
+package com.katana.api.common;
 
-import com.katana.api.common.Error;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
  * Created by juan on 12/11/16.
@@ -92,4 +93,15 @@ public class ErrorTest {
         Assert.assertEquals(status, this.error.getStatus());
     }
 
+
+    @Test
+    public void equals() {
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        Error mockError1 = podamFactory.manufacturePojoWithFullData(Error.class);
+        Error mockError2 = podamFactory.manufacturePojoWithFullData(Error.class);
+        Error mockError3 = new Error(mockError1);
+        Assert.assertNotEquals(mockError1, mockError2);
+        Assert.assertNotEquals(mockError1, new Object());
+        Assert.assertEquals(mockError1, mockError3);
+    }
 }

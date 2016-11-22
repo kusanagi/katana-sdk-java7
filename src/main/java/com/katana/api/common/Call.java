@@ -21,6 +21,9 @@ public class Call {
     @JsonProperty("p")
     private List<Param> params;
 
+    public Call() {
+    }
+
     public String getName() {
         return name;
     }
