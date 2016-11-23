@@ -166,8 +166,7 @@ public class ActionTest {
         String name = "name";
         Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
         Map<String, Map<String, String>> params = new HashMap<>();
-        Map<String, String> param = new HashMap<>();
-        params.put(name, param);
+        params.put(name, new HashMap<>());
         locations.put(location, params);
         this.action.setParams(locations);
 
@@ -181,8 +180,7 @@ public class ActionTest {
         String location = "location";
         String name = "name";
         Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        Map<String, Map<String, String>> params = new HashMap<>();
-        locations.put(location, params);
+        locations.put(location, new HashMap<>());
         this.action.setParams(locations);
 
         // ACTION EXPECTED
@@ -196,8 +194,7 @@ public class ActionTest {
         String name = "name";
         Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
         Map<String, Map<String, String>> params = new HashMap<>();
-        Map<String, String> param = new HashMap<>();
-        params.put(name, param);
+        params.put(name, new HashMap<>());
         locations.put(location, params);
         this.action.setParams(locations);
 

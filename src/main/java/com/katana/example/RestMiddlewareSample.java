@@ -10,10 +10,8 @@ import com.katana.sdk.components.Middleware;
 public class RestMiddlewareSample {
 
     public static void main(String[] args) {
-        Callable<Request> requestCallable = getRequestCallable();
-
         Middleware middleware = new Middleware(args);
-        middleware.request(requestCallable);
+        middleware.request(getRequestCallable());
         middleware.run();
     }
 

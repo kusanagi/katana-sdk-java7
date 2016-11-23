@@ -18,10 +18,8 @@ import java.util.List;
 public class JsonMiddlewareSample {
 
     public static void main(String[] args) {
-        Callable<Response> responseCallable = getResponseCallable();
-
         Middleware middleware = new Middleware(args);
-        middleware.response(responseCallable);
+        middleware.response(getResponseCallable());
         middleware.run();
     }
 

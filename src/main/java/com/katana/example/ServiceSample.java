@@ -11,21 +11,25 @@ import java.util.List;
  * Created by juan on 20/10/16.
  */
 public class ServiceSample {
-    public static void main(String[] args) {
-        Callable<Action> callable = getCreateCallable();
-        Callable<Action> listCallable = getListCallable();
-        Callable<Action> readCallable = getReadCallable();
-        Callable<Action> deleteCallable = getDeleteCallable();
-        Callable<Action> updateCallable = getUpdateCallable();
-        Callable<Action> replaceCallable = getReplaceCallable();
 
+    private static List<Record> getData() {
+        List<Record> records = new ArrayList<>();
+        records.add(new Record(1, "James"));
+        records.add(new Record(2, "Jeronimo"));
+        records.add(new Record(3, "Fernando"));
+        records.add(new Record(4, "Ricardo"));
+        records.add(new Record(5, "Hugo"));
+        return records;
+    }
+
+    public static void main(String[] args) {
         Service service = new Service(args);
-        service.action("create", callable);
-        service.action("read", readCallable);
-        service.action("list", listCallable);
-        service.action("delete", deleteCallable);
-        service.action("update", updateCallable);
-        service.action("replace", replaceCallable);
+        service.action("create", getCreateCallable());
+        service.action("read", getReadCallable());
+        service.action("list", getListCallable());
+        service.action("delete", getDeleteCallable());
+        service.action("update", getUpdateCallable());
+        service.action("replace", getReplaceCallable());
         service.run();
     }
 
@@ -60,16 +64,6 @@ public class ServiceSample {
                 return action;
             }
         };
-    }
-
-    private static List<Record> getData() {
-        List<Record> records = new ArrayList<>();
-        records.add(new Record(1, "James"));
-        records.add(new Record(2, "Jeronimo"));
-        records.add(new Record(3, "Fernando"));
-        records.add(new Record(4, "Ricardo"));
-        records.add(new Record(5, "Hugo"));
-        return records;
     }
 
     private static Callable<Action> getUpdateCallable() {
