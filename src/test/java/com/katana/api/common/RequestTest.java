@@ -19,31 +19,6 @@ public class RequestTest {
     }
 
     @Test
-    public void getType() {
-        // SETUP
-        int type = 1;
-        this.request.setType(type);
-
-        // ACTION
-        int typeObtained = this.request.getType();
-
-        // EXPECTED
-        Assert.assertEquals(type, typeObtained);
-    }
-
-    @Test
-    public void setType() {
-        // SETUP
-        int type = 1;
-
-        // ACTION
-        this.request.setType(type);
-
-        // EXPECTED
-        Assert.assertEquals(type, this.request.getType());
-    }
-
-    @Test
     public void getMeta() {
         // SETUP
         Meta meta = new Meta();

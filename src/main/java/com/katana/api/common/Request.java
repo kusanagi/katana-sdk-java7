@@ -1,16 +1,16 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.sdk.components.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by juan on 27/08/16.
  */
 public class Request extends Api {
-    @JsonProperty("t")
-    private int type;
-
     @JsonProperty("m")
     private Meta meta;
 
@@ -32,22 +32,8 @@ public class Request extends Api {
      * @param variables
      * @param isDebug
      */
-    public Request(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
-        super(path, name, version, platformVersion, variables, isDebug);
-    }
-
-    /**
-     * @return
-     */
-    public int getType() {
-        return this.type;
-    }
-
-    /**
-     * @param type
-     */
-    public void setType(int type) {
-        this.type = type;
+    public Request(Component component, String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
+        super(component, path, name, version, platformVersion, variables, isDebug);
     }
 
     /**
@@ -62,14 +48,6 @@ public class Request extends Api {
      */
     public void setMeta(Meta meta) {
         this.meta = meta;
-    }
-
-    /**
-     * @return Return the instance of the HttpRequest class which contains the HTTP semantics of the request made to
-     * the Gateway component.
-     */
-    public HttpRequest getHttpRequest() {
-        return this.httpRequest;
     }
 
     /**
@@ -94,6 +72,18 @@ public class Request extends Api {
     }
 
     // SDK Methods
+
+    public String getGatewayProtocol(){
+        return this.meta.getProtocol();
+    }
+
+    public String getGatewayAddress(){
+        return this.meta.getGateway().get(1);
+    }
+
+    public String getClientAddress(){
+        return this.meta.getClient();
+    }
 
     /**
      * @return Return the name currently defined for the Service, or an empty string if not defined.
@@ -149,6 +139,54 @@ public class Request extends Api {
         return true;
     }
 
+    public boolean hasParam(String name) {
+        if(this.requestCall.getParams() == null) {
+            return false;
+        }
+        for(Param param : this.requestCall.getParams()) {
+            if (param.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Param getParam(String name){
+        if(this.requestCall.getParams() == null) {
+            return null;
+        }
+        for(Param param : this.requestCall.getParams()) {
+            if (param.getName().equals(name)) {
+                return param;
+            }
+        }
+        return null;
+    }
+
+    public List<Param> getParams(){
+        if(this.requestCall.getParams() == null) {
+            return new ArrayList<>();
+        } else {
+            return this.requestCall.getParams();
+        }
+    }
+
+    public HttpRequest setParam(Param param){
+        if (this.requestCall == null){
+            this.requestCall.setParams(new ArrayList<>());
+        }
+        this.requestCall.getParams().add(param);
+        return this.httpRequest;
+    }
+
+    public Param newParam(String name, String value, String type){
+        Param param = new Param();
+        param.setName(name);
+        param.setType(type);
+        param.setValue(value);
+        return param;
+    }
+
     /**
      * @param code Response code
      * @param text Response text
@@ -157,16 +195,20 @@ public class Request extends Api {
      */
     public Response newResponse(int code, String text) {
         HttpResponse httpResponse = new HttpResponse();
-        httpResponse.setStatus(code + " " + text);
+        httpResponse.setStatus(code, text);
 
-        Response response = new Response();
-        response.setPath(this.getPath());
-        response.setName(this.getName());
-        response.setVersion(this.getVersion());
-        response.setPlatformVersion(this.getPlatformVersion());
+        Response response = new Response(this.component, this.path, this.name, this.version, this.platformVersion, this.variables, this.isDebug);
         response.setTransport(new Transport());
         response.setHttpResponse(httpResponse);
         return response;
+    }
+
+    /**
+     * @return Return the instance of the HttpRequest class which contains the HTTP semantics of the request made to
+     * the Gateway component.
+     */
+    public HttpRequest getHttpRequest(){
+        return this.httpRequest;
     }
 
     @Override
@@ -181,36 +223,31 @@ public class Request extends Api {
             return false;
         }
 
-        Request request1 = (Request) o;
+        Request request = (Request) o;
 
-        if (getType() != request1.getType()) {
+        if (getMeta() != null ? !getMeta().equals(request.getMeta()) : request.getMeta() != null) {
             return false;
         }
-        if (!getMeta().equals(request1.getMeta())) {
+        if (getHttpRequest() != null ? !getHttpRequest().equals(request.getHttpRequest()) : request.getHttpRequest() != null) {
             return false;
         }
-        if (!getHttpRequest().equals(request1.getHttpRequest())) {
-            return false;
-        }
-        return getRequestCall().equals(request1.getRequestCall());
+        return getRequestCall() != null ? getRequestCall().equals(request.getRequestCall()) : request.getRequestCall() == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getType();
-        result = 31 * result + getMeta().hashCode();
-        result = 31 * result + getHttpRequest().hashCode();
-        result = 31 * result + getRequestCall().hashCode();
+        result = 31 * result + (getMeta() != null ? getMeta().hashCode() : 0);
+        result = 31 * result + (getHttpRequest() != null ? getHttpRequest().hashCode() : 0);
+        result = 31 * result + (getRequestCall() != null ? getRequestCall().hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Request{" +
-                "type=" + type +
-                ", meta=" + meta +
+                "meta=" + meta +
                 ", httpRequest=" + httpRequest +
                 ", requestCall=" + requestCall +
                 "} " + super.toString();
@@ -218,7 +255,6 @@ public class Request extends Api {
 
     public Request(Request other) {
         super(other);
-        this.type = other.type;
         this.meta = other.meta;
         this.httpRequest = other.httpRequest;
         this.requestCall = other.requestCall;

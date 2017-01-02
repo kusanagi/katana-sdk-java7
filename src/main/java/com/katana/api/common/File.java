@@ -26,6 +26,8 @@ public class File {
     @JsonProperty("m")
     private String mime;
 
+    private boolean exists;
+
     public File() {
     }
 
@@ -78,11 +80,14 @@ public class File {
         this.mime = mime;
     }
 
+    public void setExists(boolean exists) {
+        this.exists = exists;
+    }
+
     //SDK Methods
 
     public boolean exists() {
-        //TODO Review
-        return path != null && !path.isEmpty();
+        return this.exists;
     }
 
     public String read() {
@@ -98,6 +103,7 @@ public class File {
         file.setPath(this.path);
         file.setSize(this.size);
         file.setToken(this.token);
+        file.setExists(this.exists);
         return file;
     }
 
@@ -109,6 +115,7 @@ public class File {
         file.setPath(this.path);
         file.setSize(this.size);
         file.setToken(this.token);
+        file.setExists(this.exists);
         return file;
     }
 
@@ -123,6 +130,9 @@ public class File {
 
         File file = (File) o;
 
+        if (exists != file.exists) {
+            return false;
+        }
         if (getName() != null ? !getName().equals(file.getName()) : file.getName() != null) {
             return false;
         }
@@ -150,17 +160,20 @@ public class File {
         result = 31 * result + (getFilename() != null ? getFilename().hashCode() : 0);
         result = 31 * result + (getSize() != null ? getSize().hashCode() : 0);
         result = 31 * result + (getMime() != null ? getMime().hashCode() : 0);
+        result = 31 * result + (exists ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "File{" +
-                "path='" + path + '\'' +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
                 ", token='" + token + '\'' +
                 ", filename='" + filename + '\'' +
                 ", size='" + size + '\'' +
                 ", mime='" + mime + '\'' +
+                ", exists=" + exists +
                 '}';
     }
 
@@ -171,5 +184,6 @@ public class File {
         this.filename = other.filename;
         this.size = other.size;
         this.mime = other.mime;
+        this.exists = other.exists;
     }
 }

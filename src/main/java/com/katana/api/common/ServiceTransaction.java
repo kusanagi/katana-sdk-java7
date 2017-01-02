@@ -1,18 +1,16 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.replies.CommandReplyResult;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by juan on 14/09/16.
- * Katana Java SDK
+ * Created by juan on 2/01/17.
  */
-public class RequestCall implements CommandReplyResult {
-    @JsonProperty("s")
-    private String service;
+public class ServiceTransaction {
+
+    @JsonProperty("n")
+    private String name;
 
     @JsonProperty("v")
     private String version;
@@ -23,47 +21,26 @@ public class RequestCall implements CommandReplyResult {
     @JsonProperty("p")
     private List<Param> params;
 
-    public RequestCall() {
+    public String getName() {
+        return name;
     }
 
-    /**
-     * @return
-     */
-    public String getService() {
-        return service;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    /**
-     * @param service
-     */
-    public void setService(String service) {
-        this.service = service;
-    }
-
-    /**
-     * @return
-     */
     public String getVersion() {
         return version;
     }
 
-    /**
-     * @param version
-     */
     public void setVersion(String version) {
         this.version = version;
     }
 
-    /**
-     * @return
-     */
     public String getAction() {
         return action;
     }
 
-    /**
-     * @param action
-     */
     public void setAction(String action) {
         this.action = action;
     }
@@ -81,13 +58,13 @@ public class RequestCall implements CommandReplyResult {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof RequestCall)) {
+        if (!(o instanceof ServiceTransaction)) {
             return false;
         }
 
-        RequestCall that = (RequestCall) o;
+        ServiceTransaction that = (ServiceTransaction) o;
 
-        if (getService() != null ? !getService().equals(that.getService()) : that.getService() != null) {
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) {
             return false;
         }
         if (getVersion() != null ? !getVersion().equals(that.getVersion()) : that.getVersion() != null) {
@@ -102,7 +79,7 @@ public class RequestCall implements CommandReplyResult {
 
     @Override
     public int hashCode() {
-        int result = getService() != null ? getService().hashCode() : 0;
+        int result = getName() != null ? getName().hashCode() : 0;
         result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
         result = 31 * result + (getAction() != null ? getAction().hashCode() : 0);
         result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
@@ -111,16 +88,16 @@ public class RequestCall implements CommandReplyResult {
 
     @Override
     public String toString() {
-        return "RequestCall{" +
-                "service='" + service + '\'' +
+        return "ServiceTransaction{" +
+                "name='" + name + '\'' +
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +
                 ", params=" + params +
                 '}';
     }
 
-    public RequestCall(RequestCall other) {
-        this.service = other.service;
+    public ServiceTransaction(ServiceTransaction other) {
+        this.name = other.name;
         this.version = other.version;
         this.action = other.action;
         this.params = other.params;

@@ -19,31 +19,6 @@ public class ResponseTest {
     }
 
     @Test
-    public void getType() {
-        // SETUP
-        int type = 2;
-        this.response.setType(type);
-
-        // ACTION
-        int typeObtained = this.response.getType();
-
-        // EXPECTED
-        Assert.assertEquals(type, typeObtained);
-    }
-
-    @Test
-    public void setType() {
-        // SETUP
-        int type = 2;
-
-        // ACTION
-        this.response.setType(type);
-
-        // EXPECTED
-        Assert.assertEquals(type, this.response.getType());
-    }
-
-    @Test
     public void getMeta() {
         // SETUP
         Meta meta = new Meta();

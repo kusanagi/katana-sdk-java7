@@ -40,8 +40,8 @@ public class ServiceSample {
                 // logic ...
                 List<Record> records = getData();
 
-                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
-                String name = action.getParam("q", "name").get("v");
+                int userId = Integer.parseInt(action.getParam("id").getValue());
+                String name = action.getParam("name").getValue();
 
                 Record entity = null;
                 for (Record record : records) {
@@ -73,8 +73,8 @@ public class ServiceSample {
                 // logic ...
                 List<Record> records = getData();
 
-                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
-                String name = action.getParam("q", "name").get("v");
+                int userId = Integer.parseInt(action.getParam("id").getValue());
+                String name = action.getParam("name").getValue();
 
                 Record entity = null;
                 for (Record record : records) {
@@ -109,7 +109,7 @@ public class ServiceSample {
                 // logic ...
                 List<Record> records = getData();
 
-                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
+                int userId = Integer.parseInt(action.getParam("id").getValue());
 
                 Record entity = null;
                 for (Record record : records) {
@@ -147,7 +147,7 @@ public class ServiceSample {
         return new Callable<Action>() {
             @Override
             public Action run(Action action) {
-                String name = action.getParam("q", "name").get("v");
+                String name = action.getParam("name").getValue();
                 Record entity = new Record(6, name);
 
                 List<Record> responseList = new ArrayList<>();
@@ -167,7 +167,7 @@ public class ServiceSample {
                 // logic ...
                 List<Record> records = getData();
 
-                int userId = Integer.parseInt(action.getParam("p", "id").get("v"));
+                int userId = Integer.parseInt(action.getParam("id").getValue());
 
                 Record entity = null;
                 for (Record record : records) {

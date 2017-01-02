@@ -21,6 +21,12 @@ public class Call {
     @JsonProperty("p")
     private List<Param> params;
 
+    @JsonProperty("g")
+    private String gateway;
+
+    @JsonProperty("c")
+    private String callback;
+
     public Call() {
     }
 
@@ -56,6 +62,22 @@ public class Call {
         this.params = params;
     }
 
+    public String getGateway() {
+        return gateway;
+    }
+
+    public void setGateway(String gateway) {
+        this.gateway = gateway;
+    }
+
+    public String getCallback() {
+        return callback;
+    }
+
+    public void setCallback(String callback) {
+        this.callback = callback;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -76,7 +98,13 @@ public class Call {
         if (getAction() != null ? !getAction().equals(call.getAction()) : call.getAction() != null) {
             return false;
         }
-        return getParams() != null ? getParams().equals(call.getParams()) : call.getParams() == null;
+        if (getParams() != null ? !getParams().equals(call.getParams()) : call.getParams() != null) {
+            return false;
+        }
+        if (getGateway() != null ? !getGateway().equals(call.getGateway()) : call.getGateway() != null) {
+            return false;
+        }
+        return getCallback() != null ? getCallback().equals(call.getCallback()) : call.getCallback() == null;
 
     }
 
@@ -86,6 +114,8 @@ public class Call {
         result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
         result = 31 * result + (getAction() != null ? getAction().hashCode() : 0);
         result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
+        result = 31 * result + (getGateway() != null ? getGateway().hashCode() : 0);
+        result = 31 * result + (getCallback() != null ? getCallback().hashCode() : 0);
         return result;
     }
 
@@ -96,6 +126,8 @@ public class Call {
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +
                 ", params=" + params +
+                ", gateway='" + gateway + '\'' +
+                ", callback='" + callback + '\'' +
                 '}';
     }
 
@@ -104,5 +136,7 @@ public class Call {
         this.version = other.version;
         this.action = other.action;
         this.params = other.params;
+        this.gateway = other.gateway;
+        this.callback = other.callback;
     }
 }

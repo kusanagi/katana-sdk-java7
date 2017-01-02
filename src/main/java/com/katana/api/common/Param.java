@@ -7,9 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Param {
 
-    @JsonProperty("l")
-    private String location;
-
     @JsonProperty("n")
     private String name;
 
@@ -19,15 +16,9 @@ public class Param {
     @JsonProperty("t")
     private String type;
 
+    private boolean exists;
+
     public Param() {
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getName() {
@@ -54,40 +45,39 @@ public class Param {
         this.type = type;
     }
 
+    public boolean exists() {
+        return exists;
+    }
+
+    public void setExists(boolean exists) {
+        this.exists = exists;
+    }
+
     // SDK Methods
     public Param copyWithName(String name) {
         Param param = new Param();
         param.setName(name);
-        param.setLocation(this.location);
         param.setType(this.type);
         param.setValue(this.value);
-        return param;
-    }
-
-    public Param copyWithLocation(String location) {
-        Param param = new Param();
-        param.setName(this.name);
-        param.setLocation(location);
-        param.setType(this.type);
-        param.setValue(this.value);
+        param.setExists(this.exists);
         return param;
     }
 
     public Param copyWithValue(String value) {
         Param param = new Param();
         param.setName(this.name);
-        param.setLocation(this.location);
         param.setType(this.type);
         param.setValue(value);
+        param.setExists(this.exists);
         return param;
     }
 
-    public Param copyWithType(String location) {
+    public Param copyWithType(String type) {
         Param param = new Param();
         param.setName(this.name);
-        param.setLocation(this.location);
         param.setType(type);
         param.setValue(this.value);
+        param.setExists(this.exists);
         return param;
     }
 
@@ -102,7 +92,7 @@ public class Param {
 
         Param param = (Param) o;
 
-        if (getLocation() != null ? !getLocation().equals(param.getLocation()) : param.getLocation() != null) {
+        if (exists() != param.exists()) {
             return false;
         }
         if (getName() != null ? !getName().equals(param.getName()) : param.getName() != null) {
@@ -117,27 +107,27 @@ public class Param {
 
     @Override
     public int hashCode() {
-        int result = getLocation() != null ? getLocation().hashCode() : 0;
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        int result = getName() != null ? getName().hashCode() : 0;
         result = 31 * result + (getValue() != null ? getValue().hashCode() : 0);
         result = 31 * result + (getType() != null ? getType().hashCode() : 0);
+        result = 31 * result + (exists() ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Param{" +
-                "location='" + location + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", value='" + value + '\'' +
                 ", type='" + type + '\'' +
+                ", exists=" + exists +
                 '}';
     }
 
     public Param(Param other) {
-        this.location = other.location;
         this.name = other.name;
         this.value = other.value;
         this.type = other.type;
+        this.exists = other.exists;
     }
 }

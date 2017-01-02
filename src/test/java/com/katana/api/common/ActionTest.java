@@ -42,11 +42,11 @@ public class ActionTest {
     @Test
     public void getParams() {
         //SETUP
-        Map<String, Map<String, Map<String, String>>> newParams = new HashMap<>();
+        Map<String, Param> newParams = new HashMap<>();
         this.action.setParams(newParams);
 
         // ACTION
-        Map<String, Map<String, Map<String, String>>> params = this.action.getParams();
+        Map<String, Param> params = this.action.getParams();
 
         // EXPECTED
         Assert.assertEquals(params, newParams);
@@ -55,7 +55,7 @@ public class ActionTest {
     @Test
     public void setParams() {
         //SETUP
-        Map<String, Map<String, Map<String, String>>> newParams = new HashMap<>();
+        Map<String, Param> newParams = new HashMap<>();
 
         // ACTION
         this.action.setParams(newParams);
@@ -162,164 +162,61 @@ public class ActionTest {
     @Test
     public void hasParam_hasParam_true() {
         // SETUP
-        String location = "location";
         String name = "name";
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        Map<String, Map<String, String>> params = new HashMap<>();
-        params.put(name, new HashMap<>());
-        locations.put(location, params);
-        this.action.setParams(locations);
+        Map<String, Param> params = new HashMap<>();
+        params.put(name, new Param());
+        this.action.setParams(params);
 
         // ACTION EXPECTED
-        Assert.assertTrue(this.action.hasParam(location, name));
+        Assert.assertTrue(this.action.hasParam(name));
     }
 
     @Test
     public void hasParam_doesNotHasParam_false() {
         // SETUP
-        String location = "location";
         String name = "name";
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        locations.put(location, new HashMap<>());
-        this.action.setParams(locations);
+        Map<String, Param> params = new HashMap<>();
+        this.action.setParams(params);
 
         // ACTION EXPECTED
-        Assert.assertTrue(!this.action.hasParam(location, name));
-    }
-
-    @Test
-    public void hasParam_nullLocation_locationDefaultsToQuery() {
-        // SETUP
-        String location = "query";
-        String name = "name";
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        Map<String, Map<String, String>> params = new HashMap<>();
-        params.put(name, new HashMap<>());
-        locations.put(location, params);
-        this.action.setParams(locations);
-
-        // ACTION EXPECTED
-        Assert.assertTrue(this.action.hasParam(null, name));
+        Assert.assertTrue(!this.action.hasParam(name));
     }
 
     @Test
     public void getParam() {
         // SETUP
         String name = "name";
-        String location = "location";
 
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        Map<String, Map<String, String>> params = new HashMap<>();
-        Map<String, String> param = new HashMap<>();
+        Map<String, Param> params = new HashMap<>();
+        Param param = new Param();
 
         params.put(name, param);
-        locations.put(location, params);
 
-        this.action.setParams(locations);
+        this.action.setParams(params);
 
         // ACTION
-        Map<String, String> paramObtained = this.action.getParam(location, name);
+        Param paramObtained = this.action.getParam(name);
 
         //EXPECTED
         Assert.assertEquals(paramObtained, param);
-    }
-
-    @Test
-    public void getParam_nullLocation_locationDefaultsToQuery() {
-        // SETUP
-        String location = "query";
-        String name = "name";
-
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        Map<String, Map<String, String>> params = new HashMap<>();
-        Map<String, String> param = new HashMap<>();
-
-        params.put(name, param);
-        locations.put(location, params);
-
-        this.action.setParams(locations);
-
-        // ACTION
-        Map<String, String> paramObtained = this.action.getParam(null, name);
-
-        //EXPECTED
-        Assert.assertEquals(paramObtained, param);
-    }
-
-    @Test
-    public void getParams_hasParamWithLocation_paramsAtLocation() {
-        // SETUP
-        String location = "location";
-
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        Map<String, Map<String, String>> params = new HashMap<>();
-
-        locations.put(location, params);
-
-        this.action.setParams(locations);
-
-        // ACTION
-        Map<String, Map<String, String>> paramsObtained = this.action.getParams(location);
-
-        // EXPECTED
-        Assert.assertEquals(params, paramsObtained);
-    }
-
-    @Test
-    public void getParams_nullLocation_locationDefaultsToQuery() {
-        // SETUP
-        String location = "query";
-
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-        Map<String, Map<String, String>> params = new HashMap<>();
-
-        locations.put(location, params);
-
-        this.action.setParams(locations);
-
-        // ACTION
-        Map<String, Map<String, String>> paramsObtained = this.action.getParams(null);
-
-        // EXPECTED
-        Assert.assertEquals(params, paramsObtained);
     }
 
     @Test
     public void newParam() {
         //SETUP
         String name = "name";
-        String location = "location";
         String paramValue = "value";
 
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
+        Map<String, Param> params = new HashMap<>();
 
-        this.action.setParams(locations);
-
-        //ACTION
-        Map<String, String> paramObtained = this.action.newParam(location, name, paramValue, null);
-
-        // EXPECTED
-        Assert.assertEquals(this.action.getParams().get(location).get(name).get("v"), paramValue);
-        Assert.assertEquals(paramObtained.get("v"), paramValue);
-    }
-
-    @Test
-    public void newParam_nullLocation_locationDefaultsToQuery() {
-        //SETUP
-        String name = "name";
-        String location = "query";
-        String paramValue = "value";
-
-        Map<String, Map<String, Map<String, String>>> locations = new HashMap<>();
-
-        this.action.setParams(locations);
+        this.action.setParams(params);
 
         //ACTION
-        Map<String, String> paramObtained = this.action.newParam(null, name, paramValue, null);
+        Param paramObtained = this.action.newParam(name, paramValue, null);
 
         // EXPECTED
-        Assert.assertEquals(this.action.getParams().get(location).get(name).get("v"), paramValue);
-        Assert.assertEquals(paramObtained.get("v"), paramValue);
+        Assert.assertEquals(this.action.getParams().get(name).getValue(), paramValue);
+        Assert.assertEquals(paramObtained.getValue(), paramValue);
     }
 
     @Test
@@ -330,6 +227,7 @@ public class ActionTest {
         File file = new File();
         String fileName = "File name";
         file.setName(fileName);
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = new HashMap<>();
         Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = new HashMap<>();
         Map<String, Map<String, Map<String, File>>> versionFiles = new HashMap<>();
         Map<String, Map<String, File>> actionFiles = new HashMap<>();
@@ -339,8 +237,9 @@ public class ActionTest {
         actionFiles.put("action", nameFiles);
         versionFiles.put("version", actionFiles);
         serviceFiles.put("service", versionFiles);
+        pathFiles.put("path", serviceFiles);
 
-        Mockito.when(transport.getFiles()).thenReturn(serviceFiles);
+        Mockito.when(transport.getFiles()).thenReturn(pathFiles);
 
         this.action.setTransport(transport);
 
@@ -354,7 +253,7 @@ public class ActionTest {
         Transport transport = Mockito.mock(Transport.class);
 
         String fileName = "File name";
-        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -373,6 +272,7 @@ public class ActionTest {
         String fileName = "File name";
         file.setName(fileName);
 
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = new HashMap<>();
         Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = new HashMap<>();
         Map<String, Map<String, Map<String, File>>> versionFiles = new HashMap<>();
         Map<String, Map<String, File>> actionFiles = new HashMap<>();
@@ -382,8 +282,9 @@ public class ActionTest {
         actionFiles.put("action", nameFiles);
         versionFiles.put("version", actionFiles);
         serviceFiles.put("service", versionFiles);
+        pathFiles.put("path", serviceFiles);
 
-        Mockito.when(transport.getFiles()).thenReturn(serviceFiles);
+        Mockito.when(transport.getFiles()).thenReturn(pathFiles);
 
         this.action.setTransport(transport);
 
@@ -400,7 +301,7 @@ public class ActionTest {
         Transport transport = Mockito.mock(Transport.class);
 
         String fileName = "File name";
-        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -422,6 +323,7 @@ public class ActionTest {
         File file1 = new File();
         File file2 = new File();
         File file3 = new File();
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = new HashMap<>();
         Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = new HashMap<>();
         Map<String, Map<String, Map<String, File>>> versionFiles = new HashMap<>();
         Map<String, Map<String, File>> actionFiles = new HashMap<>();
@@ -433,8 +335,9 @@ public class ActionTest {
         actionFiles.put("action", nameFiles);
         versionFiles.put("version", actionFiles);
         serviceFiles.put("service", versionFiles);
+        pathFiles.put("path", serviceFiles);
 
-        Mockito.when(transport.getFiles()).thenReturn(serviceFiles);
+        Mockito.when(transport.getFiles()).thenReturn(pathFiles);
 
         this.action.setTransport(transport);
 
@@ -453,7 +356,7 @@ public class ActionTest {
         //SETUP
         Transport transport = Mockito.mock(Transport.class);
 
-        Map<String, Map<String, Map<String, Map<String, File>>>> files = new HashMap<>();
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files = new HashMap<>();
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -474,7 +377,7 @@ public class ActionTest {
         File file = new File();
         String fileName = "File name";
         file.setName(fileName);
-        Map<String, Map<String, Map<String, Map<String, File>>>> files = Mockito.spy(new HashMap<String, Map<String, Map<String, Map<String, File>>>>());
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files = Mockito.spy(new HashMap<String, Map<String, Map<String, Map<String, Map<String, File>>>>>());
 
         Mockito.when(transport.getFiles()).thenReturn(files);
 
@@ -495,14 +398,16 @@ public class ActionTest {
     public void setEntity() {
         // SETUP
         Object entity = new Object();
+        String address = "Address";
         String serviceName = "Service name";
         String serviceVersion = "Service version";
         String actionName = "Action name";
 
         Transport transport = Mockito.mock(Transport.class);
 
+        this.action.setPath(address);
         this.action.setName(serviceName);
-        this.action.setVersion(serviceVersion);
+        this.action.setProtocolVersion(serviceVersion);
         this.action.setActionName(actionName);
         this.action.setTransport(transport);
 
@@ -510,21 +415,23 @@ public class ActionTest {
         this.action.setEntity(entity);
 
         // EXPECTED
-        Mockito.verify(transport).addData(serviceName, serviceVersion, actionName, entity);
+        Assert.assertEquals(entity, transport.getData(address, serviceName, serviceVersion, actionName));
     }
 
     @Test
     public void setCollection() {
         // SETUP
         Object entity = new Object();
+        String address = "Address";
         String serviceName = "Service name";
         String serviceVersion = "Service version";
         String actionName = "Action name";
 
         Transport transport = Mockito.mock(Transport.class);
 
+        this.action.setPath(address);
         this.action.setName(serviceName);
-        this.action.setVersion(serviceVersion);
+        this.action.setProtocolVersion(serviceVersion);
         this.action.setActionName(actionName);
         this.action.setTransport(transport);
 
@@ -532,7 +439,7 @@ public class ActionTest {
         this.action.setEntity(entity);
 
         // EXPECTED
-        Mockito.verify(transport).addData(serviceName, serviceVersion, actionName, entity);
+        Assert.assertEquals(entity, transport.getData(address, serviceName, serviceVersion, actionName));
     }
 
     @Test
@@ -541,9 +448,11 @@ public class ActionTest {
         String link = "Link name";
         String uri = "uri";
         String serviceName = "Service name";
+        String path = "Address";
 
         Transport transport = Mockito.mock(Transport.class);
 
+        this.action.setPath(path);
         this.action.setName(serviceName);
         this.action.setTransport(transport);
 
@@ -551,7 +460,7 @@ public class ActionTest {
         this.action.setLink(link, uri);
 
         // EXPECTED
-        Mockito.verify(transport).addLink(serviceName, link, uri);
+        Assert.assertEquals(uri, ((HashMap)transport.getLinks(path, serviceName)).get(link));
     }
 
     @Test
@@ -561,22 +470,25 @@ public class ActionTest {
         int code = 500;
         String status = "500 message";
 
+        String path = "path";
         String service = "service";
         String version = "version";
 
         Transport transport = Mockito.mock(Transport.class);
         List<Error> errors = new ArrayList<>();
 
+        Map<String, Map<String, Map<String, List<Error>>>> pathErrors = new HashMap<>();
         Map<String, Map<String, List<Error>>> serviceErrors = new HashMap<>();
         Map<String, List<Error>> versionErrors = new HashMap<>();
+        pathErrors.put(path, serviceErrors);
         serviceErrors.put(service, versionErrors);
         versionErrors.put(version, errors);
 
-        Mockito.when(transport.getErrors()).thenReturn(serviceErrors);
+        Mockito.when(transport.getErrors()).thenReturn(pathErrors);
 
         this.action.setTransport(transport);
         this.action.setName(service);
-        this.action.setVersion(version);
+        this.action.setProtocolVersion(version);
 
         // ACTION
         this.action.error(message, code, status);

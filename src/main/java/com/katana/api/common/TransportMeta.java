@@ -19,50 +19,43 @@ public class TransportMeta extends Meta {
     @JsonProperty("l")
     private int level;
 
+    @JsonProperty("f")
+    private Object[][] fallback;
+
     @JsonProperty("p")
     private Map<String, String> properties;
 
     public TransportMeta() {
     }
 
-    /**
-     * @return
-     */
     public String[] getOrigin() {
         return origin;
     }
 
-    /**
-     * @param origin
-     */
     public void setOrigin(String[] origin) {
         this.origin = origin;
     }
 
-    /**
-     * @return
-     */
     public int getLevel() {
         return level;
     }
 
-    /**
-     * @param level
-     */
     public void setLevel(int level) {
         this.level = level;
     }
 
-    /**
-     * @return
-     */
+    public Object[][] getFallback() {
+        return fallback;
+    }
+
+    public void setFallback(Object[][] fallback) {
+        this.fallback = fallback;
+    }
+
     public Map<String, String> getProperties() {
         return properties;
     }
 
-    /**
-     * @param properties
-     */
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
@@ -88,6 +81,9 @@ public class TransportMeta extends Meta {
         if (!Arrays.equals(getOrigin(), that.getOrigin())) {
             return false;
         }
+        if (!Arrays.deepEquals(getFallback(), that.getFallback())) {
+            return false;
+        }
         return getProperties() != null ? getProperties().equals(that.getProperties()) : that.getProperties() == null;
 
     }
@@ -97,6 +93,7 @@ public class TransportMeta extends Meta {
         int result = super.hashCode();
         result = 31 * result + Arrays.hashCode(getOrigin());
         result = 31 * result + getLevel();
+        result = 31 * result + Arrays.deepHashCode(getFallback());
         result = 31 * result + (getProperties() != null ? getProperties().hashCode() : 0);
         return result;
     }
@@ -106,6 +103,7 @@ public class TransportMeta extends Meta {
         return "TransportMeta{" +
                 "origin=" + Arrays.toString(origin) +
                 ", level=" + level +
+                ", fallback=" + Arrays.toString(fallback) +
                 ", properties=" + properties +
                 "} " + super.toString();
     }
@@ -114,6 +112,7 @@ public class TransportMeta extends Meta {
         super(other);
         this.origin = other.origin;
         this.level = other.level;
+        this.fallback = other.fallback;
         this.properties = other.properties;
     }
 }

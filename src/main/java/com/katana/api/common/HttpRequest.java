@@ -40,24 +40,10 @@ public class HttpRequest {
     }
 
     /**
-     * @return Return the value of the HTTP protocol protocolVersion specified by the request.
-     */
-    public String getProtocolVersion() {
-        return protocolVersion;
-    }
-
-    /**
      * @param protocolVersion
      */
     public void setProtocolVersion(String protocolVersion) {
         this.protocolVersion = protocolVersion;
-    }
-
-    /**
-     * @return Return the HTTP method used for the request as an uppercase string.
-     */
-    public String getMethod() {
-        return method;
     }
 
     /**
@@ -68,13 +54,6 @@ public class HttpRequest {
     }
 
     /**
-     * @return Return the full URL provided for the request.
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
      * @param url
      */
     public void setUrl(String url) {
@@ -82,27 +61,10 @@ public class HttpRequest {
     }
 
     /**
-     * @return Return an object with the parameters provided in the query string, where each property name is the parameter
-     * name, and the value an array with the parameter value(s), each as a string.
-     */
-    public Map<String, List<String>> getQueryParamsArray() {
-        return query;
-    }
-
-    /**
      * @param query
      */
     public void setQuery(Map<String, List<String>> query) {
         this.query = query;
-    }
-
-
-    /**
-     * @return Return an object with the parameters provided in the post data, where each property name is the
-     * parameter name, and the value an array with the parameter value(s), each as a string.
-     */
-    public Map<String, List<String>> getPostParamsArray() {
-        return this.postData;
     }
 
     /**
@@ -113,14 +75,6 @@ public class HttpRequest {
     }
 
     /**
-     * @return Return an object with the HTTP headers provided in the request, where each property name is the header
-     * name, and the value the header value as a string.
-     */
-    public Map<String, List<String>> getHeaders() { //TODO return the value of the headers as a string
-        return headers;
-    }
-
-    /**
      * @param headers
      */
     public void setHeaders(Map<String, List<String>> headers) {
@@ -128,25 +82,10 @@ public class HttpRequest {
     }
 
     /**
-     * @return Return the content of the HTTP request body. If the request body does not contain any content an empty
-     * string MUST be returned.
-     */
-    public String getBody() {
-        return body;
-    }
-
-    /**
      * @param body
      */
     public void setBody(String body) {
         this.body = body;
-    }
-
-    /**
-     * @return Return an array with the files uploaded in the request, where each MUST be a File object.
-     */
-    public List<File> getFiles() {
-        return files;
     }
 
     /**
@@ -167,6 +106,20 @@ public class HttpRequest {
      */
     public boolean isMethod(String method) {
         return getMethod().equals(method);
+    }
+
+    /**
+     * @return Return the HTTP method used for the request as an uppercase string.
+     */
+    public String getMethod() {
+        return method;
+    }
+
+    /**
+     * @return Return the full URL provided for the request.
+     */
+    public String getUrl() {
+        return url;
     }
 
     /**
@@ -272,6 +225,14 @@ public class HttpRequest {
     }
 
     /**
+     * @return Return an object with the parameters provided in the query string, where each property name is the parameter
+     * name, and the value an array with the parameter value(s), each as a string.
+     */
+    public Map<String, List<String>> getQueryParamsArray() {
+        return query;
+    }
+
+    /**
      * Determine if the parameter name, specified by the REQUIRED case sensitive name argument, is defined in the post
      * data. If the parameter is defined but does not have a value it MUST consider that it exists.
      *
@@ -335,6 +296,15 @@ public class HttpRequest {
         return postParams;
     }
 
+
+    /**
+     * @return Return an object with the parameters provided in the post data, where each property name is the
+     * parameter name, and the value an array with the parameter value(s), each as a string.
+     */
+    public Map<String, List<String>> getPostParamsArray() {
+        return this.postData;
+    }
+
     /**
      * Determine if the HTTP protocolVersion of the request is equal to that specified by the REQUIRED protocolVersion argument.
      *
@@ -343,6 +313,13 @@ public class HttpRequest {
      */
     public boolean isProtocolVersion(String version) {
         return this.protocolVersion.equals(version);
+    }
+
+    /**
+     * @return Return the value of the HTTP protocol protocolVersion specified by the request.
+     */
+    public String getProtocolVersion() {
+        return protocolVersion;
     }
 
     /**
@@ -368,11 +345,27 @@ public class HttpRequest {
     }
 
     /**
+     * @return Return an object with the HTTP headers provided in the request, where each property name is the header
+     * name, and the value the header value as a string.
+     */
+    public Map<String, List<String>> getHeaders() { //TODO return the value of the headers as a string
+        return headers;
+    }
+
+    /**
      * @return Determine if the HTTP request body contains content. If the request body contains only whitespace this
      * MUST be considered valid content.
      */
     public boolean hasBody() {
         return this.body != null;
+    }
+
+    /**
+     * @return Return the content of the HTTP request body. If the request body does not contain any content an empty
+     * string MUST be returned.
+     */
+    public String getBody() {
+        return body;
     }
 
     /**
@@ -408,6 +401,13 @@ public class HttpRequest {
         File file = new File();
         file.setFilename(name);
         return file;
+    }
+
+    /**
+     * @return Return an array with the files uploaded in the request, where each MUST be a File object.
+     */
+    public List<File> getFiles() {
+        return files;
     }
 
     @Override

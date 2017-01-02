@@ -19,31 +19,6 @@ public class ParamTest {
     }
 
     @Test
-    public void getLocation() {
-        //SETUP
-        String newLocation = "New location";
-        this.param.setLocation(newLocation);
-
-        // ACTION
-        String location = this.param.getLocation();
-
-        // EXPECTED
-        Assert.assertEquals(location, newLocation);
-    }
-
-    @Test
-    public void setLocation() {
-        //SETUP
-        String location = "New Location";
-
-        // ACTION
-        this.param.setLocation(location);
-
-        // EXPECTED
-        Assert.assertEquals(this.param.getLocation(), location);
-    }
-
-    @Test
     public void getName() {
         //SETUP
         String newName = "New name";

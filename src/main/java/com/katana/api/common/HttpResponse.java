@@ -30,80 +30,12 @@ public class HttpResponse implements CommandReplyResult {
     }
 
     /**
-     * @return Return the value set for the HTTP protocolVersion of the response.
-     */
-    @JsonIgnore
-    public String getProtocolVersion() {
-        return protocolVersion;
-    }
-
-    /**
-     * Set the value specified by the REQUIRED protocolVersion argument as the HTTP protocolVersion of the response.
-     *
-     * @param version Protocol protocolVersion to set
-     */
-    public void setProtocolVersion(String version) {
-        this.protocolVersion = version;
-    }
-
-    /**
-     * Status getter
-     *
-     * @return Return the value set for the HTTP status code and text of the response.
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * Set the values specified by the REQUIRED code argument as the HTTP status code and the REQUIRED case insensitive
-     * text argument as the HTTP status text of the response.
-     *
-     * @param status HTTP status text of the response.
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    /**
-     * Headers getter
-     *
-     * @return Return an object with the HTTP headers defined for the response, where each property name is the header
-     * name, and the value the header value as a string.
-     */
-    public Map<String, List<String>> getHeaders() {
-        if (this.headers == null) {
-            this.headers = new HashMap<>();
-        }
-        return headers;
-    }
-
-    /**
      * Set a HTTP header for the response, with the name specified by the REQUIRED name argument and the value specified by the REQUIRED value argument.
      *
      * @param headers Headers to set
      */
     public void setHeaders(Map<String, List<String>> headers) {
         this.headers = headers;
-    }
-
-    /**
-     * Body getter
-     *
-     * @return Return the content set for the body of the HTTP response.
-     */
-    public String getBody() {
-        return body;
-    }
-
-    /**
-     * Set the content for the body of the HTTP response. If the content argument is not specified the body of the
-     * response SHOULD be reset to an empty string.
-     *
-     * @param body Body to set
-     */
-    public void setBody(String body) {
-        this.body = body;
     }
 
     // SDK Methods
@@ -119,6 +51,24 @@ public class HttpResponse implements CommandReplyResult {
     }
 
     /**
+     * @return Return the value set for the HTTP protocolVersion of the response.
+     */
+    @JsonIgnore
+    public String getProtocolVersion() {
+        return protocolVersion;
+    }
+
+    /**
+     * Set the value specified by the REQUIRED protocolVersion argument as the HTTP protocolVersion of the response.
+     *
+     * @param version Protocol protocolVersion to set
+     */
+    public HttpResponse setProtocolVersion(String version) {
+        this.protocolVersion = version;
+        return this;
+    }
+
+    /**
      * Determine if the HTTP status code and text set for the response is equal to that specified by the REQUIRED case
      * insensitive status argument.
      *
@@ -127,6 +77,15 @@ public class HttpResponse implements CommandReplyResult {
      */
     public boolean isStatus(String status) {
         return this.status.equals(status);
+    }
+
+    /**
+     * Status getter
+     *
+     * @return Return the value set for the HTTP status code and text of the response.
+     */
+    public String getStatus() {
+        return status;
     }
 
     /**
@@ -143,6 +102,18 @@ public class HttpResponse implements CommandReplyResult {
     @JsonIgnore
     public String getStatusText() {
         return status.split(" ")[1];
+    }
+
+    /**
+     * Set the values specified by the REQUIRED code argument as the HTTP status code and the REQUIRED case insensitive
+     * text argument as the HTTP status text of the response.
+     *
+     * @param code HTTP status code of the response.
+     * @param text HTTP status text of the response.
+     */
+    public HttpResponse setStatus(int code, String text) {
+        this.status = code + " " + text;
+        return this;
     }
 
     /**
@@ -165,13 +136,16 @@ public class HttpResponse implements CommandReplyResult {
     }
 
     /**
-     * Determine if the HTTP response has content defined for the response body.
+     * Headers getter
      *
-     * @return Return true if the response has a body
+     * @return Return an object with the HTTP headers defined for the response, where each property name is the header
+     * name, and the value the header value as a string.
      */
-    public boolean hasBody() {
-        //TODO review this method
-        return this.body != null;
+    public Map<String, List<String>> getHeaders() {
+        if (this.headers == null) {
+            this.headers = new HashMap<>();
+        }
+        return headers;
     }
 
     /**
@@ -180,7 +154,7 @@ public class HttpResponse implements CommandReplyResult {
      * @param name  Header name
      * @param value Header value
      */
-    public void setHeader(String name, String value) {
+    public HttpResponse setHeader(String name, String value) {
         if (this.headers != null && this.headers.containsKey(name)) {
             this.headers.get(name).add(value);
         } else {
@@ -191,6 +165,36 @@ public class HttpResponse implements CommandReplyResult {
             values.add(value);
             this.headers.put(name, values);
         }
+        return this;
+    }
+
+    /**
+     * Determine if the HTTP response has content defined for the response body.
+     *
+     * @return Return true if the response has a body
+     */
+    public boolean hasBody() {
+        return this.body != null;
+    }
+
+    /**
+     * Body getter
+     *
+     * @return Return the content set for the body of the HTTP response.
+     */
+    public String getBody() {
+        return body;
+    }
+
+    /**
+     * Set the content for the body of the HTTP response. If the content argument is not specified the body of the
+     * response SHOULD be reset to an empty string.
+     *
+     * @param body Body to set
+     */
+    public HttpResponse setBody(String body) {
+        this.body = body == null ? "" : body;
+        return this;
     }
 
     @Override

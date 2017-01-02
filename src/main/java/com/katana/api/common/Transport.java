@@ -23,25 +23,25 @@ public class Transport implements CommandReplyResult {
     private File body;
 
     @JsonProperty("f")
-    private Map<String, Map<String, Map<String, Map<String, File>>>> files;
+    private Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files;
 
     @JsonProperty("d")
-    private Map<String, Map<String, Map<String, Object>>> data;
+    private Map<String, Map<String, Map<String, Map<String, Object>>>> data;
 
     @JsonProperty("r")
-    private Map<String, Map<String, Map<String, Object>>> relations;
+    private Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations;
 
     @JsonProperty("l")
-    private Map<String, Map<String, String>> links;
+    private Map<String, Map<String, Map<String, String>>> links;
 
     @JsonProperty("c")
     private Map<String, Map<String, List<Call>>> calls;
 
     @JsonProperty("t")
-    private Map<String, Map<String, Map<String, List<Transaction>>>> transactions;
+    private Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> transactions;
 
     @JsonProperty("e")
-    private Map<String, Map<String, List<Error>>> errors;
+    private Map<String, Map<String, Map<String, List<Error>>>> errors;
 
     /**
      *
@@ -91,7 +91,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the list of files
      */
-    public Map<String, Map<String, Map<String, Map<String, File>>>> getFiles() {
+    public Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> getFiles() {
         return files;
     }
 
@@ -100,7 +100,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param files File list
      */
-    public void setFiles(Map<String, Map<String, Map<String, Map<String, File>>>> files) {
+    public void setFiles(Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files) {
         this.files = files;
     }
 
@@ -109,7 +109,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return data object
      */
-    public Map<String, Map<String, Map<String, Object>>> getData() {
+    public Map<String, Map<String, Map<String, Map<String, Object>>>> getData() {
         return data;
     }
 
@@ -118,7 +118,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param data Data object
      */
-    public void setData(Map<String, Map<String, Map<String, Object>>> data) {
+    public void setData(Map<String, Map<String, Map<String, Map<String, Object>>>> data) {
         this.data = data;
     }
 
@@ -127,7 +127,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the list of the relations
      */
-    public Map<String, Map<String, Map<String, Object>>> getRelations() {
+    public Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> getRelations() {
         return relations;
     }
 
@@ -136,7 +136,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param relations Relation list
      */
-    public void setRelations(Map<String, Map<String, Map<String, Object>>> relations) {
+    public void setRelations(Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations) {
         this.relations = relations;
     }
 
@@ -145,7 +145,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the links
      */
-    public Map<String, Map<String, String>> getLinks() {
+    public Map<String, Map<String, Map<String, String>>> getLinks() {
         return links;
     }
 
@@ -154,7 +154,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param links Links to set
      */
-    public void setLinks(Map<String, Map<String, String>> links) {
+    public void setLinks(Map<String, Map<String, Map<String, String>>> links) {
         this.links = links;
     }
 
@@ -181,7 +181,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the transactions
      */
-    public Map<String, Map<String, Map<String, List<Transaction>>>> getTransactions() {
+    public Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> getTransactions() {
         return transactions;
     }
 
@@ -190,7 +190,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param transactions Transaction list
      */
-    public void setTransactions(Map<String, Map<String, Map<String, List<Transaction>>>> transactions) {
+    public void setTransactions(Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> transactions) {
         this.transactions = transactions;
     }
 
@@ -199,7 +199,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the error list
      */
-    public Map<String, Map<String, List<Error>>> getErrors() {
+    public Map<String, Map<String, Map<String, List<Error>>>> getErrors() {
         if (this.errors == null) {
             this.errors = new HashMap<>();
         }
@@ -211,7 +211,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param errors Error list
      */
-    public void setErrors(Map<String, Map<String, List<Error>>> errors) {
+    public void setErrors(Map<String, Map<String, Map<String, List<Error>>>> errors) {
         this.errors = errors;
     }
 
@@ -259,12 +259,16 @@ public class Transport implements CommandReplyResult {
         return property == null ? defaultString == null ? "" : defaultString : property;
     }
 
+    public Map<String, String> getProperties(){
+        return this.meta.getProperties();
+    }
+
     /**
      * Determine if a file download has been registered for the HTTP response.
      *
      * @return Return true if a download file has been registered
      */
-    public boolean hasDownload() {
+    public boolean hasDownload() { // TODO review this
         return this.body != null;
     }
 
@@ -272,7 +276,7 @@ public class Transport implements CommandReplyResult {
      * @return Return the file download defined for the HTTP response as a File object.
      */
     @JsonIgnore
-    public File getDownload() {
+    public File getDownload() { // TODO review this
         return this.body;
     }
 
@@ -288,15 +292,18 @@ public class Transport implements CommandReplyResult {
      * @param action  Name of the action
      * @return Return all the data as an object, as it is stored in the transport
      */
-    public Object getData(String service, String version, String action) {
-        if (service != null) {
-            if (version != null) {
-                if (action != null) {
-                    return this.data.get(service).get(version).get(action);
+    public Object getData(String address, String service, String version, String action) {
+        if (address != null) {
+            if (service != null) {
+                if (version != null) {
+                    if (action != null) {
+                        return this.data.get(address).get(service).get(version).get(action);
+                    }
+                    return this.data.get(address).get(service).get(version);
                 }
-                return this.data.get(service).get(version);
+                return this.data.get(address).get(service);
             }
-            return this.data.get(service);
+            return this.data.get(address);
         }
         return this.data;
     }
@@ -308,35 +315,14 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return the relations
      */
-    public Map<String, Map<String, Map<String, Object>>> getRelations(String service) {
-        if (service == null) {
-            return this.relations;
-        } else {
-            Map<String, Map<String, Map<String, Object>>> serviceRelations = new HashMap<>();
-            if (this.relations.containsKey(service)) {
-                serviceRelations.put(service, this.relations.get(service));
+    public Object getRelations(String address, String service) {
+        if (address != null) {
+            if (service != null) {
+                return this.relations.get(address).get(service);
             }
-            return serviceRelations;
+            return this.relations.get(address);
         }
-    }
-
-    /**
-     * Return all of the links as an object, as they are stored in the Transport. If the OPTIONAL case sensitive
-     * service argument is specified, it MUST only return the links stored under that Service namespace.
-     *
-     * @param name Service name
-     * @param link Link name
-     * @param uri  Uri of the link
-     * @return Return all the links as an object, as they are stored in the Transport
-     */
-    public boolean addLink(String name, String link, String uri) {
-        if (this.links == null) {
-            this.links = new HashMap<>();
-        }
-        Map<String, String> linkDic = new HashMap<>();
-        linkDic.put(link, uri);
-        this.links.put(name, linkDic);
-        return true;
+        return this.relations;
     }
 
     /**
@@ -346,16 +332,14 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the links as an object, as they are stored in the Transport
      */
-    public Map<String, Map<String, String>> getLinks(String service) {
-        if (service == null) {
-            return this.links;
-        } else {
-            Map<String, Map<String, String>> serviceLinks = new HashMap<>();
-            if (this.links.containsKey(service)) {
-                serviceLinks.put(service, this.links.get(service));
+    public Object getLinks(String address, String service) {
+        if (address != null) {
+            if (service != null) {
+                return this.links.get(address).get(service);
             }
-            return serviceLinks;
+            return this.links.get(address);
         }
+        return this.links;
     }
 
     /**
@@ -365,16 +349,11 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the calls as an object, as they are stored in the Transport.
      */
-    public Map<String, Map<String, List<Call>>> getCalls(String service) {
-        if (service == null) {
-            return this.calls;
-        } else {
-            Map<String, Map<String, List<Call>>> serviceCalls = new HashMap<>();
-            if (this.calls.containsKey(service)) {
-                serviceCalls.put(service, this.calls.get(service));
-            }
-            return serviceCalls;
+    public Object getCalls(String address, String service) { // TODO review
+        if (service != null) {
+            return this.calls.get(service);
         }
+        return this.calls;
     }
 
     /**
@@ -385,16 +364,14 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the transactions as an object, as they are stored in the Transport.
      */
-    public Map<String, Map<String, Map<String, List<Transaction>>>> getTransactions(String service) {
-        if (service == null) {
-            return this.transactions;
-        } else {
-            Map<String, Map<String, Map<String, List<Transaction>>>> serviceTransactions = new HashMap<>();
-            if (this.transactions.containsKey(service)) {
-                serviceTransactions.put(service, this.transactions.get(service));
+    public Object getTransactions(String address, String service) {
+        if (address != null) {
+            if (service != null) {
+                return this.transactions.get(address).get(service);
             }
-            return serviceTransactions;
+            return this.transactions.get(address);
         }
+        return this.transactions;
     }
 
     /**
@@ -404,46 +381,14 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the errors as an object, as they are stored in the Transport.
      */
-    public Map<String, Map<String, List<Error>>> getErrors(String service) {
-        if (service == null) {
-            return this.errors;
-        } else {
-            Map<String, Map<String, List<Error>>> serviceErrors = new HashMap<>();
-            if (this.errors.containsKey(service)) {
-                serviceErrors.put(service, this.errors.get(service));
+    public Object getErrors(String address, String service) {
+        if (address != null) {
+            if (service != null) {
+                return this.errors.get(address).get(service);
             }
-            return serviceErrors;
+            return this.errors.get(address);
         }
-    }
-
-    /**
-     * Register a data in the transport
-     *
-     * @param name       Service name
-     * @param version    Version of the service
-     * @param actionName Name of the action
-     * @param collection Data collection
-     * @return Return true if the operation was successful
-     */
-    public boolean addData(String name, String version, String actionName, Object collection) {
-        if (this.data == null) {
-            this.data = new HashMap<>();
-        }
-
-        Map<String, Map<String, Object>> versionMap = new HashMap<>();
-        Map<String, Object> actionMap = new HashMap<>();
-
-        if (this.data.containsKey(version)) {
-            versionMap = this.data.get(name);
-            if (this.data.get(version).containsKey(actionName)) {
-                actionMap = this.data.get(version).get(version);
-            }
-        }
-
-        actionMap.put(actionName, collection);
-        versionMap.put(version, actionMap);
-        this.data.put(name, versionMap);
-        return true;
+        return this.errors;
     }
 
     @Override

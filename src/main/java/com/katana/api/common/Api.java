@@ -1,6 +1,9 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.katana.sdk.common.Callable;
+import com.katana.sdk.common.Logger;
+import com.katana.sdk.components.Component;
 
 import java.util.Map;
 
@@ -9,17 +12,19 @@ import java.util.Map;
  */
 public class Api {
 
-    private String path;
+    protected Component component;
 
-    private String name;
+    protected String path;
 
-    private String version;
+    protected String name;
 
-    private String platformVersion;
+    protected String version;
 
-    private Map<String, String> variables;
+    protected String platformVersion;
 
-    private boolean isDebug;
+    protected Map<String, String> variables;
+
+    protected boolean isDebug;
 
     /**
      * Default constructor
@@ -38,7 +43,8 @@ public class Api {
      * @param variables       Sdk variables
      * @param isDebug         Debug state
      */
-    public Api(String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
+    public Api(Component component, String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
+        this.component = component;
         this.path = path;
         this.name = name;
         this.version = version;
@@ -70,7 +76,7 @@ public class Api {
      *
      * @param version Version of the service
      */
-    public void setVersion(String version) {
+    public void setProtocolVersion(String version) {
         this.version = version;
     }
 
@@ -102,6 +108,22 @@ public class Api {
     }
 
     /**
+     * @return Return whether or not the component is currently running in debug mode.
+     */
+    @JsonIgnore
+    public boolean isDebug() {
+        return isDebug;
+    }
+
+    /**
+     * @return Return the version of the platform
+     */
+    @JsonIgnore
+    public String getPlatformVersion() {
+        return platformVersion;
+    }
+
+    /**
      * @return Return the path to the executing userland source file.
      */
     @JsonIgnore
@@ -126,27 +148,11 @@ public class Api {
     }
 
     /**
-     * @return Return the version of the platform
-     */
-    @JsonIgnore
-    public String getPlatformVersion() {
-        return platformVersion;
-    }
-
-    /**
      * @return Return an object, where each property name is the name of the variable, and the value to the variable value.
      */
     @JsonIgnore
     public Map<String, String> getVariables() {
         return variables;
-    }
-
-    /**
-     * @return Return whether or not the component is currently running in debug mode.
-     */
-    @JsonIgnore
-    public boolean isDebug() {
-        return isDebug;
     }
 
     // SDK Method
@@ -167,17 +173,15 @@ public class Api {
      * @return Determine if a resource has been registered with the component using the REQUIRED case sensitive name argument.
      */
     public boolean hasResource(String name) {
-        // TODO do this method
-        return false;
+        return this.component.hasResource(name);
     }
 
     /**
      * @param name Name of the resource
      * @return Return the resource registered with the component using the REQUIRED case sensitive name argument.
      */
-    public String getResource(String name) {
-        // TODO do this method
-        return null;
+    public Resource getResource(String name) {
+        return this.component.getResource(name);
     }
 
     /**
@@ -193,6 +197,11 @@ public class Api {
     public String getServiceSchema(String name, String version) {
         // TODO do this method
         return null;
+    }
+
+    public boolean log(String value){
+        Logger.log(value);
+        return true;
     }
 
     @Override

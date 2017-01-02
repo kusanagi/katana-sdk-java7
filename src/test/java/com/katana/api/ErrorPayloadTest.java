@@ -1,6 +1,7 @@
 package com.katana.api;
 
 import com.katana.api.common.Error;
+import com.katana.api.replies.ErrorPayload;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

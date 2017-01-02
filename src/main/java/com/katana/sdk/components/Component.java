@@ -2,6 +2,7 @@ package com.katana.sdk.components;
 
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.common.Api;
+import com.katana.api.common.Resource;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.sdk.common.*;
 import com.katana.utils.Utils;
@@ -29,15 +30,17 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     private static final String IS_NOT_VALID = "is not valid";
 
     private static final Option[] APP_OPTIONS = new Option[]{
+            new Option(new String[]{"-p", "--platform-version"}, true, true, true),
             new Option(new String[]{"-c", "--component"}, true, true, true),
-            new Option(new String[]{"-d", "--disable-compact-names"}, true, false, false),
             new Option(new String[]{"-n", "--name"}, true, true, true),
             new Option(new String[]{"-v", "--version"}, true, true, true),
-            new Option(new String[]{"-p", "--platform-version"}, true, true, true),
             new Option(new String[]{"-s", "--socket"}, true, false, true),
             new Option(new String[]{"-t", "--tcp"}, true, false, true),
-            new Option(new String[]{"-D", "--debug"}, true, false, false),
             new Option(new String[]{"-V", "--var"}, false, false, true),
+            new Option(new String[]{"-d", "--disable-compact-names"}, true, false, false),
+            new Option(new String[]{"-D", "--debug"}, true, false, false),
+            new Option(new String[]{"-C", "--callback"}, true, false, true),
+            new Option(new String[]{"-q", "--quiet"}, true, false, false),
     };
 
     private final String workerEnpoint;
@@ -59,6 +62,18 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     private boolean debug;
 
     private List<String> var;
+
+    private String callback;
+
+    private boolean quiet;
+
+    private List<Resource<T>> resources;
+
+    private Callable<T> startupCallable;
+
+    private Callable<T> shutdownCallable;
+
+    private Callable<T> errorCallable;
 
     private ZMQ.Socket router;
 
@@ -85,17 +100,13 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
             generateDefaultSocket();
         }
 
-        if (isDebug()) {
+        if (isDebug() && !this.quiet) {
             Logger.activate();
         }
 
         this.workerEnpoint = Constants.WORKER_ENDPOINT + "_" + UUID.randomUUID().toString();
 
         Logger.log(toString());
-    }
-
-    private void generateDefaultSocket() {
-        this.socket = "@katana-" + this.component + "-" + this.name + "-" + UUID.randomUUID().toString();
     }
 
     /**
@@ -249,6 +260,53 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
         this.debug = debug;
     }
 
+    // SDK METHODS
+
+    public boolean setResource(String name, Callable<T> resource){
+        if (this.resources == null){
+            this.resources = new ArrayList<>();
+        }
+        this.resources.add(new Resource<T>(name, resource));
+        return true;
+    }
+
+    public boolean hasResource(String name){
+        if (this.resources == null)
+            return false;
+        for (Resource<T> resource : this.resources){
+            if (resource.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Resource<T> getResource(String name){
+        if (this.resources == null)
+            return null;
+        for (Resource<T> resource : this.resources){
+            if (resource.getName().equals(name)){
+                return resource;
+            }
+        }
+        return null;
+    }
+
+    public Component<T, S> startup(Callable<T> callback){
+        this.startupCallable = callback;
+        return this;
+    }
+
+    public Component<T, S> shutdown(Callable<T> callback){
+        this.shutdownCallable = callback;
+        return this;
+    }
+
+    public Component<T, S> error(Callable<T> callback){
+        this.errorCallable = callback;
+        return this;
+    }
+
     /**
      * The method to run the component
      */
@@ -263,6 +321,15 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
 
         ZMQ.proxy(router, dealer, null);
         Logger.log("ZMQ proxy set");
+    }
+
+    public boolean log(String value){
+        Logger.log(value);
+        return true;
+    }
+
+    private void generateDefaultSocket() {
+        this.socket = "@katana-" + this.component + "-" + this.name + "-" + UUID.randomUUID().toString();
     }
 
     /**
@@ -295,7 +362,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      */
     protected void setBaseCommandAttrs(String componentType, T command) {
         command.setName(this.getName());
-        command.setVersion(this.getVersion());
+        command.setProtocolVersion(this.getVersion());
         command.setPlatformVersion(this.getPlatformVersion());
         command.setDebug(this.isDebug());
 //        command.setVariables(this.getVar());
@@ -436,6 +503,12 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
                 case "-V":
                     this.var.add(option.getValue());
                     break;
+                case "-C":
+                    this.callback = option.getValue();
+                    break;
+                case "-q":
+                    this.quiet = true;
+                    break;
                 default:
                     Logger.log("Unsupported parameter " + option.getNames()[0]);
                     break;
@@ -455,6 +528,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
                 ", tcp='" + tcp + '\'' +
                 ", debug=" + debug +
                 ", var=" + var +
+                ", callback=" + callback +
+                ", quiet=" + quiet +
                 '}';
     }
 }

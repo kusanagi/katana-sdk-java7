@@ -50,26 +50,28 @@ public class HttpResponseTest {
     @Test
     public void getStatus() {
         // SETUP
+        int code = 200;
         String status = "status";
-        this.httpResponse.setStatus(status);
+        this.httpResponse.setStatus(code, status);
 
         // ACTION
         String statusObtained = this.httpResponse.getStatus();
 
         // EXPECTED
-        Assert.assertEquals(status, statusObtained);
+        Assert.assertEquals(code + " " + status, statusObtained);
     }
 
     @Test
     public void setStatus() {
         // SETUP
+        int code = 200;
         String status = "status";
 
         // ACTION
-        this.httpResponse.setStatus(status);
+        this.httpResponse.setStatus(code, status);
 
         // EXPECTED
-        Assert.assertEquals(status, this.httpResponse.getStatus());
+        Assert.assertEquals(code + " " + status, this.httpResponse.getStatus());
     }
 
     @Test

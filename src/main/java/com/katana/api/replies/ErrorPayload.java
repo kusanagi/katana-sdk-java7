@@ -1,4 +1,4 @@
-package com.katana.api;
+package com.katana.api.replies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.common.Error;

@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Action extends Api {
     @JsonProperty("p")
-    private Map<String, Map<String, Map<String, String>>> params;
+    private Map<String, Param> params;
 
     @JsonProperty("T")
     private Transport transport;
@@ -41,7 +41,7 @@ public class Action extends Api {
      *
      * @return Return all the params of the action
      */
-    public Map<String, Map<String, Map<String, String>>> getParams() {
+    public Map<String, Param> getParams() {
         return params;
     }
 
@@ -50,7 +50,7 @@ public class Action extends Api {
      *
      * @param params Params object
      */
-    public void setParams(Map<String, Map<String, Map<String, String>>> params) {
+    public void setParams(Map<String, Param> params) {
         this.params = params;
     }
 
@@ -104,105 +104,56 @@ public class Action extends Api {
      * @param value Value of the property
      * @return Return true if the operation was successful
      */
-    public boolean setProperty(String name, String value) {
+    public Action setProperty(String name, String value) {
         TransportMeta meta = this.transport.getMeta();
         Map<String, String> properties = meta.getProperties();
         properties.put(name, value);
-        return true;
+        return this;
     }
 
     /**
-     * Determine if a parameter with the name specified by the REQUIRED case sensitive name argument in the location
-     * defined by the OPTIONAL location argument, which MUST default to "query", was provided for the action.
+     * Determine if a parameter with the name specified by the REQUIRED case sensitive name argument
+     * was provided for the action.
      *
-     * @param location Location of the param, must be either "path", "query", "form-data", "header", or "body"
-     * @param name     Name of the Param
+     * @param name Name of the Param
      * @return Return true if the Action has the param
      */
-    public boolean hasParam(String location, String name) {
-        String locationToUse = "query";
-        if (location != null) {
-            locationToUse = location;
-        }
-        return params.containsKey(locationToUse) && params.get(locationToUse).containsKey(name);
+    public boolean hasParam(String name) {
+        return this.params != null && this.params.get(name) != null;
     }
 
     /**
-     * Get the parameter with the REQUIRED case sensitive name argument in the location defined by the OPTIONAL
-     * location argument, or default to "query", and which MUST be returned as a Param object.
-     * The value of the location argument MUST be either "path", "query", "form-data", "header" or "body", where any
-     * other value MUST be accepted as "query".
+     * Get the parameter with the REQUIRED case sensitive name argument which MUST be returned as a Param object.
      * To read a file provided with the request the getFile() function MUST be used to access the File object.
      *
-     * @param location Location of the param, must be either "path", "query", "form-data", "header", or "body"
-     * @param name     Name of the param
+     * @param name Name of the param
      * @return Return the value of the param
      */
-    public Map<String, String> getParam(String location, String name) {
-        String locationToUse = "query";
-        if (location != null) {
-            locationToUse = location;
+    public Param getParam(String name) {
+        if (this.params == null) {
+            return null;
         }
-        return params.get(locationToUse).get(name);
+        return params.get(name);
     }
 
     /**
-     * get all the parameters in the location defined by the OPTIONAL location argument, or all parameters in all
-     * locations, and which MUST be returned as an array of Param objects. If no parameters are found an empty array
-     * MUST be returned.
-     * The value of the location argument MUST be either "path", "query", "form-data", "header" or "body", where any
-     * other value MUST be accepted as "query".
-     *
-     * @param location Location of the param, must be either "path", "query", "form-data", "header", or "body"
-     * @return Return the new param, if no param are found an empty array is returned
-     */
-    public Map<String, Map<String, String>> getParams(String location) {
-        String locationToUse = "query";
-        if (location != null) {
-            locationToUse = location;
-        }
-        return params.get(locationToUse);
-    }
-
-    /**
-     * Create a new parameter with the REQUIRED name argument in the location defined by
-     * the OPTIONAL location argument, or default to "query", and which MUST be returned as a Param object.
-     * The value of the location argument MUST be either "path", "query", "form-data", "header" or "body", where any
-     * other value MUST be accepted as "query".
+     * Create a new parameter with the REQUIRED name argument
      * If the OPTIONAL value or type arguments are specified these MUST also be applied to the Param object. The value
      * of the type argument MUST be either "null", "boolean", "integer", "float", "string", "array" or "object", where
      * any other value MUST be accepted as "string".
      * When creating a new Param object the value of the exists property MUST be false.
      *
-     * @param location Location of the param, must be either "path", "query", "form-data", "header", or "body"
-     * @param name     Name of the new param
-     * @param value    Value of the new param
-     * @param type     Data type of the new param, MUST be either "null", "boolean", "integer", "float", "string", "array" or "object"
+     * @param name  Name of the new param
+     * @param value Value of the new param
+     * @param type  Data type of the new param, MUST be either "null", "boolean", "integer", "float", "string", "array" or "object"
      * @return Return the new param
      */
-    public Map<String, String> newParam(String location, String name, String value, String type) {
-        String locationToUse = "query";
-        if (location != null) {
-            locationToUse = location;
-        }
-
-        Map<String, Map<String, String>> locationMap = new HashMap<>();
-        Map<String, String> nameMap = new HashMap<>();
-
-        if (this.params.containsKey(locationToUse)) {
-            locationMap = this.params.get(locationToUse);
-            if (locationMap.containsKey(name)) {
-                nameMap = locationMap.get(name);
-            } else {
-                locationMap.put(name, nameMap);
-            }
-        } else {
-            this.params.put(locationToUse, locationMap);
-            locationMap.put(name, nameMap);
-        }
-
-        nameMap.put("v", value);
-        return nameMap;
+    public Param newParam(String name, String value, String type) {
+        Param param = new Param();
+        param.setName(name);
+        param.setValue(value);
+        param.setType(type);
+        return param;
     }
 
     /**
@@ -213,15 +164,18 @@ public class Action extends Api {
      * @return Return true if the action has the file
      */
     public boolean hasFile(String name) {
-        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = this.transport.getFiles();
-        for (String service : serviceFiles.keySet()) {
-            Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
-            for (String version : versionFiles.keySet()) {
-                Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
-                for (String action : actionFiles.keySet()) {
-                    Map<String, File> nameFiles = actionFiles.get(action);
-                    if (nameFiles.containsKey(name)) {
-                        return true;
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
+        for (String path : pathFiles.keySet()) {
+            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get(path);
+            for (String service : serviceFiles.keySet()) {
+                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
+                for (String version : versionFiles.keySet()) {
+                    Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
+                    for (String action : actionFiles.keySet()) {
+                        Map<String, File> nameFiles = actionFiles.get(action);
+                        if (nameFiles.containsKey(name)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -238,15 +192,18 @@ public class Action extends Api {
      * @return Return the File
      */
     public File getFile(String name) {
-        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = this.transport.getFiles();
-        for (String service : serviceFiles.keySet()) {
-            Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
-            for (String version : versionFiles.keySet()) {
-                Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
-                for (String action : actionFiles.keySet()) {
-                    Map<String, File> nameFiles = actionFiles.get(action);
-                    if (nameFiles.containsKey(name)) {
-                        return nameFiles.get(name);
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
+        for (String path : pathFiles.keySet()) {
+            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get(path);
+            for (String service : serviceFiles.keySet()) {
+                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
+                for (String version : versionFiles.keySet()) {
+                    Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
+                    for (String action : actionFiles.keySet()) {
+                        Map<String, File> nameFiles = actionFiles.get(action);
+                        if (nameFiles.containsKey(name)) {
+                            return nameFiles.get(name);
+                        }
                     }
                 }
             }
@@ -265,15 +222,18 @@ public class Action extends Api {
      */
     public List<File> getFiles() {
         List<File> files = new ArrayList<>();
-        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = this.transport.getFiles();
-        for (String service : serviceFiles.keySet()) {
-            Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
-            for (String version : versionFiles.keySet()) {
-                Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
-                for (String action : actionFiles.keySet()) {
-                    Map<String, File> nameFiles = actionFiles.get(action);
-                    for (String name : nameFiles.keySet()) {
-                        files.add(nameFiles.get(name));
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
+        for (String path : pathFiles.keySet()) {
+            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get(path);
+            for (String service : serviceFiles.keySet()) {
+                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
+                for (String version : versionFiles.keySet()) {
+                    Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
+                    for (String action : actionFiles.keySet()) {
+                        Map<String, File> nameFiles = actionFiles.get(action);
+                        for (String name : nameFiles.keySet()) {
+                            files.add(nameFiles.get(name));
+                        }
                     }
                 }
             }
@@ -291,37 +251,11 @@ public class Action extends Api {
      * @param mime Mime type of the file
      * @return Return the new file
      */
-    public File newFile(String name, String path, String mime) { //TODO path and mime
+    public File newFile(String name, String path, String mime) {
         File file = new File();
         file.setName(name);
         file.setPath(path);
         file.setMime(mime);
-
-        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFile = this.transport.getFiles();
-        Map<String, Map<String, Map<String, File>>> versionFile = new HashMap<>();
-        Map<String, Map<String, File>> actionFile = new HashMap<>();
-        Map<String, File> nameFile = new HashMap<>();
-
-        if (serviceFile.containsKey(getName())) {
-            versionFile = serviceFile.get(getName());
-            if (versionFile.containsKey(getVersion())) {
-                actionFile = versionFile.get(getVersion());
-                if (actionFile.containsKey(getActionName())) {
-                    nameFile = actionFile.get(getActionName());
-                } else {
-                    actionFile.put(getActionName(), nameFile);
-                }
-            } else {
-                actionFile.put(getActionName(), nameFile);
-                versionFile.put(getVersion(), actionFile);
-            }
-        } else {
-            actionFile.put(getActionName(), nameFile);
-            versionFile.put(getVersion(), actionFile);
-            serviceFile.put(getName(), versionFile);
-        }
-
-        nameFile.put(name, file);
         return file;
     }
 
@@ -336,9 +270,42 @@ public class Action extends Api {
      * @param file File object to register
      * @return Return false if the Service did not include a file server
      */
-    public boolean setDownload(File file) {
-        //TODO empty method
-        return true;
+    public Action setDownload(File file) {
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFile = this.transport.getFiles();
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFile = new HashMap<>();
+        Map<String, Map<String, Map<String, File>>> versionFile = new HashMap<>();
+        Map<String, Map<String, File>> actionFile = new HashMap<>();
+        Map<String, File> nameFile = new HashMap<>();
+
+        if (pathFile.containsKey(getPath())) {
+            serviceFile = pathFile.get(getPath());
+            if (serviceFile.containsKey(getName())) {
+                versionFile = serviceFile.get(getName());
+                if (versionFile.containsKey(getVersion())) {
+                    actionFile = versionFile.get(getVersion());
+                    if (actionFile.containsKey(getActionName())) {
+                        nameFile = actionFile.get(getActionName());
+                    } else {
+                        actionFile.put(getActionName(), nameFile);
+                    }
+                } else {
+                    actionFile.put(getActionName(), nameFile);
+                    versionFile.put(getVersion(), actionFile);
+                }
+            } else {
+                actionFile.put(getActionName(), nameFile);
+                versionFile.put(getVersion(), actionFile);
+                serviceFile.put(getName(), versionFile);
+            }
+        } else {
+            actionFile.put(getActionName(), nameFile);
+            versionFile.put(getVersion(), actionFile);
+            serviceFile.put(getName(), versionFile);
+            pathFile.put(getPath(), serviceFile);
+        }
+
+        nameFile.put(file.getName(), file);
+        return this;
     }
 
     /**
@@ -349,8 +316,31 @@ public class Action extends Api {
      * @param entity Entity to be registered
      * @return Return true if the operation was successful
      */
-    public boolean setEntity(Object entity) {
-        return this.transport.addData(getName(), getVersion(), actionName, entity);
+    public Action setEntity(Object entity) {
+        Map<String, Map<String, Map<String, Map<String, Object>>>> pathData = this.transport.getData();
+        Map<String, Map<String, Map<String, Object>>> serviceData = new HashMap<>();
+        Map<String, Map<String, Object>> versionData = new HashMap<>();
+        Map<String, Object> actionData = new HashMap<>();
+        if (pathData.containsKey(getPath())){
+            serviceData = pathData.get(getPath());
+            if (serviceData.containsKey(getName())){
+                versionData = serviceData.get(getName());
+                if (versionData.containsKey(getVersion())){
+                    actionData = versionData.get(getVersion());
+                } else{
+                    versionData.put(getVersion(), actionData);
+                }
+            } else{
+                versionData.put(getVersion(), actionData);
+                serviceData.put(getName(), versionData);
+            }
+        } else{
+            versionData.put(getVersion(), actionData);
+            serviceData.put(getName(), versionData);
+            pathData.put(getPath(), serviceData);
+        }
+        actionData.put(getActionName(), entity);
+        return this;
     }
 
     /**
@@ -361,8 +351,9 @@ public class Action extends Api {
      * @param collection Collection array to be registered
      * @return Return true if the operation was successful
      */
-    public boolean setCollection(List<?> collection) {
-        return this.transport.addData(getName(), getVersion(), getActionName(), collection);
+    public Action setCollection(List<?> collection) {
+        setEntity(collection);
+        return this;
     }
 
     /**
@@ -376,9 +367,9 @@ public class Action extends Api {
      * @param foreignKey Foreign key argument
      * @return Return true if the operation was successful
      */
-    public boolean relateOne(String primaryKey, String service, String foreignKey) {
+    public Action relateOne(String primaryKey, String service, String foreignKey) {
         //TODO empty method
-        return true;
+        return this;
     }
 
     /**
@@ -392,9 +383,19 @@ public class Action extends Api {
      * @param foreignKey Foreign key argument
      * @return Return true if the operation was successful
      */
-    public boolean relateMany(String primaryKey, String service, String[] foreignKey) {
+    public Action relateMany(String primaryKey, String service, String[] foreignKey) {
         // TODO empty method
-        return true;
+        return this;
+    }
+
+    public Action relateOneRemote(String primaryKey, String address, String service, String foreignKey) {
+        //TODO empty method
+        return this;
+    }
+
+    public Action relateManyRemote(String primaryKey, String address, String service, String foreignKey) {
+        //TODO empty method
+        return this;
     }
 
     /**
@@ -406,8 +407,23 @@ public class Action extends Api {
      * @param uri  Uri of the link
      * @return Return true if the operation was successful
      */
-    public boolean setLink(String link, String uri) {
-        return this.transport.addLink(getName(), link, uri);
+    public Action setLink(String link, String uri) {
+        Map<String, Map<String, Map<String, String>>> pathLink = this.transport.getLinks();
+        Map<String, Map<String, String>> serviceLink = new HashMap<>();
+        Map<String, String> linkMap = new HashMap<>();
+        if (pathLink.containsKey(getPath())){
+            serviceLink = pathLink.get(getPath());
+            if (serviceLink.containsKey(getName())){
+                linkMap = serviceLink.get(getName());
+            } else{
+                serviceLink.put(getName(), linkMap);
+            }
+        } else{
+            serviceLink.put(getName(), linkMap);
+            pathLink.put(getPath(), serviceLink);
+        }
+        linkMap.put(link, uri);
+        return this;
     }
 
     /**
@@ -422,9 +438,9 @@ public class Action extends Api {
      * @param params Params argument
      * @return Return true if the operation was successful
      */
-    public boolean commit(String action, Map<String, Map<String, String>> params) {
+    public Action commit(String action, Map<String, Map<String, String>> params) {
         // TODO empty method
-        return false;
+        return this;
     }
 
     /**
@@ -439,9 +455,9 @@ public class Action extends Api {
      * @param params Params argument
      * @return Return true if the operation was successful
      */
-    public boolean rollback(String action, Map<String, Map<String, String>> params) {
+    public Action rollback(String action, Map<String, Map<String, String>> params) {
         // TODO empty method
-        return false;
+        return this;
     }
 
     /**
@@ -456,9 +472,9 @@ public class Action extends Api {
      * @param params Params argument
      * @return Return true if the operation was successful
      */
-    public boolean complete(String action, Map<String, Map<String, String>> params) {
+    public Action complete(String action, Map<String, Map<String, String>> params) {
         // TODO empty method
-        return false;
+        return this;
     }
 
     /**
@@ -522,9 +538,9 @@ public class Action extends Api {
      * @param files   array of files
      * @return Return true if the operation was successful
      */
-    public boolean call(String service, String version, String action, Map<String, Map<String, String>> params, List<File> files) {
+    public Action call(String service, String version, String action, Map<String, Map<String, String>> params, List<File> files) {
         // TODO empty method
-        return true;
+        return this;
     }
 
     /**
@@ -543,31 +559,39 @@ public class Action extends Api {
      * @param status  Error status
      * @return Return true if the operation was successful
      */
-    public boolean error(String message, int code, String status) {
+    public Action error(String message, int code, String status) {
         Error error = new Error();
         error.setMessage(message);
         error.setCode(code);
         error.setStatus(status);
 
-        Map<String, Map<String, List<Error>>> serviceError = this.transport.getErrors();
+        Map<String, Map<String, Map<String, List<Error>>>> pathError = this.transport.getErrors();
+        Map<String, Map<String, List<Error>>> serviceError = new HashMap<>();
         Map<String, List<Error>> versionError = new HashMap<>();
         List<Error> errors = new ArrayList<>();
 
-        if (serviceError.containsKey(getName())) {
-            versionError = serviceError.get(getName());
-            if (versionError.containsKey(getVersion())) {
-                errors = versionError.get(getVersion());
+        if (pathError.containsKey(getPath())) {
+            serviceError = pathError.get(getPath());
+            if (serviceError.containsKey(getName())) {
+                versionError = serviceError.get(getName());
+                if (versionError.containsKey(getVersion())) {
+                    errors = versionError.get(getVersion());
+                } else {
+                    versionError.put(getVersion(), errors);
+                }
             } else {
                 versionError.put(getVersion(), errors);
+                serviceError.put(getName(), versionError);
             }
         } else {
             versionError.put(getVersion(), errors);
             serviceError.put(getName(), versionError);
+            pathError.put(getPath(), serviceError);
         }
 
         errors.add(error);
 
-        return true;
+        return this;
     }
 
     @Override

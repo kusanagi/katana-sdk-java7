@@ -22,57 +22,6 @@ public class TransactionTest {
     }
 
     @Test
-    public void getAction() {
-        //SETUP
-        String newAction = "New action";
-        this.transaction.setAction(newAction);
-
-        // ACTION
-        String action = this.transaction.getAction();
-
-        // EXPECTED
-        Assert.assertEquals(action, newAction);
-    }
-
-    @Test
-    public void setAction() {
-        //SETUP
-        String action = "New action";
-
-        // ACTION
-        this.transaction.setAction(action);
-
-        // EXPECTED
-        Assert.assertEquals(this.transaction.getAction(), action);
-    }
-
-    @Test
-    public void getParams() {
-        //SETUP
-        List<Param> newParams = new ArrayList<>();
-        this.transaction.setParams(newParams);
-
-        // ACTION
-        List<Param> params = this.transaction.getParams();
-
-        // EXPECTED
-        Assert.assertEquals(params, newParams);
-    }
-
-    @Test
-    public void setParams() {
-        //SETUP
-        List<Param> newParams = new ArrayList<>();
-
-        // ACTION
-        this.transaction.setParams(newParams);
-
-        // EXPECTED
-        Assert.assertEquals(this.transaction.getParams(), newParams);
-    }
-
-
-    @Test
     public void equals() {
         PodamFactory podamFactory = new PodamFactoryImpl();
         Transaction mockTransaction1 = podamFactory.manufacturePojoWithFullData(Transaction.class);

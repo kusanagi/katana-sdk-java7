@@ -94,6 +94,31 @@ public class MetaTest {
     }
 
     @Test
+    public void getType() {
+        // SETUP
+        int type = 2;
+        this.meta.setType(type);
+
+        // ACTION
+        int typeObtained = this.meta.getType();
+
+        // EXPECTED
+        Assert.assertEquals(type, typeObtained);
+    }
+
+    @Test
+    public void setType() {
+        // SETUP
+        int type = 2;
+
+        // ACTION
+        this.meta.setType(type);
+
+        // EXPECTED
+        Assert.assertEquals(type, this.meta.getType());
+    }
+
+    @Test
     public void equals() {
         PodamFactory podamFactory = new PodamFactoryImpl();
         Meta mockMeta1 = podamFactory.manufacturePojoWithFullData(Meta.class);
