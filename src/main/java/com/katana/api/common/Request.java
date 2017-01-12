@@ -2,6 +2,7 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.sdk.components.Component;
+import zmq.Req;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,9 +99,9 @@ public class Request extends Api {
      * @param name Name of the service
      * @return Return true if the operation was successful
      */
-    public boolean setServiceName(String name) {
+    public Request setServiceName(String name) {
         this.requestCall.setService(name);
-        return true;
+        return this;
     }
 
     /**
@@ -116,9 +117,9 @@ public class Request extends Api {
      * @param version Version for the service
      * @return Return true if the operation was successful
      */
-    public boolean setServiceVersion(String version) {
+    public Request setServiceVersion(String version) {
         this.requestCall.setVersion(version);
-        return true;
+        return this;
     }
 
     /**
@@ -134,9 +135,9 @@ public class Request extends Api {
      * @param action Action name
      * @return Return true if the operation was successful
      */
-    public boolean setActionName(String action) {
+    public Request setActionName(String action) {
         this.requestCall.setAction(action);
-        return true;
+        return this;
     }
 
     public boolean hasParam(String name) {
@@ -171,12 +172,12 @@ public class Request extends Api {
         }
     }
 
-    public HttpRequest setParam(Param param){
+    public Request setParam(Param param){
         if (this.requestCall == null){
             this.requestCall.setParams(new ArrayList<>());
         }
         this.requestCall.getParams().add(param);
-        return this.httpRequest;
+        return this;
     }
 
     public Param newParam(String name, String value, String type){

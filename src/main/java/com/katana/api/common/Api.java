@@ -107,6 +107,8 @@ public class Api {
         isDebug = debug;
     }
 
+    // SDK Method
+
     /**
      * @return Return whether or not the component is currently running in debug mode.
      */
@@ -154,8 +156,6 @@ public class Api {
     public Map<String, String> getVariables() {
         return variables;
     }
-
-    // SDK Method
 
     /**
      * Get the variable with the REQUIRED case-sensitive name argument, and which MUST be returned as a string.

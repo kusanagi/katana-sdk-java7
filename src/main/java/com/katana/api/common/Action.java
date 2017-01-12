@@ -37,15 +37,6 @@ public class Action extends Api {
     }
 
     /**
-     * Param getter
-     *
-     * @return Return all the params of the action
-     */
-    public Map<String, Param> getParams() {
-        return params;
-    }
-
-    /**
      * Params setter
      *
      * @param params Params object
@@ -134,6 +125,15 @@ public class Action extends Api {
             return null;
         }
         return params.get(name);
+    }
+
+    /**
+     * Param getter
+     *
+     * @return Return all the params of the action
+     */
+    public Map<String, Param> getParams() {
+        return params;
     }
 
     /**
@@ -538,7 +538,12 @@ public class Action extends Api {
      * @param files   array of files
      * @return Return true if the operation was successful
      */
-    public Action call(String service, String version, String action, Map<String, Map<String, String>> params, List<File> files) {
+    public Action call(String service, String version, String action, Map<String, Map<String, String>> params, List<File> files, String callback) {
+        // TODO empty method
+        return this;
+    }
+
+    public Action callRemote(String address, String service, String version, String action, Map<String, Map<String, String>> params, List<File> files, String callback){
         // TODO empty method
         return this;
     }

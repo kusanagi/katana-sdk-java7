@@ -164,7 +164,6 @@ public class HttpResponseTest {
         Assert.assertTrue(true);
     }
 
-
     @Test
     public void equals() {
         PodamFactory podamFactory = new PodamFactoryImpl();

@@ -8,20 +8,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CommandMeta {
 
     @JsonProperty("s")
-    private String service;
+    private String scope;
 
     /**
      * @return
      */
-    public String getService() {
-        return service;
+    public String getScope() {
+        return scope;
     }
 
     /**
-     * @param service
+     * @param scope
      */
-    public void setService(String service) {
-        this.service = service;
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 
     @Override
@@ -35,19 +35,19 @@ public class CommandMeta {
 
         CommandMeta that = (CommandMeta) o;
 
-        return getService().equals(that.getService());
+        return getScope().equals(that.getScope());
 
     }
 
     @Override
     public int hashCode() {
-        return getService().hashCode();
+        return getScope().hashCode();
     }
 
     @Override
     public String toString() {
         return "CommandMeta{" +
-                "service='" + service + '\'' +
+                "scope='" + scope + '\'' +
                 '}';
     }
 }

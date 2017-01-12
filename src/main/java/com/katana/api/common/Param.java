@@ -21,32 +21,23 @@ public class Param {
     public Param() {
     }
 
-    public String getName() {
-        return name;
+    public Param(String name, String value, String type, boolean exists) {
+        this.name = name;
+        this.value = value;
+        this.type = type;
+        this.exists = exists;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
-    }
-
     public void setValue(String value) {
         this.value = value;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public void setType(String type) {
         this.type = type;
-    }
-
-    public boolean exists() {
-        return exists;
     }
 
     public void setExists(boolean exists) {
@@ -54,6 +45,23 @@ public class Param {
     }
 
     // SDK Methods
+
+    public String getName() {
+        return name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public boolean exists() {
+        return exists;
+    }
+
     public Param copyWithName(String name) {
         Param param = new Param();
         param.setName(name);

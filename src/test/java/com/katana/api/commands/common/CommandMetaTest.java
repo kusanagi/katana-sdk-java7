@@ -20,10 +20,10 @@ public class CommandMetaTest {
     public void getService() {
         // SETUP
         String service = "Service";
-        this.commandMeta.setService(service);
+        this.commandMeta.setScope(service);
 
         // ACTION
-        String serviceObtained = this.commandMeta.getService();
+        String serviceObtained = this.commandMeta.getScope();
 
         // EXPECTED
         Assert.assertEquals(service, serviceObtained);
@@ -35,10 +35,10 @@ public class CommandMetaTest {
         String service = "Service";
 
         // ACTION
-        this.commandMeta.setService(service);
+        this.commandMeta.setScope(service);
 
         // EXPECTED
-        Assert.assertEquals(service, this.commandMeta.getService());
+        Assert.assertEquals(service, this.commandMeta.getScope());
     }
 
 }

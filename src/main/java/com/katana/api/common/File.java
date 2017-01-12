@@ -14,8 +14,8 @@ public class File {
     @JsonProperty("p")
     private String path;
 
-    @JsonProperty("t")
-    private String token;
+    @JsonProperty("m")
+    private String mime;
 
     @JsonProperty("f")
     private String filename;
@@ -23,57 +23,42 @@ public class File {
     @JsonProperty("s")
     private String size;
 
-    @JsonProperty("m")
-    private String mime;
+    @JsonProperty("t")
+    private String token;
 
     private boolean exists;
 
     public File() {
     }
 
-    @JsonIgnore
-    public String getName() {
-        return name;
+    public File(String name, String path, String mime, String filename, String size, String token, boolean exists) {
+        this.name = name;
+        this.path = path;
+        this.mime = mime;
+        this.filename = filename;
+        this.size = size;
+        this.token = token;
+        this.exists = exists;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getPath() {
-        return path;
-    }
-
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public String getToken() {
-        return token;
     }
 
     public void setToken(String token) {
         this.token = token;
     }
 
-    public String getFilename() {
-        return filename;
-    }
-
     public void setFilename(String filename) {
         this.filename = filename;
     }
 
-    public String getSize() {
-        return size;
-    }
-
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public String getMime() {
-        return mime;
     }
 
     public void setMime(String mime) {
@@ -86,8 +71,38 @@ public class File {
 
     //SDK Methods
 
+    @JsonIgnore
+    public String getName() {
+        return name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getMime() {
+        return mime;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
     public boolean exists() {
         return this.exists;
+    }
+
+    public boolean isLocal(){
+        //TODO implement this method
+        return false;
     }
 
     public String read() {

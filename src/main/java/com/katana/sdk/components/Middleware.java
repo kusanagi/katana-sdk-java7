@@ -15,6 +15,7 @@ import com.katana.sdk.common.Callable;
 public class Middleware extends Component {
 
     private Callable<Request> requestCallable;
+    
     private Callable<Response> responseCallable;
 
     public Middleware(String[] args) {

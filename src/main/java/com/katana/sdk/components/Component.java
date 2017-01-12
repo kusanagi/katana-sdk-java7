@@ -329,7 +329,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     }
 
     private void generateDefaultSocket() {
-        this.socket = "@katana-" + this.component + "-" + this.name + "-" + UUID.randomUUID().toString();
+        this.socket = "@katana-" + this.component + "-" + this.name + "-" + this.version;
     }
 
     /**
@@ -476,11 +476,11 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
+                case "-p":
+                    this.platformVersion = option.getValue();
+                    break;
                 case "-c":
                     this.component = option.getValue();
-                    break;
-                case "-d":
-                    this.disableCompactName = true;
                     break;
                 case "-n":
                     this.name = option.getValue();
@@ -488,20 +488,20 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
                 case "-v":
                     this.version = option.getValue();
                     break;
-                case "-p":
-                    this.platformVersion = option.getValue();
-                    break;
                 case "-s":
                     this.socket = option.getValue();
                     break;
                 case "-t":
                     this.tcp = option.getValue();
                     break;
-                case "-D":
-                    this.debug = true;
-                    break;
                 case "-V":
                     this.var.add(option.getValue());
+                    break;
+                case "-d":
+                    this.disableCompactName = true;
+                    break;
+                case "-D":
+                    this.debug = true;
                     break;
                 case "-C":
                     this.callback = option.getValue();
