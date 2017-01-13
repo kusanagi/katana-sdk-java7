@@ -24,12 +24,18 @@ public class HttpSchema {
         this.gateway = gateway;
     }
 
-    public String getBasePath() {
-        return basePath;
-    }
-
     public void setBasePath(String basePath) {
         this.basePath = basePath;
+    }
+
+    //SDK Methods
+
+    public boolean isAccesible(){
+        return isGateway();
+    }
+
+    public String getBasePath() {
+        return basePath;
     }
 
     @Override

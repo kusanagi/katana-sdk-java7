@@ -21,6 +21,9 @@ public class ServiceTransaction {
     @JsonProperty("p")
     private List<Param> params;
 
+    public ServiceTransaction() {
+    }
+
     public String getName() {
         return name;
     }

@@ -1,5 +1,6 @@
 package com.katana.api.common.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
@@ -10,6 +11,8 @@ import java.util.Map;
  * Created by juan on 3/01/17.
  */
 public class ActionSchema {
+
+    private String name;
 
     @JsonProperty("x")
     private int timeout;
@@ -56,6 +59,10 @@ public class ActionSchema {
     public ActionSchema() {
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getTimeout() {
         return timeout;
     }
@@ -64,48 +71,24 @@ public class ActionSchema {
         this.timeout = timeout;
     }
 
-    public String getEntityPath() {
-        return entityPath;
-    }
-
     public void setEntityPath(String entityPath) {
         this.entityPath = entityPath;
-    }
-
-    public String getPathDelimiter() {
-        return pathDelimiter;
     }
 
     public void setPathDelimiter(String pathDelimiter) {
         this.pathDelimiter = pathDelimiter;
     }
 
-    public String getPrimaryKey() {
-        return primaryKey;
-    }
-
     public void setPrimaryKey(String primaryKey) {
         this.primaryKey = primaryKey;
-    }
-
-    public boolean isCollection() {
-        return collection;
     }
 
     public void setCollection(boolean collection) {
         this.collection = collection;
     }
 
-    public String[][] getCalls() {
-        return calls;
-    }
-
     public void setCalls(String[][] calls) {
         this.calls = calls;
-    }
-
-    public String[][] getRemoteCalls() {
-        return remoteCalls;
     }
 
     public void setRemoteCalls(String[][] remoteCalls) {
@@ -120,10 +103,6 @@ public class ActionSchema {
         this.fallbacks = fallbacks;
     }
 
-    public boolean isDeprecated() {
-        return deprecated;
-    }
-
     public void setDeprecated(boolean deprecated) {
         this.deprecated = deprecated;
     }
@@ -136,36 +115,119 @@ public class ActionSchema {
         this.http = http;
     }
 
-    public Map<String, ActionParamSchema> getParams() {
-        return params;
-    }
-
     public void setParams(Map<String, ActionParamSchema> params) {
         this.params = params;
-    }
-
-    public Map<String, FileSchema> getFiles() {
-        return files;
     }
 
     public void setFiles(Map<String, FileSchema> files) {
         this.files = files;
     }
 
+    public void setEntity(EntitySchema entity) {
+        this.entity = entity;
+    }
+
+    public void setRelations(List<RelationSchema> relations) {
+        this.relations = relations;
+    }
+
+    //SDM Methods
+
+    public boolean isDeprecated() {
+        return deprecated;
+    }
+
+    public boolean isCollection() {
+        return collection;
+    }
+
+    @JsonIgnore
+    public String getName() {
+        return name;
+    }
+
+    public String getEntityPath() {
+        return entityPath;
+    }
+
+    public String getPathDelimiter() {
+        return pathDelimiter;
+    }
+
+    public String getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public Object resolveEntity(Object data){
+        return null;
+    }
+
+    public boolean hasEntity(){
+        return this.entity != null;
+    }
+
     public EntitySchema getEntity() {
         return entity;
     }
 
-    public void setEntity(EntitySchema entity) {
-        this.entity = entity;
+    public boolean hasRelations(){
+        return this.relations != null && !this.relations.isEmpty();
     }
 
     public List<RelationSchema> getRelations() {
         return relations;
     }
 
-    public void setRelations(List<RelationSchema> relations) {
-        this.relations = relations;
+    public boolean hasCall(String name, String version, String action, String callback){
+        return false;
+    }
+
+    public boolean hasCalls(){
+        return this.calls != null && this.calls.length != 0;
+    }
+
+    public String[][] getCalls() {
+        return calls;
+    }
+
+    public boolean hasRemoteCall(String address, String name, String version, String action, String callback){
+        return false;
+    }
+
+    public boolean hasRemoteCalls(){
+        return this.remoteCalls != null && this.remoteCalls.length != 0;
+    }
+
+    public String[][] getRemoteCalls() {
+        return remoteCalls;
+    }
+
+    public Map<String, ActionParamSchema> getParams() {
+        return params;
+    }
+
+    public boolean hasParam(String name){
+        return this.params != null && this.params.containsKey(name);
+    }
+
+    public ActionParamSchema getParamSchema(String name){
+        return this.params.get(name);
+    }
+
+    public Map<String, FileSchema> getFiles() {
+        return files;
+    }
+
+    public boolean hasFile(String name){
+        return this.files != null && this.files.containsKey(name);
+    }
+
+    public FileSchema getFileSchema(String name){
+        return this.files.get(name);
+    }
+
+    public ActionHttpSchema getHttpSchema() {
+        return getHttp();
     }
 
     @Override

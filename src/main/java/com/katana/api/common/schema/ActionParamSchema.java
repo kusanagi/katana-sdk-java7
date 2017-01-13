@@ -1,5 +1,6 @@
 package com.katana.api.common.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
  * Created by juan on 3/01/17.
  */
 public class ActionParamSchema {
+
+    private String name;
 
     @JsonProperty("t")
     private String type;
@@ -58,7 +61,7 @@ public class ActionParamSchema {
     private int minItems;
 
     @JsonProperty("ui")
-    private int uniqueItems;
+    private boolean uniqueItems;
 
     @JsonProperty("em")
     private List<String> _enum;
@@ -72,32 +75,20 @@ public class ActionParamSchema {
     public ActionParamSchema() {
     }
 
-    public String getType() {
-        return type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setType(String type) {
         this.type = type;
     }
 
-    public String getFormat() {
-        return format;
-    }
-
     public void setFormat(String format) {
         this.format = format;
     }
 
-    public String getArrayFormat() {
-        return arrayFormat;
-    }
-
     public void setArrayFormat(String arrayFormat) {
         this.arrayFormat = arrayFormat;
-    }
-
-    public String getPattern() {
-        return pattern;
     }
 
     public void setPattern(String pattern) {
@@ -112,112 +103,56 @@ public class ActionParamSchema {
         this.allowEmpty = allowEmpty;
     }
 
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
-    }
-
-    public boolean isRequired() {
-        return required;
     }
 
     public void setRequired(boolean required) {
         this.required = required;
     }
 
-    public String getItems() {
-        return items;
-    }
-
     public void setItems(String items) {
         this.items = items;
-    }
-
-    public int getMax() {
-        return max;
     }
 
     public void setMax(int max) {
         this.max = max;
     }
 
-    public boolean isExclusiveMax() {
-        return exclusiveMax;
-    }
-
     public void setExclusiveMax(boolean exclusiveMax) {
         this.exclusiveMax = exclusiveMax;
-    }
-
-    public int getMin() {
-        return min;
     }
 
     public void setMin(int min) {
         this.min = min;
     }
 
-    public boolean isExclusiveMin() {
-        return exclusiveMin;
-    }
-
     public void setExclusiveMin(boolean exclusiveMin) {
         this.exclusiveMin = exclusiveMin;
-    }
-
-    public int getMaxLength() {
-        return maxLength;
     }
 
     public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
     }
 
-    public int getMinLength() {
-        return minLength;
-    }
-
     public void setMinLength(int minLength) {
         this.minLength = minLength;
-    }
-
-    public int getMaxItems() {
-        return maxItems;
     }
 
     public void setMaxItems(int maxItems) {
         this.maxItems = maxItems;
     }
 
-    public int getMinItems() {
-        return minItems;
-    }
-
     public void setMinItems(int minItems) {
         this.minItems = minItems;
     }
 
-    public int getUniqueItems() {
-        return uniqueItems;
-    }
-
-    public void setUniqueItems(int uniqueItems) {
+    public void setUniqueItems(boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
-    }
-
-    public List<String> get_enum() {
-        return _enum;
     }
 
     public void set_enum(List<String> _enum) {
         this._enum = _enum;
-    }
-
-    public int getMultipleOf() {
-        return multipleOf;
     }
 
     public void setMultipleOf(int multipleOf) {
@@ -230,6 +165,98 @@ public class ActionParamSchema {
 
     public void setHttp(ActionParamHttpSchema http) {
         this.http = http;
+    }
+
+    //SDK Methods
+
+    @JsonIgnore
+    public String getName(){
+        return this.name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public String getArrayFormat() {
+        return arrayFormat;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public boolean allowEmpty() {
+        return isAllowEmpty();
+    }
+
+    public boolean hasDefaultValue() {
+        return defaultValue != null && !defaultValue.isEmpty();
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public String getItems() {
+        return items;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public boolean isExclusiveMax() {
+        return exclusiveMax;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public boolean isExclusiveMin() {
+        return exclusiveMin;
+    }
+
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    public int getMinLength() {
+        return minLength;
+    }
+
+    public int getMaxItems() {
+        return maxItems;
+    }
+
+    public int getMinItems() {
+        return minItems;
+    }
+
+    public boolean isUniqueItems() {
+        return uniqueItems;
+    }
+
+    public List<String> get_enum() {
+        return _enum;
+    }
+
+    public int getMultipleOf() {
+        return multipleOf;
+    }
+
+    @JsonIgnore
+    public ActionParamHttpSchema getHttpSchema() {
+        return getHttp();
     }
 
     @Override
@@ -273,7 +300,7 @@ public class ActionParamSchema {
         if (getMinItems() != that.getMinItems()) {
             return false;
         }
-        if (getUniqueItems() != that.getUniqueItems()) {
+        if (isUniqueItems() != that.isUniqueItems()) {
             return false;
         }
         if (getMultipleOf() != that.getMultipleOf()) {
@@ -322,7 +349,7 @@ public class ActionParamSchema {
         result = 31 * result + getMinLength();
         result = 31 * result + getMaxItems();
         result = 31 * result + getMinItems();
-        result = 31 * result + getUniqueItems();
+        result = 31 * result + (isUniqueItems() ? 1 : 0);
         result = 31 * result + (get_enum() != null ? get_enum().hashCode() : 0);
         result = 31 * result + getMultipleOf();
         result = 31 * result + (getHttp() != null ? getHttp().hashCode() : 0);

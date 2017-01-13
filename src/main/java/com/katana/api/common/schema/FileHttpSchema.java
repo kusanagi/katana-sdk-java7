@@ -24,12 +24,18 @@ public class FileHttpSchema {
         this.gateway = gateway;
     }
 
-    public String getParam() {
-        return param;
-    }
-
     public void setParam(String param) {
         this.param = param;
+    }
+
+    //SDK Methods
+
+    public boolean isAccessible() {
+        return isGateway();
+    }
+
+    public String getParam() {
+        return param;
     }
 
     @Override

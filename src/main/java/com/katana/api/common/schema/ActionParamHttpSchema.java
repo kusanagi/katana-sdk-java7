@@ -27,20 +27,26 @@ public class ActionParamHttpSchema {
         this.gateway = gateway;
     }
 
-    public String getInput() {
-        return input;
-    }
-
     public void setInput(String input) {
         this.input = input;
     }
 
-    public String getParam() {
-        return param;
-    }
-
     public void setParam(String param) {
         this.param = param;
+    }
+
+    //SDK Methods
+
+    public boolean isAccessible() {
+        return isGateway();
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public String getParam() {
+        return param;
     }
 
     @Override

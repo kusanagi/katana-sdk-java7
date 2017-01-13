@@ -368,7 +368,37 @@ public class Action extends Api {
      * @return Return true if the operation was successful
      */
     public Action relateOne(String primaryKey, String service, String foreignKey) {
-        //TODO empty method
+        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
+
+        Map<String, Object> relation = new HashMap<>();
+        relation.put(service, foreignKey);
+
+        Map<String, Map<String, Object>> primaryKeyRelation = new HashMap<>();
+        primaryKeyRelation.put(path, relation);
+
+        Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
+        nameRelation.put(name, primaryKeyRelation);
+
+        if (relations.containsKey(path)){
+            if (relations.get(path).containsKey(name)){
+                if (relations.get(path).get(name).containsKey(primaryKey)){
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(path)){
+                        relations.get(path).get(name).get(primaryKey).get(path).put(service, foreignKey);
+                    } else {
+                        relations.get(path).get(name).get(primaryKey).put(path, relation);
+                    }
+                } else {
+                    relations.get(path).get(name).put(primaryKey, primaryKeyRelation);
+                }
+            } else {
+                relations.get(path).put(name, nameRelation);
+            }
+        } else {
+            Map<String, Map<String, Map<String, Map<String, Object>>>> pathRelation = new HashMap<>();
+            pathRelation.put(path, nameRelation);
+            relations.put(path, pathRelation);
+        }
+
         return this;
     }
 
@@ -384,17 +414,105 @@ public class Action extends Api {
      * @return Return true if the operation was successful
      */
     public Action relateMany(String primaryKey, String service, String[] foreignKey) {
-        // TODO empty method
+        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
+
+        Map<String, Object> relation = new HashMap<>();
+        relation.put(service, foreignKey);
+
+        Map<String, Map<String, Object>> primaryKeyRelation = new HashMap<>();
+        primaryKeyRelation.put(path, relation);
+
+        Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
+        nameRelation.put(name, primaryKeyRelation);
+
+        if (relations.containsKey(path)){
+            if (relations.get(path).containsKey(name)){
+                if (relations.get(path).get(name).containsKey(primaryKey)){
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(path)){
+                        relations.get(path).get(name).get(primaryKey).get(path).put(service, foreignKey);
+                    } else {
+                        relations.get(path).get(name).get(primaryKey).put(path, relation);
+                    }
+                } else {
+                    relations.get(path).get(name).put(primaryKey, primaryKeyRelation);
+                }
+            } else {
+                relations.get(path).put(name, nameRelation);
+            }
+        } else {
+            Map<String, Map<String, Map<String, Map<String, Object>>>> pathRelation = new HashMap<>();
+            pathRelation.put(path, nameRelation);
+            relations.put(path, pathRelation);
+        }
+
         return this;
     }
 
     public Action relateOneRemote(String primaryKey, String address, String service, String foreignKey) {
-        //TODO empty method
+        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
+
+        Map<String, Object> relation = new HashMap<>();
+        relation.put(service, foreignKey);
+
+        Map<String, Map<String, Object>> primaryKeyRelation = new HashMap<>();
+        primaryKeyRelation.put(path, relation);
+
+        Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
+        nameRelation.put(name, primaryKeyRelation);
+
+        if (relations.containsKey(path)){
+            if (relations.get(path).containsKey(name)){
+                if (relations.get(path).get(name).containsKey(primaryKey)){
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(address)){
+                        relations.get(path).get(name).get(primaryKey).get(address).put(service, foreignKey);
+                    } else {
+                        relations.get(path).get(name).get(primaryKey).put(address, relation);
+                    }
+                } else {
+                    relations.get(path).get(name).put(primaryKey, primaryKeyRelation);
+                }
+            } else {
+                relations.get(path).put(name, nameRelation);
+            }
+        } else {
+            Map<String, Map<String, Map<String, Map<String, Object>>>> pathRelation = new HashMap<>();
+            pathRelation.put(path, nameRelation);
+            relations.put(path, pathRelation);
+        }
         return this;
     }
 
     public Action relateManyRemote(String primaryKey, String address, String service, String foreignKey) {
-        //TODO empty method
+        Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
+
+        Map<String, Object> relation = new HashMap<>();
+        relation.put(service, foreignKey);
+
+        Map<String, Map<String, Object>> primaryKeyRelation = new HashMap<>();
+        primaryKeyRelation.put(path, relation);
+
+        Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
+        nameRelation.put(name, primaryKeyRelation);
+
+        if (relations.containsKey(path)){
+            if (relations.get(path).containsKey(name)){
+                if (relations.get(path).get(name).containsKey(primaryKey)){
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(address)){
+                        relations.get(path).get(name).get(primaryKey).get(address).put(service, foreignKey);
+                    } else {
+                        relations.get(path).get(name).get(primaryKey).put(address, relation);
+                    }
+                } else {
+                    relations.get(path).get(name).put(primaryKey, primaryKeyRelation);
+                }
+            } else {
+                relations.get(path).put(name, nameRelation);
+            }
+        } else {
+            Map<String, Map<String, Map<String, Map<String, Object>>>> pathRelation = new HashMap<>();
+            pathRelation.put(path, nameRelation);
+            relations.put(path, pathRelation);
+        }
         return this;
     }
 
@@ -438,8 +556,17 @@ public class Action extends Api {
      * @param params Params argument
      * @return Return true if the operation was successful
      */
-    public Action commit(String action, Map<String, Map<String, String>> params) {
-        // TODO empty method
+    public Action commit(String action, List<Param> params) {
+        List<ServiceTransaction> commit = this.transport.getTransactions().getCommit();
+        if(commit == null){
+            commit = new ArrayList<>();
+        }
+        ServiceTransaction serviceTransaction = new ServiceTransaction();
+        serviceTransaction.setName(name);
+        serviceTransaction.setVersion(version);
+        serviceTransaction.setAction(action);
+        serviceTransaction.setParams(params);
+        commit.add(serviceTransaction);
         return this;
     }
 
@@ -455,8 +582,17 @@ public class Action extends Api {
      * @param params Params argument
      * @return Return true if the operation was successful
      */
-    public Action rollback(String action, Map<String, Map<String, String>> params) {
-        // TODO empty method
+    public Action rollback(String action, List<Param> params) {
+        List<ServiceTransaction> rollback = this.transport.getTransactions().getRollback();
+        if(rollback == null){
+            rollback = new ArrayList<>();
+        }
+        ServiceTransaction serviceTransaction = new ServiceTransaction();
+        serviceTransaction.setName(name);
+        serviceTransaction.setVersion(version);
+        serviceTransaction.setAction(action);
+        serviceTransaction.setParams(params);
+        rollback.add(serviceTransaction);
         return this;
     }
 
@@ -472,8 +608,17 @@ public class Action extends Api {
      * @param params Params argument
      * @return Return true if the operation was successful
      */
-    public Action complete(String action, Map<String, Map<String, String>> params) {
-        // TODO empty method
+    public Action complete(String action, List<Param> params) {
+        List<ServiceTransaction> complete = this.transport.getTransactions().getComplete();
+        if(complete == null){
+            complete = new ArrayList<>();
+        }
+        ServiceTransaction serviceTransaction = new ServiceTransaction();
+        serviceTransaction.setName(name);
+        serviceTransaction.setVersion(version);
+        serviceTransaction.setAction(action);
+        serviceTransaction.setParams(params);
+        complete.add(serviceTransaction);
         return this;
     }
 
@@ -538,13 +683,58 @@ public class Action extends Api {
      * @param files   array of files
      * @return Return true if the operation was successful
      */
-    public Action call(String service, String version, String action, Map<String, Map<String, String>> params, List<File> files, String callback) {
-        // TODO empty method
+    public Action call(String service, String version, String action, List<Param> params, List<File> files, String callback) {
+        Map<String, Map<String, List<Call>>> calls = transport.getCalls();
+        List<Call> callList = new ArrayList<>();
+
+        Map<String, List<Call>> versionCalls = new HashMap<>();
+        versionCalls.put(this.version, callList);
+
+        if (calls.containsKey(this.name)){
+            if (calls.get(this.name).containsKey(this.version)){
+                callList = calls.get(this.name).get(this.version);
+            } else {
+                calls.get(this.name).put(this.version, callList);
+            }
+        } else {
+            calls.put(this.name, versionCalls);
+        }
+
+        Call call = new Call();
+        call.setName(service);
+        call.setVersion(version);
+        call.setAction(action);
+        call.setCallback(callback);
+        call.setParams(params);
+        callList.add(call);
         return this;
     }
 
-    public Action callRemote(String address, String service, String version, String action, Map<String, Map<String, String>> params, List<File> files, String callback){
-        // TODO empty method
+    public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, String callback){
+        Map<String, Map<String, List<Call>>> calls = transport.getCalls();
+        List<Call> callList = new ArrayList<>();
+
+        Map<String, List<Call>> versionCalls = new HashMap<>();
+        versionCalls.put(this.version, callList);
+
+        if (calls.containsKey(this.name)){
+            if (calls.get(this.name).containsKey(this.version)){
+                callList = calls.get(this.name).get(this.version);
+            } else {
+                calls.get(this.name).put(this.version, callList);
+            }
+        } else {
+            calls.put(this.name, versionCalls);
+        }
+
+        Call call = new Call();
+        call.setGateway(address);
+        call.setName(service);
+        call.setVersion(version);
+        call.setAction(action);
+        call.setCallback(callback);
+        call.setParams(params);
+        callList.add(call);
         return this;
     }
 

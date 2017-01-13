@@ -2,6 +2,13 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import sun.misc.IOUtils;
+
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Created by juan on 14/09/16.
@@ -100,14 +107,24 @@ public class File {
         return this.exists;
     }
 
-    public boolean isLocal(){
-        //TODO implement this method
-        return false;
+    public boolean isLocal() {
+        try {
+            URI uri = new URI(path);
+            if (uri.getScheme().equals("file")) {
+                return true;
+            }
+            return false;
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
     public String read() {
-        //TODO implement this method
-        return "";
+        try {
+            return new String(Files.readAllBytes(Paths.get(this.path)));
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public File copyWithName(String name) {

@@ -1,11 +1,14 @@
 package com.katana.api.common.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by juan on 3/01/17.
  */
 public class FileSchema {
+
+    private String name;
 
     @JsonProperty("m")
     private String mime;
@@ -31,48 +34,28 @@ public class FileSchema {
     public FileSchema() {
     }
 
-    public String getMime() {
-        return mime;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setMime(String mime) {
         this.mime = mime;
     }
 
-    public boolean isRequired() {
-        return required;
-    }
-
     public void setRequired(boolean required) {
         this.required = required;
-    }
-
-    public int getMax() {
-        return max;
     }
 
     public void setMax(int max) {
         this.max = max;
     }
 
-    public boolean isExclusiveMax() {
-        return exclusiveMax;
-    }
-
     public void setExclusiveMax(boolean exclusiveMax) {
         this.exclusiveMax = exclusiveMax;
     }
 
-    public int getMin() {
-        return min;
-    }
-
     public void setMin(int min) {
         this.min = min;
-    }
-
-    public boolean isExclusiveMin() {
-        return exclusiveMin;
     }
 
     public void setExclusiveMin(boolean exclusiveMin) {
@@ -85,6 +68,41 @@ public class FileSchema {
 
     public void setHttp(FileHttpSchema http) {
         this.http = http;
+    }
+
+    //SDK Methods
+
+    @JsonIgnore
+    public String getName() {
+        return name;
+    }
+
+    public String getMime() {
+        return mime;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public boolean isExclusiveMax() {
+        return exclusiveMax;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public boolean isExclusiveMin() {
+        return exclusiveMin;
+    }
+
+    public FileHttpSchema getHttpSchema() {
+        return getHttp();
     }
 
     @Override

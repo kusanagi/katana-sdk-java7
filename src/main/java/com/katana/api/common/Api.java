@@ -185,7 +185,7 @@ public class Api {
     }
 
     /**
-     * Return an instance of the ServiceSchema class for the Service defined by the REQUIRED case sensitive name and
+     * Return an instance of the Mapping class for the Service defined by the REQUIRED case sensitive name and
      * version arguments, using the stored mapping of schemas.
      * If a Service with the specified name and version does not exist in the stored schema mapping then an exception
      * MUST be thrown with the following message:

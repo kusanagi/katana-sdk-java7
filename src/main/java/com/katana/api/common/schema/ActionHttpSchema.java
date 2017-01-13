@@ -33,36 +33,42 @@ public class ActionHttpSchema {
         this.gateway = gateway;
     }
 
-    public String getPath() {
-        return path;
-    }
-
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public String getMethod() {
-        return method;
     }
 
     public void setMethod(String method) {
         this.method = method;
     }
 
-    public String getInput() {
-        return input;
-    }
-
     public void setInput(String input) {
         this.input = input;
     }
 
-    public String getBody() {
-        return body;
-    }
-
     public void setBody(String body) {
         this.body = body;
+    }
+
+    //SDK Methods
+
+    public boolean isAccesible() {
+        return isGateway();
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public String getBody() {
+        return body;
     }
 
     @Override

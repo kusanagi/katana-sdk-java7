@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.replies.CommandReplyResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class Transport implements CommandReplyResult {
     private Map<String, Map<String, List<Call>>> calls;
 
     @JsonProperty("t")
-    private Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> transactions;
+    private Transaction transactions;
 
     @JsonProperty("e")
     private Map<String, Map<String, Map<String, List<Error>>>> errors;
@@ -181,7 +182,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return the transactions
      */
-    public Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> getTransactions() {
+    public Transaction getTransactions() {
         return transactions;
     }
 
@@ -190,7 +191,7 @@ public class Transport implements CommandReplyResult {
      *
      * @param transactions Transaction list
      */
-    public void setTransactions(Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> transactions) {
+    public void setTransactions(Transaction transactions) {
         this.transactions = transactions;
     }
 
@@ -364,14 +365,31 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the transactions as an object, as they are stored in the Transport.
      */
-    public Object getTransactions(String address, String service) {
-        if (address != null) {
-            if (service != null) {
-                return this.transactions.get(address).get(service);
+    public Transaction getTransactions(String service) {
+        Transaction transaction = new Transaction();
+        transaction.setCommit(new ArrayList<>());
+        transaction.setRollback(new ArrayList<>());
+        transaction.setComplete(new ArrayList<>());
+
+        for(ServiceTransaction serviceTransaction : this.transactions.getCommit()){
+            if (serviceTransaction.getName().equals(service)){
+                transaction.getCommit().add(serviceTransaction);
             }
-            return this.transactions.get(address);
         }
-        return this.transactions;
+
+        for(ServiceTransaction serviceTransaction : this.transactions.getRollback()){
+            if (serviceTransaction.getName().equals(service)){
+                transaction.getRollback().add(serviceTransaction);
+            }
+        }
+
+        for(ServiceTransaction serviceTransaction : this.transactions.getComplete()){
+            if (serviceTransaction.getName().equals(service)){
+                transaction.getComplete().add(serviceTransaction);
+            }
+        }
+
+        return transaction;
     }
 
     /**
