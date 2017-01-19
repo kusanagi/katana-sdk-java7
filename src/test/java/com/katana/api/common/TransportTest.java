@@ -200,11 +200,11 @@ public class TransportTest {
     @Test
     public void getTransactions() {
         // SETUP
-        Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> transactions = new HashMap<>();
+        Transaction transactions = new Transaction();
         this.transport.setTransactions(transactions);
 
         // ACTION
-        Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> transactionsObtained = this.transport.getTransactions();
+        Transaction transactionsObtained = this.transport.getTransactions();
 
         // EXPECTED
         Assert.assertEquals(transactions, transactionsObtained);
@@ -213,7 +213,7 @@ public class TransportTest {
     @Test
     public void setTransactions() {
         // SETUP
-        Map<String, Map<String, Map<String, Map<String, List<Transaction>>>>> transactions = new HashMap<>();
+        Transaction transactions = new Transaction();
 
         // ACTION
         this.transport.setTransactions(transactions);

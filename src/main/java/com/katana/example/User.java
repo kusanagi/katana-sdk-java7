@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by juan on 20/10/16.
  */
 
-public class Record {
+public class User {
 
     @JsonProperty("id")
     private int id;
@@ -14,7 +14,7 @@ public class Record {
     @JsonProperty("name")
     private String name;
 
-    public Record(int id, String name) {
+    public User(int id, String name) {
         this.id = id;
         this.name = name;
     }

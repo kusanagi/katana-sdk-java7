@@ -12,14 +12,14 @@ import java.util.List;
  */
 public class ServiceSample {
 
-    private static List<Record> getData() {
-        List<Record> records = new ArrayList<>();
-        records.add(new Record(1, "James"));
-        records.add(new Record(2, "Jeronimo"));
-        records.add(new Record(3, "Fernando"));
-        records.add(new Record(4, "Ricardo"));
-        records.add(new Record(5, "Hugo"));
-        return records;
+    private static List<User> getData() {
+        List<User> users = new ArrayList<>();
+        users.add(new User(1, "James"));
+        users.add(new User(2, "Jeronimo"));
+        users.add(new User(3, "Fernando"));
+        users.add(new User(4, "Ricardo"));
+        users.add(new User(5, "Hugo"));
+        return users;
     }
 
     public static void main(String[] args) {
@@ -38,15 +38,15 @@ public class ServiceSample {
             @Override
             public Action run(Action action) {
                 // logic ...
-                List<Record> records = getData();
+                List<User> users = getData();
 
-                int userId = Integer.parseInt(action.getParam("id").getValue());
-                String name = action.getParam("name").getValue();
+                int userId = (Integer) action.getParam("id").getValue();
+                String name = (String) action.getParam("name").getValue();
 
-                Record entity = null;
-                for (Record record : records) {
-                    if (record.getId() == userId) {
-                        entity = record;
+                User entity = null;
+                for (User user : users) {
+                    if (user.getId() == userId) {
+                        entity = user;
                         break;
                     }
                 }
@@ -55,9 +55,7 @@ public class ServiceSample {
                     action.error("User does not exist", 1, "404 Not Found");
                 } else {
                     entity.setName(name);
-                    List<Record> responseList = new ArrayList<>();
-                    responseList.add(entity);
-                    action.setEntity(responseList);
+                    action.setEntity(entity);
                     action.setLink("self", "/v1/users/" + userId);
                 }
 
@@ -71,15 +69,15 @@ public class ServiceSample {
             @Override
             public Action run(Action action) {
                 // logic ...
-                List<Record> records = getData();
+                List<User> users = getData();
 
-                int userId = Integer.parseInt(action.getParam("id").getValue());
-                String name = action.getParam("name").getValue();
+                int userId = (Integer) action.getParam("id").getValue();
+                String name = (String) action.getParam("name").getValue();
 
-                Record entity = null;
-                for (Record record : records) {
-                    if (record.getId() == userId) {
-                        entity = record;
+                User entity = null;
+                for (User user : users) {
+                    if (user.getId() == userId) {
+                        entity = user;
                         break;
                     }
                 }
@@ -92,9 +90,7 @@ public class ServiceSample {
                     }
                 }
 
-                List<Record> responseList = new ArrayList<>();
-                responseList.add(entity);
-                action.setEntity(responseList);
+                action.setEntity(entity);
                 action.setLink("self", "/v1/users/" + userId);
 
                 return action;
@@ -107,14 +103,14 @@ public class ServiceSample {
             @Override
             public Action run(Action action) {
                 // logic ...
-                List<Record> records = getData();
+                List<User> users = getData();
 
-                int userId = Integer.parseInt(action.getParam("id").getValue());
+                int userId = (Integer) action.getParam("id").getValue();
 
-                Record entity = null;
-                for (Record record : records) {
-                    if (record.getId() == userId) {
-                        entity = record;
+                User entity = null;
+                for (User user : users) {
+                    if (user.getId() == userId) {
+                        entity = user;
                         break;
                     }
                 }
@@ -133,9 +129,9 @@ public class ServiceSample {
             @Override
             public Action run(Action action) {
                 // logic ...
-                List<Record> records = getData();
+                List<User> users = getData();
 
-                action.setCollection(records);
+                action.setCollection(users);
                 action.setLink("self", "/v1/users");
 
                 return action;
@@ -147,12 +143,10 @@ public class ServiceSample {
         return new Callable<Action>() {
             @Override
             public Action run(Action action) {
-                String name = action.getParam("name").getValue();
-                Record entity = new Record(6, name);
+                String name = (String) action.getParam("name").getValue();
+                User entity = new User(6, name);
 
-                List<Record> responseList = new ArrayList<>();
-                responseList.add(entity);
-                action.setEntity(responseList);
+                action.setEntity(entity);
                 action.setLink("self", "/v1/users/" + entity.getId());
 
                 return action;
@@ -165,14 +159,14 @@ public class ServiceSample {
             @Override
             public Action run(Action action) {
                 // logic ...
-                List<Record> records = getData();
+                List<User> users = getData();
 
-                int userId = Integer.parseInt(action.getParam("id").getValue());
+                int userId = (Integer) action.getParam("id").getValue();
 
-                Record entity = null;
-                for (Record record : records) {
-                    if (record.getId() == userId) {
-                        entity = record;
+                User entity = null;
+                for (User user : users) {
+                    if (user.getId() == userId) {
+                        entity = user;
                         break;
                     }
                 }
@@ -180,9 +174,7 @@ public class ServiceSample {
                 if (entity == null) {
                     action.error("User does not exist", 1, "404 Not Found");
                 } else {
-                    List<Record> responseList = new ArrayList<>();
-                    responseList.add(entity);
-                    action.setEntity(responseList);
+                    action.setEntity(entity);
                     action.setLink("self", "/v1/users/" + userId);
                 }
 

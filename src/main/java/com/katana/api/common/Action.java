@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Action extends Api {
     @JsonProperty("p")
-    private Map<String, Param> params;
+    private List<Param> params;
 
     @JsonProperty("T")
     private Transport transport;
@@ -41,7 +41,7 @@ public class Action extends Api {
      *
      * @param params Params object
      */
-    public void setParams(Map<String, Param> params) {
+    public void setParams(List<Param> params) {
         this.params = params;
     }
 
@@ -110,7 +110,12 @@ public class Action extends Api {
      * @return Return true if the Action has the param
      */
     public boolean hasParam(String name) {
-        return this.params != null && this.params.get(name) != null;
+        for (Param param : params){
+            if (param.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -121,10 +126,16 @@ public class Action extends Api {
      * @return Return the value of the param
      */
     public Param getParam(String name) {
-        if (this.params == null) {
-            return null;
+        for (Param param : params){
+            if (param.getName().equals(name)){
+                return param;
+            }
         }
-        return params.get(name);
+
+        Param param = new Param();
+        param.setName(name);
+        param.setExists(false);
+        return param;
     }
 
     /**
@@ -132,7 +143,7 @@ public class Action extends Api {
      *
      * @return Return all the params of the action
      */
-    public Map<String, Param> getParams() {
+    public List<Param> getParams() {
         return params;
     }
 
@@ -318,6 +329,12 @@ public class Action extends Api {
      */
     public Action setEntity(Object entity) {
         Map<String, Map<String, Map<String, Map<String, Object>>>> pathData = this.transport.getData();
+
+        if (pathData == null){
+            pathData = new HashMap<>();
+            this.transport.setData(pathData);
+        }
+
         Map<String, Map<String, Map<String, Object>>> serviceData = new HashMap<>();
         Map<String, Map<String, Object>> versionData = new HashMap<>();
         Map<String, Object> actionData = new HashMap<>();
@@ -339,7 +356,13 @@ public class Action extends Api {
             serviceData.put(getName(), versionData);
             pathData.put(getPath(), serviceData);
         }
-        actionData.put(getActionName(), entity);
+        if (!(entity instanceof List)) {
+            List<Object> entities = new ArrayList<>();
+            entities.add(entity);
+            actionData.put(getActionName(), entities);
+        } else {
+            actionData.put(getActionName(), entity);
+        }
         return this;
     }
 
@@ -685,6 +708,12 @@ public class Action extends Api {
      */
     public Action call(String service, String version, String action, List<Param> params, List<File> files, String callback) {
         Map<String, Map<String, List<Call>>> calls = transport.getCalls();
+
+        if (calls == null){
+            calls = new HashMap<>();
+            transport.setCalls(calls);
+        }
+
         List<Call> callList = new ArrayList<>();
 
         Map<String, List<Call>> versionCalls = new HashMap<>();

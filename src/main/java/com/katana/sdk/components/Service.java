@@ -1,6 +1,7 @@
 package com.katana.sdk.components;
 
 import com.katana.api.commands.ActionCommandPayload;
+import com.katana.api.commands.Mapping;
 import com.katana.api.common.Action;
 import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
@@ -52,9 +53,10 @@ public class Service extends Component<Action, TransportReplyPayload> {
     }
 
     @Override
-    protected void setBaseCommandAttrs(String componentType, Action command) {
-        super.setBaseCommandAttrs(componentType, command);
+    protected void setBaseCommandAttrs(String componentType, Mapping mapping, Action command) {
+        super.setBaseCommandAttrs(componentType, mapping, command);
         command.setActionName(componentType);
+        command.setPath(command.getTransport().getMeta().getGateway().get(1));
     }
 
     @Override

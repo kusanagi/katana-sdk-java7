@@ -11,7 +11,7 @@ public class Param {
     private String name;
 
     @JsonProperty("v")
-    private String value;
+    private Object value;
 
     @JsonProperty("t")
     private String type;
@@ -21,7 +21,7 @@ public class Param {
     public Param() {
     }
 
-    public Param(String name, String value, String type, boolean exists) {
+    public Param(String name, Object value, String type, boolean exists) {
         this.name = name;
         this.value = value;
         this.type = type;
@@ -32,7 +32,7 @@ public class Param {
         this.name = name;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 
@@ -50,7 +50,7 @@ public class Param {
         return name;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 

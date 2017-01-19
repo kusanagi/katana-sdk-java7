@@ -21,6 +21,7 @@ public class MessagePackSerializer implements Serializer {
     @Override
     public <T> T read(byte[] message, Class<T> aClass) {
         try {
+            Logger.log(new String(message) + "\n" + aClass.getName());
             return objectMapper.readValue(message, aClass);
         } catch (IOException e) {
             Logger.log(e);

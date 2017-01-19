@@ -53,7 +53,7 @@ public class ActionSchema {
     @JsonProperty("E")
     private EntitySchema entity;
 
-    @JsonProperty("r")
+    @JsonProperty("R")
     private List<RelationSchema> relations;
 
     public ActionSchema() {

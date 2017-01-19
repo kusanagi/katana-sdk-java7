@@ -44,14 +44,14 @@ public class ComponentWorker extends Thread {
             } else if (part == 2 && socketObj.hasReceiveMore()) {
                 part2 = socketObj.recv();
                 Logger.log("Part 2 received: " + new String(part2));
-            } else {
+            } else if (part == 3 && socketObj.hasReceiveMore()) {
                 part3 = socketObj.recv();
                 Logger.log("Part 3 received: " + new String(part3));
             }
             if (!socketObj.hasReceiveMore()) {
                 part = 0;
                 socketObj.sendMore(new byte[]{});
-                byte[] reply = workerListener.onRequestReceived(part1, part2);
+                byte[] reply = workerListener.onRequestReceived(part1, part2, part3);
                 socketObj.send(reply);
                 Logger.log("Component worker bytes sent!");
             }
@@ -73,6 +73,6 @@ public class ComponentWorker extends Thread {
     }
 
     public interface WorkerListener {
-        byte[] onRequestReceived(String componentType, byte[] request);
+        byte[] onRequestReceived(String componentType, byte[] mappings, byte[] request);
     }
 }

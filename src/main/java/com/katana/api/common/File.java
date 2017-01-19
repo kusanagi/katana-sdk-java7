@@ -2,7 +2,6 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import sun.misc.IOUtils;
 
 import java.io.*;
 import java.net.URI;

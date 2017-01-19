@@ -1,6 +1,8 @@
 package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.katana.api.commands.Mapping;
+import com.katana.api.common.schema.ServiceSchema;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Logger;
 import com.katana.sdk.components.Component;
@@ -25,6 +27,8 @@ public class Api {
     protected Map<String, String> variables;
 
     protected boolean isDebug;
+
+    protected Mapping mapping;
 
     /**
      * Default constructor
@@ -105,6 +109,14 @@ public class Api {
      */
     public void setDebug(boolean debug) {
         isDebug = debug;
+    }
+
+    public Mapping getMapping() {
+        return mapping;
+    }
+
+    public void setMapping(Mapping mapping) {
+        this.mapping = mapping;
     }
 
     // SDK Method
@@ -194,8 +206,12 @@ public class Api {
      *
      * @return
      */
-    public String getServiceSchema(String name, String version) {
-        // TODO do this method
+    @JsonIgnore
+    public ServiceSchema getServiceSchema(String name, String version) {
+        if (mapping.getServiceSchema().containsKey(name)){
+            if (mapping.getServiceSchema().get(name).containsKey(version))
+                return mapping.getServiceSchema().get(name).get(version);
+        }
         return null;
     }
 

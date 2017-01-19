@@ -1,5 +1,6 @@
 package com.katana.sdk.components;
 
+import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.common.Api;
 import com.katana.api.common.Resource;
@@ -10,6 +11,7 @@ import org.zeromq.ZMQ;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -338,10 +340,11 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      * @return
      */
     @Override
-    public byte[] onRequestReceived(String componentType, byte[] commandBytes) {
+    public byte[] onRequestReceived(String componentType, byte[] mappings, byte[] commandBytes) {
         try {
             CommandPayload<T> command = serializer.read(commandBytes, getCommandPayloadClass(componentType));
-            S commandReply = processRequest(componentType, command);
+//            Mapping mapping = serializer.read(mappings, Mapping.class); //TODO review
+            S commandReply = processRequest(componentType, null, command);
             Logger.log(commandReply.toString());
             return serializer.write(commandReply);
         } catch (Exception e) {
@@ -360,12 +363,14 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      * @param componentType
      * @param command
      */
-    protected void setBaseCommandAttrs(String componentType, T command) {
+    protected void setBaseCommandAttrs(String componentType, Mapping mapping, T command) {
         command.setName(this.getName());
         command.setProtocolVersion(this.getVersion());
         command.setPlatformVersion(this.getPlatformVersion());
         command.setDebug(this.isDebug());
 //        command.setVariables(this.getVar());
+
+//        command.setMapping(mapping);
     }
 
     /**
@@ -407,9 +412,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
         Logger.log("Dealer binded to " + this.workerEnpoint);
     }
 
-    private S processRequest(String componentType, CommandPayload<T> commandPayload) {
+    private S processRequest(String componentType, Mapping mapping, CommandPayload<T> commandPayload) {
         T command = commandPayload.getCommand().getArgument();
-        setBaseCommandAttrs(componentType, command);
+        setBaseCommandAttrs(componentType, mapping, command);
         Logger.log(commandPayload.toString());
         getCallable(componentType).run(command);
         return getCommandReplyPayload(componentType, command);
