@@ -33,6 +33,65 @@ public class ServiceSample {
         service.run();
     }
 
+    private static Callable<Action> getCreateCallable() {
+        return new Callable<Action>() {
+            @Override
+            public Action run(Action action) {
+                String name = (String) action.getParam("name").getValue();
+                User entity = new User(6, name);
+
+                action.setEntity(entity);
+                action.setLink("self", "/v1/users/" + entity.getId());
+
+                return action;
+            }
+        };
+    }
+
+    private static Callable<Action> getListCallable() {
+        return new Callable<Action>() {
+            @Override
+            public Action run(Action action) {
+                // logic ...
+                List<User> users = getData();
+
+                action.setCollection(users);
+                action.setLink("self", "/v1/users");
+
+                return action;
+            }
+        };
+    }
+
+    private static Callable<Action> getReadCallable() {
+        return new Callable<Action>() {
+            @Override
+            public Action run(Action action) {
+                // logic ...
+                List<User> users = getData();
+
+                int userId = (Integer) action.getParam("id").getValue();
+
+                User entity = null;
+                for (User user : users) {
+                    if (user.getId() == userId) {
+                        entity = user;
+                        break;
+                    }
+                }
+
+                if (entity == null) {
+                    action.error("User does not exist", 1, "404 Not Found");
+                } else {
+                    action.setEntity(entity);
+                    action.setLink("self", "/v1/users/" + userId);
+                }
+
+                return action;
+            }
+        };
+    }
+
     private static Callable<Action> getReplaceCallable() {
         return new Callable<Action>() {
             @Override
@@ -117,65 +176,6 @@ public class ServiceSample {
 
                 if (entity == null) {
                     action.error("User does not exist", 1, "404 Not Found");
-                }
-
-                return action;
-            }
-        };
-    }
-
-    private static Callable<Action> getListCallable() {
-        return new Callable<Action>() {
-            @Override
-            public Action run(Action action) {
-                // logic ...
-                List<User> users = getData();
-
-                action.setCollection(users);
-                action.setLink("self", "/v1/users");
-
-                return action;
-            }
-        };
-    }
-
-    private static Callable<Action> getCreateCallable() {
-        return new Callable<Action>() {
-            @Override
-            public Action run(Action action) {
-                String name = (String) action.getParam("name").getValue();
-                User entity = new User(6, name);
-
-                action.setEntity(entity);
-                action.setLink("self", "/v1/users/" + entity.getId());
-
-                return action;
-            }
-        };
-    }
-
-    private static Callable<Action> getReadCallable() {
-        return new Callable<Action>() {
-            @Override
-            public Action run(Action action) {
-                // logic ...
-                List<User> users = getData();
-
-                int userId = (Integer) action.getParam("id").getValue();
-
-                User entity = null;
-                for (User user : users) {
-                    if (user.getId() == userId) {
-                        entity = user;
-                        break;
-                    }
-                }
-
-                if (entity == null) {
-                    action.error("User does not exist", 1, "404 Not Found");
-                } else {
-                    action.setEntity(entity);
-                    action.setLink("self", "/v1/users/" + userId);
                 }
 
                 return action;

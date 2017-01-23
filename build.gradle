@@ -4,7 +4,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'application'
 apply plugin: "jacoco"
 
-mainClassName = "com.katana.example.ServiceSample"
+mainClassName = "com.katana.example.RestMiddlewareSample"
 
 applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib"]
 
@@ -34,7 +34,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'com.katana.example.ServiceSample'
+                'Main-Class': 'com.katana.example.RestMiddlewareSample'
         )
     }
     from {
