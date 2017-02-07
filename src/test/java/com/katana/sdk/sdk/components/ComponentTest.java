@@ -2,7 +2,7 @@ package com.katana.sdk.sdk.components;
 
 import com.katana.sdk.common.Logger;
 import com.katana.sdk.components.Component;
-import com.katana.sdk.components.Service;
+import com.katana.sdk.Service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

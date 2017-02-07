@@ -1,4 +1,4 @@
-package com.katana.sdk.components;
+package com.katana.sdk;
 
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
@@ -7,6 +7,8 @@ import com.katana.api.common.Transport;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.sdk.common.Callable;
+import com.katana.sdk.common.Logger;
+import com.katana.sdk.components.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +51,7 @@ public class Service extends Component<Action, TransportReplyPayload> {
 
     @Override
     protected Callable<Action> getCallable(String componentType) {
+        Logger.log(callables.toString());
         return callables.get(componentType);
     }
 

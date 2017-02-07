@@ -4,6 +4,7 @@ import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.common.Api;
 import com.katana.api.common.Resource;
+import com.katana.api.common.schema.ServiceSchema;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.sdk.common.*;
 import com.katana.utils.Utils;
@@ -92,7 +93,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
      *                                  if there is an invalid argument or if there are duplicated arguments
      */
-    Component(String[] args) {
+    public Component(String[] args) {
         this.var = new ArrayList<>();
         this.serializer = new MessagePackSerializer();
 
@@ -343,8 +344,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     public byte[] onRequestReceived(String componentType, byte[] mappings, byte[] commandBytes) {
         try {
             CommandPayload<T> command = serializer.read(commandBytes, getCommandPayloadClass(componentType));
-//            Mapping mapping = serializer.read(mappings, Mapping.class); //TODO review
-            S commandReply = processRequest(componentType, null, command);
+            Mapping mapping = new Mapping();
+            mapping.setServiceSchema(mappings == null ? null : serializer.read(mappings, Map.class));
+            S commandReply = processRequest(componentType, mapping, command);
             Logger.log(commandReply.toString());
             return serializer.write(commandReply);
         } catch (Exception e) {
@@ -370,7 +372,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
         command.setDebug(this.isDebug());
 //        command.setVariables(this.getVar());
 
-//        command.setMapping(mapping);
+        command.setMapping(mapping);
     }
 
     /**

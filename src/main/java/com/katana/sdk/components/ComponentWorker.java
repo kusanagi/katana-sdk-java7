@@ -51,7 +51,7 @@ public class ComponentWorker extends Thread {
             if (!socketObj.hasReceiveMore()) {
                 part = 0;
                 socketObj.sendMore(new byte[]{});
-                byte[] reply = workerListener.onRequestReceived(part1, part2, part3);
+                byte[] reply = workerListener.onRequestReceived(part1, part2.length == 0 ? null : part2, part3);
                 socketObj.send(reply);
                 Logger.log("Component worker bytes sent!");
             }

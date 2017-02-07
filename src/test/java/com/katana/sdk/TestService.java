@@ -1,8 +1,5 @@
 package com.katana.sdk;
 
-import com.katana.api.common.Action;
-import com.katana.sdk.common.Callable;
-import com.katana.sdk.components.Service;
 import org.junit.Assert;
 import org.junit.Test;
 

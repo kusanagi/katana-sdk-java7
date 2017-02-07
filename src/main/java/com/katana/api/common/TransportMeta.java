@@ -23,7 +23,7 @@ public class TransportMeta extends Meta {
     private Object[][] fallback;
 
     @JsonProperty("p")
-    private Map<String, String> properties;
+    private String properties;
 
     public TransportMeta() {
     }
@@ -52,11 +52,11 @@ public class TransportMeta extends Meta {
         this.fallback = fallback;
     }
 
-    public Map<String, String> getProperties() {
+    public String getProperties() {
         return properties;
     }
 
-    public void setProperties(Map<String, String> properties) {
+    public void setProperties(String properties) {
         this.properties = properties;
     }
 

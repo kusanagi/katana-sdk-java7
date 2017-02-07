@@ -50,7 +50,7 @@ public class ParamTest {
         this.param.setValue(newValue);
 
         // ACTION
-        String value = this.param.getValue();
+        String value = (String) this.param.getValue();
 
         // EXPECTED
         Assert.assertEquals(value, newValue);

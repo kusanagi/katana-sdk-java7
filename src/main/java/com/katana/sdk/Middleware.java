@@ -1,4 +1,4 @@
-package com.katana.sdk.components;
+package com.katana.sdk;
 
 import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
@@ -8,6 +8,7 @@ import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.api.replies.ResponseReplyPayload;
 import com.katana.sdk.common.Callable;
+import com.katana.sdk.components.Component;
 
 /**
  * Created by juan on 27/08/16.
