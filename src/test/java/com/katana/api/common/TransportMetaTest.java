@@ -71,30 +71,30 @@ public class TransportMetaTest {
         Assert.assertEquals(level, this.transportMeta.getLevel());
     }
 
-    @Test
-    public void getProperties() {
-        // SETUP
-        Map<String, String> properties = new HashMap<>();
-        this.transportMeta.setProperties(properties);
-
-        // ACTION
-        Map<String, String> propertiesObtained = this.transportMeta.getProperties();
-
-        // EXPECTED
-        Assert.assertEquals(properties, propertiesObtained);
-    }
-
-    @Test
-    public void setProperties() {
-        // SETUP
-        Map<String, String> properties = new HashMap<>();
-
-        // ACTION
-        this.transportMeta.setProperties(properties);
-
-        // EXPECTED
-        Assert.assertEquals(properties, this.transportMeta.getProperties());
-    }
+//    @Test
+//    public void getProperties() {
+//        // SETUP
+//        Map<String, String> properties = new HashMap<>();
+//        this.transportMeta.setProperties(properties);
+//
+//        // ACTION
+//        Map<String, String> propertiesObtained = this.transportMeta.getProperties();
+//
+//        // EXPECTED
+//        Assert.assertEquals(properties, propertiesObtained);
+//    }
+//
+//    @Test
+//    public void setProperties() {
+//        // SETUP
+//        Map<String, String> properties = new HashMap<>();
+//
+//        // ACTION
+//        this.transportMeta.setProperties(properties);
+//
+//        // EXPECTED
+//        Assert.assertEquals(properties, this.transportMeta.getProperties());
+//    }
 
     @Test
     public void equals() {

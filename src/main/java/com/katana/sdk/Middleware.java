@@ -13,7 +13,7 @@ import com.katana.sdk.components.Component;
 /**
  * Created by juan on 27/08/16.
  */
-public class Middleware extends Component {
+public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     private Callable<Request> requestCallable;
     
@@ -87,5 +87,14 @@ public class Middleware extends Component {
     @Override
     protected Callable getCallable(String componentType) {
         return componentType.equals("request") ? requestCallable : responseCallable;
+    }
+
+    @Override
+    public void run() {
+        this.startupCallable.run(this);
+
+        super.run();
+
+        this.startupCallable.run(this);
     }
 }

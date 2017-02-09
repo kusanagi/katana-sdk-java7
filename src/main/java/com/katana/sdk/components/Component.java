@@ -10,10 +10,7 @@ import com.katana.sdk.common.*;
 import com.katana.utils.Utils;
 import org.zeromq.ZMQ;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by juan on 27/08/16.
@@ -24,7 +21,7 @@ import java.util.UUID;
  * @param <T>
  * @param <S>
  */
-public abstract class Component<T extends Api, S extends CommandReplyResult> implements ComponentWorker.WorkerListener {
+public abstract class Component<T extends Api, S extends CommandReplyResult, R extends Component> implements ComponentWorker.WorkerListener {
 
     private static final String HAS_BEEN_SET_MORE_THAN_ONCE = "has been set more than once";
 
@@ -64,7 +61,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
 
     private boolean debug;
 
-    private List<String> var;
+    private Map<String, String> var;
 
     private String callback;
 
@@ -72,11 +69,11 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
 
     private List<Resource<T>> resources;
 
-    private Callable<T> startupCallable;
+    protected EventCallable<R> startupCallable;
 
-    private Callable<T> shutdownCallable;
+    protected EventCallable<R> shutdownCallable;
 
-    private Callable<T> errorCallable;
+    protected EventCallable<R> errorCallable;
 
     private ZMQ.Socket router;
 
@@ -94,7 +91,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      *                                  if there is an invalid argument or if there are duplicated arguments
      */
     public Component(String[] args) {
-        this.var = new ArrayList<>();
+        this.var = new HashMap<>();
         this.serializer = new MessagePackSerializer();
 
         setArgs(args);
@@ -232,7 +229,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      *
      * @return return a the list of variable for the component
      */
-    public List<String> getVar() {
+    public Map<String, String> getVar() {
         return var;
     }
 
@@ -241,7 +238,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      *
      * @param var list of variables to be used by the component
      */
-    public void setVar(List<String> var) {
+    public void setVar(Map<String, String> var) {
         this.var = var;
     }
 
@@ -295,17 +292,17 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
         return null;
     }
 
-    public Component<T, S> startup(Callable<T> callback){
+    public Component<T, S, R> startup(EventCallable<R> callback){
         this.startupCallable = callback;
         return this;
     }
 
-    public Component<T, S> shutdown(Callable<T> callback){
+    public Component<T, S, R> shutdown(EventCallable<R> callback){
         this.shutdownCallable = callback;
         return this;
     }
 
-    public Component<T, S> error(Callable<T> callback){
+    public Component<T, S, R> error(EventCallable<R> callback){
         this.errorCallable = callback;
         return this;
     }
@@ -359,7 +356,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
      * @param componentType
      * @return
      */
-    protected abstract Class<? extends CommandPayload<T>> getCommandPayloadClass(String componentType);
+    protected abstract Class<? extends CommandPayload> getCommandPayloadClass(String componentType);
 
     /**
      * @param componentType
@@ -389,9 +386,19 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
     protected abstract CommandReplyResult getReply(String componentType, T response);
 
     private void setWorkers() {
-        ComponentWorker componentWorker = new ComponentWorker(workerEnpoint);
-        componentWorker.setWorkerListener(this);
-        componentWorker.start();
+        int workerCount = 1;
+        if (this.var.containsKey("workers")){
+            workerCount = Integer.valueOf(this.var.get("workers"));
+            workerCount = workerCount < 1 ? 1 : workerCount;
+        }
+
+        Logger.log("Initializing " + workerCount + " " + (workerCount == 1 ? "worker" : "workers"));
+
+        for (int i = 0; i < workerCount; i++) {
+            ComponentWorker componentWorker = new ComponentWorker(workerEnpoint);
+            componentWorker.setWorkerListener(this);
+            componentWorker.start();
+        }
     }
 
     private void startSocket() {
@@ -419,6 +426,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
         setBaseCommandAttrs(componentType, mapping, command);
         Logger.log(commandPayload.toString());
         getCallable(componentType).run(command);
+
         return getCommandReplyPayload(componentType, command);
     }
 
@@ -502,7 +510,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult> imp
                     this.tcp = option.getValue();
                     break;
                 case "-V":
-                    this.var.add(option.getValue());
+                    String varName = option.getValue().split("=")[0];
+                    String varValue = option.getValue().split("=")[1];
+                    this.var.put(varName, varValue);
                     break;
                 case "-d":
                     this.disableCompactName = true;

@@ -64,11 +64,11 @@ public class Logger {
 
     private static void logToFile(String message) {
         String[] arrayLines = message.split("\n");
-        Path file = Paths.get("/home/juane/katana-log.txt");
+        Path file = Paths.get("katana-log.txt");
         try {
             Files.write(file, Arrays.asList(arrayLines), Charset.forName("UTF-8"), StandardOpenOption.APPEND);
         } catch (IOException e) {
-            getGlobal().log(Level.INFO, message);
+            System.out.println(e.getMessage());
         }
     }
 }

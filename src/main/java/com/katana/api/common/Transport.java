@@ -409,6 +409,43 @@ public class Transport implements CommandReplyResult {
         return this.errors;
     }
 
+    public void addFile(String path, String service, String version, String action, File file) {
+        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFile = this.getFiles();
+        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFile = new HashMap<>();
+        Map<String, Map<String, Map<String, File>>> versionFile = new HashMap<>();
+        Map<String, Map<String, File>> actionFile = new HashMap<>();
+        Map<String, File> nameFile = new HashMap<>();
+
+        if (pathFile.containsKey(path)) {
+            serviceFile = pathFile.get(path);
+            if (serviceFile.containsKey(service)) {
+                versionFile = serviceFile.get(service);
+                if (versionFile.containsKey(version)) {
+                    actionFile = versionFile.get(version);
+                    if (actionFile.containsKey(action)) {
+                        nameFile = actionFile.get(action);
+                    } else {
+                        actionFile.put(action, nameFile);
+                    }
+                } else {
+                    actionFile.put(action, nameFile);
+                    versionFile.put(version, actionFile);
+                }
+            } else {
+                actionFile.put(action, nameFile);
+                versionFile.put(version, actionFile);
+                serviceFile.put(service, versionFile);
+            }
+        } else {
+            actionFile.put(action, nameFile);
+            versionFile.put(version, actionFile);
+            serviceFile.put(service, versionFile);
+            pathFile.put(path, serviceFile);
+        }
+
+        nameFile.put(file.getName(), file);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

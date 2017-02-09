@@ -137,27 +137,27 @@ public class ActionTest {
         Assert.assertEquals(actionName, newActionName);
     }
 
-    @Test
-    public void setProperty() {
-        // SETUP
-        Transport transport = Mockito.mock(Transport.class);
-        TransportMeta transportMeta = Mockito.mock(TransportMeta.class);
-        Map<String, String> properties = Mockito.spy(new HashMap<>());
-
-        Mockito.when(transport.getMeta()).thenReturn(transportMeta);
-        Mockito.when(transportMeta.getProperties()).thenReturn(properties);
-
-        this.action.setTransport(transport);
-
-        String propertyName = "name";
-        String propertyValue = "value";
-
-        // ACTION
-        this.action.setProperty(propertyName, propertyValue);
-
-        // EXPECTED
-        Mockito.verify(properties).put(propertyName, propertyValue);
-    }
+//    @Test
+//    public void setProperty() {
+//        // SETUP
+//        Transport transport = Mockito.mock(Transport.class);
+//        TransportMeta transportMeta = Mockito.mock(TransportMeta.class);
+//        Map<String, String> properties = Mockito.spy(new HashMap<>());
+//
+//        Mockito.when(transport.getMeta()).thenReturn(transportMeta);
+//        Mockito.when(transportMeta.getProperties()).thenReturn(properties);
+//
+//        this.action.setTransport(transport);
+//
+//        String propertyName = "name";
+//        String propertyValue = "value";
+//
+//        // ACTION
+//        this.action.setProperty(propertyName, propertyValue);
+//
+//        // EXPECTED
+//        Mockito.verify(properties).put(propertyName, propertyValue);
+//    }
 
     @Test
     public void hasParam_hasParam_true() {

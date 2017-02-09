@@ -11,7 +11,7 @@ import com.katana.sdk.common.Callable;
 /**
  * Created by juan on 14/09/16.
  */
-public class RequestMiddleware extends Component<Request, CallReplyPayload> {
+public class RequestMiddleware extends Component<Request, CallReplyPayload, RequestMiddleware> {
 
     private final Callable<Request> callable;
 

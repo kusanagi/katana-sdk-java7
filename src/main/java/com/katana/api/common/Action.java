@@ -2,6 +2,8 @@ package com.katana.api.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.common.schema.ServiceSchema;
+import com.katana.sdk.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -720,13 +722,25 @@ public class Action extends Api {
         versionCalls.put(this.version, callList);
 
         if (calls.containsKey(this.name)){
-            if (calls.get(this.name).containsKey(this.version)){
+            if (calls.get(this.name).containsKey(version)){
                 callList = calls.get(this.name).get(this.version);
             } else {
                 calls.get(this.name).put(this.version, callList);
             }
         } else {
             calls.put(this.name, versionCalls);
+        }
+
+        ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
+
+        for(File file : files) {
+            if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                throw new IllegalArgumentException(String.format(
+                        "File server not configured: \"%s\" (%s)",
+                        this.name,
+                        this.version));
+            }
+            this.transport.addFile(this.path, service, version, action, file);
         }
 
         Call call = new Call();
@@ -747,13 +761,25 @@ public class Action extends Api {
         versionCalls.put(this.version, callList);
 
         if (calls.containsKey(this.name)){
-            if (calls.get(this.name).containsKey(this.version)){
+            if (calls.get(this.name).containsKey(version)){
                 callList = calls.get(this.name).get(this.version);
             } else {
                 calls.get(this.name).put(this.version, callList);
             }
         } else {
             calls.put(this.name, versionCalls);
+        }
+
+        ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
+
+        for(File file : files) {
+            if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                throw new IllegalArgumentException(String.format(
+                        "File server not configured: \"%s\" (%s)",
+                        this.name,
+                        this.version));
+            }
+            this.transport.addFile(address, service, version, action, file);
         }
 
         Call call = new Call();

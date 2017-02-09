@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Created by juan on 27/08/16.
  */
-public class Service extends Component<Action, TransportReplyPayload> {
+public class Service extends Component<Action, TransportReplyPayload, Service> {
 
     private Map<String, Callable<Action>> callables;
 
@@ -72,5 +72,18 @@ public class Service extends Component<Action, TransportReplyPayload> {
         transportCommandReply.setResult(transportResult);
         commandReplyPayload.setCommandReply(transportCommandReply);
         return commandReplyPayload;
+    }
+
+    @Override
+    public void run() {
+        if (this.startupCallable != null) {
+            this.startupCallable.run(this);
+        }
+
+        super.run();
+
+        if (this.startupCallable != null) {
+            this.startupCallable.run(this);
+        }
     }
 }

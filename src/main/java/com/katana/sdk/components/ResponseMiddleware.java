@@ -10,7 +10,7 @@ import com.katana.sdk.common.Callable;
 /**
  * Created by juan on 14/09/16.
  */
-public class ResponseMiddleware extends Component<Response, ResponseReplyPayload> {
+public class ResponseMiddleware extends Component<Response, ResponseReplyPayload, ResponseMiddleware> {
 
     private final Callable<Response> callable;
 
