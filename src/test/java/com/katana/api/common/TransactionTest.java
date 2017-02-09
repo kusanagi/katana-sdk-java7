@@ -1,13 +1,11 @@
 package com.katana.api.common;
 
+import com.katana.api.Transaction;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by juan on 22/11/16.

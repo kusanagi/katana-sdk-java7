@@ -1,13 +1,13 @@
 package com.katana.api.common;
 
+import com.katana.api.*;
+import com.katana.api.Error;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

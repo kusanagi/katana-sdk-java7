@@ -1,7 +1,5 @@
 package com.katana.sdk.common;
 
-import com.katana.sdk.components.Component;
-
 /**
  * Created by juane on 2/8/17.
  */

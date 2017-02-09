@@ -1,8 +1,8 @@
 package com.katana.sdk;
 
 import com.katana.api.commands.ActionCommandPayload;
-import com.katana.sdk.common.Logger;
-import com.katana.sdk.common.MessagePackSerializer;
+import com.katana.common.utils.Logger;
+import com.katana.common.utils.MessagePackSerializer;
 import com.katana.sdk.common.Serializer;
 import org.zeromq.ZMQ;
 import uk.co.jemos.podam.api.PodamFactoryImpl;

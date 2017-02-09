@@ -1,6 +1,6 @@
 package com.katana.sdk.common;
 
-import com.katana.api.common.Api;
+import com.katana.api.Api;
 
 /**
  * Created by juan on 27/08/16.

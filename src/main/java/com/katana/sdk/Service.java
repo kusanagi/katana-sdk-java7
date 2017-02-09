@@ -2,13 +2,12 @@ package com.katana.sdk;
 
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
-import com.katana.api.common.Action;
-import com.katana.api.common.Transport;
-import com.katana.api.replies.CommandReplyResult;
+import com.katana.api.Action;
+import com.katana.api.Transport;
+import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.sdk.common.Callable;
-import com.katana.sdk.common.Logger;
-import com.katana.sdk.components.Component;
+import com.katana.sdk.common.Component;
 
 import java.util.HashMap;
 import java.util.Map;

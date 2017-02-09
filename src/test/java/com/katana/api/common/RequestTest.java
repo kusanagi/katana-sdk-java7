@@ -1,5 +1,9 @@
 package com.katana.api.common;
 
+import com.katana.api.HttpRequest;
+import com.katana.api.Meta;
+import com.katana.api.Request;
+import com.katana.api.RequestCall;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,12 +1,7 @@
 package com.katana.api.commands;
 
-import com.katana.api.common.schema.ActionSchema;
-import com.katana.api.common.schema.HttpSchema;
-import com.katana.api.common.schema.ServiceSchema;
+import com.katana.api.schema.ServiceSchema;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**

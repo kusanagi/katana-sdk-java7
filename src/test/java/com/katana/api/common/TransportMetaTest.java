@@ -1,13 +1,11 @@
 package com.katana.api.common;
 
+import com.katana.api.TransportMeta;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by juan on 12/11/16.

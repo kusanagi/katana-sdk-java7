@@ -1,6 +1,6 @@
 package com.katana.api.commands;
 
-import com.katana.api.common.Response;
+import com.katana.api.Response;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

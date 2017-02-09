@@ -1,6 +1,7 @@
 package com.katana.sdk.common;
 
 import com.katana.api.commands.ActionCommandPayload;
+import com.katana.common.utils.MessagePackSerializer;
 import org.junit.Assert;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactoryImpl;

@@ -1,6 +1,6 @@
 package com.katana.api.replies;
 
-import com.katana.api.common.Transport;
+import com.katana.api.Transport;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
