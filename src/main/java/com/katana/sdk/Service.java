@@ -51,7 +51,6 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
 
     @Override
     protected Callable<Action> getCallable(String componentType) {
-        Logger.log(callables.toString());
         return callables.get(componentType);
     }
 

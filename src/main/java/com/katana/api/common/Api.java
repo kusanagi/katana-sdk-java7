@@ -216,7 +216,7 @@ public class Api {
     }
 
     public boolean log(String value){
-        Logger.log(value);
+        Logger.log(Logger.DEBUG, value);
         return true;
     }
 

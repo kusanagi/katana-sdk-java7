@@ -129,7 +129,7 @@ public class HttpRequest {
         try {
             return new URL(this.url).getProtocol();
         } catch (MalformedURLException e) {
-            Logger.log(e);
+            Logger.log(Logger.ERROR, e);
             return null;
         }
     }
@@ -141,7 +141,7 @@ public class HttpRequest {
         try {
             return new URL(this.url).getHost();
         } catch (MalformedURLException e) {
-            Logger.log(e);
+            Logger.log(Logger.ERROR, e);
             return null;
         }
     }
@@ -153,7 +153,7 @@ public class HttpRequest {
         try {
             return new URL(this.url).getPath();
         } catch (MalformedURLException e) {
-            Logger.log(e);
+            Logger.log(Logger.ERROR, e);
             return null;
         }
     }

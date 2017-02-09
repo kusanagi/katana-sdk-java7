@@ -23,7 +23,7 @@ public class MessagePackSerializer implements Serializer {
         try {
             return objectMapper.readValue(message, aClass);
         } catch (IOException e) {
-            Logger.log(e);
+            Logger.log(Logger.ERROR, e);
             return null;
         }
     }
@@ -36,10 +36,9 @@ public class MessagePackSerializer implements Serializer {
     public byte[] write(Object message) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            Logger.log(mapper.writeValueAsString(message));
             return objectMapper.writeValueAsBytes(message);
         } catch (Exception e) {
-            Logger.log(e);
+            Logger.log(Logger.ERROR, e);
             return new byte[0];
         }
     }

@@ -18,6 +18,11 @@ import static java.util.logging.Logger.getGlobal;
  */
 public class Logger {
 
+    public static final int INFO = 1;
+    public static final int WARNING = 2;
+    public static final int ERROR = 3;
+    public static final int DEBUG = 4;
+
     private static boolean isActive;
 
     private Logger() {
@@ -34,31 +39,44 @@ public class Logger {
     /**
      * @param message
      */
-    public static void log(String message) {
+    public static void log(int type, String message) {
         if (isActive) {
-            logToStdout(getLog(message));
-            logToFile(getLog(message));
+            logToStdout(getLog(type, message));
+//            logToFile(getLog(type, message));
         }
     }
 
     /**
      * @param e
      */
-    public static void log(Exception e) {
-        log(e.getMessage());
+    public static void log(int type, Exception e) {
+        log(type, e.getMessage());
         StackTraceElement[] stackTrace = e.getStackTrace();
         for (StackTraceElement stackTraceElement : stackTrace) {
-            log(stackTraceElement.toString());
+            log(type, stackTraceElement.toString());
         }
     }
 
-    private static String getLog(String message) {
+    private static String getLog(int type, String message) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        return dateFormat.format(Calendar.getInstance().getTime()) + " [DEBUG] [SDK] " + message;
+        return dateFormat.format(Calendar.getInstance().getTime()) + " [" + getType(type) + "] [SDK] " + message;
+    }
+
+    private static String getType(int type) {
+        switch (type){
+            case INFO:
+                return "INFO";
+            case WARNING:
+                return "WARNING";
+            case ERROR:
+                return "ERROR";
+            case DEBUG:
+                return "DEBUG";
+        }
+        return "INFO";
     }
 
     private static void logToStdout(String message) {
-        getGlobal().log(Level.INFO, message);
         System.out.println(message);
     }
 

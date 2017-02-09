@@ -4,10 +4,8 @@ import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.common.Api;
 import com.katana.api.common.Resource;
-import com.katana.api.common.schema.ServiceSchema;
 import com.katana.api.replies.CommandReplyResult;
 import com.katana.sdk.common.*;
-import com.katana.utils.Utils;
 import org.zeromq.ZMQ;
 
 import java.util.*;
@@ -23,12 +21,6 @@ import java.util.*;
  */
 public abstract class Component<T extends Api, S extends CommandReplyResult, R extends Component> implements ComponentWorker.WorkerListener {
 
-    private static final String HAS_BEEN_SET_MORE_THAN_ONCE = "has been set more than once";
-
-    private static final String IS_REQUIRED = "is required";
-
-    private static final String IS_NOT_VALID = "is not valid";
-
     private static final Option[] APP_OPTIONS = new Option[]{
             new Option(new String[]{"-p", "--platform-version"}, true, true, true),
             new Option(new String[]{"-c", "--component"}, true, true, true),
@@ -43,7 +35,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             new Option(new String[]{"-q", "--quiet"}, true, false, false),
     };
 
-    private final String workerEnpoint;
+    private final String workerEndpoint;
 
     private String component;
 
@@ -83,6 +75,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private ZMQ.Socket dealer;
 
+    private OptionManager optionManager;
+
     /**
      * Initialize the component with the command line arguments
      *
@@ -93,6 +87,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     public Component(String[] args) {
         this.var = new HashMap<>();
         this.serializer = new MessagePackSerializer();
+        this.optionManager = new OptionManager();
+        this.optionManager.setOptions(Arrays.asList(APP_OPTIONS));
 
         setArgs(args);
 
@@ -104,9 +100,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             Logger.activate();
         }
 
-        this.workerEnpoint = Constants.WORKER_ENDPOINT + "_" + UUID.randomUUID().toString();
-
-        Logger.log(toString());
+        this.workerEndpoint = Constants.WORKER_ENDPOINT + "_" + UUID.randomUUID().toString();
     }
 
     /**
@@ -311,20 +305,15 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      * The method to run the component
      */
     public void run() {
-        Logger.log("Component run");
-
         startSocket();
-        Logger.log("Socket started");
 
         setWorkers();
-        Logger.log("Component workers are running!");
 
         ZMQ.proxy(router, dealer, null);
-        Logger.log("ZMQ proxy set");
     }
 
     public boolean log(String value){
-        Logger.log(value);
+        Logger.log(Logger.DEBUG, value);
         return true;
     }
 
@@ -344,10 +333,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             Mapping mapping = new Mapping();
             mapping.setServiceSchema(mappings == null ? null : serializer.read(mappings, Map.class));
             S commandReply = processRequest(componentType, mapping, command);
-            Logger.log(commandReply.toString());
             return serializer.write(commandReply);
         } catch (Exception e) {
-            Logger.log(e);
+            Logger.log(Logger.ERROR, e);
             return new byte[0];
         }
     }
@@ -367,8 +355,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         command.setProtocolVersion(this.getVersion());
         command.setPlatformVersion(this.getPlatformVersion());
         command.setDebug(this.isDebug());
-//        command.setVariables(this.getVar());
-
+        command.setVariables(this.getVar());
         command.setMapping(mapping);
     }
 
@@ -392,10 +379,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             workerCount = workerCount < 1 ? 1 : workerCount;
         }
 
-        Logger.log("Initializing " + workerCount + " " + (workerCount == 1 ? "worker" : "workers"));
-
         for (int i = 0; i < workerCount; i++) {
-            ComponentWorker componentWorker = new ComponentWorker(workerEnpoint);
+            ComponentWorker componentWorker = new ComponentWorker(workerEndpoint);
             componentWorker.setWorkerListener(this);
             componentWorker.start();
         }
@@ -411,20 +396,16 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private void bindSocket() {
         if (this.tcp != null) {
             router.bind("tcp://127.0.0.1:" + this.tcp);
-            Logger.log("Router binded to tcp://127.0.0.1:" + this.tcp);
         } else {
             router.bind("ipc://" + this.socket);
-            Logger.log("Router binded to ipc://" + this.socket);
         }
 
-        dealer.bind(this.workerEnpoint);
-        Logger.log("Dealer binded to " + this.workerEnpoint);
+        dealer.bind(this.workerEndpoint);
     }
 
     private S processRequest(String componentType, Mapping mapping, CommandPayload<T> commandPayload) {
         T command = commandPayload.getCommand().getArgument();
         setBaseCommandAttrs(componentType, mapping, command);
-        Logger.log(commandPayload.toString());
         getCallable(componentType).run(command);
 
         return getCommandReplyPayload(componentType, command);
@@ -439,55 +420,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     private void setArgs(String[] args) throws IllegalArgumentException {
-        List<Option> options = new ArrayList<>();
-        int[] optionCounts = new int[APP_OPTIONS.length];
-
-        extractOptions(args, options, optionCounts);
-        validateConstrains(optionCounts);
-        setMembers(options);
+        optionManager.extractOptions(args);
+        setMembers(optionManager.getOptions());
     }
-
-    private void extractOptions(String[] args, List<Option> options, int[] optionCounts) {
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].charAt(0) == '-') {
-                boolean exist = false;
-                for (int j = 0; j < APP_OPTIONS.length && !exist; j++) {
-                    if (Utils.contain(APP_OPTIONS[j].getNames(), args[i])) {
-                        Option option = new Option(APP_OPTIONS[j]);
-                        if (APP_OPTIONS[j].isHasValue()) {
-                            i++;
-                            option.setValue(args[i]);
-                        }
-                        options.add(option);
-                        optionCounts[j]++;
-                        exist = true;
-                    }
-                }
-                if (!exist) {
-                    throw new IllegalArgumentException(args[i] + " " + IS_NOT_VALID);
-                }
-            } else {
-                throw new IllegalArgumentException(args[i] + " " + IS_NOT_VALID);
-            }
-        }
-    }
-
-    private void validateConstrains(int[] optionCounts) {
-        for (int j = 0; j < APP_OPTIONS.length; j++) {
-            if (APP_OPTIONS[j].isRequired() && optionCounts[j] == 0) {
-                throw new IllegalArgumentException(getOptionName(APP_OPTIONS[j]) + " " + IS_REQUIRED);
-            }
-
-            if (APP_OPTIONS[j].isUnique() && optionCounts[j] > 1) {
-                throw new IllegalArgumentException(getOptionName(APP_OPTIONS[j]) + " " + HAS_BEEN_SET_MORE_THAN_ONCE);
-            }
-        }
-    }
-
-    private String getOptionName(Option appOption) {
-        return appOption.getNames()[0] + " or " + appOption.getNames()[1];
-    }
-
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
@@ -527,7 +462,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                     this.quiet = true;
                     break;
                 default:
-                    Logger.log("Unsupported parameter " + option.getNames()[0]);
+                    Logger.log(Logger.ERROR, "Unsupported parameter " + option.getNames()[0]);
                     break;
             }
         }
