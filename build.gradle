@@ -6,13 +6,7 @@ apply plugin: "jacoco"
 
 applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib"]
 
-run {
-    if(System.getProperty("exec.args") != null) {
-        args System.getProperty("exec.args").split()
-    }
-}
-
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
 
 repositories {
     mavenCentral()

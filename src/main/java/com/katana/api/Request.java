@@ -173,7 +173,7 @@ public class Request extends Api {
 
     public Request setParam(Param param){
         if (this.requestCall == null){
-            this.requestCall.setParams(new ArrayList<>());
+            this.requestCall.setParams(new ArrayList<Param>());
         }
         this.requestCall.getParams().add(param);
         return this;

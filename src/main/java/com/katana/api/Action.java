@@ -73,10 +73,7 @@ public class Action extends Api {
      */
     @JsonIgnore
     public boolean isOrigin() {
-        if (this.transport.getOriginService().length == 0) {
-            return false;
-        }
-        return this.transport.getOriginService()[0].equals(getName());
+        return this.transport.getOriginService().length != 0 && this.transport.getOriginService()[0].equals(getName());
     }
 
     /**

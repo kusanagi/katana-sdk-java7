@@ -17,8 +17,8 @@ public class ComponentWorker extends Thread {
 
     private WorkerListener workerListener;
 
-    public ComponentWorker(String workerEnpoint) {
-        this.workerEndpoint = workerEnpoint;
+    public ComponentWorker(String workerEndpoint) {
+        this.workerEndpoint = workerEndpoint;
     }
 
     public void setWorkerListener(WorkerListener workerListener) {

@@ -109,10 +109,7 @@ public class File {
     public boolean isLocal() {
         try {
             URI uri = new URI(path);
-            if (uri.getScheme().equals("file")) {
-                return true;
-            }
-            return false;
+            return uri.getScheme().equals("file");
         } catch (URISyntaxException e) {
             return false;
         }

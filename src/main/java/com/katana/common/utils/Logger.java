@@ -46,11 +46,11 @@ public class Logger {
     /**
      * @param e
      */
-    public static void log(int type, Exception e) {
-        log(type, e.getMessage());
+    public static void log(Exception e) {
+        log(Logger.ERROR, e.getMessage());
         StackTraceElement[] stackTrace = e.getStackTrace();
         for (StackTraceElement stackTraceElement : stackTrace) {
-            log(type, stackTraceElement.toString());
+            log(Logger.ERROR, stackTraceElement.toString());
         }
     }
 

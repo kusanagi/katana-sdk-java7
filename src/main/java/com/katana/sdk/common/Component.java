@@ -6,7 +6,10 @@ import com.katana.api.Api;
 import com.katana.api.Resource;
 import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.common.Constants;
-import com.katana.common.utils.*;
+import com.katana.common.utils.Logger;
+import com.katana.common.utils.MessagePackSerializer;
+import com.katana.common.utils.Option;
+import com.katana.common.utils.OptionManager;
 import org.zeromq.ZMQ;
 
 import java.util.*;
@@ -261,7 +264,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         if (this.resources == null){
             this.resources = new ArrayList<>();
         }
-        this.resources.add(new Resource<T>(name, resource));
+        this.resources.add(new Resource<>(name, resource));
         return true;
     }
 
@@ -336,7 +339,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             S commandReply = processRequest(componentType, mapping, command);
             return serializer.write(commandReply);
         } catch (Exception e) {
-            Logger.log(Logger.ERROR, e);
+            Logger.log(e);
             return new byte[0];
         }
     }

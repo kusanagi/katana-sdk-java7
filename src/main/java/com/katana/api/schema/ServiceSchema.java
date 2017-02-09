@@ -86,9 +86,8 @@ public class ServiceSchema {
     public List<String> getActions(){
         List<String> actions = new ArrayList<>();
 
-        Iterator<String> iterator = this.actionSchemas.keySet().iterator();
-        while (iterator.hasNext()){
-            actions.add(iterator.next());
+        for (String s : this.actionSchemas.keySet()) {
+            actions.add(s);
         }
         return actions;
     }

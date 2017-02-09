@@ -129,7 +129,7 @@ public class HttpRequest {
         try {
             return new URL(this.url).getProtocol();
         } catch (MalformedURLException e) {
-            Logger.log(Logger.ERROR, e);
+            Logger.log(e);
             return null;
         }
     }
@@ -141,7 +141,7 @@ public class HttpRequest {
         try {
             return new URL(this.url).getHost();
         } catch (MalformedURLException e) {
-            Logger.log(Logger.ERROR, e);
+            Logger.log(e);
             return null;
         }
     }
@@ -153,7 +153,7 @@ public class HttpRequest {
         try {
             return new URL(this.url).getPath();
         } catch (MalformedURLException e) {
-            Logger.log(Logger.ERROR, e);
+            Logger.log(e);
             return null;
         }
     }
@@ -203,7 +203,7 @@ public class HttpRequest {
         List<String> values = this.query.get(name);
         return values == null || values.isEmpty()
                 ? defaultArray == null
-                ? new ArrayList<>()
+                ? new ArrayList<String>()
                 : defaultArray
                 : values;
     }
@@ -215,9 +215,7 @@ public class HttpRequest {
     public Map<String, String> getQueryParams() {
         Map<String, String> queryParams = new HashMap<>();
 
-        Iterator<String> iterator = this.query.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
+        for (String key : this.query.keySet()) {
             queryParams.put(key, this.query.get(key).get(0));
         }
 
@@ -275,7 +273,7 @@ public class HttpRequest {
         List<String> values = this.postData.get(name);
         return values == null || values.isEmpty()
                 ? defaultArray == null
-                ? new ArrayList<>()
+                ? new ArrayList<String>()
                 : defaultArray
                 : values;
     }
@@ -287,9 +285,7 @@ public class HttpRequest {
     public Map<String, String> getPostParams() {
         Map<String, String> postParams = new HashMap<>();
 
-        Iterator<String> iterator = this.postData.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
+        for (String key : this.postData.keySet()) {
             postParams.put(key, this.postData.get(key).get(0));
         }
 

@@ -34,12 +34,12 @@ public class TestClient {
     }
 
     public void start() throws InterruptedException {
-        Logger.log("Dummy started!");
+        Logger.log(Logger.INFO, "Dummy started!");
         final ZMQ.Context context = ZMQ.context(1);
 
         Thread thread = new Thread() {
             public void run() {
-                Logger.log("Thread run!");
+                Logger.log(Logger.INFO, "Thread run!");
                 ZMQ.Socket requester = context.socket(ZMQ.REQ);
                 requester.connect("ipc://" + endpoint);
 
@@ -51,7 +51,7 @@ public class TestClient {
 //                Logger.log("Client sent: " + serializer.writeToString(actionCommandPayload));
 //                byte[] recv = requester.recv();
                 String recvString = requester.recvStr();
-                Logger.log("Client received something: " + recvString);
+                Logger.log(Logger.INFO, "Client received something: " + recvString);
 //                CommandReplyPayload read = serializer.read(recv, CommandReplyPayload.class);
 //                Logger.log("Client received something: " + serializer.writeToString(read));
 

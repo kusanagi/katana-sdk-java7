@@ -367,9 +367,9 @@ public class Transport implements CommandReplyResult {
      */
     public Transaction getTransactions(String service) {
         Transaction transaction = new Transaction();
-        transaction.setCommit(new ArrayList<>());
-        transaction.setRollback(new ArrayList<>());
-        transaction.setComplete(new ArrayList<>());
+        transaction.setCommit(new ArrayList<ServiceTransaction>());
+        transaction.setRollback(new ArrayList<ServiceTransaction>());
+        transaction.setComplete(new ArrayList<ServiceTransaction>());
 
         for(ServiceTransaction serviceTransaction : this.transactions.getCommit()){
             if (serviceTransaction.getName().equals(service)){

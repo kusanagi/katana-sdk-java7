@@ -29,7 +29,7 @@ public class TransportMetaTest {
         String[] originObtained = this.transportMeta.getOrigin();
 
         // EXPECTED
-        Assert.assertEquals(origin, originObtained);
+        Assert.assertArrayEquals(origin, originObtained);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class TransportMetaTest {
         this.transportMeta.setOrigin(origin);
 
         // EXPECTED
-        Assert.assertEquals(origin, this.transportMeta.getOrigin());
+        Assert.assertArrayEquals(origin, this.transportMeta.getOrigin());
     }
 
     @Test
