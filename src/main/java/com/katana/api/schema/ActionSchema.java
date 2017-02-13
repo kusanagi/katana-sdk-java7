@@ -32,7 +32,7 @@ public class ActionSchema {
     @JsonProperty("C")
     private String[][] calls;
 
-    @JsonProperty("r")
+    @JsonProperty("rc")
     private String[][] remoteCalls;
 
     @JsonProperty("F")
@@ -53,10 +53,15 @@ public class ActionSchema {
     @JsonProperty("E")
     private EntitySchema entity;
 
-    @JsonProperty("R")
+    @JsonProperty("r")
     private List<RelationSchema> relations;
 
     public ActionSchema() {
+        timeout = 1000;
+        pathDelimiter = "/";
+        primaryKey = "id";
+        collection = false;
+        deprecated = false;
     }
 
     public void setName(String name) {
@@ -226,6 +231,7 @@ public class ActionSchema {
         return this.files.get(name);
     }
 
+    @JsonIgnore
     public ActionHttpSchema getHttpSchema() {
         return getHttp();
     }

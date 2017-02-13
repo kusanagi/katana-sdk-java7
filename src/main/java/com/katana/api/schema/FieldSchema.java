@@ -17,6 +17,7 @@ public class FieldSchema {
     private boolean optional;
 
     public FieldSchema() {
+        this.optional = false;
     }
 
     public String getName() {

@@ -16,7 +16,7 @@ import com.katana.sdk.common.Component;
 public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     private Callable<Request> requestCallable;
-    
+
     private Callable<Response> responseCallable;
 
     public Middleware(String[] args) {
@@ -91,10 +91,15 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     public void run() {
-        this.startupCallable.run(this);
+        if (this.startupCallable != null) {
+            this.startupCallable.run(this);
+        }
 
         super.run();
+    }
 
-        this.startupCallable.run(this);
+    @Override
+    protected void runShutdown() {
+        this.shutdownCallable.run(this);
     }
 }

@@ -9,17 +9,20 @@ import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by juan on 30/09/16.
  */
 public class Logger {
 
+    public static final SimpleDateFormat STANDARD_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
     public static final int INFO = 1;
     public static final int WARNING = 2;
     public static final int ERROR = 3;
-    public static final int DEBUG = 4;
 
+    public static final int DEBUG = 4;
     private static boolean isActive;
 
     private Logger() {
@@ -31,6 +34,10 @@ public class Logger {
      */
     public static void activate() {
         isActive = true;
+    }
+
+    public static void deactivate() {
+        isActive = false;
     }
 
     /**
@@ -55,8 +62,9 @@ public class Logger {
     }
 
     private static String getLog(int type, String message) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        return dateFormat.format(Calendar.getInstance().getTime()) + " [" + getType(type) + "] [SDK] " + message;
+        Date date = Calendar.getInstance().getTime();
+        String time = STANDARD_DATE_FORMAT.format(date);
+        return time + " [" + getType(type) + "] [SDK] " + message;
     }
 
     private static String getType(int type) {

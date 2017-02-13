@@ -2,6 +2,7 @@ package com.katana.api.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,9 @@ public class EntitySchema {
     private boolean validate;
 
     public EntitySchema() {
+        field = new ArrayList<>();
+        fields = new ArrayList<>();
+        validate = false;
     }
 
     public List<FieldSchema> getField() {

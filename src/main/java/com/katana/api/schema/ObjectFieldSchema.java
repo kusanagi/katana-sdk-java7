@@ -2,6 +2,7 @@ package com.katana.api.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,9 @@ public class ObjectFieldSchema {
     private List<List<ObjectFieldSchema>> fields;
 
     public ObjectFieldSchema() {
+        this.optional = false;
+        this.field = new ArrayList<>();
+        this.fields = new ArrayList<>();
     }
 
     public String getName() {

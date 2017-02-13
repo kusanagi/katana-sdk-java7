@@ -1,5 +1,6 @@
 package com.katana.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.common.utils.Logger;
 
@@ -22,10 +23,10 @@ public class HttpRequest {
     private String url;
 
     @JsonProperty("q")
-    private Map<String, List<String>> query;
+    private Map<String, List<String>> queryParamsArray;
 
     @JsonProperty("p")
-    private Map<String, List<String>> postData;
+    private Map<String, List<String>> postParamsArray;
 
     @JsonProperty("h")
     private Map<String, List<String>> headers;
@@ -61,17 +62,17 @@ public class HttpRequest {
     }
 
     /**
-     * @param query
+     * @param queryParamsArray
      */
-    public void setQuery(Map<String, List<String>> query) {
-        this.query = query;
+    public void setQueryParamsArray(Map<String, List<String>> queryParamsArray) {
+        this.queryParamsArray = queryParamsArray;
     }
 
     /**
-     * @param postData
+     * @param postParamsArray
      */
-    public void setPostData(Map<String, List<String>> postData) {
-        this.postData = postData;
+    public void setPostParamsArray(Map<String, List<String>> postParamsArray) {
+        this.postParamsArray = postParamsArray;
     }
 
     /**
@@ -125,6 +126,7 @@ public class HttpRequest {
     /**
      * @return Return the scheme used for the URL provided for the request.
      */
+    @JsonIgnore
     public String getUrlScheme() {
         try {
             return new URL(this.url).getProtocol();
@@ -137,6 +139,7 @@ public class HttpRequest {
     /**
      * @return Return the hostname from the URL provided for the request.
      */
+    @JsonIgnore
     public String getUrlHost() {
         try {
             return new URL(this.url).getHost();
@@ -149,6 +152,7 @@ public class HttpRequest {
     /**
      * @return Return the path part of the URL provided for the request.
      */
+    @JsonIgnore
     public String getUrlPath() {
         try {
             return new URL(this.url).getPath();
@@ -159,29 +163,29 @@ public class HttpRequest {
     }
 
     /**
-     * Determine if the parameter name, specified by the REQUIRED case sensitive name argument, is defined in the query
+     * Determine if the parameter name, specified by the REQUIRED case sensitive name argument, is defined in the queryParamsArray
      * object. If the parameter is defined but does not have a value it MUST consider that it exists.
      *
-     * @return Return true if the Http request has a query param that matches the name specified in the parameter
+     * @return Return true if the Http request has a queryParamsArray param that matches the name specified in the parameter
      */
     public boolean hasQueryParam(String name) {
-        return this.query.containsKey(name);
+        return this.queryParamsArray.containsKey(name);
     }
 
     /**
      * Return the value of the parameter specified by the REQUIRED case sensitive name argument. If more than 1
-     * parameter exists with the specified name it MUST return the value of the first occurrence in the query string.
+     * parameter exists with the specified name it MUST return the value of the first occurrence in the queryParamsArray string.
      * The default argument is the OPTIONAL value to use if the parameter does not exist. If the parameter is defined
-     * in the query string, but does not have a value, the value of the default argument SHOULD NOT be applied.
+     * in the queryParamsArray string, but does not have a value, the value of the default argument SHOULD NOT be applied.
      * If a parameter with the specified name does not exist, and no default is provided, and empty string MUST be
      * returned.
      *
-     * @param name         Name of the query
-     * @param defaultValue Default value is the query doesn't exist.
+     * @param name         Name of the queryParamsArray
+     * @param defaultValue Default value is the queryParamsArray doesn't exist.
      * @return Return the value of the param or the default value if the param doesn't exist.
      */
     public String getQueryParam(String name, String defaultValue) {
-        List<String> values = this.query.get(name);
+        List<String> values = this.queryParamsArray.get(name);
         return values == null || values.isEmpty() ? defaultValue == null ? "" : defaultValue : values.get(0);
     }
 
@@ -189,7 +193,7 @@ public class HttpRequest {
      * Return the value(s) of the parameter specified by the REQUIRED case sensitive name argument as an array of
      * values.
      * The default argument is the OPTIONAL value to use if the parameter does not exist, and MUST be an array of
-     * string values. If the parameter is defined in the query string, but does not have a value, the value of the
+     * string values. If the parameter is defined in the queryParamsArray string, but does not have a value, the value of the
      * default argument SHOULD NOT be applied.
      * If a parameter with the specified name does not exist, and no default is provided, and empty array MUST be
      * returned.
@@ -200,7 +204,7 @@ public class HttpRequest {
      * default array will be returned, if no default is specified an empty array will be returned
      */
     public List<String> getQueryParamArray(String name, List<String> defaultArray) {
-        List<String> values = this.query.get(name);
+        List<String> values = this.queryParamsArray.get(name);
         return values == null || values.isEmpty()
                 ? defaultArray == null
                 ? new ArrayList<String>()
@@ -209,25 +213,26 @@ public class HttpRequest {
     }
 
     /**
-     * @return Return an object with the parameters provided in the query string, where each property name is the parameter
+     * @return Return an object with the parameters provided in the queryParamsArray string, where each property name is the parameter
      * name, and the value the parameter value as a string.
      */
+    @JsonIgnore
     public Map<String, String> getQueryParams() {
         Map<String, String> queryParams = new HashMap<>();
 
-        for (String key : this.query.keySet()) {
-            queryParams.put(key, this.query.get(key).get(0));
+        for (String key : this.queryParamsArray.keySet()) {
+            queryParams.put(key, this.queryParamsArray.get(key).get(0));
         }
 
         return queryParams;
     }
 
     /**
-     * @return Return an object with the parameters provided in the query string, where each property name is the parameter
+     * @return Return an object with the parameters provided in the queryParamsArray string, where each property name is the parameter
      * name, and the value an array with the parameter value(s), each as a string.
      */
     public Map<String, List<String>> getQueryParamsArray() {
-        return query;
+        return queryParamsArray;
     }
 
     /**
@@ -238,7 +243,7 @@ public class HttpRequest {
      * @return Return true if the post param exist in the http request
      */
     public boolean hasPostParam(String name) {
-        return this.postData.containsKey(name);
+        return this.postParamsArray.containsKey(name);
     }
 
     /**
@@ -250,8 +255,9 @@ public class HttpRequest {
      * @return Return the value of the first occurrence of the Post parameter, if the post parameter does not exist the
      * default value will be returned, if the default value is not specified, an empty string will be returned.
      */
+    @JsonIgnore
     public String getPostParam(String name, String defaultValue) {
-        List<String> values = this.postData.get(name);
+        List<String> values = this.postParamsArray.get(name);
         return values == null || values.isEmpty() ? defaultValue == null ? "" : defaultValue : values.get(0);
     }
 
@@ -269,8 +275,9 @@ public class HttpRequest {
      * @return Return the values of the Post parameter, if the post parameter does not exist the default array will be
      * returned, if the default array is not specified, an empty array will be returned.
      */
+    @JsonIgnore
     public List<String> getPostParamArray(String name, List<String> defaultArray) {
-        List<String> values = this.postData.get(name);
+        List<String> values = this.postParamsArray.get(name);
         return values == null || values.isEmpty()
                 ? defaultArray == null
                 ? new ArrayList<String>()
@@ -282,11 +289,12 @@ public class HttpRequest {
      * @return return an object with the parameters provided in the post data, where each property name is the parameter
      * name, and the value the parameter value as a string.
      */
+    @JsonIgnore
     public Map<String, String> getPostParams() {
         Map<String, String> postParams = new HashMap<>();
 
-        for (String key : this.postData.keySet()) {
-            postParams.put(key, this.postData.get(key).get(0));
+        for (String key : this.postParamsArray.keySet()) {
+            postParams.put(key, this.postParamsArray.get(key).get(0));
         }
 
         return postParams;
@@ -298,7 +306,7 @@ public class HttpRequest {
      * parameter name, and the value an array with the parameter value(s), each as a string.
      */
     public Map<String, List<String>> getPostParamsArray() {
-        return this.postData;
+        return this.postParamsArray;
     }
 
     /**
@@ -353,7 +361,7 @@ public class HttpRequest {
      * MUST be considered valid content.
      */
     public boolean hasBody() {
-        return this.body != null;
+        return this.body != null && !this.body.isEmpty();
     }
 
     /**
@@ -426,10 +434,10 @@ public class HttpRequest {
         if (getUrl() != null ? !getUrl().equals(that.getUrl()) : that.getUrl() != null) {
             return false;
         }
-        if (query != null ? !query.equals(that.query) : that.query != null) {
+        if (queryParamsArray != null ? !queryParamsArray.equals(that.queryParamsArray) : that.queryParamsArray != null) {
             return false;
         }
-        if (postData != null ? !postData.equals(that.postData) : that.postData != null) {
+        if (postParamsArray != null ? !postParamsArray.equals(that.postParamsArray) : that.postParamsArray != null) {
             return false;
         }
         if (getHeaders() != null ? !getHeaders().equals(that.getHeaders()) : that.getHeaders() != null) {
@@ -447,8 +455,8 @@ public class HttpRequest {
         int result = getProtocolVersion() != null ? getProtocolVersion().hashCode() : 0;
         result = 31 * result + (getMethod() != null ? getMethod().hashCode() : 0);
         result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
-        result = 31 * result + (query != null ? query.hashCode() : 0);
-        result = 31 * result + (postData != null ? postData.hashCode() : 0);
+        result = 31 * result + (queryParamsArray != null ? queryParamsArray.hashCode() : 0);
+        result = 31 * result + (postParamsArray != null ? postParamsArray.hashCode() : 0);
         result = 31 * result + (getHeaders() != null ? getHeaders().hashCode() : 0);
         result = 31 * result + (getBody() != null ? getBody().hashCode() : 0);
         result = 31 * result + (getFiles() != null ? getFiles().hashCode() : 0);
@@ -461,8 +469,8 @@ public class HttpRequest {
                 "protocolVersion='" + protocolVersion + '\'' +
                 ", method='" + method + '\'' +
                 ", url='" + url + '\'' +
-                ", query=" + query +
-                ", postData=" + postData +
+                ", queryParamsArray=" + queryParamsArray +
+                ", postParamsArray=" + postParamsArray +
                 ", headers=" + headers +
                 ", body='" + body + '\'' +
                 ", files=" + files +
@@ -473,8 +481,8 @@ public class HttpRequest {
         this.protocolVersion = other.protocolVersion;
         this.method = other.method;
         this.url = other.url;
-        this.query = other.query;
-        this.postData = other.postData;
+        this.queryParamsArray = other.queryParamsArray;
+        this.postParamsArray = other.postParamsArray;
         this.headers = other.headers;
         this.body = other.body;
         this.files = other.files;

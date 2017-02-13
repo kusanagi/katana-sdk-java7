@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by juan on 26/09/16.
@@ -19,7 +20,7 @@ public class TransportMeta extends Meta {
     private int level;
 
     @JsonProperty("f")
-    private Object[][] fallback;
+    private List<List<Object>> fallback;
 
     @JsonProperty("p")
     private String properties;
@@ -43,11 +44,11 @@ public class TransportMeta extends Meta {
         this.level = level;
     }
 
-    public Object[][] getFallback() {
+    public List<List<Object>> getFallback() {
         return fallback;
     }
 
-    public void setFallback(Object[][] fallback) {
+    public void setFallback(List<List<Object>> fallback) {
         this.fallback = fallback;
     }
 
@@ -61,39 +62,26 @@ public class TransportMeta extends Meta {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof TransportMeta)) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         TransportMeta that = (TransportMeta) o;
 
-        if (getLevel() != that.getLevel()) {
-            return false;
-        }
+        if (level != that.level) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getOrigin(), that.getOrigin())) {
-            return false;
-        }
-        if (!Arrays.deepEquals(getFallback(), that.getFallback())) {
-            return false;
-        }
-        return getProperties() != null ? getProperties().equals(that.getProperties()) : that.getProperties() == null;
-
+        if (!Arrays.equals(origin, that.origin)) return false;
+        if (fallback != null ? !fallback.equals(that.fallback) : that.fallback != null) return false;
+        return properties != null ? properties.equals(that.properties) : that.properties == null;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + Arrays.hashCode(getOrigin());
-        result = 31 * result + getLevel();
-        result = 31 * result + Arrays.deepHashCode(getFallback());
-        result = 31 * result + (getProperties() != null ? getProperties().hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(origin);
+        result = 31 * result + level;
+        result = 31 * result + (fallback != null ? fallback.hashCode() : 0);
+        result = 31 * result + (properties != null ? properties.hashCode() : 0);
         return result;
     }
 
@@ -102,9 +90,9 @@ public class TransportMeta extends Meta {
         return "TransportMeta{" +
                 "origin=" + Arrays.toString(origin) +
                 ", level=" + level +
-                ", fallback=" + Arrays.toString(fallback) +
-                ", properties=" + properties +
-                "} " + super.toString();
+                ", fallback=" + fallback +
+                ", properties='" + properties + '\'' +
+                '}';
     }
 
     public TransportMeta(TransportMeta other) {

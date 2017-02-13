@@ -2,6 +2,8 @@ package com.katana.api.schema;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,11 @@ public class TransportSchema {
     private List<List<String>> errors;
 
     public TransportSchema() {
+        this.properties = new HashMap<>();
+        this.data = new ArrayList<>();
+        this.relations = new ArrayList<>();
+        this.links = new HashMap<>();
+        this.errors = new ArrayList<>();
     }
 
     public Map<String, String> getProperties() {

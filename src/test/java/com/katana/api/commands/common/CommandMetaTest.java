@@ -5,40 +5,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by juan on 12/11/16.
+ * Created by juane on 2/11/17.
  */
 public class CommandMetaTest {
 
-    private CommandMeta commandMeta;
+    private CommandMeta object;
 
     @Before
     public void setup() {
-        this.commandMeta = new CommandMeta();
+        this.object = new CommandMeta();
     }
 
     @Test
-    public void getService() {
-        // SETUP
-        String service = "Service";
-        this.commandMeta.setScope(service);
-
-        // ACTION
-        String serviceObtained = this.commandMeta.getScope();
-
-        // EXPECTED
-        Assert.assertEquals(service, serviceObtained);
-    }
-
-    @Test
-    public void setService() {
-        // SETUP
-        String service = "Service";
-
-        // ACTION
-        this.commandMeta.setScope(service);
-
-        // EXPECTED
-        Assert.assertEquals(service, this.commandMeta.getScope());
+    public void getAndSet() {
+        String scope = "";
+        this.object.setScope(scope);
+        Assert.assertEquals(scope, this.object.getScope());
     }
 
 }

@@ -73,6 +73,14 @@ public class ActionParamSchema {
     private ActionParamHttpSchema http;
 
     public ActionParamSchema() {
+        this.type = "string";
+        this.arrayFormat = "csv";
+        this.allowEmpty = false;
+        this.required = false;
+        this.exclusiveMax = false;
+        this.exclusiveMin = false;
+        this.uniqueItems = false;
+        this.http = new ActionParamHttpSchema();
     }
 
     public void setName(String name) {

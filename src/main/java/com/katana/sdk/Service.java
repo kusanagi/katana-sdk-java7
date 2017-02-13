@@ -79,9 +79,10 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
         }
 
         super.run();
+    }
 
-        if (this.startupCallable != null) {
-            this.startupCallable.run(this);
-        }
+    @Override
+    protected void runShutdown() {
+        this.shutdownCallable.run(this);
     }
 }

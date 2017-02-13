@@ -3,10 +3,7 @@ package com.katana.api.schema;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by juan on 13/01/17.
@@ -30,6 +27,9 @@ public class ServiceSchema {
     private Map<String, ActionSchema> actionSchemas;
 
     public ServiceSchema() {
+        files = false;
+        httpSchema = new HttpSchema();
+        actionSchemas = new HashMap<>();
     }
 
     public void setName(String name) {
@@ -67,6 +67,7 @@ public class ServiceSchema {
     public void setActionSchemas(Map<String, ActionSchema> actionSchemas) {
         this.actionSchemas = actionSchemas;
     }
+
     //SDK Methods
 
     @JsonIgnore
@@ -83,6 +84,7 @@ public class ServiceSchema {
         return isFiles();
     }
 
+    @JsonIgnore
     public List<String> getActions(){
         List<String> actions = new ArrayList<>();
 

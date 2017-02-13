@@ -10,12 +10,16 @@ public interface Serializer {
      * @param <T>
      * @return
      */
-    <T> T read(byte[] message, Class<T> aClass);
+    <T> T deserialize(byte[] message, Class<T> aClass);
+
+    <T> T deserialize(String jsonMessage, Class<T> aClass);
 
     /**
      * @param message
      * @return
      */
-    byte[] write(Object message);
+    byte[] serializeInBytes(Object message);
+
+    String serializeInJson(Object message);
 
 }

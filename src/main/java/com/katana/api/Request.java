@@ -1,5 +1,6 @@
 package com.katana.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.sdk.common.Component;
 
@@ -73,14 +74,17 @@ public class Request extends Api {
 
     // SDK Methods
 
+    @JsonIgnore
     public String getGatewayProtocol(){
         return this.meta.getProtocol();
     }
 
+    @JsonIgnore
     public String getGatewayAddress(){
         return this.meta.getGateway().get(1);
     }
 
+    @JsonIgnore
     public String getClientAddress(){
         return this.meta.getClient();
     }
@@ -88,6 +92,7 @@ public class Request extends Api {
     /**
      * @return Return the name currently defined for the Service, or an empty string if not defined.
      */
+    @JsonIgnore
     public String getServiceName() {
         return this.requestCall.getService();
     }
@@ -106,6 +111,7 @@ public class Request extends Api {
     /**
      * @return Return the version currently defined for the Service, or an empty string if not defined.
      */
+    @JsonIgnore
     public String getServiceVersion() {
         return this.requestCall.getVersion();
     }
@@ -124,6 +130,7 @@ public class Request extends Api {
     /**
      * @return Return the name currently defined for the Service action, or an empty string if not defined.
      */
+    @JsonIgnore
     public String getActionName() {
         return this.requestCall.getAction();
     }
@@ -151,6 +158,7 @@ public class Request extends Api {
         return false;
     }
 
+    @JsonIgnore
     public Param getParam(String name){
         if(this.requestCall.getParams() == null) {
             return null;
@@ -163,6 +171,7 @@ public class Request extends Api {
         return null;
     }
 
+    @JsonIgnore
     public List<Param> getParams(){
         if(this.requestCall.getParams() == null) {
             return new ArrayList<>();

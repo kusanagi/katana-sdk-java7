@@ -1,5 +1,6 @@
 package com.katana.api.schema;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -23,6 +24,11 @@ public class ActionHttpSchema {
     private String body;
 
     public ActionHttpSchema() {
+        this.gateway = true;
+        this.path = "/";
+        this.method = "get";
+        this.input = "query";
+        this.body = "text/plain";
     }
 
     public boolean isGateway() {
@@ -51,6 +57,7 @@ public class ActionHttpSchema {
 
     //SDK Methods
 
+    @JsonIgnore
     public boolean isAccesible() {
         return isGateway();
     }

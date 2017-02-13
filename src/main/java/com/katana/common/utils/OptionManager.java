@@ -1,5 +1,6 @@
 package com.katana.common.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,8 @@ public class OptionManager {
         return options;
     }
 
-    public void extractOptions(String[] args) {
+    public List<Option> extractOptions(String[] args) {
+        List<Option> currentOptions = new ArrayList<>();
         int[] optionCounts = new int[options.size()];
 
         for (int i = 0; i < args.length; i++) {
@@ -33,8 +35,10 @@ public class OptionManager {
                     if (Utils.contain(options.get(j).getNames(), args[i])) {
                         if (options.get(j).isHasValue()) {
                             i++;
-                            options.get(j).setValue(args[i]);
                         }
+                        Option currentOption = new Option(options.get(j));
+                        currentOption.setValue(args[i]);
+                        currentOptions.add(currentOption);
                         optionCounts[j]++;
                         exist = true;
                     }
@@ -48,6 +52,8 @@ public class OptionManager {
         }
 
         validateConstrains(optionCounts);
+
+        return currentOptions;
     }
 
     public void validateConstrains(int[] optionCounts) {

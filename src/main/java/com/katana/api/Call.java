@@ -24,8 +24,8 @@ public class Call {
     @JsonProperty("g")
     private String gateway;
 
-    @JsonProperty("c")
-    private String callback;
+    @JsonProperty("t")
+    private int timeout;
 
     public Call() {
     }
@@ -70,52 +70,37 @@ public class Call {
         this.gateway = gateway;
     }
 
-    public String getCallback() {
-        return callback;
+    public int getTimeout() {
+        return timeout;
     }
 
-    public void setCallback(String callback) {
-        this.callback = callback;
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Call)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Call call = (Call) o;
 
-        if (getName() != null ? !getName().equals(call.getName()) : call.getName() != null) {
-            return false;
-        }
-        if (getVersion() != null ? !getVersion().equals(call.getVersion()) : call.getVersion() != null) {
-            return false;
-        }
-        if (getAction() != null ? !getAction().equals(call.getAction()) : call.getAction() != null) {
-            return false;
-        }
-        if (getParams() != null ? !getParams().equals(call.getParams()) : call.getParams() != null) {
-            return false;
-        }
-        if (getGateway() != null ? !getGateway().equals(call.getGateway()) : call.getGateway() != null) {
-            return false;
-        }
-        return getCallback() != null ? getCallback().equals(call.getCallback()) : call.getCallback() == null;
-
+        if (timeout != call.timeout) return false;
+        if (name != null ? !name.equals(call.name) : call.name != null) return false;
+        if (version != null ? !version.equals(call.version) : call.version != null) return false;
+        if (action != null ? !action.equals(call.action) : call.action != null) return false;
+        if (params != null ? !params.equals(call.params) : call.params != null) return false;
+        return gateway != null ? gateway.equals(call.gateway) : call.gateway == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getName() != null ? getName().hashCode() : 0;
-        result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
-        result = 31 * result + (getAction() != null ? getAction().hashCode() : 0);
-        result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
-        result = 31 * result + (getGateway() != null ? getGateway().hashCode() : 0);
-        result = 31 * result + (getCallback() != null ? getCallback().hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        result = 31 * result + (action != null ? action.hashCode() : 0);
+        result = 31 * result + (params != null ? params.hashCode() : 0);
+        result = 31 * result + (gateway != null ? gateway.hashCode() : 0);
+        result = 31 * result + timeout;
         return result;
     }
 
@@ -127,7 +112,7 @@ public class Call {
                 ", action='" + action + '\'' +
                 ", params=" + params +
                 ", gateway='" + gateway + '\'' +
-                ", callback='" + callback + '\'' +
+                ", timeout=" + timeout +
                 '}';
     }
 
@@ -137,6 +122,6 @@ public class Call {
         this.action = other.action;
         this.params = other.params;
         this.gateway = other.gateway;
-        this.callback = other.callback;
+        this.timeout = other.timeout;
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.katana.api.commands.Mapping;
 import com.katana.api.schema.ServiceSchema;
 import com.katana.common.utils.Logger;
+import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Component;
 
 import java.util.Map;
@@ -118,6 +119,9 @@ public class Api {
         this.mapping = mapping;
     }
 
+    public void setComponent(Component component) {
+        this.component = component;
+    }
     // SDK Method
 
     /**
@@ -191,7 +195,7 @@ public class Api {
      * @param name Name of the resource
      * @return Return the resource registered with the component using the REQUIRED case sensitive name argument.
      */
-    public Resource getResource(String name) {
+    public Callable getResource(String name) {
         return this.component.getResource(name);
     }
 

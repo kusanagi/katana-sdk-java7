@@ -1,0 +1,156 @@
+{
+  "a": "12.34.56.78:1234",
+  "h": {
+    "b": "/1.0.0"
+  },
+  "ac": {
+    "list": {
+      "x": 1000,
+      "e": "entity:data",
+      "d": ":",
+      "k": "uid",
+      "c": true,
+      "C": [
+        [
+          "comments",
+          "1.2.0",
+          "list"
+        ]
+      ],
+      "rc": [
+        [
+          "12.34.56.78:1234",
+          "cdn",
+          "1.0.0",
+          "upload"
+        ]
+      ],
+      "F": {
+        "error": {
+          "p": {
+            "foo": "123"
+          },
+          "d": [
+            {
+              "id": {
+                "t": "integer",
+                "v": 321
+              },
+              "name": {
+                "v": "James"
+              },
+              "status": {
+                "t": "null"
+              },
+              "info": {
+                "t": "array",
+                "v": [
+                  {
+                    "v": "Hello World"
+                  }
+                ]
+              },
+              "stats": {
+                "t": "object",
+                "v": {
+                  "count": {
+                    "t": "integer",
+                    "v": 12345
+                  }
+                }
+              }
+            }
+          ],
+          "r": [
+            [
+              "1",
+              "user",
+              "5"
+            ],
+            [
+              "1",
+              "comments",
+              [
+                "3",
+                "8"
+              ]
+            ]
+          ],
+          "l": {
+            "self": "/1.0.0/posts"
+          },
+          "e": [
+            [
+              "Unable to process posts",
+              0,
+              "560 Logic Error"
+            ]
+          ]
+        }
+      },
+      "h": {
+        "p": "/posts/{user_id}"
+      },
+      "p": {
+        "user_id": {
+          "t": "string",
+          "f": "uuid",
+          "e": false,
+          "h": {
+            "i": "path"
+          }
+        }
+      },
+      "r": [
+        {
+          "n": "accounts"
+        },
+        {
+          "t": "many",
+          "n": "posts"
+        }
+      ],
+      "E": {
+        "F": [
+          {
+            "n": "contact",
+            "f": [
+              {
+                "n": "id",
+                "t": "integer"
+              },
+              {
+                "n": "email"
+              },
+              {
+                "n": "location",
+                "t": "object"
+              }
+            ],
+            "o": false
+          }
+        ],
+        "f": [
+          {
+            "n": "id",
+            "t": "integer"
+          },
+          {
+            "n": "name",
+            "t": "string"
+          },
+          {
+            "n": "active",
+            "t": "boolean"
+          },
+          {
+            "n": "is_admin",
+            "t": "boolean",
+            "o": true
+          }
+        ],
+        "V": true
+      }
+    }
+  }
+}

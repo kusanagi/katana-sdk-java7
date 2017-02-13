@@ -118,11 +118,12 @@ public class Action extends Api {
 
     /**
      * Get the parameter with the REQUIRED case sensitive name argument which MUST be returned as a Param object.
-     * To read a file provided with the request the getFile() function MUST be used to access the File object.
+     * To deserialize a file provided with the request the getFile() function MUST be used to access the File object.
      *
      * @param name Name of the param
      * @return Return the value of the param
      */
+    @JsonIgnore
     public Param getParam(String name) {
         for (Param param : params){
             if (param.getName().equals(name)){
@@ -200,6 +201,7 @@ public class Action extends Api {
      * @param name Name of the file
      * @return Return the File
      */
+    @JsonIgnore
     public File getFile(String name) {
         Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
         for (String path : pathFiles.keySet()) {
@@ -229,6 +231,7 @@ public class Action extends Api {
      *
      * @return Return all the files
      */
+    @JsonIgnore
     public List<File> getFiles() {
         List<File> files = new ArrayList<>();
         Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
@@ -280,40 +283,7 @@ public class Action extends Api {
      * @return Return false if the Service did not include a file server
      */
     public Action setDownload(File file) {
-        Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFile = this.transport.getFiles();
-        Map<String, Map<String, Map<String, Map<String, File>>>> serviceFile = new HashMap<>();
-        Map<String, Map<String, Map<String, File>>> versionFile = new HashMap<>();
-        Map<String, Map<String, File>> actionFile = new HashMap<>();
-        Map<String, File> nameFile = new HashMap<>();
-
-        if (pathFile.containsKey(getPath())) {
-            serviceFile = pathFile.get(getPath());
-            if (serviceFile.containsKey(getName())) {
-                versionFile = serviceFile.get(getName());
-                if (versionFile.containsKey(getVersion())) {
-                    actionFile = versionFile.get(getVersion());
-                    if (actionFile.containsKey(getActionName())) {
-                        nameFile = actionFile.get(getActionName());
-                    } else {
-                        actionFile.put(getActionName(), nameFile);
-                    }
-                } else {
-                    actionFile.put(getActionName(), nameFile);
-                    versionFile.put(getVersion(), actionFile);
-                }
-            } else {
-                actionFile.put(getActionName(), nameFile);
-                versionFile.put(getVersion(), actionFile);
-                serviceFile.put(getName(), versionFile);
-            }
-        } else {
-            actionFile.put(getActionName(), nameFile);
-            versionFile.put(getVersion(), actionFile);
-            serviceFile.put(getName(), versionFile);
-            pathFile.put(getPath(), serviceFile);
-        }
-
-        nameFile.put(file.getName(), file);
+        this.transport.setBody(file);
         return this;
     }
 
@@ -434,7 +404,7 @@ public class Action extends Api {
      * @param foreignKey Foreign key argument
      * @return Return true if the operation was successful
      */
-    public Action relateMany(String primaryKey, String service, String[] foreignKey) {
+    public Action relateMany(String primaryKey, String service, List<String> foreignKey) {
         Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
 
         Map<String, Object> relation = new HashMap<>();
@@ -503,7 +473,7 @@ public class Action extends Api {
         return this;
     }
 
-    public Action relateManyRemote(String primaryKey, String address, String service, String foreignKey) {
+    public Action relateManyRemote(String primaryKey, String address, String service, List<String> foreignKey) {
         Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
 
         Map<String, Object> relation = new HashMap<>();
@@ -704,7 +674,7 @@ public class Action extends Api {
      * @param files   array of files
      * @return Return true if the operation was successful
      */
-    public Action call(String service, String version, String action, List<Param> params, List<File> files, String callback) {
+    public Action call(String service, String version, String action, List<Param> params, List<File> files) {
         Map<String, Map<String, List<Call>>> calls = transport.getCalls();
 
         if (calls == null){
@@ -729,6 +699,10 @@ public class Action extends Api {
 
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
+        if (files == null){
+            files = new ArrayList<>();
+        }
+
         for(File file : files) {
             if (file.isLocal() && !serviceSchema.hasFileServer()) {
                 throw new IllegalArgumentException(String.format(
@@ -743,13 +717,12 @@ public class Action extends Api {
         call.setName(service);
         call.setVersion(version);
         call.setAction(action);
-        call.setCallback(callback);
         call.setParams(params);
         callList.add(call);
         return this;
     }
 
-    public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, String callback){
+    public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, int timeout){
         Map<String, Map<String, List<Call>>> calls = transport.getCalls();
         List<Call> callList = new ArrayList<>();
 
@@ -768,6 +741,10 @@ public class Action extends Api {
 
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
+        if (files == null){
+            files = new ArrayList<>();
+        }
+
         for(File file : files) {
             if (file.isLocal() && !serviceSchema.hasFileServer()) {
                 throw new IllegalArgumentException(String.format(
@@ -783,7 +760,7 @@ public class Action extends Api {
         call.setName(service);
         call.setVersion(version);
         call.setAction(action);
-        call.setCallback(callback);
+        call.setTimeout(timeout);
         call.setParams(params);
         callList.add(call);
         return this;

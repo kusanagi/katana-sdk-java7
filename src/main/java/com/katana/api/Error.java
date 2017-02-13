@@ -17,6 +17,9 @@ public class Error {
     private String status;
 
     public Error() {
+        this.message = "Unknown error";
+        this.code = 0;
+        this.status = "500 Internal Server Error";
     }
 
     /**

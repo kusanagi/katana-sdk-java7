@@ -18,6 +18,9 @@ public class ServiceTransaction {
     @JsonProperty("a")
     private String action;
 
+    @JsonProperty("c")
+    private String callee;
+
     @JsonProperty("p")
     private List<Param> params;
 
@@ -48,6 +51,14 @@ public class ServiceTransaction {
         this.action = action;
     }
 
+    public String getCallee() {
+        return callee;
+    }
+
+    public void setCallee(String callee) {
+        this.callee = callee;
+    }
+
     public List<Param> getParams() {
         return params;
     }
@@ -58,34 +69,25 @@ public class ServiceTransaction {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof ServiceTransaction)) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         ServiceTransaction that = (ServiceTransaction) o;
 
-        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) {
-            return false;
-        }
-        if (getVersion() != null ? !getVersion().equals(that.getVersion()) : that.getVersion() != null) {
-            return false;
-        }
-        if (getAction() != null ? !getAction().equals(that.getAction()) : that.getAction() != null) {
-            return false;
-        }
-        return getParams() != null ? getParams().equals(that.getParams()) : that.getParams() == null;
-
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (version != null ? !version.equals(that.version) : that.version != null) return false;
+        if (action != null ? !action.equals(that.action) : that.action != null) return false;
+        if (callee != null ? !callee.equals(that.callee) : that.callee != null) return false;
+        return params != null ? params.equals(that.params) : that.params == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getName() != null ? getName().hashCode() : 0;
-        result = 31 * result + (getVersion() != null ? getVersion().hashCode() : 0);
-        result = 31 * result + (getAction() != null ? getAction().hashCode() : 0);
-        result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        result = 31 * result + (action != null ? action.hashCode() : 0);
+        result = 31 * result + (callee != null ? callee.hashCode() : 0);
+        result = 31 * result + (params != null ? params.hashCode() : 0);
         return result;
     }
 
@@ -95,6 +97,7 @@ public class ServiceTransaction {
                 "name='" + name + '\'' +
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +
+                ", callee='" + callee + '\'' +
                 ", params=" + params +
                 '}';
     }
@@ -103,6 +106,7 @@ public class ServiceTransaction {
         this.name = other.name;
         this.version = other.version;
         this.action = other.action;
+        this.callee = other.callee;
         this.params = other.params;
     }
 }

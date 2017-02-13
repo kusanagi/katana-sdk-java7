@@ -14,6 +14,7 @@ public class RelationSchema {
     private String type;
 
     public RelationSchema() {
+        this.type = "one";
     }
 
     public String getName() {

@@ -1,5 +1,6 @@
 package com.katana.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.sdk.common.Component;
 
@@ -68,11 +69,13 @@ public class Response extends Api {
 
     // SDK METHODS
 
+    @JsonIgnore
     public String getGatewayProtocol(){
         return this.meta.getProtocol();
     }
 
-    public String gateGatewayAddress(){
+    @JsonIgnore
+    public String getGatewayAddress(){
         return this.meta.getGateway().get(1);
     }
 
@@ -89,7 +92,7 @@ public class Response extends Api {
     }
 
     /**
-     * @return Return an instance of the read-only Transport interface.
+     * @return Return an instance of the deserialize-only Transport interface.
      */
     public Transport getTransport() {
         return transport;

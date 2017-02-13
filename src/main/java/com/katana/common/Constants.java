@@ -5,6 +5,11 @@ package com.katana.common;
  */
 public class Constants {
 
+    public static final String VERSION_PATTERN = "[a-zA-Z0-9*.,_\\-]+";
+
+    public static final String SERVICE = "service";
+    public static final String MIDDLEWARE = "middleware";
+
     public static final String WORKER_ENDPOINT = "ipc://workers";
 
     private Constants() {

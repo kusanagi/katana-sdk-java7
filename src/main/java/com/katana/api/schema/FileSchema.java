@@ -32,6 +32,10 @@ public class FileSchema {
     private FileHttpSchema http;
 
     public FileSchema() {
+        this.required = false;
+        this.exclusiveMax = false;
+        this.exclusiveMax = false;
+        this.http = new FileHttpSchema();
     }
 
     public void setName(String name) {
@@ -101,6 +105,7 @@ public class FileSchema {
         return exclusiveMin;
     }
 
+    @JsonIgnore
     public FileHttpSchema getHttpSchema() {
         return getHttp();
     }

@@ -106,6 +106,7 @@ public class File {
         return this.exists;
     }
 
+    @JsonIgnore
     public boolean isLocal() {
         try {
             URI uri = new URI(path);

@@ -3,8 +3,8 @@ package com.katana.sdk.common;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.Api;
-import com.katana.api.Resource;
 import com.katana.api.replies.common.CommandReplyResult;
+import com.katana.api.schema.ServiceSchema;
 import com.katana.common.Constants;
 import com.katana.common.utils.Logger;
 import com.katana.common.utils.MessagePackSerializer;
@@ -63,7 +63,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private boolean quiet;
 
-    private List<Resource<T>> resources;
+    private Map<String, Callable<T>> resources;
 
     protected EventCallable<R> startupCallable;
 
@@ -90,6 +90,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      */
     public Component(String[] args) {
         this.var = new HashMap<>();
+        this.resources = new HashMap<>();
         this.serializer = new MessagePackSerializer();
         this.optionManager = new OptionManager();
         this.optionManager.setOptions(Arrays.asList(APP_OPTIONS));
@@ -102,6 +103,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
         if (isDebug() && !this.quiet) {
             Logger.activate();
+        } else {
+            Logger.deactivate();
         }
 
         this.workerEndpoint = Constants.WORKER_ENDPOINT + "_" + UUID.randomUUID().toString();
@@ -258,36 +261,35 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         this.debug = debug;
     }
 
+    public String getCallback() {
+        return callback;
+    }
+
+    public void setCallback(String callback) {
+        this.callback = callback;
+    }
+
+    public boolean isQuiet() {
+        return quiet;
+    }
+
+    public void setQuiet(boolean quiet) {
+        this.quiet = quiet;
+    }
+
     // SDK METHODS
 
     public boolean setResource(String name, Callable<T> resource){
-        if (this.resources == null){
-            this.resources = new ArrayList<>();
-        }
-        this.resources.add(new Resource<>(name, resource));
+        this.resources.put(name, resource);
         return true;
     }
 
     public boolean hasResource(String name){
-        if (this.resources == null)
-            return false;
-        for (Resource<T> resource : this.resources){
-            if (resource.getName().equals(name)){
-                return true;
-            }
-        }
-        return false;
+        return this.resources.containsKey(name);
     }
 
-    public Resource<T> getResource(String name){
-        if (this.resources == null)
-            return null;
-        for (Resource<T> resource : this.resources){
-            if (resource.getName().equals(name)){
-                return resource;
-            }
-        }
-        return null;
+    public Callable<T> getResource(String name){
+        return this.resources.get(name);
     }
 
     public Component<T, S, R> startup(EventCallable<R> callback){
@@ -313,68 +315,21 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
         setWorkers();
 
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                if (shutdownCallable != null) {
+                    runShutdown();
+                }
+
+                stopSocket();
+            }
+        });
+
         ZMQ.proxy(router, dealer, null);
     }
 
-    public boolean log(String value){
-        Logger.log(Logger.DEBUG, value);
-        return true;
-    }
-
-    private void generateDefaultSocket() {
-        this.socket = "@katana-" + this.component + "-" + this.name + "-" + this.version;
-    }
-
-    /**
-     * @param componentType
-     * @param commandBytes
-     * @return
-     */
-    @Override
-    public byte[] onRequestReceived(String componentType, byte[] mappings, byte[] commandBytes) {
-        try {
-            CommandPayload<T> command = serializer.read(commandBytes, getCommandPayloadClass(componentType));
-            Mapping mapping = new Mapping();
-            mapping.setServiceSchema(mappings == null ? null : serializer.read(mappings, Map.class));
-            S commandReply = processRequest(componentType, mapping, command);
-            return serializer.write(commandReply);
-        } catch (Exception e) {
-            Logger.log(e);
-            return new byte[0];
-        }
-    }
-
-    /**
-     * @param componentType
-     * @return
-     */
-    protected abstract Class<? extends CommandPayload> getCommandPayloadClass(String componentType);
-
-    /**
-     * @param componentType
-     * @param command
-     */
-    protected void setBaseCommandAttrs(String componentType, Mapping mapping, T command) {
-        command.setName(this.getName());
-        command.setProtocolVersion(this.getVersion());
-        command.setPlatformVersion(this.getPlatformVersion());
-        command.setDebug(this.isDebug());
-        command.setVariables(this.getVar());
-        command.setMapping(mapping);
-    }
-
-    /**
-     * @param componentType
-     * @param response
-     * @return
-     */
-    protected abstract S getCommandReplyPayload(String componentType, T response);
-
-    /**
-     * @param response
-     * @return
-     */
-    protected abstract CommandReplyResult getReply(String componentType, T response);
+    protected abstract void runShutdown();
 
     private void setWorkers() {
         int workerCount = 1;
@@ -407,6 +362,101 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         dealer.bind(this.workerEndpoint);
     }
 
+    public void stopSocket() {
+        dealer.close();
+        router.close();
+        context.term();
+    }
+
+    public boolean log(String value){
+        Logger.log(Logger.DEBUG, value);
+        return this.debug;
+    }
+
+    private void generateDefaultSocket() {
+        this.socket = "@katana-" + this.component + "-" + this.name + "-" + this.version;
+    }
+
+    /**
+     * @param componentType
+     * @param commandBytes
+     * @return
+     */
+    @Override
+    public byte[] onRequestReceived(String componentType, byte[] mappings, byte[] commandBytes) {
+        try {
+            CommandPayload<T> command = serializer.deserialize(commandBytes, getCommandPayloadClass(componentType));
+            Mapping mapping = deserializeMappings(mappings);
+            S commandReply = processRequest(componentType, mapping, command);
+            return serializer.serializeInBytes(commandReply);
+        } catch (Exception e) {
+            Logger.log(e);
+            return new byte[0];
+        }
+    }
+
+    private Mapping deserializeMappings(byte[] mappings) {
+        if (mappings == null) {
+            return null;
+        }
+
+        Mapping mapping = new Mapping();
+
+        Map schemas = serializer.deserialize(mappings, Map.class);
+        for (Object serviceKey : schemas.keySet()) {
+            Map versionMap = (Map) schemas.get(serviceKey);
+            for (Object versionKey : versionMap.keySet()) {
+                Map serviceSchemaMap = (Map) versionMap.get(versionKey);
+
+                String jsonServiceSchema = serializer.serializeInJson(serviceSchemaMap);
+                ServiceSchema serviceSchema = serializer.deserialize(jsonServiceSchema, ServiceSchema.class);
+
+                Map<String, ServiceSchema> newVersionMap = new HashMap<>();
+                Map<String, Map<String, ServiceSchema>> newServiceSchema = new HashMap<>();
+
+                newVersionMap.put((String) versionKey, serviceSchema);
+                newServiceSchema.put((String) serviceKey, newVersionMap);
+
+                mapping.setServiceSchema(newServiceSchema);
+            }
+        }
+
+        return mapping;
+    }
+
+    /**
+     * @param componentType
+     * @return
+     */
+    protected abstract Class<? extends CommandPayload> getCommandPayloadClass(String componentType);
+
+    /**
+     * @param componentType
+     * @param command
+     */
+    protected void setBaseCommandAttrs(String componentType, Mapping mapping, T command) {
+        command.setComponent(this);
+        command.setName(this.getName());
+        command.setProtocolVersion(this.getVersion());
+        command.setPlatformVersion(this.getPlatformVersion());
+        command.setDebug(this.isDebug());
+        command.setVariables(this.getVar());
+        command.setMapping(mapping);
+    }
+
+    /**
+     * @param componentType
+     * @param response
+     * @return
+     */
+    protected abstract S getCommandReplyPayload(String componentType, T response);
+
+    /**
+     * @param response
+     * @return
+     */
+    protected abstract CommandReplyResult getReply(String componentType, T response);
+
     private S processRequest(String componentType, Mapping mapping, CommandPayload<T> commandPayload) {
         T command = commandPayload.getCommand().getArgument();
         setBaseCommandAttrs(componentType, mapping, command);
@@ -417,30 +467,33 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     protected abstract Callable<T> getCallable(String componentType);
 
-    private void stopSocket() {
-        dealer.close();
-        router.close();
-        context.term();
-    }
-
     private void setArgs(String[] args) throws IllegalArgumentException {
-        optionManager.extractOptions(args);
-        setMembers(optionManager.getOptions());
+        List<Option> currentOptions = optionManager.extractOptions(args);
+        setMembers(currentOptions);
     }
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
                 case "-p":
                     this.platformVersion = option.getValue();
+                    if (!this.platformVersion.matches(Constants.VERSION_PATTERN)) {
+                        throw new IllegalArgumentException("Invalid platform version " + this.platformVersion);
+                    }
                     break;
                 case "-c":
                     this.component = option.getValue();
+                    if (!this.component.equals(Constants.SERVICE) && ! this.component.equals(Constants.MIDDLEWARE)){
+                        throw new IllegalArgumentException("Invalid component " + this.component);
+                    }
                     break;
                 case "-n":
                     this.name = option.getValue();
                     break;
                 case "-v":
                     this.version = option.getValue();
+                    if (!this.version.matches(Constants.VERSION_PATTERN)) {
+                        throw new IllegalArgumentException("Invalid version " + this.version);
+                    }
                     break;
                 case "-s":
                     this.socket = option.getValue();
@@ -449,8 +502,12 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                     this.tcp = option.getValue();
                     break;
                 case "-V":
-                    String varName = option.getValue().split("=")[0];
-                    String varValue = option.getValue().split("=")[1];
+                    String[] var = option.getValue().split("=");
+                    if (var.length < 2){
+                        throw new IllegalArgumentException("Invalid variable " + option.getValue());
+                    }
+                    String varName = var[0];
+                    String varValue = var[1];
                     this.var.put(varName, varValue);
                     break;
                 case "-d":

@@ -35,7 +35,7 @@ public class Transport implements CommandReplyResult {
     @JsonProperty("l")
     private Map<String, Map<String, Map<String, String>>> links;
 
-    @JsonProperty("c")
+    @JsonProperty("C")
     private Map<String, Map<String, List<Call>>> calls;
 
     @JsonProperty("t")
@@ -350,7 +350,7 @@ public class Transport implements CommandReplyResult {
      * @param service Service name
      * @return Return all the calls as an object, as they are stored in the Transport.
      */
-    public Object getCalls(String address, String service) { // TODO review
+    public Object getCalls(String service) {
         if (service != null) {
             return this.calls.get(service);
         }
