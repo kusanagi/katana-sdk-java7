@@ -27,6 +27,14 @@ public class Response extends Api {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public Response(Response other) {
+        super(other);
+        this.meta = other.meta;
+        this.httpRequest = other.httpRequest;
+        this.httpResponse = other.httpResponse;
+        this.transport = other.transport;
+    }
+
     /**
      * @param path
      * @param name
@@ -143,13 +151,5 @@ public class Response extends Api {
                 ", httpResponse=" + httpResponse +
                 ", transport=" + transport +
                 "} " + super.toString();
-    }
-
-    public Response(Response other) {
-        super(other);
-        this.meta = other.meta;
-        this.httpRequest = other.httpRequest;
-        this.httpResponse = other.httpResponse;
-        this.transport = other.transport;
     }
 }

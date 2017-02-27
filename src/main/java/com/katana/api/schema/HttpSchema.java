@@ -19,6 +19,11 @@ public class HttpSchema {
         basePath = "";
     }
 
+    public HttpSchema(HttpSchema other) {
+        this.gateway = other.gateway;
+        this.basePath = other.basePath;
+    }
+
     public boolean isGateway() {
         return gateway;
     }
@@ -73,10 +78,5 @@ public class HttpSchema {
                 "gateway=" + gateway +
                 ", basePath='" + basePath + '\'' +
                 '}';
-    }
-
-    public HttpSchema(HttpSchema other) {
-        this.gateway = other.gateway;
-        this.basePath = other.basePath;
     }
 }

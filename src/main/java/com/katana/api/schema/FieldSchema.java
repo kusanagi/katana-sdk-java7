@@ -20,6 +20,12 @@ public class FieldSchema {
         this.optional = false;
     }
 
+    public FieldSchema(FieldSchema other) {
+        this.name = other.name;
+        this.type = other.type;
+        this.optional = other.optional;
+    }
+
     public String getName() {
         return name;
     }
@@ -80,11 +86,5 @@ public class FieldSchema {
                 ", type='" + type + '\'' +
                 ", optional='" + optional + '\'' +
                 '}';
-    }
-
-    public FieldSchema(FieldSchema other) {
-        this.name = other.name;
-        this.type = other.type;
-        this.optional = other.optional;
     }
 }

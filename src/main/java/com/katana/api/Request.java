@@ -37,6 +37,13 @@ public class Request extends Api {
         super(component, path, name, version, platformVersion, variables, isDebug);
     }
 
+    public Request(Request other) {
+        super(other);
+        this.meta = other.meta;
+        this.httpRequest = other.httpRequest;
+        this.requestCall = other.requestCall;
+    }
+
     /**
      * @return
      */
@@ -260,12 +267,5 @@ public class Request extends Api {
                 ", httpRequest=" + httpRequest +
                 ", requestCall=" + requestCall +
                 "} " + super.toString();
-    }
-
-    public Request(Request other) {
-        super(other);
-        this.meta = other.meta;
-        this.httpRequest = other.httpRequest;
-        this.requestCall = other.requestCall;
     }
 }

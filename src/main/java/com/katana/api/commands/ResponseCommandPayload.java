@@ -16,6 +16,11 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
         //Empty constructor for serialization
     }
 
+    public ResponseCommandPayload(ResponseCommandPayload other) {
+        super(other);
+        this.command = other.command;
+    }
+
     /**
      * @return
      */
@@ -61,11 +66,6 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
         return "ResponseCommandPayload{" +
                 "command=" + command +
                 "} " + super.toString();
-    }
-
-    public ResponseCommandPayload(ResponseCommandPayload other) {
-        super(other);
-        this.command = other.command;
     }
 
     /**

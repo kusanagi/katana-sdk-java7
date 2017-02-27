@@ -20,6 +20,10 @@ public class CallReplyPayload implements CommandReplyResult {
         //Empty constructor for serialization
     }
 
+    public CallReplyPayload(CallReplyPayload other) {
+        this.callCommandReply = other.callCommandReply;
+    }
+
     /**
      * @return
      */
@@ -60,10 +64,6 @@ public class CallReplyPayload implements CommandReplyResult {
         return "CommandReplyPayload{" +
                 "callCommandReply=" + callCommandReply +
                 '}';
-    }
-
-    public CallReplyPayload(CallReplyPayload other) {
-        this.callCommandReply = other.callCommandReply;
     }
 
     /**

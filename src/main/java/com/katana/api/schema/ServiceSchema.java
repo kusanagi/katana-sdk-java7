@@ -35,6 +35,13 @@ public class ServiceSchema {
         actionSchemas = new HashMap<>();
     }
 
+    public ServiceSchema(ServiceSchema other) {
+        this.address = other.address;
+        this.files = other.files;
+        this.httpSchema = other.httpSchema;
+        this.actionSchemas = other.actionSchemas;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -151,12 +158,5 @@ public class ServiceSchema {
                 ", httpSchema=" + httpSchema +
                 ", actionSchemas=" + actionSchemas +
                 '}';
-    }
-
-    public ServiceSchema(ServiceSchema other) {
-        this.address = other.address;
-        this.files = other.files;
-        this.httpSchema = other.httpSchema;
-        this.actionSchemas = other.actionSchemas;
     }
 }

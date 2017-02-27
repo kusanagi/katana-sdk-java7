@@ -28,6 +28,12 @@ public class Action extends Api {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public Action(Action other) {
+        this.params = other.params;
+        this.transport = other.transport;
+        this.actionName = other.actionName;
+    }
+
     /**
      * Action name setter
      *
@@ -845,11 +851,5 @@ public class Action extends Api {
                 "params=" + params +
                 ", transport=" + transport +
                 "} " + super.toString();
-    }
-
-    public Action(Action other) {
-        this.params = other.params;
-        this.transport = other.transport;
-        this.actionName = other.actionName;
     }
 }

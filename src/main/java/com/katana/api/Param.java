@@ -29,6 +29,13 @@ public class Param {
         this.exists = exists;
     }
 
+    public Param(Param other) {
+        this.name = other.name;
+        this.value = other.value;
+        this.type = other.type;
+        this.exists = other.exists;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -131,12 +138,5 @@ public class Param {
                 ", type='" + type + '\'' +
                 ", exists=" + exists +
                 '}';
-    }
-
-    public Param(Param other) {
-        this.name = other.name;
-        this.value = other.value;
-        this.type = other.type;
-        this.exists = other.exists;
     }
 }

@@ -30,6 +30,13 @@ public class HttpResponse implements CommandReplyResult {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public HttpResponse(HttpResponse other) {
+        this.protocolVersion = other.protocolVersion;
+        this.status = other.status;
+        this.headers = other.headers;
+        this.body = other.body;
+    }
+
     /**
      * Set a HTTP header for the response, with the name specified by the REQUIRED name argument and the value specified by the REQUIRED value argument.
      *
@@ -239,12 +246,5 @@ public class HttpResponse implements CommandReplyResult {
                 ", headers=" + headers +
                 ", body='" + body + '\'' +
                 '}';
-    }
-
-    public HttpResponse(HttpResponse other) {
-        this.protocolVersion = other.protocolVersion;
-        this.status = other.status;
-        this.headers = other.headers;
-        this.body = other.body;
     }
 }

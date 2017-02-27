@@ -23,6 +23,12 @@ public class Transaction {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public Transaction(Transaction other) {
+        this.commit = other.commit;
+        this.rollback = other.rollback;
+        this.complete = other.complete;
+    }
+
     public List<ServiceTransaction> getCommit() {
         return commit;
     }
@@ -83,11 +89,5 @@ public class Transaction {
                 ", rollback=" + rollback +
                 ", complete=" + complete +
                 '}';
-    }
-
-    public Transaction(Transaction other) {
-        this.commit = other.commit;
-        this.rollback = other.rollback;
-        this.complete = other.complete;
     }
 }

@@ -15,6 +15,10 @@ public class Mapping {
         //Empty constructor for serialization
     }
 
+    public Mapping(Mapping other) {
+        this.serviceSchema = other.serviceSchema;
+    }
+
     public Map<String, Map<String, ServiceSchema>> getServiceSchema() {
         return serviceSchema;
     }
@@ -48,9 +52,5 @@ public class Mapping {
         return "Mapping{" +
                 "serviceSchema=" + serviceSchema +
                 '}';
-    }
-
-    public Mapping(Mapping other) {
-        this.serviceSchema = other.serviceSchema;
     }
 }

@@ -17,6 +17,11 @@ public class ValueSchema {
         this.type = "string";
     }
 
+    public ValueSchema(ValueSchema other) {
+        this.type = other.type;
+        this.value = other.value;
+    }
+
     public String getType() {
         return type;
     }
@@ -63,10 +68,5 @@ public class ValueSchema {
                 "type='" + type + '\'' +
                 ", value=" + value +
                 '}';
-    }
-
-    public ValueSchema(ValueSchema other) {
-        this.type = other.type;
-        this.value = other.value;
     }
 }

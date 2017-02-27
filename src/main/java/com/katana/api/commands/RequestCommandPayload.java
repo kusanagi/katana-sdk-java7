@@ -15,6 +15,11 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         //Empty constructor for serialization
     }
 
+    public RequestCommandPayload(RequestCommandPayload other) {
+        super(other);
+        this.command = other.command;
+    }
+
     /**
      * @return
      */
@@ -60,11 +65,6 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         return "RequestCommandPayload{" +
                 "command=" + command +
                 "} " + super.toString();
-    }
-
-    public RequestCommandPayload(RequestCommandPayload other) {
-        super(other);
-        this.command = other.command;
     }
 
     /**

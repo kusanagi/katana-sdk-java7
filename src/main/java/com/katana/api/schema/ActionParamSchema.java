@@ -83,6 +83,29 @@ public class ActionParamSchema {
         this.http = new ActionParamHttpSchema();
     }
 
+    public ActionParamSchema(ActionParamSchema other) {
+        this.type = other.type;
+        this.format = other.format;
+        this.arrayFormat = other.arrayFormat;
+        this.pattern = other.pattern;
+        this.allowEmpty = other.allowEmpty;
+        this.defaultValue = other.defaultValue;
+        this.required = other.required;
+        this.items = other.items;
+        this.max = other.max;
+        this.exclusiveMax = other.exclusiveMax;
+        this.min = other.min;
+        this.exclusiveMin = other.exclusiveMin;
+        this.maxLength = other.maxLength;
+        this.minLength = other.minLength;
+        this.maxItems = other.maxItems;
+        this.minItems = other.minItems;
+        this.uniqueItems = other.uniqueItems;
+        this.enumeration = other.enumeration;
+        this.multipleOf = other.multipleOf;
+        this.http = other.http;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -393,28 +416,5 @@ public class ActionParamSchema {
                 ", multipleOf=" + multipleOf +
                 ", http=" + http +
                 '}';
-    }
-
-    public ActionParamSchema(ActionParamSchema other) {
-        this.type = other.type;
-        this.format = other.format;
-        this.arrayFormat = other.arrayFormat;
-        this.pattern = other.pattern;
-        this.allowEmpty = other.allowEmpty;
-        this.defaultValue = other.defaultValue;
-        this.required = other.required;
-        this.items = other.items;
-        this.max = other.max;
-        this.exclusiveMax = other.exclusiveMax;
-        this.min = other.min;
-        this.exclusiveMin = other.exclusiveMin;
-        this.maxLength = other.maxLength;
-        this.minLength = other.minLength;
-        this.maxItems = other.maxItems;
-        this.minItems = other.minItems;
-        this.uniqueItems = other.uniqueItems;
-        this.enumeration = other.enumeration;
-        this.multipleOf = other.multipleOf;
-        this.http = other.http;
     }
 }

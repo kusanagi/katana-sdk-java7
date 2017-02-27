@@ -31,6 +31,14 @@ public class ActionHttpSchema {
         this.body = "text/plain";
     }
 
+    public ActionHttpSchema(ActionHttpSchema other) {
+        this.gateway = other.gateway;
+        this.path = other.path;
+        this.method = other.method;
+        this.input = other.input;
+        this.body = other.body;
+    }
+
     public boolean isGateway() {
         return gateway;
     }
@@ -124,13 +132,5 @@ public class ActionHttpSchema {
                 ", input='" + input + '\'' +
                 ", body='" + body + '\'' +
                 '}';
-    }
-
-    public ActionHttpSchema(ActionHttpSchema other) {
-        this.gateway = other.gateway;
-        this.path = other.path;
-        this.method = other.method;
-        this.input = other.input;
-        this.body = other.body;
     }
 }

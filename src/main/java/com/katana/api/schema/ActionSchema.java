@@ -66,6 +66,23 @@ public class ActionSchema {
         files = new HashMap<>();
     }
 
+    public ActionSchema(ActionSchema other) {
+        this.timeout = other.timeout;
+        this.entityPath = other.entityPath;
+        this.pathDelimiter = other.pathDelimiter;
+        this.primaryKey = other.primaryKey;
+        this.collection = other.collection;
+        this.calls = other.calls;
+        this.remoteCalls = other.remoteCalls;
+        this.fallbacks = other.fallbacks;
+        this.deprecated = other.deprecated;
+        this.http = other.http;
+        this.params = other.params;
+        this.files = other.files;
+        this.entity = other.entity;
+        this.relations = other.relations;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -342,22 +359,5 @@ public class ActionSchema {
                 ", entity=" + entity +
                 ", relations=" + relations +
                 '}';
-    }
-
-    public ActionSchema(ActionSchema other) {
-        this.timeout = other.timeout;
-        this.entityPath = other.entityPath;
-        this.pathDelimiter = other.pathDelimiter;
-        this.primaryKey = other.primaryKey;
-        this.collection = other.collection;
-        this.calls = other.calls;
-        this.remoteCalls = other.remoteCalls;
-        this.fallbacks = other.fallbacks;
-        this.deprecated = other.deprecated;
-        this.http = other.http;
-        this.params = other.params;
-        this.files = other.files;
-        this.entity = other.entity;
-        this.relations = other.relations;
     }
 }

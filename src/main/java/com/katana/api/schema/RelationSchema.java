@@ -17,6 +17,11 @@ public class RelationSchema {
         this.type = "one";
     }
 
+    public RelationSchema(RelationSchema other) {
+        this.name = other.name;
+        this.type = other.type;
+    }
+
     public String getName() {
         return name;
     }
@@ -64,10 +69,5 @@ public class RelationSchema {
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 '}';
-    }
-
-    public RelationSchema(RelationSchema other) {
-        this.name = other.name;
-        this.type = other.type;
     }
 }

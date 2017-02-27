@@ -49,6 +49,16 @@ public class File {
         this.exists = exists;
     }
 
+    public File(File other) {
+        this.name = other.name;
+        this.path = other.path;
+        this.token = other.token;
+        this.filename = other.filename;
+        this.size = other.size;
+        this.mime = other.mime;
+        this.exists = other.exists;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -208,15 +218,5 @@ public class File {
                 ", mime='" + mime + '\'' +
                 ", exists=" + exists +
                 '}';
-    }
-
-    public File(File other) {
-        this.name = other.name;
-        this.path = other.path;
-        this.token = other.token;
-        this.filename = other.filename;
-        this.size = other.size;
-        this.mime = other.mime;
-        this.exists = other.exists;
     }
 }

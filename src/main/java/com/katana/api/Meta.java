@@ -35,6 +35,16 @@ public class Meta {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public Meta(Meta other) {
+        this.version = other.version;
+        this.id = other.id;
+        this.datetime = other.datetime;
+        this.type = other.type;
+        this.protocol = other.protocol;
+        this.gateway = other.gateway;
+        this.client = other.client;
+    }
+
     /**
      * @return
      */
@@ -171,15 +181,5 @@ public class Meta {
                 ", gateway=" + gateway +
                 ", client='" + client + '\'' +
                 '}';
-    }
-
-    public Meta(Meta other) {
-        this.version = other.version;
-        this.id = other.id;
-        this.datetime = other.datetime;
-        this.type = other.type;
-        this.protocol = other.protocol;
-        this.gateway = other.gateway;
-        this.client = other.client;
     }
 }

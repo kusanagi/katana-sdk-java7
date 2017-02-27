@@ -16,6 +16,11 @@ public class CommandPayload<T extends Api> {
     private CommandMeta commandMeta;
 
     public CommandPayload() {
+        //Empty constructor for serialization
+    }
+
+    public CommandPayload(CommandPayload other) {
+        this.commandMeta = other.commandMeta;
     }
 
     /**
@@ -64,10 +69,6 @@ public class CommandPayload<T extends Api> {
         return "CommandPayload{" +
                 "commandMeta=" + commandMeta +
                 '}';
-    }
-
-    public CommandPayload(CommandPayload other) {
-        this.commandMeta = other.commandMeta;
     }
 
     /**

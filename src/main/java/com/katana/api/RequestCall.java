@@ -26,6 +26,13 @@ public class RequestCall implements CommandReplyResult {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public RequestCall(RequestCall other) {
+        this.service = other.service;
+        this.version = other.version;
+        this.action = other.action;
+        this.params = other.params;
+    }
+
     /**
      * @return
      */
@@ -117,12 +124,5 @@ public class RequestCall implements CommandReplyResult {
                 ", action='" + action + '\'' +
                 ", params=" + params +
                 '}';
-    }
-
-    public RequestCall(RequestCall other) {
-        this.service = other.service;
-        this.version = other.version;
-        this.action = other.action;
-        this.params = other.params;
     }
 }

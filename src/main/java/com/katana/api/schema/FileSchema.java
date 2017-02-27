@@ -38,6 +38,16 @@ public class FileSchema {
         this.http = new FileHttpSchema();
     }
 
+    public FileSchema(FileSchema other) {
+        this.mime = other.mime;
+        this.required = other.required;
+        this.max = other.max;
+        this.exclusiveMax = other.exclusiveMax;
+        this.min = other.min;
+        this.exclusiveMin = other.exclusiveMin;
+        this.http = other.http;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -166,15 +176,5 @@ public class FileSchema {
                 ", exclusiveMin=" + exclusiveMin +
                 ", http=" + http +
                 '}';
-    }
-
-    public FileSchema(FileSchema other) {
-        this.mime = other.mime;
-        this.required = other.required;
-        this.max = other.max;
-        this.exclusiveMax = other.exclusiveMax;
-        this.min = other.min;
-        this.exclusiveMin = other.exclusiveMin;
-        this.http = other.http;
     }
 }

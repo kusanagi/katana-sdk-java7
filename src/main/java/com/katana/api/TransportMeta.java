@@ -29,6 +29,14 @@ public class TransportMeta extends Meta {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public TransportMeta(TransportMeta other) {
+        super(other);
+        this.origin = other.origin;
+        this.level = other.level;
+        this.fallback = other.fallback;
+        this.properties = other.properties;
+    }
+
     public String[] getOrigin() {
         return origin;
     }
@@ -106,13 +114,5 @@ public class TransportMeta extends Meta {
                 ", fallback=" + fallback +
                 ", properties='" + properties + '\'' +
                 '}';
-    }
-
-    public TransportMeta(TransportMeta other) {
-        super(other);
-        this.origin = other.origin;
-        this.level = other.level;
-        this.fallback = other.fallback;
-        this.properties = other.properties;
     }
 }

@@ -44,6 +44,17 @@ public class HttpRequest {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public HttpRequest(HttpRequest other) {
+        this.protocolVersion = other.protocolVersion;
+        this.method = other.method;
+        this.url = other.url;
+        this.queryParamsArray = other.queryParamsArray;
+        this.postParamsArray = other.postParamsArray;
+        this.headers = other.headers;
+        this.body = other.body;
+        this.files = other.files;
+    }
+
     /**
      * @param protocolVersion
      */
@@ -479,16 +490,5 @@ public class HttpRequest {
                 ", body='" + body + '\'' +
                 ", files=" + files +
                 '}';
-    }
-
-    public HttpRequest(HttpRequest other) {
-        this.protocolVersion = other.protocolVersion;
-        this.method = other.method;
-        this.url = other.url;
-        this.queryParamsArray = other.queryParamsArray;
-        this.postParamsArray = other.postParamsArray;
-        this.headers = other.headers;
-        this.body = other.body;
-        this.files = other.files;
     }
 }

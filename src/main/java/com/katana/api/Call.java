@@ -31,6 +31,15 @@ public class Call {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public Call(Call other) {
+        this.name = other.name;
+        this.version = other.version;
+        this.action = other.action;
+        this.params = other.params;
+        this.gateway = other.gateway;
+        this.timeout = other.timeout;
+    }
+
     public String getName() {
         return name;
     }
@@ -129,14 +138,5 @@ public class Call {
                 ", gateway='" + gateway + '\'' +
                 ", timeout=" + timeout +
                 '}';
-    }
-
-    public Call(Call other) {
-        this.name = other.name;
-        this.version = other.version;
-        this.action = other.action;
-        this.params = other.params;
-        this.gateway = other.gateway;
-        this.timeout = other.timeout;
     }
 }

@@ -35,6 +35,14 @@ public class TransportSchema {
         this.errors = new ArrayList<>();
     }
 
+    public TransportSchema(TransportSchema other) {
+        this.properties = other.properties;
+        this.data = other.data;
+        this.relations = other.relations;
+        this.links = other.links;
+        this.errors = other.errors;
+    }
+
     public Map<String, String> getProperties() {
         return properties;
     }
@@ -121,13 +129,5 @@ public class TransportSchema {
                 ", links=" + links +
                 ", errors=" + errors +
                 '}';
-    }
-
-    public TransportSchema(TransportSchema other) {
-        this.properties = other.properties;
-        this.data = other.data;
-        this.relations = other.relations;
-        this.links = other.links;
-        this.errors = other.errors;
     }
 }

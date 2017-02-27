@@ -22,6 +22,12 @@ public class Error {
         this.status = "500 Internal Server Error";
     }
 
+    public Error(Error other) {
+        this.message = other.message;
+        this.code = other.code;
+        this.status = other.status;
+    }
+
     /**
      * @return
      */
@@ -100,11 +106,5 @@ public class Error {
                 ", code='" + code + '\'' +
                 ", status='" + status + '\'' +
                 '}';
-    }
-
-    public Error(Error other) {
-        this.message = other.message;
-        this.code = other.code;
-        this.status = other.status;
     }
 }

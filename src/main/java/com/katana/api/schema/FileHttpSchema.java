@@ -18,6 +18,11 @@ public class FileHttpSchema {
         this.gateway = true;
     }
 
+    public FileHttpSchema(FileHttpSchema other) {
+        this.gateway = other.gateway;
+        this.param = other.param;
+    }
+
     public boolean isGateway() {
         return gateway;
     }
@@ -72,10 +77,5 @@ public class FileHttpSchema {
                 "gateway=" + gateway +
                 ", param='" + param + '\'' +
                 '}';
-    }
-
-    public FileHttpSchema(FileHttpSchema other) {
-        this.gateway = other.gateway;
-        this.param = other.param;
     }
 }

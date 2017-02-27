@@ -28,6 +28,13 @@ public class ObjectFieldSchema {
         this.fields = new ArrayList<>();
     }
 
+    public ObjectFieldSchema(ObjectFieldSchema other) {
+        this.name = other.name;
+        this.optional = other.optional;
+        this.field = other.field;
+        this.fields = other.fields;
+    }
+
     public String getName() {
         return name;
     }
@@ -101,12 +108,5 @@ public class ObjectFieldSchema {
                 ", field=" + field +
                 ", fields=" + fields +
                 '}';
-    }
-
-    public ObjectFieldSchema(ObjectFieldSchema other) {
-        this.name = other.name;
-        this.optional = other.optional;
-        this.field = other.field;
-        this.fields = other.fields;
     }
 }

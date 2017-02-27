@@ -51,6 +51,18 @@ public class Transport implements CommandReplyResult {
         this.links = new HashMap<>();
     }
 
+    public Transport(Transport other) {
+        this.meta = other.meta;
+        this.body = other.body;
+        this.files = other.files;
+        this.data = other.data;
+        this.relations = other.relations;
+        this.links = other.links;
+        this.calls = other.calls;
+        this.transactions = other.transactions;
+        this.errors = other.errors;
+    }
+
     /**
      * Transport meta getter
      *
@@ -269,7 +281,7 @@ public class Transport implements CommandReplyResult {
      *
      * @return Return true if a download file has been registered
      */
-    public boolean hasDownload() { // TODO review this
+    public boolean hasDownload() {
         return this.body != null;
     }
 
@@ -277,7 +289,7 @@ public class Transport implements CommandReplyResult {
      * @return Return the file download defined for the HTTP response as a File object.
      */
     @JsonIgnore
-    public File getDownload() { // TODO review this
+    public File getDownload() {
         return this.body;
     }
 
@@ -512,17 +524,5 @@ public class Transport implements CommandReplyResult {
                 ", transactions=" + transactions +
                 ", errors=" + errors +
                 '}';
-    }
-
-    public Transport(Transport other) {
-        this.meta = other.meta;
-        this.body = other.body;
-        this.files = other.files;
-        this.data = other.data;
-        this.relations = other.relations;
-        this.links = other.links;
-        this.calls = other.calls;
-        this.transactions = other.transactions;
-        this.errors = other.errors;
     }
 }

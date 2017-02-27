@@ -22,6 +22,12 @@ public class ActionParamHttpSchema {
         this.input = "query";
     }
 
+    public ActionParamHttpSchema(ActionParamHttpSchema other) {
+        this.gateway = other.gateway;
+        this.input = other.input;
+        this.param = other.param;
+    }
+
     public boolean isGateway() {
         return gateway;
     }
@@ -89,11 +95,5 @@ public class ActionParamHttpSchema {
                 ", input='" + input + '\'' +
                 ", param='" + param + '\'' +
                 '}';
-    }
-
-    public ActionParamHttpSchema(ActionParamHttpSchema other) {
-        this.gateway = other.gateway;
-        this.input = other.input;
-        this.param = other.param;
     }
 }

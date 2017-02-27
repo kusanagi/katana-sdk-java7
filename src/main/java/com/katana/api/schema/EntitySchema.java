@@ -25,6 +25,12 @@ public class EntitySchema {
         validate = false;
     }
 
+    public EntitySchema(EntitySchema other) {
+        this.field = other.field;
+        this.fields = other.fields;
+        this.validate = other.validate;
+    }
+
     public List<FieldSchema> getField() {
         return field;
     }
@@ -85,11 +91,5 @@ public class EntitySchema {
                 ", fields=" + fields +
                 ", validate=" + validate +
                 '}';
-    }
-
-    public EntitySchema(EntitySchema other) {
-        this.field = other.field;
-        this.fields = other.fields;
-        this.validate = other.validate;
     }
 }

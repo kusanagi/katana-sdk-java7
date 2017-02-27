@@ -28,6 +28,14 @@ public class ServiceTransaction {
         // Default constructor to make possible the serialization of this object.
     }
 
+    public ServiceTransaction(ServiceTransaction other) {
+        this.name = other.name;
+        this.version = other.version;
+        this.action = other.action;
+        this.callee = other.callee;
+        this.params = other.params;
+    }
+
     public String getName() {
         return name;
     }
@@ -113,13 +121,5 @@ public class ServiceTransaction {
                 ", callee='" + callee + '\'' +
                 ", params=" + params +
                 '}';
-    }
-
-    public ServiceTransaction(ServiceTransaction other) {
-        this.name = other.name;
-        this.version = other.version;
-        this.action = other.action;
-        this.callee = other.callee;
-        this.params = other.params;
     }
 }
