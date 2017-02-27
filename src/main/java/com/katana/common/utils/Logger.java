@@ -53,8 +53,6 @@ public class Logger {
 
     private static String getType(int type) {
         switch (type) {
-            case INFO:
-                return "INFO";
             case WARNING:
                 return "WARNING";
             case ERROR:
