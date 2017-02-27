@@ -10,6 +10,13 @@ public class CommandMeta {
     @JsonProperty("s")
     private String scope;
 
+    public CommandMeta() {
+    }
+
+    public CommandMeta(CommandMeta other) {
+        this.scope = other.scope;
+    }
+
     /**
      * @return
      */

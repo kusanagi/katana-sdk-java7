@@ -1,4 +1,4 @@
-package com.katana.testutils;
+package com.katana.utils;
 
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
@@ -9,7 +9,10 @@ import com.katana.common.utils.Logger;
 import com.katana.common.utils.MessagePackSerializer;
 import com.katana.sdk.common.Serializer;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,21 +24,21 @@ import java.util.Map;
  */
 public class MockFactory {
 
-    public static final String MOCKS_PATH = "/home/jega/development/katana/katana-sdk-java7/src/test/java/com/katana/testutils/mocks/";
+    public final String MOCKS_PATH = "/com/katana/resources/";
 
-    public static RequestCommandPayload getRequestCommandPayload() {
+    public RequestCommandPayload getRequestCommandPayload() {
         return getFromJson("request_command_payload.json", RequestCommandPayload.class);
     }
 
-    public static ResponseCommandPayload getResponseCommandPayload() {
+    public ResponseCommandPayload getResponseCommandPayload() {
         return getFromJson("response_command_payload.json", ResponseCommandPayload.class);
     }
 
-    public static ActionCommandPayload getActionCommandPayload() {
+    public ActionCommandPayload getActionCommandPayload() {
         return getFromJson("action_command_payload.json", ActionCommandPayload.class);
     }
 
-    public static Mapping getMapping(String name, String version) {
+    public Mapping getMapping(String name, String version) {
         Mapping mapping = new Mapping();
         Map<String, Map<String, ServiceSchema>> serviceMap = new HashMap<>();
         Map<String, ServiceSchema> versionMap = new HashMap<>();
@@ -47,18 +50,21 @@ public class MockFactory {
         return mapping;
     }
 
-    private static ServiceSchema getServiceSchema() {
+    private ServiceSchema getServiceSchema() {
         return getFromJson("mapping.json", ServiceSchema.class);
     }
 
-    private static <T> T getFromJson(String filename, Class<T> aClass) {
+    private <T> T getFromJson(String filename, Class<T> aClass) {
         try {
-            Path path = Paths.get(MOCKS_PATH + filename);
+            URL url = getClass().getResource(MOCKS_PATH + filename);
+            File file = new File(url.getPath());
+
+            Path path = Paths.get(url.toURI());
             byte[] bytes = Files.readAllBytes(path);
             String command = new String(bytes);
             Serializer serializer = new MessagePackSerializer();
             return serializer.deserialize(command, aClass);
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             Logger.log(e);
             return null;
         }

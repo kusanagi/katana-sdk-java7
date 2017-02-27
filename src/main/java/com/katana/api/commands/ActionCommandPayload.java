@@ -17,7 +17,7 @@ public class ActionCommandPayload extends CommandPayload<Action> {
 
     public ActionCommandPayload(ActionCommandPayload other) {
         super(other);
-        this.command = other.command;
+        this.command = new ActionCommand(other.command);
     }
 
     /**
@@ -74,6 +74,15 @@ public class ActionCommandPayload extends CommandPayload<Action> {
 
         @JsonProperty("a")
         private Action argument;
+
+        public ActionCommand() {
+            //Empty constructor for serialization
+        }
+
+        public ActionCommand(ActionCommand other) {
+            super(other);
+            this.argument = new Action(other.argument);
+        }
 
         /**
          * @return

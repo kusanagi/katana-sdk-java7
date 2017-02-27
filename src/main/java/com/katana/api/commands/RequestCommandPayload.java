@@ -17,7 +17,7 @@ public class RequestCommandPayload extends CommandPayload<Request> {
 
     public RequestCommandPayload(RequestCommandPayload other) {
         super(other);
-        this.command = other.command;
+        this.command = new RequestCommand(other.command);
     }
 
     /**
@@ -74,6 +74,14 @@ public class RequestCommandPayload extends CommandPayload<Request> {
 
         @JsonProperty("a")
         private Request argument;
+
+        public RequestCommand() {
+        }
+
+        public RequestCommand(RequestCommand other) {
+            super(other);
+            this.argument = new Request(other.argument);
+        }
 
         /**
          * @return

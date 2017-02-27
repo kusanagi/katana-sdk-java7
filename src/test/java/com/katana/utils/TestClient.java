@@ -1,4 +1,4 @@
-package com.katana.testutils;
+package com.katana.utils;
 
 import org.zeromq.ZMQ;
 
@@ -65,7 +65,6 @@ public class TestClient extends Thread {
 
     public void close() {
         requester.close();
-        context.term();
     }
 
     public interface Listener {

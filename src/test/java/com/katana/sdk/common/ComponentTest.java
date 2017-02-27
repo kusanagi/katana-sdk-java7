@@ -12,10 +12,10 @@ import com.katana.api.replies.TransportReplyPayload;
 import com.katana.api.schema.*;
 import com.katana.common.utils.MessagePackSerializer;
 import com.katana.sdk.Service;
-import com.katana.testutils.MockFactory;
-import com.katana.testutils.TestClient;
-import com.katana.testutils.TestMiddleware;
-import com.katana.testutils.TestService;
+import com.katana.utils.MockFactory;
+import com.katana.utils.TestClient;
+import com.katana.utils.TestMiddleware;
+import com.katana.utils.TestService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +45,7 @@ public class ComponentTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final MockFactory mockFactory = new MockFactory();
 
     private Component component;
     private Serializer serializer;
@@ -200,8 +201,8 @@ public class ComponentTest {
         final Mapping[] mappings = new Mapping[1];
         final CallReplyPayload[] callReplyPayloads = new CallReplyPayload[1];
 
-        final RequestCommandPayload requestCommandPayload = MockFactory.getRequestCommandPayload();
-        final Mapping mapping = MockFactory.getMapping("users", "1.0.0");
+        final RequestCommandPayload requestCommandPayload = mockFactory.getRequestCommandPayload();
+        final Mapping mapping = mockFactory.getMapping("users", "1.0.0");
 
         final TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
         testMiddleware.getMiddleware().request(new Callable<Request>() {
@@ -305,8 +306,8 @@ public class ComponentTest {
         final Mapping[] mappings = new Mapping[1];
         final ResponseReplyPayload[] responseReplyPayloads = new ResponseReplyPayload[1];
 
-        final ResponseCommandPayload responseCommandPayload = MockFactory.getResponseCommandPayload();
-        final Mapping mapping = MockFactory.getMapping("posts", "1.0.0");
+        final ResponseCommandPayload responseCommandPayload = mockFactory.getResponseCommandPayload();
+        final Mapping mapping = mockFactory.getMapping("posts", "1.0.0");
 
         final TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
         testMiddleware.getMiddleware().response(new Callable<Response>() {
@@ -392,8 +393,8 @@ public class ComponentTest {
         final Transport[] transports = new Transport[1];
         final TransportReplyPayload[] transportReplyPayloads = new TransportReplyPayload[1];
 
-        final ActionCommandPayload actionCommandPayload = MockFactory.getActionCommandPayload();
-        final Mapping mapping = MockFactory.getMapping("posts", "1.0.0");
+        final ActionCommandPayload actionCommandPayload = mockFactory.getActionCommandPayload();
+        final Mapping mapping = mockFactory.getMapping("posts", "1.0.0");
 
         final TestService testService = new TestService("-c service -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
         testService.getService().action("read", new Callable<Action>() {
@@ -662,8 +663,8 @@ public class ComponentTest {
         final int[] secuence = new int[1];
         secuence[0] = 0;
 
-        final ActionCommandPayload actionCommandPayload = MockFactory.getActionCommandPayload();
-        final Mapping mapping = MockFactory.getMapping("users", "0.2.0");
+        final ActionCommandPayload actionCommandPayload = mockFactory.getActionCommandPayload();
+        final Mapping mapping = mockFactory.getMapping("users", "0.2.0");
 
         final TestService testService = new TestService("-c service -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
         testService.getService().startup(new EventCallable<Service>() {
@@ -724,8 +725,8 @@ public class ComponentTest {
 
         final Api[] apis = new Api[1];
 
-        final ActionCommandPayload actionCommandPayload = MockFactory.getActionCommandPayload();
-        final Mapping mapping = MockFactory.getMapping("users", "0.2.0");
+        final ActionCommandPayload actionCommandPayload = mockFactory.getActionCommandPayload();
+        final Mapping mapping = mockFactory.getMapping("users", "0.2.0");
         Callable<Action> usersResource = new Callable<Action>() {
             @Override
             public Action run(Action object) {

@@ -29,8 +29,9 @@ public class Action extends Api {
     }
 
     public Action(Action other) {
+        super(other);
         this.params = other.params;
-        this.transport = other.transport;
+        this.transport = new Transport(other.transport);
         this.actionName = other.actionName;
     }
 

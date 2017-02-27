@@ -18,7 +18,7 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
 
     public ResponseCommandPayload(ResponseCommandPayload other) {
         super(other);
-        this.command = other.command;
+        this.command = new ResponseCommand(other.command);
     }
 
     /**
@@ -75,6 +75,14 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
 
         @JsonProperty("a")
         private Response argument;
+
+        public ResponseCommand() {
+        }
+
+        public ResponseCommand(ResponseCommand other) {
+            super(other);
+            this.argument = new Response(other.argument);
+        }
 
         /**
          * @return

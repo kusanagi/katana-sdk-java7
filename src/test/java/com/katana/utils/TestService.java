@@ -1,4 +1,4 @@
-package com.katana.testutils;
+package com.katana.utils;
 
 import com.katana.sdk.Service;
 

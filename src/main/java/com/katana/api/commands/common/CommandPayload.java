@@ -20,7 +20,7 @@ public class CommandPayload<T extends Api> {
     }
 
     public CommandPayload(CommandPayload other) {
-        this.commandMeta = other.commandMeta;
+        this.commandMeta = new CommandMeta(other.commandMeta);
     }
 
     /**
@@ -82,6 +82,14 @@ public class CommandPayload<T extends Api> {
 
         @JsonProperty("n")
         private String name;
+
+        public Command() {
+            //Empty constructor for serialization
+        }
+
+        public Command(Command other) {
+            this.name = other.name;
+        }
 
         /**
          * @return
