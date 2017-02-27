@@ -3,6 +3,7 @@ package com.katana.common.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 
 /**
  * Created by juan on 30/09/16.
@@ -20,9 +21,6 @@ public class Logger {
         // private constructor to block the instantiation of this object
     }
 
-    /**
-     *
-     */
     public static void activate() {
         isActive = true;
     }
@@ -31,18 +29,12 @@ public class Logger {
         isActive = false;
     }
 
-    /**
-     * @param message
-     */
     public static void log(int type, String message) {
         if (isActive) {
             logToStdout(getLog(type, message));
         }
     }
 
-    /**
-     * @param e
-     */
     public static void log(Exception e) {
         log(Logger.ERROR, e.getMessage());
         StackTraceElement[] stackTrace = e.getStackTrace();
@@ -69,11 +61,13 @@ public class Logger {
                 return "ERROR";
             case DEBUG:
                 return "DEBUG";
+            default:
+                return "INFO";
         }
-        return "INFO";
     }
 
     private static void logToStdout(String message) {
+        java.util.logging.Logger.getGlobal().log(Level.INFO, message);
         System.out.println(message);
     }
 }

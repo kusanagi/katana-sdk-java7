@@ -28,7 +28,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private static final Option[] APP_OPTIONS = new Option[]{
             new Option(new String[]{"-p", "--platform-version"}, true, true, true),
-            new Option(new String[]{"-c", "--component"}, true, true, true),
+            new Option(new String[]{"-c", "--componentName"}, true, true, true),
             new Option(new String[]{"-n", "--name"}, true, true, true),
             new Option(new String[]{"-v", "--version"}, true, true, true),
             new Option(new String[]{"-s", "--socket"}, true, false, true),
@@ -44,7 +44,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private final String workerEndpoint;
 
-    private String component;
+    private String componentName;
 
     private boolean disableCompactName;
 
@@ -85,7 +85,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private OptionManager optionManager;
 
     /**
-     * Initialize the component with the command line arguments
+     * Initialize the componentName with the command line arguments
      *
      * @param args list of command line arguments
      * @throws IllegalArgumentException throws an IllegalArgumentException if any of the REQUIRED arguments is missing,
@@ -117,14 +117,14 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      * @return
      */
     public String getComponent() {
-        return component;
+        return componentName;
     }
 
     /**
      * @param component
      */
     public void setComponent(String component) {
-        this.component = component;
+        this.componentName = component;
     }
 
     /**
@@ -145,7 +145,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * Name getter
      *
-     * @return return the name of the component
+     * @return return the name of the componentName
      */
     public String getName() {
         return name;
@@ -154,7 +154,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * Name setter
      *
-     * @param name name of the component
+     * @param name name of the componentName
      */
     public void setName(String name) {
         this.name = name;
@@ -163,7 +163,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * Version getter
      *
-     * @return return the version of the component
+     * @return return the version of the componentName
      */
     public String getVersion() {
         return version;
@@ -172,7 +172,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * Version setter
      *
-     * @param version version of the component
+     * @param version version of the componentName
      */
     public void setVersion(String version) {
         this.version = version;
@@ -199,7 +199,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * Socket getter
      *
-     * @return returns the socket of the component
+     * @return returns the socket of the componentName
      */
     public String getSocket() {
         return socket;
@@ -208,7 +208,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * Socket setter
      *
-     * @param socket socket of the component
+     * @param socket socket of the componentName
      */
     public void setSocket(String socket) {
         this.socket = socket;
@@ -231,7 +231,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * com.katana.sdk.common.Component variable getter
      *
-     * @return return a the list of variable for the component
+     * @return return a the list of variable for the componentName
      */
     public Map<String, String> getVar() {
         return var;
@@ -240,7 +240,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * com.katana.sdk.common.Component variable setter
      *
-     * @param var list of variables to be used by the component
+     * @param var list of variables to be used by the componentName
      */
     public void setVar(Map<String, String> var) {
         this.var = var;
@@ -249,7 +249,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * Debug mode getter
      *
-     * @return true is the component is in debug mode and false otherwise
+     * @return true is the componentName is in debug mode and false otherwise
      */
     public boolean isDebug() {
         return debug;
@@ -311,7 +311,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     /**
-     * The method to run the component
+     * The method to run the componentName
      */
     public void run() {
         startSocket();
@@ -377,7 +377,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     private void generateDefaultSocket() {
-        this.socket = "@katana-" + this.component + "-" + this.name + "-" + this.version;
+        this.socket = "@katana-" + this.componentName + "-" + this.name + "-" + this.version;
     }
 
     /**
@@ -494,9 +494,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                     }
                     break;
                 case "-c":
-                    this.component = option.getValue();
-                    if (!this.component.equals(Constants.SERVICE) && !this.component.equals(Constants.MIDDLEWARE)) {
-                        throw new IllegalArgumentException("Invalid component " + this.component);
+                    this.componentName = option.getValue();
+                    if (!this.componentName.equals(Constants.SERVICE) && !this.componentName.equals(Constants.MIDDLEWARE)) {
+                        throw new IllegalArgumentException("Invalid componentName " + this.componentName);
                     }
                     break;
                 case "-n":
@@ -515,12 +515,12 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                     this.tcp = option.getValue();
                     break;
                 case "-V":
-                    String[] var = option.getValue().split("=");
-                    if (var.length < 2) {
+                    String[] varObject = option.getValue().split("=");
+                    if (varObject.length < 2) {
                         throw new IllegalArgumentException("Invalid variable " + option.getValue());
                     }
-                    String varName = var[0];
-                    String varValue = var[1];
+                    String varName = varObject[0];
+                    String varValue = varObject[1];
                     this.var.put(varName, varValue);
                     break;
                 case "-d":
@@ -545,7 +545,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     @Override
     public String toString() {
         return "Component{" +
-                "component='" + component + '\'' +
+                "componentName='" + componentName + '\'' +
                 ", disableCompactName=" + disableCompactName +
                 ", name='" + name + '\'' +
                 ", version='" + version + '\'' +

@@ -203,8 +203,8 @@ public class ActionSchema {
     }
 
     public boolean hasCall(String name, String version, String action) {
-        for (String[] calls : this.calls) {
-            if (calls[0].equals(name) && calls[1].equals(version) && calls[2].equals(action)) {
+        for (String[] call : this.calls) {
+            if (call[0].equals(name) && call[1].equals(version) && call[2].equals(action)) {
                 return true;
             }
         }
@@ -220,9 +220,9 @@ public class ActionSchema {
     }
 
     public boolean hasRemoteCall(String address, String name, String version, String action) {
-        for (String[] calls : this.remoteCalls) {
-            if (calls[0].equals(address) && calls[1].equals(name) &&
-                    calls[2].equals(version) && calls[3].equals(action)) {
+        for (String[] call : this.remoteCalls) {
+            if (call[0].equals(address) && call[1].equals(name) &&
+                    call[2].equals(version) && call[3].equals(action)) {
                 return true;
             }
         }

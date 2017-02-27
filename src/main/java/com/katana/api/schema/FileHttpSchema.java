@@ -66,7 +66,7 @@ public class FileHttpSchema {
 
     @Override
     public int hashCode() {
-        int result = (isGateway() ? 1 : 0);
+        int result = isGateway() ? 1 : 0;
         result = 31 * result + (getParam() != null ? getParam().hashCode() : 0);
         return result;
     }

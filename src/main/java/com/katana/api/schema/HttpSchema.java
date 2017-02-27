@@ -67,7 +67,7 @@ public class HttpSchema {
 
     @Override
     public int hashCode() {
-        int result = (isGateway() ? 1 : 0);
+        int result = isGateway() ? 1 : 0;
         result = 31 * result + (getBasePath() != null ? getBasePath().hashCode() : 0);
         return result;
     }

@@ -5,6 +5,10 @@ package com.katana.common.utils;
  */
 public class Utils {
 
+    private Utils() {
+        // private constructor to block the instantiation of this object
+    }
+
     /**
      * @param options
      * @param optionName
@@ -18,9 +22,5 @@ public class Utils {
         }
 
         return false;
-    }
-
-    private Utils() {
-        // private constructor to block the instantiation of this object
     }
 }

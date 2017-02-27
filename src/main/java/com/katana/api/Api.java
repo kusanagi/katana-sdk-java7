@@ -220,10 +220,8 @@ public class Api {
      */
     @JsonIgnore
     public ServiceSchema getServiceSchema(String name, String version) {
-        if (mapping.getServiceSchema().containsKey(name)) {
-            if (mapping.getServiceSchema().get(name).containsKey(version)) {
-                return mapping.getServiceSchema().get(name).get(version);
-            }
+        if (mapping.getServiceSchema().containsKey(name) && mapping.getServiceSchema().get(name).containsKey(version)) {
+            return mapping.getServiceSchema().get(name).get(version);
         }
         return null;
     }

@@ -115,7 +115,7 @@ public class ActionHttpSchema {
 
     @Override
     public int hashCode() {
-        int result = (isGateway() ? 1 : 0);
+        int result = isGateway() ? 1 : 0;
         result = 31 * result + (getPath() != null ? getPath().hashCode() : 0);
         result = 31 * result + (getMethod() != null ? getMethod().hashCode() : 0);
         result = 31 * result + (getInput() != null ? getInput().hashCode() : 0);

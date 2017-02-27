@@ -220,11 +220,13 @@ public class HttpRequest {
      */
     public List<String> getQueryParamArray(String name, List<String> defaultArray) {
         List<String> values = this.queryParamsArray.get(name);
-        return values == null || values.isEmpty()
-                ? defaultArray == null
-                ? new ArrayList<String>()
-                : defaultArray
-                : values;
+        if (values != null && !values.isEmpty()) {
+            return values;
+        } else if (defaultArray != null) {
+            return defaultArray;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -293,11 +295,13 @@ public class HttpRequest {
     @JsonIgnore
     public List<String> getPostParamArray(String name, List<String> defaultArray) {
         List<String> values = this.postParamsArray.get(name);
-        return values == null || values.isEmpty()
-                ? defaultArray == null
-                ? new ArrayList<String>()
-                : defaultArray
-                : values;
+        if (values != null && !values.isEmpty()) {
+            return values;
+        } else if (defaultArray != null) {
+            return defaultArray;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /**
