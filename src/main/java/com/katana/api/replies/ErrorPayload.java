@@ -11,6 +11,10 @@ public class ErrorPayload {
     @JsonProperty("E")
     private Error error;
 
+    public ErrorPayload() {
+        //Empty constructor for serialization
+    }
+
     /**
      * @return
      */

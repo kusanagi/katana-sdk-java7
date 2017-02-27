@@ -19,6 +19,7 @@ public class Param {
     private boolean exists;
 
     public Param() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     public Param(String name, Object value, String type, boolean exists) {

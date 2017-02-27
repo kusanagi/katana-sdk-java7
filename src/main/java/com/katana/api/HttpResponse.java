@@ -27,6 +27,7 @@ public class HttpResponse implements CommandReplyResult {
     private String body;
 
     public HttpResponse() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     /**

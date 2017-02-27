@@ -21,6 +21,6 @@ public class Utils {
     }
 
     private Utils() {
-
+        // private constructor to block the instantiation of this object
     }
 }

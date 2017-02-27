@@ -17,6 +17,7 @@ public class ResponseReplyPayload implements CommandReplyResult {
     private ResponseCommandReply responseCommandReply;
 
     public ResponseReplyPayload() {
+        //Empty constructor for serialization
     }
 
     /**

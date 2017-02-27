@@ -25,6 +25,7 @@ public class ServiceTransaction {
     private List<Param> params;
 
     public ServiceTransaction() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     public String getName() {

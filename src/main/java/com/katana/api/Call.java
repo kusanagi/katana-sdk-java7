@@ -28,6 +28,7 @@ public class Call {
     private int timeout;
 
     public Call() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     public String getName() {

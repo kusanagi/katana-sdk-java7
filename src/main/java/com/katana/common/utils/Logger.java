@@ -17,7 +17,7 @@ public class Logger {
     private static boolean isActive;
 
     private Logger() {
-
+        // private constructor to block the instantiation of this object
     }
 
     /**

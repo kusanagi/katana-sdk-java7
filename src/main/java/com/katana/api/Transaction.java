@@ -20,6 +20,7 @@ public class Transaction {
     private List<ServiceTransaction> complete;
 
     public Transaction() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     public List<ServiceTransaction> getCommit() {

@@ -13,6 +13,7 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
     private ResponseCommand command;
 
     public ResponseCommandPayload() {
+        //Empty constructor for serialization
     }
 
     /**

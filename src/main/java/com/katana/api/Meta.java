@@ -32,6 +32,7 @@ public class Meta {
     private String client;
 
     public Meta() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     /**

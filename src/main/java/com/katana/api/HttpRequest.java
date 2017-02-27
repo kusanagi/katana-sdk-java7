@@ -41,6 +41,7 @@ public class HttpRequest {
     private List<File> files;
 
     public HttpRequest() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     /**

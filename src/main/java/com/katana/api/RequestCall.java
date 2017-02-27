@@ -23,6 +23,7 @@ public class RequestCall implements CommandReplyResult {
     private List<Param> params;
 
     public RequestCall() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     /**

@@ -36,6 +36,7 @@ public class File {
     private boolean exists;
 
     public File() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     public File(String name, String path, String mime, String filename, String size, String token, boolean exists) {

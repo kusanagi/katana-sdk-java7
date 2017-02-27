@@ -12,6 +12,7 @@ public class Mapping {
     private Map<String, Map<String, ServiceSchema>> serviceSchema;
 
     public Mapping() {
+        //Empty constructor for serialization
     }
 
     public Map<String, Map<String, ServiceSchema>> getServiceSchema() {

@@ -26,6 +26,7 @@ public class TransportMeta extends Meta {
     private String properties;
 
     public TransportMeta() {
+        // Default constructor to make possible the serialization of this object.
     }
 
     public String[] getOrigin() {

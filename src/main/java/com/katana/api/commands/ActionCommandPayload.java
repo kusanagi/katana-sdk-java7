@@ -12,6 +12,7 @@ public class ActionCommandPayload extends CommandPayload<Action> {
     private ActionCommand command;
 
     public ActionCommandPayload() {
+        //Empty constructor for serialization
     }
 
     /**
@@ -63,7 +64,6 @@ public class ActionCommandPayload extends CommandPayload<Action> {
 
     public ActionCommandPayload(ActionCommandPayload other) {
         super(other);
-        this.command = other.command;
     }
 
     /**

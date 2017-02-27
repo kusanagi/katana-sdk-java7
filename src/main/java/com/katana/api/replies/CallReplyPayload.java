@@ -17,6 +17,7 @@ public class CallReplyPayload implements CommandReplyResult {
     private CallCommandReply callCommandReply;
 
     public CallReplyPayload() {
+        //Empty constructor for serialization
     }
 
     /**

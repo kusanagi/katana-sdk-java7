@@ -17,6 +17,7 @@ public class TransportReplyPayload implements CommandReplyResult {
     private TransportCommandReply transportCommandReply;
 
     public TransportReplyPayload() {
+        //Empty constructor for serialization
     }
 
     /**
