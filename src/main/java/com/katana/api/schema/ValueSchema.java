@@ -35,12 +35,18 @@ public class ValueSchema {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ValueSchema that = (ValueSchema) o;
 
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) {
+            return false;
+        }
         return value != null ? value.equals(that.value) : that.value == null;
     }
 

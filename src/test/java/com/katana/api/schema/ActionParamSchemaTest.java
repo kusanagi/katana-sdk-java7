@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by juane on 2/11/17.
  */
@@ -19,7 +17,7 @@ public class ActionParamSchemaTest {
     }
 
     @Test
-    public void defaultValues(){
+    public void defaultValues() {
         Assert.assertEquals("string", actionParamSchema.getType());
         Assert.assertEquals("csv", actionParamSchema.getArrayFormat());
         Assert.assertFalse(actionParamSchema.isAllowEmpty());

@@ -6,7 +6,10 @@ import com.katana.common.utils.Logger;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juan on 14/09/16.
@@ -220,8 +223,8 @@ public class HttpRequest {
     public Map<String, String> getQueryParams() {
         Map<String, String> queryParams = new HashMap<>();
 
-        for (String key : this.queryParamsArray.keySet()) {
-            queryParams.put(key, this.queryParamsArray.get(key).get(0));
+        for (Map.Entry key : this.queryParamsArray.entrySet()) {
+            queryParams.put((String) key.getKey(), this.queryParamsArray.get((String) key.getKey()).get(0));
         }
 
         return queryParams;
@@ -293,8 +296,8 @@ public class HttpRequest {
     public Map<String, String> getPostParams() {
         Map<String, String> postParams = new HashMap<>();
 
-        for (String key : this.postParamsArray.keySet()) {
-            postParams.put(key, this.postParamsArray.get(key).get(0));
+        for (Map.Entry key : this.postParamsArray.entrySet()) {
+            postParams.put((String) key.getKey(), this.postParamsArray.get((String) key.getKey()).get(0));
         }
 
         return postParams;

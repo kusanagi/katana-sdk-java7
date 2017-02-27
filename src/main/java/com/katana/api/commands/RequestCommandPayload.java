@@ -1,8 +1,8 @@
 package com.katana.api.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.Request;
+import com.katana.api.commands.common.CommandPayload;
 
 /**
  * Created by juan on 26/09/16.
@@ -10,6 +10,9 @@ import com.katana.api.Request;
 public class RequestCommandPayload extends CommandPayload<Request> {
     @JsonProperty("c")
     private RequestCommand command;
+
+    public RequestCommandPayload() {
+    }
 
     /**
      * @return
@@ -56,6 +59,11 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         return "RequestCommandPayload{" +
                 "command=" + command +
                 "} " + super.toString();
+    }
+
+    public RequestCommandPayload(RequestCommandPayload other) {
+        super(other);
+        this.command = other.command;
     }
 
     /**

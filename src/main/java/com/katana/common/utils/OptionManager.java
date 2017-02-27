@@ -13,7 +13,7 @@ public class OptionManager {
     private static final String IS_REQUIRED = "is required";
 
     private static final String IS_NOT_VALID = "is not valid";
-    
+
     private List<Option> options;
 
     public void setOptions(List<Option> options) {

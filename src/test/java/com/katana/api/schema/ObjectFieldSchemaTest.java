@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by juane on 2/11/17.
  */
@@ -19,7 +17,7 @@ public class ObjectFieldSchemaTest {
     }
 
     @Test
-    public void defaultValues(){
+    public void defaultValues() {
         Assert.assertFalse(objectFieldSchema.isOptional());
         Assert.assertNotEquals(null, objectFieldSchema.getField());
         Assert.assertNotEquals(null, objectFieldSchema.getFields());

@@ -1,6 +1,8 @@
 {
   "a": "12.34.56.78:1234",
+  "f": true,
   "h": {
+    "g": true,
     "b": "/1.0.0"
   },
   "ac": {
@@ -10,6 +12,7 @@
       "d": ":",
       "k": "uid",
       "c": true,
+      "D": true,
       "C": [
         [
           "comments",
@@ -89,14 +92,39 @@
         }
       },
       "h": {
-        "p": "/posts/{user_id}"
+        "g": true,
+        "m": "get",
+        "p": "/posts/{user_id}",
+        "i": "path",
+        "b": "text/plain"
       },
       "p": {
         "user_id": {
           "t": "string",
           "f": "uuid",
+          "af": "csv",
+          "p": "[a-zA-Z0-9]+",
           "e": false,
+          "d": "0",
+          "r": true,
+          "i": "{\"user_id\": \"0\"}",
+          "mx": 100,
+          "ex": true,
+          "mn": 0,
+          "en": true,
+          "xl": 500,
+          "nl": 3,
+          "xi": 20,
+          "ni": 2,
+          "em": [
+            "0",
+            "1",
+            "2"
+          ],
+          "mo": 5,
           "h": {
+            "g": true,
+            "p": "user_id",
             "i": "path"
           }
         }

@@ -108,8 +108,8 @@ public class Action extends Api {
      * @return Return true if the Action has the param
      */
     public boolean hasParam(String name) {
-        for (Param param : params){
-            if (param.getName().equals(name)){
+        for (Param param : params) {
+            if (param.getName().equals(name)) {
                 return true;
             }
         }
@@ -125,8 +125,8 @@ public class Action extends Api {
      */
     @JsonIgnore
     public Param getParam(String name) {
-        for (Param param : params){
-            if (param.getName().equals(name)){
+        for (Param param : params) {
+            if (param.getName().equals(name)) {
                 return param;
             }
         }
@@ -175,14 +175,14 @@ public class Action extends Api {
      */
     public boolean hasFile(String name) {
         Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
-        for (String path : pathFiles.keySet()) {
-            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get(path);
-            for (String service : serviceFiles.keySet()) {
-                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
-                for (String version : versionFiles.keySet()) {
-                    Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
-                    for (String action : actionFiles.keySet()) {
-                        Map<String, File> nameFiles = actionFiles.get(action);
+        for (Map.Entry path : pathFiles.entrySet()) {
+            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get((String) path.getKey());
+            for (Map.Entry service : serviceFiles.entrySet()) {
+                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get((String) service.getKey());
+                for (Map.Entry version : versionFiles.entrySet()) {
+                    Map<String, Map<String, File>> actionFiles = versionFiles.get((String) version.getKey());
+                    for (Map.Entry action : actionFiles.entrySet()) {
+                        Map<String, File> nameFiles = actionFiles.get((String) action.getKey());
                         if (nameFiles.containsKey(name)) {
                             return true;
                         }
@@ -204,14 +204,14 @@ public class Action extends Api {
     @JsonIgnore
     public File getFile(String name) {
         Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
-        for (String path : pathFiles.keySet()) {
-            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get(path);
-            for (String service : serviceFiles.keySet()) {
-                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
-                for (String version : versionFiles.keySet()) {
-                    Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
-                    for (String action : actionFiles.keySet()) {
-                        Map<String, File> nameFiles = actionFiles.get(action);
+        for (Map.Entry path : pathFiles.entrySet()) {
+            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get((String) path.getKey());
+            for (Map.Entry service : serviceFiles.entrySet()) {
+                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get((String) service.getKey());
+                for (Map.Entry version : versionFiles.entrySet()) {
+                    Map<String, Map<String, File>> actionFiles = versionFiles.get((String) version.getKey());
+                    for (Map.Entry action : actionFiles.entrySet()) {
+                        Map<String, File> nameFiles = actionFiles.get((String) action.getKey());
                         if (nameFiles.containsKey(name)) {
                             return nameFiles.get(name);
                         }
@@ -235,16 +235,16 @@ public class Action extends Api {
     public List<File> getFiles() {
         List<File> files = new ArrayList<>();
         Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> pathFiles = this.transport.getFiles();
-        for (String path : pathFiles.keySet()) {
-            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get(path);
-            for (String service : serviceFiles.keySet()) {
-                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get(service);
-                for (String version : versionFiles.keySet()) {
-                    Map<String, Map<String, File>> actionFiles = versionFiles.get(version);
-                    for (String action : actionFiles.keySet()) {
-                        Map<String, File> nameFiles = actionFiles.get(action);
-                        for (String name : nameFiles.keySet()) {
-                            files.add(nameFiles.get(name));
+        for (Map.Entry path : pathFiles.entrySet()) {
+            Map<String, Map<String, Map<String, Map<String, File>>>> serviceFiles = pathFiles.get((String) path.getKey());
+            for (Map.Entry service : serviceFiles.entrySet()) {
+                Map<String, Map<String, Map<String, File>>> versionFiles = serviceFiles.get((String) service.getKey());
+                for (Map.Entry version : versionFiles.entrySet()) {
+                    Map<String, Map<String, File>> actionFiles = versionFiles.get((String) version.getKey());
+                    for (Map.Entry action : actionFiles.entrySet()) {
+                        Map<String, File> nameFiles = actionFiles.get((String) action.getKey());
+                        for (Map.Entry name : nameFiles.entrySet()) {
+                            files.add(nameFiles.get((String) name.getKey()));
                         }
                     }
                 }
@@ -298,7 +298,7 @@ public class Action extends Api {
     public Action setEntity(Object entity) {
         Map<String, Map<String, Map<String, Map<String, Object>>>> pathData = this.transport.getData();
 
-        if (pathData == null){
+        if (pathData == null) {
             pathData = new HashMap<>();
             this.transport.setData(pathData);
         }
@@ -306,20 +306,20 @@ public class Action extends Api {
         Map<String, Map<String, Map<String, Object>>> serviceData = new HashMap<>();
         Map<String, Map<String, Object>> versionData = new HashMap<>();
         Map<String, Object> actionData = new HashMap<>();
-        if (pathData.containsKey(getPath())){
+        if (pathData.containsKey(getPath())) {
             serviceData = pathData.get(getPath());
-            if (serviceData.containsKey(getName())){
+            if (serviceData.containsKey(getName())) {
                 versionData = serviceData.get(getName());
-                if (versionData.containsKey(getVersion())){
+                if (versionData.containsKey(getVersion())) {
                     actionData = versionData.get(getVersion());
-                } else{
+                } else {
                     versionData.put(getVersion(), actionData);
                 }
-            } else{
+            } else {
                 versionData.put(getVersion(), actionData);
                 serviceData.put(getName(), versionData);
             }
-        } else{
+        } else {
             versionData.put(getVersion(), actionData);
             serviceData.put(getName(), versionData);
             pathData.put(getPath(), serviceData);
@@ -370,10 +370,10 @@ public class Action extends Api {
         Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
         nameRelation.put(name, primaryKeyRelation);
 
-        if (relations.containsKey(path)){
-            if (relations.get(path).containsKey(name)){
-                if (relations.get(path).get(name).containsKey(primaryKey)){
-                    if (relations.get(path).get(name).get(primaryKey).containsKey(path)){
+        if (relations.containsKey(path)) {
+            if (relations.get(path).containsKey(name)) {
+                if (relations.get(path).get(name).containsKey(primaryKey)) {
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(path)) {
                         relations.get(path).get(name).get(primaryKey).get(path).put(service, foreignKey);
                     } else {
                         relations.get(path).get(name).get(primaryKey).put(path, relation);
@@ -416,10 +416,10 @@ public class Action extends Api {
         Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
         nameRelation.put(name, primaryKeyRelation);
 
-        if (relations.containsKey(path)){
-            if (relations.get(path).containsKey(name)){
-                if (relations.get(path).get(name).containsKey(primaryKey)){
-                    if (relations.get(path).get(name).get(primaryKey).containsKey(path)){
+        if (relations.containsKey(path)) {
+            if (relations.get(path).containsKey(name)) {
+                if (relations.get(path).get(name).containsKey(primaryKey)) {
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(path)) {
                         relations.get(path).get(name).get(primaryKey).get(path).put(service, foreignKey);
                     } else {
                         relations.get(path).get(name).get(primaryKey).put(path, relation);
@@ -451,10 +451,10 @@ public class Action extends Api {
         Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
         nameRelation.put(name, primaryKeyRelation);
 
-        if (relations.containsKey(path)){
-            if (relations.get(path).containsKey(name)){
-                if (relations.get(path).get(name).containsKey(primaryKey)){
-                    if (relations.get(path).get(name).get(primaryKey).containsKey(address)){
+        if (relations.containsKey(path)) {
+            if (relations.get(path).containsKey(name)) {
+                if (relations.get(path).get(name).containsKey(primaryKey)) {
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(address)) {
                         relations.get(path).get(name).get(primaryKey).get(address).put(service, foreignKey);
                     } else {
                         relations.get(path).get(name).get(primaryKey).put(address, relation);
@@ -485,10 +485,10 @@ public class Action extends Api {
         Map<String, Map<String, Map<String, Object>>> nameRelation = new HashMap<>();
         nameRelation.put(name, primaryKeyRelation);
 
-        if (relations.containsKey(path)){
-            if (relations.get(path).containsKey(name)){
-                if (relations.get(path).get(name).containsKey(primaryKey)){
-                    if (relations.get(path).get(name).get(primaryKey).containsKey(address)){
+        if (relations.containsKey(path)) {
+            if (relations.get(path).containsKey(name)) {
+                if (relations.get(path).get(name).containsKey(primaryKey)) {
+                    if (relations.get(path).get(name).get(primaryKey).containsKey(address)) {
                         relations.get(path).get(name).get(primaryKey).get(address).put(service, foreignKey);
                     } else {
                         relations.get(path).get(name).get(primaryKey).put(address, relation);
@@ -520,14 +520,14 @@ public class Action extends Api {
         Map<String, Map<String, Map<String, String>>> pathLink = this.transport.getLinks();
         Map<String, Map<String, String>> serviceLink = new HashMap<>();
         Map<String, String> linkMap = new HashMap<>();
-        if (pathLink.containsKey(getPath())){
+        if (pathLink.containsKey(getPath())) {
             serviceLink = pathLink.get(getPath());
-            if (serviceLink.containsKey(getName())){
+            if (serviceLink.containsKey(getName())) {
                 linkMap = serviceLink.get(getName());
-            } else{
+            } else {
                 serviceLink.put(getName(), linkMap);
             }
-        } else{
+        } else {
             serviceLink.put(getName(), linkMap);
             pathLink.put(getPath(), serviceLink);
         }
@@ -549,7 +549,7 @@ public class Action extends Api {
      */
     public Action commit(String action, List<Param> params) {
         List<ServiceTransaction> commit = this.transport.getTransactions().getCommit();
-        if(commit == null){
+        if (commit == null) {
             commit = new ArrayList<>();
         }
         ServiceTransaction serviceTransaction = new ServiceTransaction();
@@ -575,7 +575,7 @@ public class Action extends Api {
      */
     public Action rollback(String action, List<Param> params) {
         List<ServiceTransaction> rollback = this.transport.getTransactions().getRollback();
-        if(rollback == null){
+        if (rollback == null) {
             rollback = new ArrayList<>();
         }
         ServiceTransaction serviceTransaction = new ServiceTransaction();
@@ -601,7 +601,7 @@ public class Action extends Api {
      */
     public Action complete(String action, List<Param> params) {
         List<ServiceTransaction> complete = this.transport.getTransactions().getComplete();
-        if(complete == null){
+        if (complete == null) {
             complete = new ArrayList<>();
         }
         ServiceTransaction serviceTransaction = new ServiceTransaction();
@@ -677,7 +677,7 @@ public class Action extends Api {
     public Action call(String service, String version, String action, List<Param> params, List<File> files) {
         Map<String, Map<String, List<Call>>> calls = transport.getCalls();
 
-        if (calls == null){
+        if (calls == null) {
             calls = new HashMap<>();
             transport.setCalls(calls);
         }
@@ -687,8 +687,8 @@ public class Action extends Api {
         Map<String, List<Call>> versionCalls = new HashMap<>();
         versionCalls.put(this.version, callList);
 
-        if (calls.containsKey(this.name)){
-            if (calls.get(this.name).containsKey(version)){
+        if (calls.containsKey(this.name)) {
+            if (calls.get(this.name).containsKey(version)) {
                 callList = calls.get(this.name).get(this.version);
             } else {
                 calls.get(this.name).put(this.version, callList);
@@ -699,18 +699,16 @@ public class Action extends Api {
 
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
-        if (files == null){
-            files = new ArrayList<>();
-        }
-
-        for(File file : files) {
-            if (file.isLocal() && !serviceSchema.hasFileServer()) {
-                throw new IllegalArgumentException(String.format(
-                        "File server not configured: \"%s\" (%s)",
-                        this.name,
-                        this.version));
+        if (files != null) {
+            for (File file : files) {
+                if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                    throw new IllegalArgumentException(String.format(
+                            "File server not configured: \"%s\" (%s)",
+                            this.name,
+                            this.version));
+                }
+                this.transport.addFile(this.path, service, version, action, file);
             }
-            this.transport.addFile(this.path, service, version, action, file);
         }
 
         Call call = new Call();
@@ -722,15 +720,15 @@ public class Action extends Api {
         return this;
     }
 
-    public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, int timeout){
+    public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, int timeout) {
         Map<String, Map<String, List<Call>>> calls = transport.getCalls();
         List<Call> callList = new ArrayList<>();
 
         Map<String, List<Call>> versionCalls = new HashMap<>();
         versionCalls.put(this.version, callList);
 
-        if (calls.containsKey(this.name)){
-            if (calls.get(this.name).containsKey(version)){
+        if (calls.containsKey(this.name)) {
+            if (calls.get(this.name).containsKey(version)) {
                 callList = calls.get(this.name).get(this.version);
             } else {
                 calls.get(this.name).put(this.version, callList);
@@ -741,18 +739,16 @@ public class Action extends Api {
 
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
-        if (files == null){
-            files = new ArrayList<>();
-        }
-
-        for(File file : files) {
-            if (file.isLocal() && !serviceSchema.hasFileServer()) {
-                throw new IllegalArgumentException(String.format(
-                        "File server not configured: \"%s\" (%s)",
-                        this.name,
-                        this.version));
+        if (files != null) {
+            for (File file : files) {
+                if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                    throw new IllegalArgumentException(String.format(
+                            "File server not configured: \"%s\" (%s)",
+                            this.name,
+                            this.version));
+                }
+                this.transport.addFile(address, service, version, action, file);
             }
-            this.transport.addFile(address, service, version, action, file);
         }
 
         Call call = new Call();

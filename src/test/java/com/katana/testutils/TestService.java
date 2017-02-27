@@ -1,8 +1,6 @@
 package com.katana.testutils;
 
-import com.katana.api.Action;
 import com.katana.sdk.Service;
-import com.katana.sdk.common.Callable;
 
 /**
  * Created by juane on 2/13/17.

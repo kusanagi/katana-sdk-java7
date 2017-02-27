@@ -64,7 +64,7 @@ public class ActionParamSchema {
     private boolean uniqueItems;
 
     @JsonProperty("em")
-    private List<String> _enum;
+    private List<String> enumeration;
 
     @JsonProperty("mo")
     private int multipleOf;
@@ -159,8 +159,8 @@ public class ActionParamSchema {
         this.uniqueItems = uniqueItems;
     }
 
-    public void set_enum(List<String> _enum) {
-        this._enum = _enum;
+    public void setEnumeration(List<String> enumeration) {
+        this.enumeration = enumeration;
     }
 
     public void setMultipleOf(int multipleOf) {
@@ -178,7 +178,7 @@ public class ActionParamSchema {
     //SDK Methods
 
     @JsonIgnore
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
@@ -254,8 +254,13 @@ public class ActionParamSchema {
         return uniqueItems;
     }
 
-    public List<String> get_enum() {
-        return _enum;
+    public List<String> getEnumeration() {
+        return enumeration;
+    }
+
+    @JsonIgnore
+    public List<String> getEnum() {
+        return getEnumeration();
     }
 
     public int getMultipleOf() {
@@ -332,7 +337,7 @@ public class ActionParamSchema {
         if (getItems() != null ? !getItems().equals(that.getItems()) : that.getItems() != null) {
             return false;
         }
-        if (get_enum() != null ? !get_enum().equals(that.get_enum()) : that.get_enum() != null) {
+        if (getEnumeration() != null ? !getEnumeration().equals(that.getEnumeration()) : that.getEnumeration() != null) {
             return false;
         }
         return getHttp() != null ? getHttp().equals(that.getHttp()) : that.getHttp() == null;
@@ -358,7 +363,7 @@ public class ActionParamSchema {
         result = 31 * result + getMaxItems();
         result = 31 * result + getMinItems();
         result = 31 * result + (isUniqueItems() ? 1 : 0);
-        result = 31 * result + (get_enum() != null ? get_enum().hashCode() : 0);
+        result = 31 * result + (getEnumeration() != null ? getEnumeration().hashCode() : 0);
         result = 31 * result + getMultipleOf();
         result = 31 * result + (getHttp() != null ? getHttp().hashCode() : 0);
         return result;
@@ -384,7 +389,7 @@ public class ActionParamSchema {
                 ", maxItems=" + maxItems +
                 ", minItems=" + minItems +
                 ", uniqueItems=" + uniqueItems +
-                ", _enum=" + _enum +
+                ", enumeration=" + enumeration +
                 ", multipleOf=" + multipleOf +
                 ", http=" + http +
                 '}';
@@ -408,7 +413,7 @@ public class ActionParamSchema {
         this.maxItems = other.maxItems;
         this.minItems = other.minItems;
         this.uniqueItems = other.uniqueItems;
-        this._enum = other._enum;
+        this.enumeration = other.enumeration;
         this.multipleOf = other.multipleOf;
         this.http = other.http;
     }

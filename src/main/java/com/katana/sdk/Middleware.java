@@ -5,8 +5,8 @@ import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
 import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.replies.CallReplyPayload;
-import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.api.replies.ResponseReplyPayload;
+import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Component;
 
@@ -15,6 +15,7 @@ import com.katana.sdk.common.Component;
  */
 public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
+    public static final String REQUEST = "request";
     private Callable<Request> requestCallable;
 
     private Callable<Response> responseCallable;
@@ -53,12 +54,12 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     protected Class<? extends CommandPayload> getCommandPayloadClass(String componentType) {
-        return componentType.equals("request") ? RequestCommandPayload.class : ResponseCommandPayload.class;
+        return componentType.equals(REQUEST) ? RequestCommandPayload.class : ResponseCommandPayload.class;
     }
 
     @Override
     protected CommandReplyResult getCommandReplyPayload(String componentType, Api response) {
-        if (componentType.equals("request")) {
+        if (componentType.equals(REQUEST)) {
             CallReplyPayload commandReplyPayload = new CallReplyPayload();
             CallReplyPayload.CallCommandReply callCommandReply = new CallReplyPayload.CallCommandReply();
             CallReplyPayload.CallResult callResult = new CallReplyPayload.CallResult();
@@ -81,12 +82,12 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     protected CommandReplyResult getReply(String componentType, Api response) {
-        return componentType.equals("request") ? ((Request) response).getRequestCall() : ((Response) response).getHttpResponse();
+        return componentType.equals(REQUEST) ? ((Request) response).getRequestCall() : ((Response) response).getHttpResponse();
     }
 
     @Override
     protected Callable getCallable(String componentType) {
-        return componentType.equals("request") ? requestCallable : responseCallable;
+        return componentType.equals(REQUEST) ? requestCallable : responseCallable;
     }
 
     @Override

@@ -62,16 +62,28 @@ public class TransportMeta extends Meta {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         TransportMeta that = (TransportMeta) o;
 
-        if (level != that.level) return false;
+        if (level != that.level) {
+            return false;
+        }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(origin, that.origin)) return false;
-        if (fallback != null ? !fallback.equals(that.fallback) : that.fallback != null) return false;
+        if (!Arrays.equals(origin, that.origin)) {
+            return false;
+        }
+        if (fallback != null ? !fallback.equals(that.fallback) : that.fallback != null) {
+            return false;
+        }
         return properties != null ? properties.equals(that.properties) : that.properties == null;
     }
 

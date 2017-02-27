@@ -16,6 +16,9 @@ public class TransportReplyPayload implements CommandReplyResult {
     @JsonProperty("cr")
     private TransportCommandReply transportCommandReply;
 
+    public TransportReplyPayload() {
+    }
+
     /**
      * @return
      */
@@ -56,6 +59,10 @@ public class TransportReplyPayload implements CommandReplyResult {
         return "CommandReplyPayload{" +
                 "transportCommandReply=" + transportCommandReply +
                 '}';
+    }
+
+    public TransportReplyPayload(TransportReplyPayload other) {
+        this.transportCommandReply = other.transportCommandReply;
     }
 
     /**

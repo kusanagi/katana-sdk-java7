@@ -9,11 +9,11 @@ public class TestMiddleware extends Thread {
 
     private Middleware middleware;
 
-    public TestMiddleware(String args){
+    public TestMiddleware(String args) {
         this.middleware = new Middleware(args.split(" "));
     }
 
-    public Middleware getMiddleware(){
+    public Middleware getMiddleware() {
         return this.middleware;
     }
 
@@ -22,7 +22,7 @@ public class TestMiddleware extends Thread {
         this.middleware.run();
     }
 
-    public void close(){
+    public void close() {
         this.middleware.stopSocket();
         interrupt();
     }

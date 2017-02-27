@@ -1,9 +1,10 @@
 package com.katana.sdk.common;
 
+import com.katana.api.Api;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
-import com.katana.api.Api;
 import com.katana.api.replies.common.CommandReplyResult;
+import com.katana.api.schema.ActionSchema;
 import com.katana.api.schema.ServiceSchema;
 import com.katana.common.Constants;
 import com.katana.common.utils.Logger;
@@ -38,6 +39,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             new Option(new String[]{"-C", "--callback"}, true, false, true),
             new Option(new String[]{"-q", "--quiet"}, true, false, false),
     };
+
+    public static final String LOCALHOST = "127.0.0.1";
 
     private final String workerEndpoint;
 
@@ -279,30 +282,30 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     // SDK METHODS
 
-    public boolean setResource(String name, Callable<T> resource){
+    public boolean setResource(String name, Callable<T> resource) {
         this.resources.put(name, resource);
         return true;
     }
 
-    public boolean hasResource(String name){
+    public boolean hasResource(String name) {
         return this.resources.containsKey(name);
     }
 
-    public Callable<T> getResource(String name){
+    public Callable<T> getResource(String name) {
         return this.resources.get(name);
     }
 
-    public Component<T, S, R> startup(EventCallable<R> callback){
+    public Component<T, S, R> startup(EventCallable<R> callback) {
         this.startupCallable = callback;
         return this;
     }
 
-    public Component<T, S, R> shutdown(EventCallable<R> callback){
+    public Component<T, S, R> shutdown(EventCallable<R> callback) {
         this.shutdownCallable = callback;
         return this;
     }
 
-    public Component<T, S, R> error(EventCallable<R> callback){
+    public Component<T, S, R> error(EventCallable<R> callback) {
         this.errorCallable = callback;
         return this;
     }
@@ -333,7 +336,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private void setWorkers() {
         int workerCount = 1;
-        if (this.var.containsKey("workers")){
+        if (this.var.containsKey("workers")) {
             workerCount = Integer.valueOf(this.var.get("workers"));
             workerCount = workerCount < 1 ? 1 : workerCount;
         }
@@ -354,7 +357,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private void bindSocket() {
         if (this.tcp != null) {
-            router.bind("tcp://127.0.0.1:" + this.tcp);
+            router.bind("tcp://" + LOCALHOST + ":" + this.tcp);
         } else {
             router.bind("ipc://" + this.socket);
         }
@@ -365,10 +368,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     public void stopSocket() {
         dealer.close();
         router.close();
-        context.term();
+//        context.term();
     }
 
-    public boolean log(String value){
+    public boolean log(String value) {
         Logger.log(Logger.DEBUG, value);
         return this.debug;
     }
@@ -402,20 +405,29 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
         Mapping mapping = new Mapping();
 
-        Map schemas = serializer.deserialize(mappings, Map.class);
-        for (Object serviceKey : schemas.keySet()) {
-            Map versionMap = (Map) schemas.get(serviceKey);
-            for (Object versionKey : versionMap.keySet()) {
-                Map serviceSchemaMap = (Map) versionMap.get(versionKey);
+        Map<String, Object> schemas = serializer.deserialize(mappings, Map.class);
+        for (Map.Entry serviceKey : schemas.entrySet()) {
+            Map<String, Object> versionMap = (Map) schemas.get((String) serviceKey.getKey());
+            for (Map.Entry versionKey : versionMap.entrySet()) {
+                Map<String, Object> serviceSchemaMap = (Map) versionMap.get((String) versionKey.getKey());
 
                 String jsonServiceSchema = serializer.serializeInJson(serviceSchemaMap);
                 ServiceSchema serviceSchema = serializer.deserialize(jsonServiceSchema, ServiceSchema.class);
+                serviceSchema.setName((String) serviceKey.getKey());
+                serviceSchema.setVersion((String) versionKey.getKey());
+                for (String action : serviceSchema.getActions()) {
+                    ActionSchema actionSchema = serviceSchema.getActionSchema(action);
+                    actionSchema.setName(action);
+                    for (Map.Entry param : actionSchema.getParams().entrySet()) {
+                        actionSchema.getParamSchema((String) param.getKey()).setName((String) param.getKey());
+                    }
+                }
 
                 Map<String, ServiceSchema> newVersionMap = new HashMap<>();
                 Map<String, Map<String, ServiceSchema>> newServiceSchema = new HashMap<>();
 
-                newVersionMap.put((String) versionKey, serviceSchema);
-                newServiceSchema.put((String) serviceKey, newVersionMap);
+                newVersionMap.put((String) versionKey.getKey(), serviceSchema);
+                newServiceSchema.put((String) serviceKey.getKey(), newVersionMap);
 
                 mapping.setServiceSchema(newServiceSchema);
             }
@@ -471,6 +483,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         List<Option> currentOptions = optionManager.extractOptions(args);
         setMembers(currentOptions);
     }
+
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
@@ -482,7 +495,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                     break;
                 case "-c":
                     this.component = option.getValue();
-                    if (!this.component.equals(Constants.SERVICE) && ! this.component.equals(Constants.MIDDLEWARE)){
+                    if (!this.component.equals(Constants.SERVICE) && !this.component.equals(Constants.MIDDLEWARE)) {
                         throw new IllegalArgumentException("Invalid component " + this.component);
                     }
                     break;
@@ -503,7 +516,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                     break;
                 case "-V":
                     String[] var = option.getValue().split("=");
-                    if (var.length < 2){
+                    if (var.length < 2) {
                         throw new IllegalArgumentException("Invalid variable " + option.getValue());
                     }
                     String varName = var[0];

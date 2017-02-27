@@ -3,7 +3,10 @@ package com.katana.api.schema;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juan on 13/01/17.
@@ -71,21 +74,21 @@ public class ServiceSchema {
     //SDK Methods
 
     @JsonIgnore
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
     @JsonIgnore
-    public String getVersion(){
+    public String getVersion() {
         return this.version;
     }
 
-    public boolean hasFileServer(){
+    public boolean hasFileServer() {
         return isFiles();
     }
 
     @JsonIgnore
-    public List<String> getActions(){
+    public List<String> getActions() {
         List<String> actions = new ArrayList<>();
 
         for (String s : this.actionSchemas.keySet()) {
@@ -94,15 +97,15 @@ public class ServiceSchema {
         return actions;
     }
 
-    public boolean hasAction(String name){
+    public boolean hasAction(String name) {
         return this.actionSchemas.containsKey(name);
     }
 
-    public ActionSchema getActionSchema(String name){
+    public ActionSchema getActionSchema(String name) {
         return this.actionSchemas.get(name);
     }
 
-    public HttpSchema getHttpSchema(){
+    public HttpSchema getHttpSchema() {
         return this.httpSchema;
     }
 

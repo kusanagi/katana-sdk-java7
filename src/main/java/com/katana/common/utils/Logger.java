@@ -1,13 +1,6 @@
 package com.katana.common.utils;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,8 +8,6 @@ import java.util.Date;
  * Created by juan on 30/09/16.
  */
 public class Logger {
-
-    public static final SimpleDateFormat STANDARD_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     public static final int INFO = 1;
     public static final int WARNING = 2;
@@ -46,7 +37,6 @@ public class Logger {
     public static void log(int type, String message) {
         if (isActive) {
             logToStdout(getLog(type, message));
-//            logToFile(getLog(type, message));
         }
     }
 
@@ -62,13 +52,15 @@ public class Logger {
     }
 
     private static String getLog(int type, String message) {
+        SimpleDateFormat standardDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = Calendar.getInstance().getTime();
-        String time = STANDARD_DATE_FORMAT.format(date);
+
+        String time = standardDateFormat.format(date);
         return time + " [" + getType(type) + "] [SDK] " + message;
     }
 
     private static String getType(int type) {
-        switch (type){
+        switch (type) {
             case INFO:
                 return "INFO";
             case WARNING:
@@ -83,15 +75,5 @@ public class Logger {
 
     private static void logToStdout(String message) {
         System.out.println(message);
-    }
-
-    private static void logToFile(String message) {
-        String[] arrayLines = message.split("\n");
-        Path file = Paths.get("katana-log.txt");
-        try {
-            Files.write(file, Arrays.asList(arrayLines), Charset.forName("UTF-8"), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 }

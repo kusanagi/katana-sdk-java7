@@ -15,6 +15,9 @@ public class CommandPayload<T extends Api> {
     @JsonProperty("m")
     private CommandMeta commandMeta;
 
+    public CommandPayload() {
+    }
+
     /**
      * @return
      */
@@ -61,6 +64,10 @@ public class CommandPayload<T extends Api> {
         return "CommandPayload{" +
                 "commandMeta=" + commandMeta +
                 '}';
+    }
+
+    public CommandPayload(CommandPayload other) {
+        this.commandMeta = other.commandMeta;
     }
 
     /**

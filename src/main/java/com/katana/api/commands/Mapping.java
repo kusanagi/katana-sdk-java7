@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class Mapping {
 
-    public Map<String, Map<String, ServiceSchema>> serviceSchema;
+    private Map<String, Map<String, ServiceSchema>> serviceSchema;
 
     public Mapping() {
     }

@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by juane on 2/11/17.
  */
@@ -19,7 +17,7 @@ public class EntitySchemaTest {
     }
 
     @Test
-    public void defaultValues(){
+    public void defaultValues() {
         Assert.assertNotEquals(null, entitySchema.getField());
         Assert.assertNotEquals(null, entitySchema.getFields());
         Assert.assertFalse(entitySchema.isValidate());

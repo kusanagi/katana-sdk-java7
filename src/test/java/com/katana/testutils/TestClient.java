@@ -54,7 +54,9 @@ public class TestClient extends Thread {
                 part2 = requester.recv();
             }
             if (!requester.hasReceiveMore()) {
-                if (this.listener != null) this.listener.onReply(part1, part2);
+                if (this.listener != null) {
+                    this.listener.onReply(part1, part2);
+                }
                 Thread.currentThread().interrupt();
             }
         }

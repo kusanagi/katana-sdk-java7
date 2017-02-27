@@ -1,11 +1,11 @@
 package com.katana.testutils;
 
-import com.katana.api.*;
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
 import com.katana.api.schema.ServiceSchema;
+import com.katana.common.utils.Logger;
 import com.katana.common.utils.MessagePackSerializer;
 import com.katana.sdk.common.Serializer;
 
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class MockFactory {
 
-    public static final String MOCKS_PATH = "/home/juane/development/katana/katana-sdk-java7/src/test/java/com/katana/testutils/mocks/";
+    public static final String MOCKS_PATH = "/home/jega/development/katana/katana-sdk-java7/src/test/java/com/katana/testutils/mocks/";
 
     public static RequestCommandPayload getRequestCommandPayload() {
         return getFromJson("request_command_payload.json", RequestCommandPayload.class);
@@ -29,11 +29,6 @@ public class MockFactory {
 
     public static ResponseCommandPayload getResponseCommandPayload() {
         return getFromJson("response_command_payload.json", ResponseCommandPayload.class);
-    }
-
-    private static Transport getTransport() {
-        Transport transport = new Transport();
-        return transport;
     }
 
     public static ActionCommandPayload getActionCommandPayload() {
@@ -46,7 +41,7 @@ public class MockFactory {
         Map<String, ServiceSchema> versionMap = new HashMap<>();
 
         versionMap.put(version, getServiceSchema());
-        serviceMap.put(name,versionMap);
+        serviceMap.put(name, versionMap);
         mapping.setServiceSchema(serviceMap);
 
         return mapping;
@@ -64,6 +59,7 @@ public class MockFactory {
             Serializer serializer = new MessagePackSerializer();
             return serializer.deserialize(command, aClass);
         } catch (IOException e) {
+            Logger.log(e);
             return null;
         }
     }

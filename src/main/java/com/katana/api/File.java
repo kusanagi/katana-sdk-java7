@@ -2,8 +2,9 @@ package com.katana.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.common.utils.Logger;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -110,8 +111,9 @@ public class File {
     public boolean isLocal() {
         try {
             URI uri = new URI(path);
-            return uri.getScheme().equals("file");
+            return "file".equals(uri.getScheme());
         } catch (URISyntaxException e) {
+            Logger.log(e);
             return false;
         }
     }
@@ -120,6 +122,7 @@ public class File {
         try {
             return new String(Files.readAllBytes(Paths.get(this.path)));
         } catch (IOException e) {
+            Logger.log(e);
             return null;
         }
     }

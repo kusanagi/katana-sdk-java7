@@ -75,17 +75,17 @@ public class Request extends Api {
     // SDK Methods
 
     @JsonIgnore
-    public String getGatewayProtocol(){
+    public String getGatewayProtocol() {
         return this.meta.getProtocol();
     }
 
     @JsonIgnore
-    public String getGatewayAddress(){
+    public String getGatewayAddress() {
         return this.meta.getGateway().get(1);
     }
 
     @JsonIgnore
-    public String getClientAddress(){
+    public String getClientAddress() {
         return this.meta.getClient();
     }
 
@@ -147,10 +147,10 @@ public class Request extends Api {
     }
 
     public boolean hasParam(String name) {
-        if(this.requestCall.getParams() == null) {
+        if (this.requestCall.getParams() == null) {
             return false;
         }
-        for(Param param : this.requestCall.getParams()) {
+        for (Param param : this.requestCall.getParams()) {
             if (param.getName().equals(name)) {
                 return true;
             }
@@ -159,11 +159,11 @@ public class Request extends Api {
     }
 
     @JsonIgnore
-    public Param getParam(String name){
-        if(this.requestCall.getParams() == null) {
+    public Param getParam(String name) {
+        if (this.requestCall.getParams() == null) {
             return null;
         }
-        for(Param param : this.requestCall.getParams()) {
+        for (Param param : this.requestCall.getParams()) {
             if (param.getName().equals(name)) {
                 return param;
             }
@@ -172,23 +172,23 @@ public class Request extends Api {
     }
 
     @JsonIgnore
-    public List<Param> getParams(){
-        if(this.requestCall.getParams() == null) {
+    public List<Param> getParams() {
+        if (this.requestCall.getParams() == null) {
             return new ArrayList<>();
         } else {
             return this.requestCall.getParams();
         }
     }
 
-    public Request setParam(Param param){
-        if (this.requestCall == null){
+    public Request setParam(Param param) {
+        if (this.requestCall == null) {
             this.requestCall.setParams(new ArrayList<Param>());
         }
         this.requestCall.getParams().add(param);
         return this;
     }
 
-    public Param newParam(String name, String value, String type){
+    public Param newParam(String name, String value, String type) {
         Param param = new Param();
         param.setName(name);
         param.setType(type);
@@ -216,7 +216,7 @@ public class Request extends Api {
      * @return Return the instance of the HttpRequest class which contains the HTTP semantics of the request made to
      * the Gateway component.
      */
-    public HttpRequest getHttpRequest(){
+    public HttpRequest getHttpRequest() {
         return this.httpRequest;
     }
 

@@ -211,14 +211,15 @@ public class Api {
      */
     @JsonIgnore
     public ServiceSchema getServiceSchema(String name, String version) {
-        if (mapping.getServiceSchema().containsKey(name)){
-            if (mapping.getServiceSchema().get(name).containsKey(version))
+        if (mapping.getServiceSchema().containsKey(name)) {
+            if (mapping.getServiceSchema().get(name).containsKey(version)) {
                 return mapping.getServiceSchema().get(name).get(version);
+            }
         }
         return null;
     }
 
-    public boolean log(String value){
+    public boolean log(String value) {
         Logger.log(Logger.DEBUG, value);
         return true;
     }

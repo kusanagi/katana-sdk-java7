@@ -70,16 +70,16 @@ public class Response extends Api {
     // SDK METHODS
 
     @JsonIgnore
-    public String getGatewayProtocol(){
+    public String getGatewayProtocol() {
         return this.meta.getProtocol();
     }
 
     @JsonIgnore
-    public String getGatewayAddress(){
+    public String getGatewayAddress() {
         return this.meta.getGateway().get(1);
     }
 
-    public HttpRequest getHttpRequest(){
+    public HttpRequest getHttpRequest() {
         return this.httpRequest;
     }
 

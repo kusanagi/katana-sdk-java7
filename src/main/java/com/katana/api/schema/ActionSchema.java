@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +63,7 @@ public class ActionSchema {
         primaryKey = "id";
         collection = false;
         deprecated = false;
+        files = new HashMap<>();
     }
 
     public void setName(String name) {
@@ -163,11 +165,11 @@ public class ActionSchema {
         return primaryKey;
     }
 
-    public Object resolveEntity(Object data){
+    public Object resolveEntity(Object data) {
         return null;
     }
 
-    public boolean hasEntity(){
+    public boolean hasEntity() {
         return this.entity != null;
     }
 
@@ -175,7 +177,7 @@ public class ActionSchema {
         return entity;
     }
 
-    public boolean hasRelations(){
+    public boolean hasRelations() {
         return this.relations != null && !this.relations.isEmpty();
     }
 
@@ -183,11 +185,16 @@ public class ActionSchema {
         return relations;
     }
 
-    public boolean hasCall(String name, String version, String action, String callback){
+    public boolean hasCall(String name, String version, String action) {
+        for (String[] calls : this.calls) {
+            if (calls[0].equals(name) && calls[1].equals(version) && calls[2].equals(action)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean hasCalls(){
+    public boolean hasCalls() {
         return this.calls != null && this.calls.length != 0;
     }
 
@@ -195,11 +202,17 @@ public class ActionSchema {
         return calls;
     }
 
-    public boolean hasRemoteCall(String address, String name, String version, String action, String callback){
+    public boolean hasRemoteCall(String address, String name, String version, String action) {
+        for (String[] calls : this.remoteCalls) {
+            if (calls[0].equals(address) && calls[1].equals(name) &&
+                    calls[2].equals(version) && calls[3].equals(action)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean hasRemoteCalls(){
+    public boolean hasRemoteCalls() {
         return this.remoteCalls != null && this.remoteCalls.length != 0;
     }
 
@@ -211,11 +224,11 @@ public class ActionSchema {
         return params;
     }
 
-    public boolean hasParam(String name){
+    public boolean hasParam(String name) {
         return this.params != null && this.params.containsKey(name);
     }
 
-    public ActionParamSchema getParamSchema(String name){
+    public ActionParamSchema getParamSchema(String name) {
         return this.params.get(name);
     }
 
@@ -223,11 +236,11 @@ public class ActionSchema {
         return files;
     }
 
-    public boolean hasFile(String name){
+    public boolean hasFile(String name) {
         return this.files != null && this.files.containsKey(name);
     }
 
-    public FileSchema getFileSchema(String name){
+    public FileSchema getFileSchema(String name) {
         return this.files.get(name);
     }
 

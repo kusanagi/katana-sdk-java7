@@ -80,16 +80,30 @@ public class Call {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Call call = (Call) o;
 
-        if (timeout != call.timeout) return false;
-        if (name != null ? !name.equals(call.name) : call.name != null) return false;
-        if (version != null ? !version.equals(call.version) : call.version != null) return false;
-        if (action != null ? !action.equals(call.action) : call.action != null) return false;
-        if (params != null ? !params.equals(call.params) : call.params != null) return false;
+        if (timeout != call.timeout) {
+            return false;
+        }
+        if (name != null ? !name.equals(call.name) : call.name != null) {
+            return false;
+        }
+        if (version != null ? !version.equals(call.version) : call.version != null) {
+            return false;
+        }
+        if (action != null ? !action.equals(call.action) : call.action != null) {
+            return false;
+        }
+        if (params != null ? !params.equals(call.params) : call.params != null) {
+            return false;
+        }
         return gateway != null ? gateway.equals(call.gateway) : call.gateway == null;
     }
 

@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by juane on 2/11/17.
@@ -38,8 +38,8 @@ public class LoggerTest {
 
     private String getMessage(String[] split) {
         String message = "";
-        if (split.length >= 4){
-            for (int j = 3 ; j < split.length; j++){
+        if (split.length >= 4) {
+            for (int j = 3; j < split.length; j++) {
                 if (j == 3) {
                     message = split[j];
                 } else {

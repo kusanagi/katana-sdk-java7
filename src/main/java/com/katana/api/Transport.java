@@ -371,20 +371,20 @@ public class Transport implements CommandReplyResult {
         transaction.setRollback(new ArrayList<ServiceTransaction>());
         transaction.setComplete(new ArrayList<ServiceTransaction>());
 
-        for(ServiceTransaction serviceTransaction : this.transactions.getCommit()){
-            if (serviceTransaction.getName().equals(service)){
+        for (ServiceTransaction serviceTransaction : this.transactions.getCommit()) {
+            if (serviceTransaction.getName().equals(service)) {
                 transaction.getCommit().add(serviceTransaction);
             }
         }
 
-        for(ServiceTransaction serviceTransaction : this.transactions.getRollback()){
-            if (serviceTransaction.getName().equals(service)){
+        for (ServiceTransaction serviceTransaction : this.transactions.getRollback()) {
+            if (serviceTransaction.getName().equals(service)) {
                 transaction.getRollback().add(serviceTransaction);
             }
         }
 
-        for(ServiceTransaction serviceTransaction : this.transactions.getComplete()){
-            if (serviceTransaction.getName().equals(service)){
+        for (ServiceTransaction serviceTransaction : this.transactions.getComplete()) {
+            if (serviceTransaction.getName().equals(service)) {
                 transaction.getComplete().add(serviceTransaction);
             }
         }

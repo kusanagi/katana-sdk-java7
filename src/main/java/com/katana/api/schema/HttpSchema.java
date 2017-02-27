@@ -34,7 +34,7 @@ public class HttpSchema {
     //SDK Methods
 
     @JsonIgnore
-    public boolean isAccesible(){
+    public boolean isAccesible() {
         return isGateway();
     }
 

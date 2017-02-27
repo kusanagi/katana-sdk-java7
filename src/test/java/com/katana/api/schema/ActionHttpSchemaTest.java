@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by juane on 2/11/17.
  */
@@ -19,7 +17,7 @@ public class ActionHttpSchemaTest {
     }
 
     @Test
-    public void defaultValues(){
+    public void defaultValues() {
         Assert.assertTrue(actionHttpSchema.isGateway());
         Assert.assertEquals("/", actionHttpSchema.getPath());
         Assert.assertEquals("get", actionHttpSchema.getMethod());

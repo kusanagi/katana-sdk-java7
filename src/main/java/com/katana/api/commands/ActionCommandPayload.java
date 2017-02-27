@@ -1,8 +1,8 @@
 package com.katana.api.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.Action;
+import com.katana.api.commands.common.CommandPayload;
 
 /**
  * Created by juan on 26/09/16.
@@ -10,6 +10,9 @@ import com.katana.api.Action;
 public class ActionCommandPayload extends CommandPayload<Action> {
     @JsonProperty("c")
     private ActionCommand command;
+
+    public ActionCommandPayload() {
+    }
 
     /**
      * @return
@@ -56,6 +59,11 @@ public class ActionCommandPayload extends CommandPayload<Action> {
         return "ActionCommandPayload{" +
                 "command=" + command +
                 "} " + super.toString();
+    }
+
+    public ActionCommandPayload(ActionCommandPayload other) {
+        super(other);
+        this.command = other.command;
     }
 
     /**
