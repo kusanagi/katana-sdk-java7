@@ -1,0 +1,264 @@
+KATANA SDK for JAVA 7
+=====================
+
+[badges]
+
+JAVA SDK to interface with the **KATANA**™ framework (https://katana.kusanagi.io).
+
+Requirements
+------------
+
+* KATANA Framework 1.0+
+* Katana-sdk-java7
+* JDK 1.7
+
+Installation
+------------
+
+#### JDK 1.7:
+
+1. sudo apt-add-repository ppa:webupd8team/java
+2. sudo apt-get update
+3. sudo apt-get install oracle-java7-installer
+
+#### Build:
+
+Maven:
+```xml
+<dependency>
+    <groupId>com.kusanagi</groupId>
+    <artifactId>katana-sdk-java7</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+Gradle:
+compile group: 'com.kusanagi', name: 'katana-sdk-java7', version: '1.0.0'
+
+
+Configuration
+-------------
+
+service config:
+```yaml
+...
+engine:
+  runner: urn:katana:runner:java7
+  path: users.jar
+  process-min: 1
+  process-max: 1
+  tcp: 5001
+  variable:
+    - name: workers
+      value: 5
+...
+```
+
+Getting Started
+---------------
+
+Service:
+```java
+import com.katana.api.Action;
+import com.katana.sdk.common.Callable;
+import com.katana.sdk.Service;
+
+public class service {
+
+    public static void main(String[] args) {
+        Service service = new Service(args);
+
+        service.action("actionName", new Callable<Action>() {
+               @Override
+               public Action run(Action action) {
+                   // logic ...
+                   return action;
+               }
+           });
+
+        service.run();
+    }
+}
+```
+
+Middleware:
+```java
+import com.katana.api.Request;
+import com.katana.api.Response;
+import com.katana.sdk.common.Callable;
+import com.katana.sdk.Middleware;
+
+public class service {
+
+    public static void main(String[] args) {
+        Middleware middleware = new Middleware(args);
+
+        middleware.request(new Callable<Request>() {
+               @Override
+               public Request run(Request request) {
+                   // logic ...
+                   return request;
+               }
+           });
+
+        middleware.response(new Callable<Response>() {
+               @Override
+               public Response run(Response response) {
+                   // logic ...
+                   return response;
+               }
+           });
+
+        middleware.run();
+    }
+}
+```
+
+Examples
+--------
+
+User service with read action:
+```java
+package com.katana.example;
+
+import com.katana.api.Action;
+import com.katana.sdk.common.Callable;
+import com.katana.sdk.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserService {
+
+    public static void main(String[] args) {
+
+        final List<User> users = new ArrayList<>();
+        users.add(new User(1, "James"));
+        users.add(new User(2, "Jeronimo"));
+        users.add(new User(3, "Fernando"));
+        users.add(new User(4, "Ricardo"));
+        users.add(new User(5, "Hugo"));
+
+        Service service = new Service(args);
+        service.action("read", new Callable<Action>() {
+               @Override
+               public Action run(Action action) {
+                   int userId = (Integer) action.getParam("id").getValue();
+
+                   User entity = null;
+                   for (User user : users) {
+                       if (user.getId() == userId) {
+                           entity = user;
+                           break;
+                       }
+                   }
+
+                   if (entity == null) {
+                       action.error("User does not exist", 1, "404 Not Found");
+                   } else {
+                       action.setEntity(entity);
+                       action.setLink("self", "/0.1.0/users/" + userId);
+                   }
+
+                   return action;
+               }
+           });
+        service.run();
+    }
+}
+```
+
+Rest middleware
+```java
+package com.katana.example;
+
+import com.katana.api.Request;
+import com.katana.sdk.Middleware;
+import com.katana.sdk.common.Callable;
+
+import java.util.Iterator;
+import java.util.Map;
+
+public class Rest {
+
+    public static void main(String[] args) {
+        Middleware middleware = new Middleware(args);
+        middleware.request(new Callable<Request>() {
+               @Override
+               public Request run(Request request) {
+                   // /{version}/{service}/{extra}
+
+                   String[] parts = request.getHttpRequest().getUrlPath().split("/");
+                   request.setServiceVersion(parts[1]);
+                   request.setServiceName(parts[2]);
+                   boolean hasExtraPath = parts.length == 4 && !parts[3].isEmpty();
+
+                   String method = request.getHttpRequest().getMethod();
+
+                   String actionName = null;
+                   switch (method) {
+                       case "GET":
+                           actionName = hasExtraPath ? "read" : "list";
+                           break;
+                       case "POST":
+                           actionName = "create";
+                           break;
+                       case "PUT":
+                           actionName = "replace";
+                           break;
+                       case "PATCH":
+                           actionName = "update";
+                           break;
+                       case "DELETE":
+                           actionName = "delete";
+                           break;
+                   }
+
+                   if (actionName != null) {
+                       request.setActionName(actionName);
+                   }
+
+                   return request;
+               }
+           });
+        middleware.run();
+    }
+}
+```
+
+Documentation
+-------------
+
+See the [API](https://kusanagi.io/app#katana/docs/sdk) for a technical reference of the SDK, or read the full [specification](https://kusanagi.io/app#katana/docs/sdk/specification).
+
+For help using the framework see the [documentation](https://kusanagi.io/app#katana/docs), or join the [community](https://kusanagi.io/app#katana/community).
+
+Support
+-------
+
+Please first read our [contribution guidelines](https://kusanagi.io/app#katana/open-source/contributing).
+
+* [Requesting help](https://kusanagi.io/app#katana/open-source/help)
+* [Reporting a bug](https://kusanagi.io/app#katana/open-source/bug)
+* [Submitting a patch](https://kusanagi.io/app#katana/open-source/patch)
+* [Security issues](https://kusanagi.io/app#katana/open-source/security)
+
+We use [milestones](https://github.com/kusanagi/katana-sdk-%LANGUAGE%/milestones) to track upcoming releases inline with our [versioning](https://kusanagi.io/app#katana/versioning) strategy, and as defined in our [roadmap](https://kusanagi.io/app#katana/roadmap).
+
+For commercial support see the [solutions](https://kusanagi.io/solutions) available or [contact us](https://kusanagi.io/contact) for more information.
+
+Contributing
+------------
+
+If you'd like to know how you can help and support our Open Source efforts see the many ways to [get involved](https://kusanagi.io/app#katana/open-source/get-involved).
+
+Please also be sure to review our [community guidelines](https://kusanagi.io/app#katana/community/conduct).
+
+License
+-------
+
+Copyright 2016-2017 KUSANAGI S.L. (https://kusanagi.io). All rights reserved.
+
+KUSANAGI, the sword logo, KATANA and the "K" logo are trademarks and/or registered trademarks of KUSANAGI S.L. All other trademarks are property of their respective owners.
+
+Licensed under the [MIT License](https://kusanagi.io/app#katana/open-source/license). Redistributions of the source code included in this repository must retain the copyright notice found in each file.
