@@ -28,7 +28,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private static final Option[] APP_OPTIONS = new Option[]{
             new Option(new String[]{"-p", "--platform-version"}, true, true, true),
-            new Option(new String[]{"-c", "--componentName"}, true, true, true),
+            new Option(new String[]{"-c", "--component"}, true, true, true),
             new Option(new String[]{"-n", "--name"}, true, true, true),
             new Option(new String[]{"-v", "--version"}, true, true, true),
             new Option(new String[]{"-s", "--socket"}, true, false, true),

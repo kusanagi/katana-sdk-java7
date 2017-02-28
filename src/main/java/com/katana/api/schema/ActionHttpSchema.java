@@ -3,6 +3,8 @@ package com.katana.api.schema;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Arrays;
+
 /**
  * Created by juan on 3/01/17.
  */
@@ -21,14 +23,14 @@ public class ActionHttpSchema {
     private String input;
 
     @JsonProperty("b")
-    private String body;
+    private String[] body;
 
     public ActionHttpSchema() {
         this.gateway = true;
         this.path = "/";
         this.method = "get";
         this.input = "query";
-        this.body = "text/plain";
+        this.body = new String[]{"text/plain"};
     }
 
     public ActionHttpSchema(ActionHttpSchema other) {
@@ -59,7 +61,7 @@ public class ActionHttpSchema {
         this.input = input;
     }
 
-    public void setBody(String body) {
+    public void setBody(String[] body) {
         this.body = body;
     }
 
@@ -82,7 +84,7 @@ public class ActionHttpSchema {
         return input;
     }
 
-    public String getBody() {
+    public String[] getBody() {
         return body;
     }
 
@@ -91,35 +93,35 @@ public class ActionHttpSchema {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ActionHttpSchema)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         ActionHttpSchema that = (ActionHttpSchema) o;
 
-        if (isGateway() != that.isGateway()) {
+        if (gateway != that.gateway) {
             return false;
         }
-        if (getPath() != null ? !getPath().equals(that.getPath()) : that.getPath() != null) {
+        if (path != null ? !path.equals(that.path) : that.path != null) {
             return false;
         }
-        if (getMethod() != null ? !getMethod().equals(that.getMethod()) : that.getMethod() != null) {
+        if (method != null ? !method.equals(that.method) : that.method != null) {
             return false;
         }
-        if (getInput() != null ? !getInput().equals(that.getInput()) : that.getInput() != null) {
+        if (input != null ? !input.equals(that.input) : that.input != null) {
             return false;
         }
-        return getBody() != null ? getBody().equals(that.getBody()) : that.getBody() == null;
-
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(body, that.body);
     }
 
     @Override
     public int hashCode() {
-        int result = isGateway() ? 1 : 0;
-        result = 31 * result + (getPath() != null ? getPath().hashCode() : 0);
-        result = 31 * result + (getMethod() != null ? getMethod().hashCode() : 0);
-        result = 31 * result + (getInput() != null ? getInput().hashCode() : 0);
-        result = 31 * result + (getBody() != null ? getBody().hashCode() : 0);
+        int result = (gateway ? 1 : 0);
+        result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (method != null ? method.hashCode() : 0);
+        result = 31 * result + (input != null ? input.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(body);
         return result;
     }
 

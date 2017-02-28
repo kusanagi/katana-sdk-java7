@@ -22,7 +22,7 @@ public class ActionHttpSchemaTest {
         Assert.assertEquals("/", actionHttpSchema.getPath());
         Assert.assertEquals("get", actionHttpSchema.getMethod());
         Assert.assertEquals("query", actionHttpSchema.getInput());
-        Assert.assertEquals("text/plain", actionHttpSchema.getBody());
+        Assert.assertEquals("text/plain", actionHttpSchema.getBody()[0]);
     }
 
 }

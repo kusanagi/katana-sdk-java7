@@ -348,7 +348,6 @@ public class ComponentTest {
         assertEquals(responseCommandPayload.getCommand().getArgument().getHttpResponse(), responseReplyPayloads[0].getCommandReply().getResult().getHttpResponse());
 
         Response response = responseCommandPayloads[0].getCommand().getArgument();
-
         assertResponse(response);
         assertEquals(responseCommandPayload.getCommand().getArgument().getHttpRequest(), response.getHttpRequest());
         assertEquals(responseCommandPayload.getCommand().getArgument().getTransport(), response.getTransport());
