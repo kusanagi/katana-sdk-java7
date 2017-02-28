@@ -23,7 +23,7 @@ Installation
 
 #### Build:
 
-Maven:
+**Maven**:
 ```xml
 <dependency>
     <groupId>com.kusanagi</groupId>
@@ -32,7 +32,8 @@ Maven:
 </dependency>
 ```
 
-Gradle:
+**Gradle**:
+
 compile group: 'com.kusanagi', name: 'katana-sdk-java7', version: '1.0.0'
 
 
