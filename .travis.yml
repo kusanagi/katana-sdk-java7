@@ -1,18 +1,5 @@
 language: java
 
-sudo: false
-
-install: true
-
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-  
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
 jdk:
   - oraclejdk8
   - oraclejdk7
@@ -20,13 +7,29 @@ jdk:
 os:
   - linux
 
-script:
-- ./gradlew clean
-- cp -r src/test/java/com/katana/resources build/classes/test/com/katana/resources
-- ./gradlew test jacocoTestReport
-- ./gradlew jar
+sudo: false
 
 addons:
   apt:
     packages:
       - oracle-java8-installer
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+install: true
+
+before_script:
+- ./gradlew clean
+- mkdir build build/classes build/classes/test build/classes/test/com build/classes/test/com/katana/
+- cp -r src/test/java/com/katana/resources build/classes/test/com/katana/resources
+
+script:
+- ./gradlew test jacocoTestReport
+- ./gradlew jar
