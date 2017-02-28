@@ -96,7 +96,7 @@
         "m": "get",
         "p": "/posts/{user_id}",
         "i": "path",
-        "b": "text/plain"
+        "b": ["text/plain"]
       },
       "p": {
         "user_id": {
