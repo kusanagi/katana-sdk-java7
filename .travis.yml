@@ -13,9 +13,6 @@ addons:
   apt:
     packages:
       - oracle-java8-installer
-  branches:
-    - master
-    - develop
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -34,4 +31,4 @@ before_script:
 - cp -r src/test/java/com/katana/resources build/classes/test/com/katana/resources
 
 script:
-- ./gradlew test jacocoTestReport && sonar-scanner && ./gradlew jar
+- ./gradlew test jacocoTestReport && ./gradlew jar
