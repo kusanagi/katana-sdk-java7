@@ -522,7 +522,7 @@ public class ComponentTest {
         assertEquals("get", httpSchema.getMethod());
         assertEquals("/posts/{user_id}", httpSchema.getPath());
         assertEquals("path", httpSchema.getInput());
-        assertEquals("text/plain", httpSchema.getBody()[0]);
+        assertEquals("text/plain", httpSchema.getBody());
     }
 
     private void assertFileSchema(FileSchema fileSchema) {
