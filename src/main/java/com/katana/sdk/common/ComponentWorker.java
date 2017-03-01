@@ -17,6 +17,8 @@ public class ComponentWorker extends Thread {
 
     private WorkerListener workerListener;
 
+    private boolean listen;
+
     public ComponentWorker(String workerEndpoint) {
         this.workerEndpoint = workerEndpoint;
     }
@@ -32,7 +34,7 @@ public class ComponentWorker extends Thread {
         String part1 = "";
         byte[] part2 = new byte[0];
         byte[] part3 = new byte[0];
-        while (!Thread.currentThread().isInterrupted()) {
+        while (listen) {
             part++;
             if (part == 1) {
                 part1 = socketObj.recvStr();
@@ -43,27 +45,26 @@ public class ComponentWorker extends Thread {
             }
             if (!socketObj.hasReceiveMore()) {
                 part = 0;
-                byte[] reply = workerListener.onRequestReceived(part1, part2.length == 0 ? null : part2, part3);
-                socketObj.sendMore(new byte[]{});
-                socketObj.send(reply);
+                byte[][] reply = workerListener.onRequestReceived(part1, part2.length == 0 ? null : part2, part3);
+                socketObj.sendMore(reply[0]);
+                socketObj.send(reply[1]);
             }
         }
-
-        stopSocket();
     }
 
-    private void startSocket() {
+    public void startSocket() {
         context = ZMQ.context(1);
         socketObj = context.socket(ZMQ.REP);
         socketObj.connect(this.workerEndpoint);
+        this.listen = true;
     }
 
-    private void stopSocket() {
+    public void stopSocket() {
         socketObj.close();
         context.term();
     }
 
     public interface WorkerListener {
-        byte[] onRequestReceived(String componentType, byte[] mappings, byte[] request);
+        byte[][] onRequestReceived(String componentType, byte[] mappings, byte[] request);
     }
 }

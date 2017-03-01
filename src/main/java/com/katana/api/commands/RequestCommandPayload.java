@@ -76,6 +76,7 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         private Request argument;
 
         public RequestCommand() {
+            //Empty constructor for serialization
         }
 
         public RequestCommand(RequestCommand other) {

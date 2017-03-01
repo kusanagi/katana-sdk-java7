@@ -9,6 +9,7 @@ public class TestClient extends Thread {
 
     private String addr;
     private byte[][] parts;
+    private boolean listen;
 
     private ZMQ.Context context;
     private ZMQ.Socket requester;
@@ -33,9 +34,9 @@ public class TestClient extends Thread {
 
     public void open(String tcp) {
         context = ZMQ.context(1);
-
         requester = context.socket(ZMQ.REQ);
         requester.connect(tcp);
+        this.listen = true;
     }
 
     public void sendMessage(byte[][] parts) {
@@ -46,7 +47,7 @@ public class TestClient extends Thread {
         int part = 0;
         byte[] part1 = new byte[0];
         byte[] part2 = new byte[0];
-        while (!Thread.currentThread().isInterrupted()) {
+        while (this.listen) {
             part++;
             if (part == 1) {
                 part1 = requester.recv();
@@ -54,17 +55,18 @@ public class TestClient extends Thread {
                 part2 = requester.recv();
             }
             if (!requester.hasReceiveMore()) {
+                part = 0;
                 if (this.listener != null) {
                     this.listener.onReply(part1, part2);
                 }
-                Thread.currentThread().interrupt();
+                this.listen = false;
             }
         }
-        close();
     }
 
     public void close() {
         requester.close();
+        context.term();
     }
 
     public interface Listener {

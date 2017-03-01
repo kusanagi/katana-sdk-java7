@@ -77,6 +77,7 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
         private Response argument;
 
         public ResponseCommand() {
+            //Empty constructor for serialization
         }
 
         public ResponseCommand(ResponseCommand other) {

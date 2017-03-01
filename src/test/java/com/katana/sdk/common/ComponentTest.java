@@ -55,7 +55,7 @@ public class ComponentTest {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
 
-        String args = "-c service -n name -v 0.2.0 -p 0.1.0 -s socket -t " + PORT + " -d -C request:callback --debug " +
+        String args = "-c service -n name -v 0.2.0 -f 0.1.0 -s socket -t " + PORT + " -d -C request:callback --debug " +
                 "-V var1=value1 -V var2=value2 --var var3=value3";
         component = new Service(args.split(" "));
 
@@ -77,63 +77,62 @@ public class ComponentTest {
         }
     }
 
-
     @Test
     public void componentArgValues_invalid_throwException() {
         //Invalid argument values
-        assertComponentArgs("-p 0.1.0 -c service -n users -v 0.1.{version}", false);
-        assertComponentArgs("-p {version} -c service -n users -v 0.1.0", false);
-        assertComponentArgs("-p 0.1.0 -c service1 -n users -v 0.1.0", false);
-        assertComponentArgs("-p 0.1.0 -c middleware1 -n users -v 0.1.0", false);
-        assertComponentArgs("-p 0.1.0 -c middleware -n users -v 0.1.0 -V name", false);
+        assertComponentArgs("-f 0.1.0 -c service -n users -v 0.1.{version}", false);
+        assertComponentArgs("-f {version} -c service -n users -v 0.1.0", false);
+        assertComponentArgs("-f 0.1.0 -c service1 -n users -v 0.1.0", false);
+        assertComponentArgs("-f 0.1.0 -c middleware1 -n users -v 0.1.0", false);
+        assertComponentArgs("-f 0.1.0 -c middleware -n users -v 0.1.0 -V name", false);
         assertComponentArgs("-c component -n name -v 0.1.0", false);
-        assertComponentArgs("-c component -n name -p 0.1.0", false);
-        assertComponentArgs("-c component -v 0.1.0 -p 0.1.0", false);
-        assertComponentArgs("-c component -v 0.1.0 -p 0.1.0 -l invalid option", false);
+        assertComponentArgs("-c component -n name -f 0.1.0", false);
+        assertComponentArgs("-c component -v 0.1.0 -f 0.1.0", false);
+        assertComponentArgs("-c component -v 0.1.0 -f 0.1.0 -l invalid option", false);
         assertComponentArgs("-c component -V name=value -s socket -D", false);
-        assertComponentArgs("--name name -i invalid_option --version 0.1.0 -p 0.1.0", false);
-        assertComponentArgs("-c component -n name --name name --version 0.1.0 -p 0.1.0", false);
-        assertComponentArgs("--name name --version 0.1.0 -p 0.1.0 version", false);
-        assertComponentArgs("-c component -n name -v 0.1.0 -p 0.1.0 -s socket --socket socket2 --debug -V name=value", false);
-        assertComponentArgs("-c component -n name -v 0.1.0 -p 0.1.0 -s socket --debug -D -V name=value", false);
+        assertComponentArgs("--name name -i invalid_option --version 0.1.0 -f 0.1.0", false);
+        assertComponentArgs("-c component -n name --name name --version 0.1.0 -f 0.1.0", false);
+        assertComponentArgs("--name name --version 0.1.0 -f 0.1.0 version", false);
+        assertComponentArgs("-c component -n name -v 0.1.0 -f 0.1.0 -s socket --socket socket2 --debug -V name=value", false);
+        assertComponentArgs("-c component -n name -v 0.1.0 -f 0.1.0 -s socket --debug -D -V name=value", false);
 
         //Valid argument values
-        assertComponentArgs("-p 0.1.0 -c service -n users -v 0.1.0", true);
-        assertComponentArgs("-p 0.1.0 -c middleware -n users -v 0.1.0", true);
-        assertComponentArgs("-p 0.1.0 -c middleware1 -n users -v 0.1.0 -V name=value", false);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0", true);
-        assertComponentArgs("-c service --name name --version 0.1.0 --platform-version 0.1.0", true);
-        assertComponentArgs("-c service -n name --version 0.1.0 --platform-version 0.1.0", true);
-        assertComponentArgs("-c service --name name -v 0.1.0 --platform-version 0.1.0", true);
-        assertComponentArgs("-c service --name name --version 0.1.0 -p 0.1.0", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -s socket", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -D", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -V name=value", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -t " + PORT, true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -d", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -C request:callback", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -q", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 --socket socket", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 --debug", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 --var name=value", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 --tcp " + PORT, true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 --disable-compact-names", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 --callback request:callback", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 --quiet", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -s socket --debug -V name=value", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -p 0.1.0 -s socket --debug -V name1=value -V name2=value --var name3=value", true);
+        assertComponentArgs("-f 0.1.0 -c service -n users -v 0.1.0", true);
+        assertComponentArgs("-f 0.1.0 -c middleware -n users -v 0.1.0", true);
+        assertComponentArgs("-f 0.1.0 -c middleware1 -n users -v 0.1.0 -V name=value", false);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0", true);
+        assertComponentArgs("-c service --name name --version 0.1.0 --framework-version 0.1.0", true);
+        assertComponentArgs("-c service -n name --version 0.1.0 --framework-version 0.1.0", true);
+        assertComponentArgs("-c service --name name -v 0.1.0 --framework-version 0.1.0", true);
+        assertComponentArgs("-c service --name name --version 0.1.0 -f 0.1.0", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -s socket", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -D", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -V name=value", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -t " + PORT, true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -d", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -C request:callback", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -q", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --socket socket", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --debug", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --var name=value", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --tcp " + PORT, true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --disable-compact-names", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --callback request:callback", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --quiet", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -s socket --debug -V name=value", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -s socket --debug -V name1=value -V name2=value --var name3=value", true);
     }
 
     @Test
     public void main_withValidArguments_setClassMembers() {
-        String args = "-c service -n name -v 0.2.0 -p 0.1.0 -s socket -t " + PORT + " -d -C request:callback -q --debug " +
+        String args = "-c service -n name -v 0.2.0 -f 0.1.0 -s socket -t " + PORT + " -d -C request:callback -q --debug " +
                 "-V var1=value1 -V var2=value2 --var var3=value3";
         Component component = new Service(args.split(" "));
 
         assertEquals("service", component.getComponent());
         assertEquals("name", component.getName());
         assertEquals("0.2.0", component.getVersion());
-        assertEquals("0.1.0", component.getPlatformVersion());
+        assertEquals("0.1.0", component.getFrameworkVersion());
         assertEquals(PORT, component.getTcp());
         assertEquals(true, component.isDebug());
         assertEquals(true, component.isQuiet());
@@ -182,7 +181,7 @@ public class ComponentTest {
 
     @Test
     public void log_notInDebugMode_dontPrintLogAndReturnFalse() throws ParseException {
-        String args = "-c service -n name -v 0.2.0 -p 0.1.0 -s socket -t " + PORT + " -C request:callback " +
+        String args = "-c service -n name -v 0.2.0 -f 0.1.0 -s socket -t " + PORT + " -C request:callback " +
                 "-V var1=value1 -V var2=value2 --var var3=value3";
         Component service = new Service(args.split(" "));
 
@@ -204,7 +203,7 @@ public class ComponentTest {
         final RequestCommandPayload requestCommandPayload = mockFactory.getRequestCommandPayload();
         final Mapping mapping = mockFactory.getMapping("users", "1.0.0");
 
-        final TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
+        TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
         testMiddleware.getMiddleware().request(new Callable<Request>() {
             @Override
             public Request run(Request request) {
@@ -222,13 +221,12 @@ public class ComponentTest {
         });
         testMiddleware.start();
 
-        final TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) {
                         callReplyPayloads[0] = serializer.deserialize(reply, CallReplyPayload.class);
                         countDownLatch.countDown();
-                        testMiddleware.close();
                     }
                 },
                 "request".getBytes(),
@@ -240,6 +238,9 @@ public class ComponentTest {
 
         //RESULT
         countDownLatch.await();
+        testClient.close();
+        testMiddleware.close();
+
         assertEquals(requestCommandPayload, requestCommandPayloads[0]);
         assertEquals(mapping, mappings[0]);
         assertEquals(requestCommandPayload.getCommand().getArgument().getRequestCall(), callReplyPayloads[0].getCommandReply().getResult().getRequestCall());
@@ -309,7 +310,7 @@ public class ComponentTest {
         final ResponseCommandPayload responseCommandPayload = mockFactory.getResponseCommandPayload();
         final Mapping mapping = mockFactory.getMapping("posts", "1.0.0");
 
-        final TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
+        TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
         testMiddleware.getMiddleware().response(new Callable<Response>() {
             @Override
             public Response run(Response object) {
@@ -325,13 +326,12 @@ public class ComponentTest {
         });
         testMiddleware.start();
 
-        final TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) {
                         responseReplyPayloads[0] = serializer.deserialize(reply, ResponseReplyPayload.class);
                         countDownLatch.countDown();
-                        testMiddleware.close();
                     }
                 },
                 "response".getBytes(),
@@ -343,6 +343,9 @@ public class ComponentTest {
 
         //RESULT
         countDownLatch.await();
+        testClient.close();
+        testMiddleware.close();
+
         assertEquals(responseCommandPayload, responseCommandPayloads[0]);
         assertEquals(mapping, mappings[0]);
         assertEquals(responseCommandPayload.getCommand().getArgument().getHttpResponse(), responseReplyPayloads[0].getCommandReply().getResult().getHttpResponse());
@@ -395,7 +398,7 @@ public class ComponentTest {
         final ActionCommandPayload actionCommandPayload = mockFactory.getActionCommandPayload();
         final Mapping mapping = mockFactory.getMapping("posts", "1.0.0");
 
-        final TestService testService = new TestService("-c service -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
+        TestService testService = new TestService("-c service -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
         testService.getService().action("read", new Callable<Action>() {
             @Override
             public Action run(Action object) {
@@ -432,13 +435,12 @@ public class ComponentTest {
         });
         testService.start();
 
-        final TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) {
                         transportReplyPayloads[0] = serializer.deserialize(reply, TransportReplyPayload.class);
                         countDownLatch.countDown();
-                        testService.close();
                     }
                 },
                 "read".getBytes(),
@@ -450,6 +452,9 @@ public class ComponentTest {
 
         //RESULT
         countDownLatch.await();
+        testClient.close();
+        testService.close();
+
         assertEquals(actionCommandPayload, actionCommandPayloads[0]);
         assertEquals(mapping, mappings[0]);
         assertEquals(transports[0], transportReplyPayloads[0].getCommandReply().getResult().getTransport());
@@ -665,7 +670,7 @@ public class ComponentTest {
         final ActionCommandPayload actionCommandPayload = mockFactory.getActionCommandPayload();
         final Mapping mapping = mockFactory.getMapping("users", "0.2.0");
 
-        final TestService testService = new TestService("-c service -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
+        TestService testService = new TestService("-c service -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
         testService.getService().startup(new EventCallable<Service>() {
             @Override
             public Service run(Service object) {
@@ -698,11 +703,10 @@ public class ComponentTest {
 //        });
         testService.start();
 
-        final TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) {
-                        testService.close();
                     }
                 },
                 "users".getBytes(),
@@ -714,6 +718,9 @@ public class ComponentTest {
 
         //RESULT
         countDownLatch.await();
+        testClient.close();
+        testService.close();
+
         assertEquals(2, secuence[0]);
     }
 
@@ -735,19 +742,18 @@ public class ComponentTest {
             }
         };
 
-        final TestService testService = new TestService("-c service -n users -v 0.2.0 -p 0.1.0 -t " + PORT + " -D -V workers=1");
-        testService.getService().action("users", usersResource);
+        TestService testService = new TestService("-c service -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
+        testService.getService().action("read", usersResource);
         testService.getService().setResource("resource", usersResource);
         testService.start();
 
-        final TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) {
-                        testService.close();
                     }
                 },
-                "users".getBytes(),
+                "read".getBytes(),
                 serializer.serializeInBytes(mapping.getServiceSchema()),
                 serializer.serializeInBytes(actionCommandPayload)
         );
@@ -757,6 +763,9 @@ public class ComponentTest {
 
         //RESULT
         countDownLatch.await();
+        testClient.close();
+        testService.close();
+
         assertTrue(apis[0].isDebug());
         assertEquals("http://127.0.0.1:80", apis[0].getPath());
         assertEquals("0.1.0", apis[0].getPlatformVersion());

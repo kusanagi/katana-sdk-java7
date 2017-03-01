@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class MockFactory {
 
-    public final String MOCKS_PATH = "/com/katana/resources/";
+    public final String mocksPath = "/com/katana/resources/";
 
     public RequestCommandPayload getRequestCommandPayload() {
         return getFromJson("request_command_payload.json", RequestCommandPayload.class);
@@ -56,9 +56,7 @@ public class MockFactory {
 
     private <T> T getFromJson(String filename, Class<T> aClass) {
         try {
-            URL url = getClass().getResource(MOCKS_PATH + filename);
-            File file = new File(url.getPath());
-
+            URL url = getClass().getResource(mocksPath + filename);
             Path path = Paths.get(url.toURI());
             byte[] bytes = Files.readAllBytes(path);
             String command = new String(bytes);

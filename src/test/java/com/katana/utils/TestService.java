@@ -23,6 +23,5 @@ public class TestService extends Thread {
 
     public void close() {
         this.service.stopSocket();
-        interrupt();
     }
 }

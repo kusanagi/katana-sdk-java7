@@ -27,7 +27,7 @@ import java.util.*;
 public abstract class Component<T extends Api, S extends CommandReplyResult, R extends Component> implements ComponentWorker.WorkerListener {
 
     private static final Option[] APP_OPTIONS = new Option[]{
-            new Option(new String[]{"-p", "--platform-version"}, true, true, true),
+            new Option(new String[]{"-f", "--framework-version"}, true, true, true),
             new Option(new String[]{"-c", "--component"}, true, true, true),
             new Option(new String[]{"-n", "--name"}, true, true, true),
             new Option(new String[]{"-v", "--version"}, true, true, true),
@@ -52,7 +52,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private String version;
 
-    private String platformVersion;
+    private String frameworkVersion;
 
     private String socket;
 
@@ -74,6 +74,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     protected EventCallable<R> errorCallable;
 
+    protected List<ComponentWorker> workers;
+
     private ZMQ.Socket router;
 
     private ZMQ.Context context;
@@ -83,6 +85,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private ZMQ.Socket dealer;
 
     private OptionManager optionManager;
+
+    private boolean stopped;
 
     /**
      * Initialize the componentName with the command line arguments
@@ -97,6 +101,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         this.serializer = new MessagePackSerializer();
         this.optionManager = new OptionManager();
         this.optionManager.setOptions(Arrays.asList(APP_OPTIONS));
+        this.workers = new ArrayList<>();
 
         setArgs(args);
 
@@ -111,6 +116,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         }
 
         this.workerEndpoint = Constants.WORKER_ENDPOINT + "_" + UUID.randomUUID().toString();
+    }
+
+    public ZMQ.Context getContext() {
+        return context;
     }
 
     /**
@@ -183,17 +192,17 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      *
      * @return return the version of the platform
      */
-    public String getPlatformVersion() {
-        return platformVersion;
+    public String getFrameworkVersion() {
+        return frameworkVersion;
     }
 
     /**
      * Platform version setter
      *
-     * @param platformVersion
+     * @param frameworkVersion
      */
-    public void setPlatformVersion(String platformVersion) {
-        this.platformVersion = platformVersion;
+    public void setFrameworkVersion(String frameworkVersion) {
+        this.frameworkVersion = frameworkVersion;
     }
 
     /**
@@ -325,7 +334,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                     runShutdown();
                 }
 
-                stopSocket();
+                if (!stopped) {
+                    stopSocket();
+                }
             }
         });
 
@@ -343,6 +354,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
         for (int i = 0; i < workerCount; i++) {
             ComponentWorker componentWorker = new ComponentWorker(workerEndpoint);
+            workers.add(componentWorker);
             componentWorker.setWorkerListener(this);
             componentWorker.start();
         }
@@ -366,9 +378,15 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     public void stopSocket() {
+        for (ComponentWorker worker : this.workers){
+            worker.stopSocket();
+        }
+
         dealer.close();
         router.close();
-//        context.term();
+        context.term();
+
+        this.stopped = true;
     }
 
     public boolean log(String value) {
@@ -386,15 +404,15 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      * @return
      */
     @Override
-    public byte[] onRequestReceived(String componentType, byte[] mappings, byte[] commandBytes) {
+    public byte[][] onRequestReceived(String componentType, byte[] mappings, byte[] commandBytes) {
         try {
             CommandPayload<T> command = serializer.deserialize(commandBytes, getCommandPayloadClass(componentType));
             Mapping mapping = deserializeMappings(mappings);
             S commandReply = processRequest(componentType, mapping, command);
-            return serializer.serializeInBytes(commandReply);
+            return new byte[][]{getReplyMetadata(commandReply), serializer.serializeInBytes(commandReply)};
         } catch (Exception e) {
             Logger.log(e);
-            return new byte[0];
+            return new byte[][]{new byte[]{0x00}, new byte[0]};
         }
     }
 
@@ -450,7 +468,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         command.setComponent(this);
         command.setName(this.getName());
         command.setProtocolVersion(this.getVersion());
-        command.setPlatformVersion(this.getPlatformVersion());
+        command.setPlatformVersion(this.getFrameworkVersion());
         command.setDebug(this.isDebug());
         command.setVariables(this.getVar());
         command.setMapping(mapping);
@@ -477,6 +495,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         return getCommandReplyPayload(componentType, command);
     }
 
+    protected abstract byte[] getReplyMetadata(S reply);
+
     protected abstract Callable<T> getCallable(String componentType);
 
     private void setArgs(String[] args) throws IllegalArgumentException {
@@ -487,10 +507,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
-                case "-p":
-                    this.platformVersion = option.getValue();
-                    if (!this.platformVersion.matches(Constants.VERSION_PATTERN)) {
-                        throw new IllegalArgumentException("Invalid platform version " + this.platformVersion);
+                case "-f":
+                    this.frameworkVersion = option.getValue();
+                    if (!this.frameworkVersion.matches(Constants.VERSION_PATTERN)) {
+                        throw new IllegalArgumentException("Invalid framework version " + this.frameworkVersion);
                     }
                     break;
                 case "-c":
@@ -549,7 +569,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                 ", disableCompactName=" + disableCompactName +
                 ", name='" + name + '\'' +
                 ", version='" + version + '\'' +
-                ", platformVersion='" + platformVersion + '\'' +
+                ", frameworkVersion='" + frameworkVersion + '\'' +
                 ", socket='" + socket + '\'' +
                 ", tcp='" + tcp + '\'' +
                 ", debug=" + debug +

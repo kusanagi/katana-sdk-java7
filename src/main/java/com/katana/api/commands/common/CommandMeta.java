@@ -11,6 +11,7 @@ public class CommandMeta {
     private String scope;
 
     public CommandMeta() {
+        //Empty constructor for serialization
     }
 
     public CommandMeta(CommandMeta other) {

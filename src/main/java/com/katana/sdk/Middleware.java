@@ -15,7 +15,8 @@ import com.katana.sdk.common.Component;
  */
 public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
-    public static final String REQUEST = "request";
+    public static final String REQUEST_STRING = "request";
+
     private Callable<Request> requestCallable;
 
     private Callable<Response> responseCallable;
@@ -54,12 +55,12 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     protected Class<? extends CommandPayload> getCommandPayloadClass(String componentType) {
-        return componentType.equals(REQUEST) ? RequestCommandPayload.class : ResponseCommandPayload.class;
+        return componentType.equals(REQUEST_STRING) ? RequestCommandPayload.class : ResponseCommandPayload.class;
     }
 
     @Override
     protected CommandReplyResult getCommandReplyPayload(String componentType, Api response) {
-        if (componentType.equals(REQUEST)) {
+        if (componentType.equals(REQUEST_STRING)) {
             CallReplyPayload commandReplyPayload = new CallReplyPayload();
             CallReplyPayload.CallCommandReply callCommandReply = new CallReplyPayload.CallCommandReply();
             CallReplyPayload.CallResult callResult = new CallReplyPayload.CallResult();
@@ -82,12 +83,17 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     protected CommandReplyResult getReply(String componentType, Api response) {
-        return componentType.equals(REQUEST) ? ((Request) response).getRequestCall() : ((Response) response).getHttpResponse();
+        return componentType.equals(REQUEST_STRING) ? ((Request) response).getRequestCall() : ((Response) response).getHttpResponse();
+    }
+
+    @Override
+    protected byte[] getReplyMetadata(CommandReplyResult reply) {
+        return new byte[0];
     }
 
     @Override
     protected Callable getCallable(String componentType) {
-        return componentType.equals(REQUEST) ? requestCallable : responseCallable;
+        return componentType.equals(REQUEST_STRING) ? requestCallable : responseCallable;
     }
 
     @Override
