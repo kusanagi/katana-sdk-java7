@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class MockFactory {
 
-    public final String mocksPath = "/com/katana/resources/";
+    public final String mocksPath = "/resources/";
 
     public RequestCommandPayload getRequestCommandPayload() {
         return getFromJson("request_command_payload.json", RequestCommandPayload.class);

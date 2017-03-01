@@ -1,5 +1,6 @@
 package com.katana.sdk.common;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.*;
 import com.katana.api.Error;
 import com.katana.api.commands.ActionCommandPayload;
@@ -23,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -192,7 +194,7 @@ public class ComponentTest {
     }
 
     @Test
-    public void receiveRequestPayload() throws InterruptedException {
+    public void receiveRequestPayload() throws InterruptedException, JsonProcessingException {
         //SETUP
         final CountDownLatch countDownLatch = new CountDownLatch(2);
 
@@ -224,7 +226,7 @@ public class ComponentTest {
         TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
-                    public void onReply(byte[] part1, byte[] reply) {
+                    public void onReply(byte[] part1, byte[] reply) throws IOException {
                         callReplyPayloads[0] = serializer.deserialize(reply, CallReplyPayload.class);
                         countDownLatch.countDown();
                     }
@@ -299,7 +301,7 @@ public class ComponentTest {
     }
 
     @Test
-    public void receiveResponsePayload() throws InterruptedException {
+    public void receiveResponsePayload() throws InterruptedException, JsonProcessingException {
         //SETUP
         final CountDownLatch countDownLatch = new CountDownLatch(2);
 
@@ -329,7 +331,7 @@ public class ComponentTest {
         TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
-                    public void onReply(byte[] part1, byte[] reply) {
+                    public void onReply(byte[] part1, byte[] reply) throws IOException {
                         responseReplyPayloads[0] = serializer.deserialize(reply, ResponseReplyPayload.class);
                         countDownLatch.countDown();
                     }
@@ -386,7 +388,7 @@ public class ComponentTest {
     }
 
     @Test
-    public void receiveActionPayload() throws InterruptedException {
+    public void receiveActionPayload() throws InterruptedException, JsonProcessingException {
         //SETUP
         final CountDownLatch countDownLatch = new CountDownLatch(2);
 
@@ -438,7 +440,7 @@ public class ComponentTest {
         TestClient testClient = new TestClient(ADDR,
                 new TestClient.Listener() {
                     @Override
-                    public void onReply(byte[] part1, byte[] reply) {
+                    public void onReply(byte[] part1, byte[] reply) throws IOException {
                         transportReplyPayloads[0] = serializer.deserialize(reply, TransportReplyPayload.class);
                         countDownLatch.countDown();
                     }
@@ -660,7 +662,7 @@ public class ComponentTest {
     }
 
     @Test
-    public void startupAndShutdown() throws InterruptedException {
+    public void startupAndShutdown() throws InterruptedException, JsonProcessingException {
         //SETUP
         final CountDownLatch countDownLatch = new CountDownLatch(2);
 
@@ -725,7 +727,7 @@ public class ComponentTest {
     }
 
     @Test
-    public void apiMethods() throws InterruptedException {
+    public void apiMethods() throws InterruptedException, JsonProcessingException {
         //SETUP
         final CountDownLatch countDownLatch = new CountDownLatch(1);
 

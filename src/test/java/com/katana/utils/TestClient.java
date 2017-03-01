@@ -2,6 +2,8 @@ package com.katana.utils;
 
 import org.zeromq.ZMQ;
 
+import java.io.IOException;
+
 /**
  * Created by juane on 2/11/17.
  */
@@ -29,7 +31,11 @@ public class TestClient extends Thread {
     @Override
     public void run() {
         open(addr);
-        sendMessage(parts);
+        try {
+            sendMessage(parts);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void open(String tcp) {
@@ -39,7 +45,7 @@ public class TestClient extends Thread {
         this.listen = true;
     }
 
-    public void sendMessage(byte[][] parts) {
+    public void sendMessage(byte[][] parts) throws IOException {
         for (int i = 0; i < parts.length; i++) {
             requester.send(parts[i], i < parts.length - 1 ? zmq.ZMQ.ZMQ_SNDMORE : 0);
         }
@@ -70,6 +76,6 @@ public class TestClient extends Thread {
     }
 
     public interface Listener {
-        void onReply(byte[] part1, byte[] reply);
+        void onReply(byte[] part1, byte[] reply) throws IOException;
     }
 }

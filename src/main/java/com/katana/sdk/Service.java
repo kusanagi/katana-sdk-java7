@@ -56,15 +56,15 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
         byte transactionsByte = 0x00;
         byte downloadByte = 0x00;
         int byteSize = 0;
-        if (!transport.getCalls().isEmpty()) {
+        if (transport.getCalls() != null && !transport.getCalls().isEmpty()) {
             callsByte = 0x01;
             byteSize++;
         }
-        if (!transport.getFiles().isEmpty()) {
+        if (transport.getFiles() != null && !transport.getFiles().isEmpty()) {
             filesByte = 0x02;
             byteSize++;
         }
-        if (!transport.getTransactions().getCommit().isEmpty()) {
+        if (transport.getTransactions() != null && !transport.getTransactions().getCommit().isEmpty()) {
             transactionsByte = 0x03;
             byteSize++;
         }

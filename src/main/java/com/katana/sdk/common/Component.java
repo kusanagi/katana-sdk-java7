@@ -1,8 +1,11 @@
 package com.katana.sdk.common;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.Api;
+import com.katana.api.Error;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
+import com.katana.api.replies.ErrorPayload;
 import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.api.schema.ActionSchema;
 import com.katana.api.schema.ServiceSchema;
@@ -13,6 +16,7 @@ import com.katana.common.utils.Option;
 import com.katana.common.utils.OptionManager;
 import org.zeromq.ZMQ;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -412,11 +416,27 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             return new byte[][]{getReplyMetadata(commandReply), serializer.serializeInBytes(commandReply)};
         } catch (Exception e) {
             Logger.log(e);
-            return new byte[][]{new byte[]{0x00}, new byte[0]};
+            try {
+                return new byte[][]{new byte[]{0x00}, serializer.serializeInBytes(getErrorPayload(e))};
+            } catch (JsonProcessingException e1) {
+                Logger.log(e1);
+                return new byte[][]{new byte[]{0x00}, new byte[0]};
+            }
         }
     }
 
-    private Mapping deserializeMappings(byte[] mappings) {
+    public static ErrorPayload getErrorPayload(Exception e) {
+        Error error = new Error();
+        error.setMessage(e.getMessage());
+        error.setCode(1);
+        error.setStatus("500 Internal Server Error");
+
+        ErrorPayload errorPayload = new ErrorPayload();
+        errorPayload.setError(error);
+        return errorPayload;
+    }
+
+    private Mapping deserializeMappings(byte[] mappings) throws IOException {
         if (mappings == null) {
             return null;
         }

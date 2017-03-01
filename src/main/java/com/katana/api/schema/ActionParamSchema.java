@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class ActionParamSchema {
 
+    @JsonProperty("n")
     private String name;
 
     @JsonProperty("t")
@@ -200,7 +201,6 @@ public class ActionParamSchema {
 
     //SDK Methods
 
-    @JsonIgnore
     public String getName() {
         return this.name;
     }

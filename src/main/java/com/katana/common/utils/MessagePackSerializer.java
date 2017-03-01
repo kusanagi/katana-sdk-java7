@@ -23,23 +23,13 @@ public class MessagePackSerializer implements Serializer {
      * @return
      */
     @Override
-    public <T> T deserialize(byte[] message, Class<T> aClass) {
-        try {
-            return msgPackMapper.readValue(message, aClass);
-        } catch (IOException e) {
-            Logger.log(e);
-            return null;
-        }
+    public <T> T deserialize(byte[] message, Class<T> aClass) throws IOException {
+        return msgPackMapper.readValue(message, aClass);
     }
 
     @Override
-    public <T> T deserialize(String jsonMessage, Class<T> aClass) {
-        try {
-            return objectMapper.readValue(jsonMessage, aClass);
-        } catch (IOException e) {
-            Logger.log(e);
-            return null;
-        }
+    public <T> T deserialize(String jsonMessage, Class<T> aClass) throws IOException {
+        return objectMapper.readValue(jsonMessage, aClass);
     }
 
     /**
@@ -47,24 +37,14 @@ public class MessagePackSerializer implements Serializer {
      * @return
      */
     @Override
-    public byte[] serializeInBytes(Object message) {
-        try {
-            msgPackMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-            return msgPackMapper.writeValueAsBytes(message);
-        } catch (Exception e) {
-            Logger.log(e);
-            return new byte[0];
-        }
+    public byte[] serializeInBytes(Object message) throws JsonProcessingException {
+        msgPackMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        return msgPackMapper.writeValueAsBytes(message);
     }
 
     @Override
-    public String serializeInJson(Object message) {
-        try {
-            return objectMapper.writeValueAsString(message);
-        } catch (JsonProcessingException e) {
-            Logger.log(e);
-            return null;
-        }
+    public String serializeInJson(Object message) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(message);
     }
 
 }

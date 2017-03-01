@@ -27,8 +27,8 @@ install: true
 
 before_script:
 - ./gradlew clean
-- mkdir build build/classes build/classes/test build/classes/test/com build/classes/test/com/katana/
-- cp -r src/test/java/com/katana/resources build/classes/test/com/katana/resources
+- mkdir build build/classes build/classes/test
+- cp -r src/test/java/resources build/classes/test/resources
 
 script:
 - ./gradlew test jacocoTestReport && ./gradlew jar
