@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,14 @@ public class ValueSchemaTest {
     @Test
     public void defaultValues() {
         Assert.assertEquals("string", valueSchema.getType());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        ValueSchema object = mockFactory.getValueSchema();
+        Assert.assertEquals(object, new ValueSchema(object));
+        Assert.assertEquals(570075075, object.hashCode());
     }
 
 }

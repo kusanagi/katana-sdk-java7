@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,14 @@ public class RelationSchemaTest {
     @Test
     public void defaultValues() {
         Assert.assertEquals("one", relationSchema.getType());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        RelationSchema object = mockFactory.getRelationSchema();
+        Assert.assertEquals(object, new RelationSchema(object));
+        Assert.assertEquals(-1826918592, object.hashCode());
     }
 
 }

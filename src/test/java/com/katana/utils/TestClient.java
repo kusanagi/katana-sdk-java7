@@ -1,5 +1,6 @@
 package com.katana.utils;
 
+import com.katana.common.utils.Logger;
 import org.zeromq.ZMQ;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class TestClient extends Thread {
         try {
             sendMessage(parts);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
     }
 

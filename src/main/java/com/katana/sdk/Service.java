@@ -6,6 +6,7 @@ import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.api.replies.common.CommandReplyResult;
+import com.katana.common.Constants;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Component;
 
@@ -51,25 +52,25 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
     @Override
     protected byte[] getReplyMetadata(TransportReplyPayload reply) {
         Transport transport = reply.getCommandReply().getResult().getTransport();
-        byte callsByte = 0x00;
-        byte filesByte = 0x00;
-        byte transactionsByte = 0x00;
-        byte downloadByte = 0x00;
+        byte callsByte = Constants.VOID_BYTE;
+        byte filesByte = Constants.VOID_BYTE;
+        byte transactionsByte = Constants.VOID_BYTE;
+        byte downloadByte = Constants.VOID_BYTE;
         int byteSize = 0;
         if (transport.getCalls() != null && !transport.getCalls().isEmpty()) {
-            callsByte = 0x01;
+            callsByte = Constants.CALL_BYTE;
             byteSize++;
         }
         if (transport.getFiles() != null && !transport.getFiles().isEmpty()) {
-            filesByte = 0x02;
+            filesByte = Constants.FILE_BYTE;
             byteSize++;
         }
         if (transport.getTransactions() != null && !transport.getTransactions().getCommit().isEmpty()) {
-            transactionsByte = 0x03;
+            transactionsByte = Constants.TRANSACTION_BYTE;
             byteSize++;
         }
         if (transport.getDownload() != null) {
-            downloadByte = 0x04;
+            downloadByte = Constants.DOWNLOAD_BYTE;
             byteSize++;
         }
         byte[]replyMetaData;
@@ -81,13 +82,13 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
             position = registerByte(transactionsByte, replyMetaData, position) ? position + 1 : position;
             registerByte(downloadByte, replyMetaData, position);
         } else {
-            replyMetaData = new byte[]{0x00};
+            replyMetaData = new byte[]{Constants.VOID_BYTE};
         }
         return replyMetaData;
     }
 
     private boolean registerByte(byte aByte, byte[] byteArray, int position) {
-        if (aByte != 0x00){
+        if (aByte != Constants.VOID_BYTE){
             byteArray[position] = aByte;
             return true;
         }

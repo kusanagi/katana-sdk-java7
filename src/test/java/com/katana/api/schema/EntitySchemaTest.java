@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +23,14 @@ public class EntitySchemaTest {
         Assert.assertNotEquals(null, entitySchema.getField());
         Assert.assertNotEquals(null, entitySchema.getFields());
         Assert.assertFalse(entitySchema.isValidate());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        EntitySchema object = mockFactory.getEntitySchema();
+        Assert.assertEquals(object, new EntitySchema(object));
+        Assert.assertEquals(2003584586, object.hashCode());
     }
 
 }

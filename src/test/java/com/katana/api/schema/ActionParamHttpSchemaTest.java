@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +22,14 @@ public class ActionParamHttpSchemaTest {
     public void defaultValues() {
         Assert.assertTrue(actionParamHttpSchema.isGateway());
         Assert.assertEquals("query", actionParamHttpSchema.getInput());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        ActionParamHttpSchema object = mockFactory.getActionParamHttpSchema();
+        Assert.assertEquals(object, new ActionParamHttpSchema(object));
+        Assert.assertEquals(-40693173, object.hashCode());
     }
 
 }

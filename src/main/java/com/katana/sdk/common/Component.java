@@ -30,7 +30,7 @@ import java.util.*;
  */
 public abstract class Component<T extends Api, S extends CommandReplyResult, R extends Component> implements ComponentWorker.WorkerListener {
 
-    private static final Option[] APP_OPTIONS = new Option[]{
+    protected static final Option[] APP_OPTIONS = new Option[]{
             new Option(new String[]{"-f", "--framework-version"}, true, true, true),
             new Option(new String[]{"-c", "--component"}, true, true, true),
             new Option(new String[]{"-n", "--name"}, true, true, true),
@@ -349,8 +349,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private void setWorkers() {
         int workerCount = 1;
-        if (this.var.containsKey("workers")) {
-            workerCount = Integer.valueOf(this.var.get("workers"));
+        if (this.var.containsKey(Constants.WORKERS)) {
+            workerCount = Integer.valueOf(this.var.get(Constants.WORKERS));
             workerCount = workerCount < 1 ? 1 : workerCount;
         }
 

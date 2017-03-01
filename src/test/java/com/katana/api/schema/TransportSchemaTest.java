@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +25,14 @@ public class TransportSchemaTest {
         Assert.assertNotEquals(null, transportSchema.getRelations());
         Assert.assertNotEquals(null, transportSchema.getLinks());
         Assert.assertNotEquals(null, transportSchema.getErrors());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        TransportSchema object = mockFactory.getTransportSchema();
+        Assert.assertEquals(object, new TransportSchema(object));
+        Assert.assertEquals(1723662092, object.hashCode());
     }
 
 }

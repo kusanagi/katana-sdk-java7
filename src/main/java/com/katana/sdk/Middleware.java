@@ -7,6 +7,7 @@ import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.ResponseReplyPayload;
 import com.katana.api.replies.common.CommandReplyResult;
+import com.katana.common.Constants;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.common.Component;
 
@@ -14,8 +15,6 @@ import com.katana.sdk.common.Component;
  * Created by juan on 27/08/16.
  */
 public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
-
-    public static final String REQUEST_STRING = "request";
 
     private Callable<Request> requestCallable;
 
@@ -55,12 +54,12 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     protected Class<? extends CommandPayload> getCommandPayloadClass(String componentType) {
-        return componentType.equals(REQUEST_STRING) ? RequestCommandPayload.class : ResponseCommandPayload.class;
+        return componentType.equals(Constants.REQUEST_STRING) ? RequestCommandPayload.class : ResponseCommandPayload.class;
     }
 
     @Override
     protected CommandReplyResult getCommandReplyPayload(String componentType, Api response) {
-        if (componentType.equals(REQUEST_STRING)) {
+        if (componentType.equals(Constants.REQUEST_STRING)) {
             CallReplyPayload commandReplyPayload = new CallReplyPayload();
             CallReplyPayload.CallCommandReply callCommandReply = new CallReplyPayload.CallCommandReply();
             CallReplyPayload.CallResult callResult = new CallReplyPayload.CallResult();
@@ -83,7 +82,7 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     protected CommandReplyResult getReply(String componentType, Api response) {
-        return componentType.equals(REQUEST_STRING) ? ((Request) response).getRequestCall() : ((Response) response).getHttpResponse();
+        return componentType.equals(Constants.REQUEST_STRING) ? ((Request) response).getRequestCall() : ((Response) response).getHttpResponse();
     }
 
     @Override
@@ -93,7 +92,7 @@ public class Middleware extends Component<Api, CommandReplyResult, Middleware> {
 
     @Override
     protected Callable getCallable(String componentType) {
-        return componentType.equals(REQUEST_STRING) ? requestCallable : responseCallable;
+        return componentType.equals(Constants.REQUEST_STRING) ? requestCallable : responseCallable;
     }
 
     @Override

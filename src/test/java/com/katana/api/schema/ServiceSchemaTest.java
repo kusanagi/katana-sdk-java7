@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +23,14 @@ public class ServiceSchemaTest {
         Assert.assertFalse(serviceSchema.isFiles());
         Assert.assertNotEquals(null, serviceSchema.getHttpSchema());
         Assert.assertNotEquals(null, serviceSchema.getActions());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        ServiceSchema object = mockFactory.getServiceSchema();
+        Assert.assertEquals(object, new ServiceSchema(object));
+        Assert.assertEquals(-1047615797, object.hashCode());
     }
 
 }

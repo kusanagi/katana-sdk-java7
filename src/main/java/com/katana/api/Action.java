@@ -100,12 +100,12 @@ public class Action extends Api {
      * @param value Value of the property
      * @return Return true if the operation was successful
      */
-//    public Action setProperty(String name, String value) {
-//        TransportMeta meta = this.transport.getMeta();
-//        Map<String, String> properties = meta.getProperties();
-//        properties.put(name, value);
-//        return this;
-//    }
+    public Action setProperty(String name, String value) {
+        TransportMeta meta = this.transport.getMeta();
+        Map<String, String> properties = meta.getProperties();
+        properties.put(name, value);
+        return this;
+    }
 
     /**
      * Determine if a parameter with the name specified by the REQUIRED case sensitive name argument

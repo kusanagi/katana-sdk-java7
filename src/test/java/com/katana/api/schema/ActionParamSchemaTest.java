@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +28,14 @@ public class ActionParamSchemaTest {
         Assert.assertFalse(actionParamSchema.isExclusiveMin());
         Assert.assertFalse(actionParamSchema.isUniqueItems());
         Assert.assertNotEquals(null, actionParamSchema.getHttpSchema());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        ActionParamSchema object = mockFactory.getActionParamSchema();
+        Assert.assertEquals(object, new ActionParamSchema(object));
+        Assert.assertEquals(-1440566884, object.hashCode());
     }
 
 }

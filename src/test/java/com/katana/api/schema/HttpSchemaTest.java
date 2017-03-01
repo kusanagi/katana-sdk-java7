@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +22,14 @@ public class HttpSchemaTest {
     public void defaultValues() {
         Assert.assertTrue(httpSchema.isGateway());
         Assert.assertEquals("", httpSchema.getBasePath());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        HttpSchema object = mockFactory.getHttpSchema();
+        Assert.assertEquals(object, new HttpSchema(object));
+        Assert.assertEquals(1392240645, object.hashCode());
     }
 
 }

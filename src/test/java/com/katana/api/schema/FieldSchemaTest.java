@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,14 @@ public class FieldSchemaTest {
     @Test
     public void defaultValues() {
         Assert.assertFalse(fieldSchema.isOptional());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        FieldSchema object = mockFactory.getFieldSchema();
+        Assert.assertEquals(object, new FieldSchema(object));
+        Assert.assertEquals(573298909, object.hashCode());
     }
 
 }

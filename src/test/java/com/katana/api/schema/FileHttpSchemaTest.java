@@ -1,5 +1,7 @@
 package com.katana.api.schema;
 
+import com.katana.api.commands.ActionCommandPayload;
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,5 +21,13 @@ public class FileHttpSchemaTest {
     @Test
     public void defaultValues() {
         Assert.assertTrue(fileHttpSchema.isGateway());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        MockFactory mockFactory = new MockFactory();
+        FileHttpSchema object = mockFactory.getFileHttpSchema();
+        Assert.assertEquals(object, new FileHttpSchema(object));
+        Assert.assertEquals(-1405959847, object.hashCode());
     }
 }

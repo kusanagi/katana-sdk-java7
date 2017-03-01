@@ -1,5 +1,6 @@
 package com.katana.api;
 
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,13 @@ public class ErrorTest {
         Assert.assertEquals("Unknown error", error.getMessage());
         Assert.assertEquals(0, error.getCode());
         Assert.assertEquals("500 Internal Server Error", error.getStatus());
+    }
+
+    @Test
+    public void equalsAndHashcode() {
+        Error error = new Error();
+        Assert.assertEquals(error, new Error(error));
+        Assert.assertEquals(-1348468619, error.hashCode());
     }
 
 }
