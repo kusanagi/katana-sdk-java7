@@ -1,5 +1,6 @@
 package com.katana.api.commands.common;
 
+import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,18 +10,19 @@ import org.junit.Test;
  */
 public class CommandMetaTest {
 
-    private CommandMeta object;
+    private MockFactory mockFactory;
 
     @Before
     public void setup() {
-        this.object = new CommandMeta();
+        mockFactory = new MockFactory();
     }
 
     @Test
     public void getAndSet() {
         String scope = "";
-        this.object.setScope(scope);
-        Assert.assertEquals(scope, this.object.getScope());
+        CommandMeta commandMeta = new CommandMeta();
+        commandMeta.setScope(scope);
+        Assert.assertEquals(scope, commandMeta.getScope());
     }
 
 }

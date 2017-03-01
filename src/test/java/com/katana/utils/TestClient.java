@@ -72,7 +72,7 @@ public class TestClient extends Thread {
 
     public void close() {
         requester.close();
-        context.term();
+//        context.term();
     }
 
     public interface Listener {

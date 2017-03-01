@@ -138,6 +138,20 @@
           "n": "posts"
         }
       ],
+      "f": {
+        "avatar": {
+          "m": "image/jpeg",
+          "r": true,
+          "mx": 10240,
+          "ex": true,
+          "mn": 1024,
+          "en": true,
+          "h": {
+            "g": false,
+            "p": "avatar"
+          }
+        }
+      },
       "E": {
         "F": [
           {

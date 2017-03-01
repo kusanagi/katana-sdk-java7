@@ -4,6 +4,7 @@ import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
+import com.katana.api.commands.common.CommandMeta;
 import com.katana.api.schema.ServiceSchema;
 import com.katana.common.utils.Logger;
 import com.katana.common.utils.MessagePackSerializer;
@@ -25,6 +26,20 @@ import java.util.Map;
 public class MockFactory {
 
     public final String mocksPath = "/resources/";
+
+    private <T> T getFromJson(String filename, Class<T> aClass) {
+        try {
+            URL url = getClass().getResource(mocksPath + filename);
+            Path path = Paths.get(url.toURI());
+            byte[] bytes = Files.readAllBytes(path);
+            String command = new String(bytes);
+            Serializer serializer = new MessagePackSerializer();
+            return serializer.deserialize(command, aClass);
+        } catch (IOException | URISyntaxException e) {
+            Logger.log(e);
+            return null;
+        }
+    }
 
     public RequestCommandPayload getRequestCommandPayload() {
         return getFromJson("request_command_payload.json", RequestCommandPayload.class);
@@ -54,17 +69,7 @@ public class MockFactory {
         return getFromJson("mapping.json", ServiceSchema.class);
     }
 
-    private <T> T getFromJson(String filename, Class<T> aClass) {
-        try {
-            URL url = getClass().getResource(mocksPath + filename);
-            Path path = Paths.get(url.toURI());
-            byte[] bytes = Files.readAllBytes(path);
-            String command = new String(bytes);
-            Serializer serializer = new MessagePackSerializer();
-            return serializer.deserialize(command, aClass);
-        } catch (IOException | URISyntaxException e) {
-            Logger.log(e);
-            return null;
-        }
+    public CommandMeta getCommandMeta() {
+        return getRequestCommandPayload().getCommandMeta();
     }
 }

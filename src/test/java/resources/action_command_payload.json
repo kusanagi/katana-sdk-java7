@@ -39,7 +39,7 @@
               ]
             ]
           ],
-          "p": "protocol"
+          "p": {"property": "value"}
         },
         "b": {
           "p": "file:///tmp/document.pdf",

@@ -44,8 +44,6 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             new Option(new String[]{"-q", "--quiet"}, true, false, false),
     };
 
-    public static final String LOCALHOST = "127.0.0.1";
-
     private final String workerEndpoint;
 
     private String componentName;
@@ -373,7 +371,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private void bindSocket() {
         if (this.tcp != null) {
-            router.bind("tcp://" + LOCALHOST + ":" + this.tcp);
+//            router.bind("tcp://" + System.getProperty("katanaip") + ":" + this.tcp);
+            router.bind("tcp://" + "127.0.0.1" + ":" + this.tcp);
         } else {
             router.bind("ipc://" + this.socket);
         }
@@ -388,7 +387,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
         dealer.close();
         router.close();
-        context.term();
+//        context.term();
 
         this.stopped = true;
     }

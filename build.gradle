@@ -4,7 +4,7 @@ version '1.0'
 apply plugin: 'application'
 apply plugin: "jacoco"
 
-applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib"]
+applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib -Dkatanaip=127.0.0.1"]
 
 sourceCompatibility = 1.7
 

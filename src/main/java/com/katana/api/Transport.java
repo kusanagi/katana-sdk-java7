@@ -267,14 +267,16 @@ public class Transport implements CommandReplyResult {
      * @return If a property with the specified name does not exist, and no default is provided, and empty string MUST be
      * returned, otherwise the value of the property will be returned
      */
-//    public String getProperty(String name, String defaultString) {
-//        String property = this.meta.getProperties().get(name);
-//        return property == null ? defaultString == null ? "" : defaultString : property;
-//    }
-//
-//    public Map<String, String> getProperties(){
-//        return this.meta.getProperties();
-//    }
+    @JsonIgnore
+    public String getProperty(String name, String defaultString) {
+        String property = this.meta.getProperties().get(name);
+        return property == null ? defaultString == null ? "" : defaultString : property;
+    }
+
+    @JsonIgnore
+    public Map<String, String> getProperties(){
+        return this.meta.getProperties();
+    }
 
     /**
      * Determine if a file download has been registered for the HTTP response.

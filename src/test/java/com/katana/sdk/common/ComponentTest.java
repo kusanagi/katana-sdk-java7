@@ -41,7 +41,6 @@ import static org.junit.Assert.*;
 public class ComponentTest {
 
     public static final String PORT = "5001";
-    public static final String ADDR = "tcp://127.0.0.1:" + PORT;
 
     public static final SimpleDateFormat STANDARD_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
@@ -51,17 +50,21 @@ public class ComponentTest {
 
     private Component component;
     private Serializer serializer;
+    private String addr;
 
     @Before
     public void setup() {
+        System.setProperty("katanaip", "127.0.0.1");
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
 
+        this.addr = "tcp://" + System.getProperty("katanaip") + ":" + PORT;
+
         String args = "-c service -n name -v 0.2.0 -f 0.1.0 -s socket -t " + PORT + " -d -C request:callback --debug " +
                 "-V var1=value1 -V var2=value2 --var var3=value3";
-        component = new Service(args.split(" "));
+        this.component = new Service(args.split(" "));
 
-        serializer = new MessagePackSerializer();
+        this.serializer = new MessagePackSerializer();
     }
 
     @After
@@ -223,7 +226,7 @@ public class ComponentTest {
         });
         testMiddleware.start();
 
-        TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(addr,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) throws IOException {
@@ -328,7 +331,7 @@ public class ComponentTest {
         });
         testMiddleware.start();
 
-        TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(addr,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) throws IOException {
@@ -437,7 +440,7 @@ public class ComponentTest {
         });
         testService.start();
 
-        TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(addr,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) throws IOException {
@@ -511,12 +514,12 @@ public class ComponentTest {
         assertEquals("1.0.0", actionSchema.getRemoteCalls()[0][2]);
         assertEquals("upload", actionSchema.getRemoteCalls()[0][3]);
         assertEquals(1, actionSchema.getParams().size());
-        assertEquals(0, actionSchema.getFiles().size());
+        assertEquals(1, actionSchema.getFiles().size());
         assertEquals(false, actionSchema.hasFile("image"));
 
         assertEntitySchema(actionSchema.getEntity());
         assertParamSchema(actionSchema.getParamSchema("user_id"));
-//        assertFileSchema(actionSchema.getFileSchema());
+        assertFileSchema(actionSchema.getFileSchema("avatar"));
         assertActionHttpSchema(actionSchema.getHttpSchema());
     }
 
@@ -533,19 +536,19 @@ public class ComponentTest {
     }
 
     private void assertFileSchema(FileSchema fileSchema) {
-//        assertEquals("404 Not Found", fileSchema.getName());
-//        assertEquals("404 Not Found", fileSchema.getMime());
-//        assertEquals("404 Not Found", fileSchema.isRequired());
-//        assertEquals("404 Not Found", fileSchema.getMax());
-//        assertEquals("404 Not Found", fileSchema.isExclusiveMax());
-//        assertEquals("404 Not Found", fileSchema.getMin());
-//        assertEquals("404 Not Found", fileSchema.isExclusiveMin());
-//        assertFileHttpSchema(fileSchema.getHttpSchema());
+        assertEquals("avatar", fileSchema.getName());
+        assertEquals("image/jpeg", fileSchema.getMime());
+        assertEquals(true, fileSchema.isRequired());
+        assertEquals(10240, fileSchema.getMax());
+        assertEquals(true, fileSchema.isExclusiveMax());
+        assertEquals(1024, fileSchema.getMin());
+        assertEquals(true, fileSchema.isExclusiveMin());
+        assertFileHttpSchema(fileSchema.getHttpSchema());
     }
 
     private void assertFileHttpSchema(FileHttpSchema httpSchema) {
-//        assertEquals("404 Not Found", httpSchema.isAccessible());
-//        assertEquals("404 Not Found", httpSchema.getParam());
+        assertEquals(false, httpSchema.isAccessible());
+        assertEquals("avatar", httpSchema.getParam());
     }
 
     private void assertParamSchema(ActionParamSchema paramSchema) {
@@ -597,8 +600,9 @@ public class ComponentTest {
         assertEquals("users", transport.getOriginService()[0]);
         assertEquals("1.0.0", transport.getOriginService()[1]);
         assertEquals("list", transport.getOriginService()[2]);
-//        assertEquals("", transport.Property());
-//        assertEquals("", transport.getProperties());
+        assertEquals("value", transport.getProperty("property", "Unknown Property"));
+        assertEquals("Unknown Property", transport.getProperty("name", "Unknown Property"));
+        assertEquals(1, transport.getProperties().size());
         assertEquals(true, transport.hasDownload());
         assertEquals("path", transport.getDownload().getPath());
         assertEquals("image/jpeg", transport.getDownload().getMime());
@@ -705,7 +709,7 @@ public class ComponentTest {
 //        });
         testService.start();
 
-        TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(addr,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) {
@@ -749,7 +753,7 @@ public class ComponentTest {
         testService.getService().setResource("resource", usersResource);
         testService.start();
 
-        TestClient testClient = new TestClient(ADDR,
+        TestClient testClient = new TestClient(addr,
                 new TestClient.Listener() {
                     @Override
                     public void onReply(byte[] part1, byte[] reply) {

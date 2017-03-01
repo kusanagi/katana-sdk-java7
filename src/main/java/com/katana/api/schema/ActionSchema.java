@@ -258,7 +258,12 @@ public class ActionSchema {
     }
 
     public FileSchema getFileSchema(String name) {
-        return this.files.get(name);
+        if (this.files.containsKey(name)) {
+            FileSchema fileSchema = this.files.get(name);
+            fileSchema.setName(name);
+            return fileSchema;
+        }
+        return null;
     }
 
     @JsonIgnore

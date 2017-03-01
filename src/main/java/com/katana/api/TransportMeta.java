@@ -5,13 +5,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juan on 26/09/16.
  */
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransportMeta extends Meta {
+public class TransportMeta {
+
+    @JsonProperty("v")
+    private String version;
+
+    @JsonProperty("i")
+    private String id;
+
+    @JsonProperty("d")
+    private String datetime;
+
+    @JsonProperty("g")
+    private List<String> gateway;
 
     @JsonProperty("o")
     private String[] origin;
@@ -23,18 +36,53 @@ public class TransportMeta extends Meta {
     private List<List<Object>> fallback;
 
     @JsonProperty("p")
-    private String properties;
+    private Map<String, String> properties;
 
     public TransportMeta() {
         // Default constructor to make possible the serialization of this object.
     }
 
     public TransportMeta(TransportMeta other) {
-        super(other);
+        this.version = other.version;
+        this.id = other.id;
+        this.datetime = other.datetime;
+        this.gateway = other.gateway;
         this.origin = other.origin;
         this.level = other.level;
         this.fallback = other.fallback;
         this.properties = other.properties;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+    public List<String> getGateway() {
+        return gateway;
+    }
+
+    public void setGateway(List<String> gateway) {
+        this.gateway = gateway;
     }
 
     public String[] getOrigin() {
@@ -61,11 +109,11 @@ public class TransportMeta extends Meta {
         this.fallback = fallback;
     }
 
-    public String getProperties() {
+    public Map<String, String> getProperties() {
         return properties;
     }
 
-    public void setProperties(String properties) {
+    public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
 
@@ -77,13 +125,22 @@ public class TransportMeta extends Meta {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
         TransportMeta that = (TransportMeta) o;
 
         if (level != that.level) {
+            return false;
+        }
+        if (version != null ? !version.equals(that.version) : that.version != null) {
+            return false;
+        }
+        if (id != null ? !id.equals(that.id) : that.id != null) {
+            return false;
+        }
+        if (datetime != null ? !datetime.equals(that.datetime) : that.datetime != null) {
+            return false;
+        }
+        if (gateway != null ? !gateway.equals(that.gateway) : that.gateway != null) {
             return false;
         }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
@@ -98,7 +155,10 @@ public class TransportMeta extends Meta {
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = version != null ? version.hashCode() : 0;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (datetime != null ? datetime.hashCode() : 0);
+        result = 31 * result + (gateway != null ? gateway.hashCode() : 0);
         result = 31 * result + Arrays.hashCode(origin);
         result = 31 * result + level;
         result = 31 * result + (fallback != null ? fallback.hashCode() : 0);
@@ -109,10 +169,14 @@ public class TransportMeta extends Meta {
     @Override
     public String toString() {
         return "TransportMeta{" +
-                "origin=" + Arrays.toString(origin) +
+                "version='" + version + '\'' +
+                ", id='" + id + '\'' +
+                ", datetime='" + datetime + '\'' +
+                ", gateway=" + gateway +
+                ", origin=" + Arrays.toString(origin) +
                 ", level=" + level +
                 ", fallback=" + fallback +
-                ", properties='" + properties + '\'' +
+                ", properties=" + properties +
                 '}';
     }
 }
