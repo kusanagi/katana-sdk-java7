@@ -50,9 +50,8 @@ dependencies {
 Getting Started
 ---------------
 
-The **KATANA** SDK is fairly simple to use, the following is an example that uses the SDK to create a **Service** and run an Action:
+The **KATANA** SDK is fairly simple to use, the following is an example that uses the SDK to create a **Service** and run an action:
 
-Service:
 ```java
 import com.katana.api.Action;
 import com.katana.sdk.common.Callable;
@@ -78,7 +77,6 @@ public class Service {
 
 The following is an example that uses the SDK to create a **Middleware** and handle both a **Request** and a **Response**:
 
-Middleware:
 ```java
 import com.katana.api.Request;
 import com.katana.api.Response;
