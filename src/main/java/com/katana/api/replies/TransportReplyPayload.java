@@ -3,7 +3,7 @@ package com.katana.api.replies;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.Transport;
+import com.katana.sdk.Transport;
 import com.katana.api.replies.common.CommandReplyResult;
 
 /**

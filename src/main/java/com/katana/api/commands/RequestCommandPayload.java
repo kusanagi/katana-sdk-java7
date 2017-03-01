@@ -1,7 +1,7 @@
 package com.katana.api.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.Request;
+import com.katana.sdk.Request;
 import com.katana.api.commands.common.CommandPayload;
 
 /**

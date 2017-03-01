@@ -1,6 +1,6 @@
 package com.katana.utils;
 
-import com.katana.common.utils.Logger;
+import com.katana.api.component.utils.Logger;
 import org.zeromq.ZMQ;
 
 import java.io.IOException;

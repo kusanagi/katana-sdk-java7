@@ -1,14 +1,11 @@
 package com.katana.sdk;
 
-import com.katana.api.Action;
-import com.katana.api.Transport;
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.api.replies.common.CommandReplyResult;
-import com.katana.common.Constants;
-import com.katana.sdk.common.Callable;
-import com.katana.sdk.common.Component;
+import com.katana.api.component.Constants;
+import com.katana.api.component.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +70,7 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
             downloadByte = Constants.DOWNLOAD_BYTE;
             byteSize++;
         }
-        byte[]replyMetaData;
+        byte[] replyMetaData;
         if (byteSize > 0) {
             replyMetaData = new byte[byteSize];
             int position = 0;
@@ -88,7 +85,7 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
     }
 
     private boolean registerByte(byte aByte, byte[] byteArray, int position) {
-        if (aByte != Constants.VOID_BYTE){
+        if (aByte != Constants.VOID_BYTE) {
             byteArray[position] = aByte;
             return true;
         }

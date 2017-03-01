@@ -9,7 +9,6 @@ Requirements
 ------------
 
 * KATANA Framework 1.0+
-* Katana-sdk-java7
 * JDK 1.7
 
 Installation
@@ -53,8 +52,8 @@ Getting Started
 The **KATANA** SDK is fairly simple to use, the following is an example that uses the SDK to create a **Service** and run an action:
 
 ```java
-import com.katana.api.Action;
-import com.katana.sdk.common.Callable;
+import com.katana.sdk.Action;
+import com.katana.sdk.Callable;
 import com.katana.sdk.Service;
 
 public class Service {
@@ -78,9 +77,9 @@ public class Service {
 The following is an example that uses the SDK to create a **Middleware** and handle both a **Request** and a **Response**:
 
 ```java
-import com.katana.api.Request;
-import com.katana.api.Response;
-import com.katana.sdk.common.Callable;
+import com.katana.sdk.Request;
+import com.katana.sdk.Response;
+import com.katana.sdk.Callable;
 import com.katana.sdk.Middleware;
 
 public class Middleware {
@@ -117,8 +116,8 @@ The following is a User **Service** with a read action, which retrieves a user f
 ```java
 package com.katana.example;
 
-import com.katana.api.Action;
-import com.katana.sdk.common.Callable;
+import com.katana.sdk.Action;
+import com.katana.sdk.Callable;
 import com.katana.sdk.Service;
 
 import java.util.ArrayList;
@@ -169,9 +168,9 @@ The following is a REST **Middleware** which translates HTTP requests to CRUD ac
 ```java
 package com.katana.example;
 
-import com.katana.api.Request;
+import com.katana.sdk.Request;
 import com.katana.sdk.Middleware;
-import com.katana.sdk.common.Callable;
+import com.katana.sdk.Callable;
 
 import java.util.Iterator;
 import java.util.Map;

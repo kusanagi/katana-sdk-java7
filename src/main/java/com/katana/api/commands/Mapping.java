@@ -1,6 +1,6 @@
 package com.katana.api.commands;
 
-import com.katana.api.schema.ServiceSchema;
+import com.katana.sdk.ServiceSchema;
 
 import java.util.Map;
 

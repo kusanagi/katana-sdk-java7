@@ -2,10 +2,10 @@ package com.katana.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.katana.api.commands.Mapping;
-import com.katana.api.schema.ServiceSchema;
-import com.katana.common.utils.Logger;
-import com.katana.sdk.common.Callable;
-import com.katana.sdk.common.Component;
+import com.katana.sdk.ServiceSchema;
+import com.katana.api.component.utils.Logger;
+import com.katana.sdk.Callable;
+import com.katana.api.component.Component;
 
 import java.util.Map;
 

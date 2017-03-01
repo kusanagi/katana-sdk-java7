@@ -7,9 +7,8 @@ import com.katana.api.commands.common.CommandPayload;
 import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.ResponseReplyPayload;
 import com.katana.api.replies.common.CommandReplyResult;
-import com.katana.common.Constants;
-import com.katana.sdk.common.Callable;
-import com.katana.sdk.common.Component;
+import com.katana.api.component.Constants;
+import com.katana.api.component.Component;
 
 /**
  * Created by juan on 27/08/16.

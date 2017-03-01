@@ -39,7 +39,9 @@
               ]
             ]
           ],
-          "p": {"property": "value"}
+          "p": {
+            "property": "value"
+          }
         },
         "b": {
           "p": "file:///tmp/document.pdf",

@@ -1,7 +1,7 @@
 package com.katana.api.replies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.Error;
+import com.katana.sdk.Error;
 
 /**
  * Created by juan on 26/09/16.

@@ -1,8 +1,5 @@
 package com.katana.api.replies;
 
-import com.katana.api.commands.Mapping;
-import com.katana.utils.MockFactory;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**

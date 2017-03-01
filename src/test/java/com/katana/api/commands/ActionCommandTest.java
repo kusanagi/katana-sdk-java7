@@ -1,7 +1,5 @@
 package com.katana.api.commands;
 
-import com.katana.api.commands.common.CommandMeta;
-import com.katana.api.commands.common.CommandPayload;
 import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Test;
