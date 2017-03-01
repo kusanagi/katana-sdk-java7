@@ -15,15 +15,21 @@ Requirements
 Installation
 ------------
 
+In order to install the SDK you need to install the JDK 1.7: 
+
 #### JDK 1.7:
 
-1. sudo apt-add-repository ppa:webupd8team/java
-2. sudo apt-get update
-3. sudo apt-get install oracle-java7-installer
+1. ```sudo apt-add-repository ppa:webupd8team/java```
+2. ```sudo apt-get update```
+3. ```sudo apt-get install oracle-java7-installer```
 
 #### Build:
 
+The **KATANA** SDK can be built with either Maven or Gradle:
+
 **Maven**:
+
+Add the following in `pom.xml`:
 ```xml
 <dependency>
     <groupId>com.kusanagi</groupId>
@@ -34,29 +40,17 @@ Installation
 
 **Gradle**:
 
-compile group: 'com.kusanagi', name: 'katana-sdk-java7', version: '1.0.0'
-
-
-Configuration
--------------
-
-service config:
-```yaml
-...
-engine:
-  runner: urn:katana:runner:java7
-  path: users.jar
-  process-min: 1
-  process-max: 1
-  tcp: 5001
-  variable:
-    - name: workers
-      value: 5
-...
+Add the following in `build.gradle`:
+```gradle
+dependencies {
+    compile group: 'com.kusanagi', name: 'katana-sdk-java7', version: '1.0.0'
+}
 ```
 
 Getting Started
 ---------------
+
+The **KATANA** SDK is fairly simple to use, the following is an example that uses the SDK to create a **Service** and run an Action:
 
 Service:
 ```java
@@ -64,7 +58,7 @@ import com.katana.api.Action;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.Service;
 
-public class service {
+public class Service {
 
     public static void main(String[] args) {
         Service service = new Service(args);
@@ -82,6 +76,8 @@ public class service {
 }
 ```
 
+The following is an example that uses the SDK to create a **Middleware** and handle both a **Request** and a **Response**:
+
 Middleware:
 ```java
 import com.katana.api.Request;
@@ -89,7 +85,7 @@ import com.katana.api.Response;
 import com.katana.sdk.common.Callable;
 import com.katana.sdk.Middleware;
 
-public class service {
+public class Middleware {
 
     public static void main(String[] args) {
         Middleware middleware = new Middleware(args);
@@ -118,7 +114,8 @@ public class service {
 Examples
 --------
 
-User service with read action:
+The following is a User **Service** with a read action, which retrieves a user from a List and returns the User according to the `user_id` parameter:
+
 ```java
 package com.katana.example;
 
@@ -169,7 +166,8 @@ public class UserService {
 }
 ```
 
-Rest middleware
+The following is a REST **Middleware** which translates HTTP requests to CRUD actions depending on the `verbs` and parameters:
+
 ```java
 package com.katana.example;
 
@@ -232,7 +230,7 @@ Documentation
 
 See the [API](https://kusanagi.io/app#katana/docs/sdk) for a technical reference of the SDK, or read the full [specification](https://kusanagi.io/app#katana/docs/sdk/specification).
 
-For help using the framework see the [documentation](https://kusanagi.io/app#katana/docs), or join the [community](https://kusanagi.io/app#katana/community).
+For help using the framework check the [documentation](https://kusanagi.io/app#katana/docs), or join the [community](https://kusanagi.io/app#katana/community).
 
 Support
 -------
