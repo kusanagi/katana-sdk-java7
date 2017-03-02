@@ -52,14 +52,14 @@ public class Transport implements CommandReplyResult {
     }
 
     public Transport(Transport other) {
-        this.meta = new TransportMeta(other.meta);
-        this.body = new File(other.body);
+        this.meta = other.meta;
+        this.body = other.body;
         this.files = other.files;
         this.data = other.data;
         this.relations = other.relations;
         this.links = other.links;
         this.calls = other.calls;
-        this.transactions = new Transaction(other.transactions);
+        this.transactions = other.transactions;
         this.errors = other.errors;
     }
 

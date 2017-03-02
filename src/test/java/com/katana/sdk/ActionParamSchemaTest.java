@@ -36,6 +36,9 @@ public class ActionParamSchemaTest {
         ActionParamSchema object = mockFactory.getActionParamSchema();
         Assert.assertEquals(object, new ActionParamSchema(object));
         Assert.assertEquals(-1440566884, object.hashCode());
+        Assert.assertEquals(
+                "ActionParamSchema{type='string', format='uuid', arrayFormat='csv', pattern='[a-zA-Z0-9]+', allowEmpty=false, defaultValue='0', required=true, items='{\"user_id\": \"0\"}', max=100, exclusiveMax=true, min=0, exclusiveMin=true, maxLength=500, minLength=3, maxItems=20, minItems=2, uniqueItems=false, enumeration=[0, 1, 2], multipleOf=5, http=ActionParamHttpSchema{gateway=true, input='path', param='user_id'}}",
+                object.toString());
     }
 
 }

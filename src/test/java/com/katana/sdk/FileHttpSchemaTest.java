@@ -29,5 +29,8 @@ public class FileHttpSchemaTest {
         FileHttpSchema object = mockFactory.getFileHttpSchema();
         Assert.assertEquals(object, new FileHttpSchema(object));
         Assert.assertEquals(-1405959847, object.hashCode());
+        Assert.assertEquals(
+                "FileHttpSchema{gateway=false, param='avatar'}",
+                object.toString());
     }
 }

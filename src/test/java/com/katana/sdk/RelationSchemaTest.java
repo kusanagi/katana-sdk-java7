@@ -29,6 +29,9 @@ public class RelationSchemaTest {
         RelationSchema object = mockFactory.getRelationSchema();
         Assert.assertEquals(object, new RelationSchema(object));
         Assert.assertEquals(-1826918592, object.hashCode());
+        Assert.assertEquals(
+                "RelationSchema{name='accounts', type='one'}",
+                object.toString());
     }
 
 }

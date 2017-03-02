@@ -17,7 +17,7 @@ public class RequestCommandPayload extends CommandPayload<Request> {
 
     public RequestCommandPayload(RequestCommandPayload other) {
         super(other);
-        this.command = new RequestCommand(other.command);
+        this.command = other.command;
     }
 
     /**

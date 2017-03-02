@@ -30,6 +30,9 @@ public class HttpSchemaTest {
         HttpSchema object = mockFactory.getHttpSchema();
         Assert.assertEquals(object, new HttpSchema(object));
         Assert.assertEquals(1392240645, object.hashCode());
+        Assert.assertEquals(
+                "HttpSchema{gateway=true, basePath='/1.0.0'}",
+                object.toString());
     }
 
 }

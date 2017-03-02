@@ -16,6 +16,9 @@ public class HttpResponseTest {
         HttpResponse object = mockFactory.getHttpResponse();
         Assert.assertEquals(object, new HttpResponse(object));
         Assert.assertEquals(-2003792283, object.hashCode());
+        Assert.assertEquals(
+                "HttpResponse{protocolVersion='1.1', status='200 OK', headers={Content-Type=[application/json]}, body='{\"result\":\"OK\",\"message\":\"Created new user\"}'}",
+                object.toString());
     }
 
 }

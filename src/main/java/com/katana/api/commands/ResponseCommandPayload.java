@@ -18,7 +18,7 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
 
     public ResponseCommandPayload(ResponseCommandPayload other) {
         super(other);
-        this.command = new ResponseCommand(other.command);
+        this.command = other.command;
     }
 
     /**

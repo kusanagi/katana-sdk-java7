@@ -17,7 +17,7 @@ public class ActionCommandPayload extends CommandPayload<Action> {
 
     public ActionCommandPayload(ActionCommandPayload other) {
         super(other);
-        this.command = new ActionCommand(other.command);
+        this.command = other.command;
     }
 
     /**

@@ -32,6 +32,9 @@ public class FileSchemaTest {
         FileSchema object = mockFactory.getFileSchema();
         Assert.assertEquals(object, new FileSchema(object));
         Assert.assertEquals(-594969070, object.hashCode());
+        Assert.assertEquals(
+                "FileSchema{mime='image/jpeg', required=true, max=10240, exclusiveMax=true, min=1024, exclusiveMin=true, http=FileHttpSchema{gateway=false, param='avatar'}}",
+                object.toString());
     }
 
 }

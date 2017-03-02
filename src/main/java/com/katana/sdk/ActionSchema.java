@@ -276,80 +276,82 @@ public class ActionSchema {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ActionSchema)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         ActionSchema that = (ActionSchema) o;
 
-        if (getTimeout() != that.getTimeout()) {
+        if (timeout != that.timeout) {
             return false;
         }
-        if (isCollection() != that.isCollection()) {
+        if (collection != that.collection) {
             return false;
         }
-        if (isDeprecated() != that.isDeprecated()) {
+        if (deprecated != that.deprecated) {
             return false;
         }
-        if (getEntityPath() != null ? !getEntityPath().equals(that.getEntityPath()) : that.getEntityPath() != null) {
+        if (name != null ? !name.equals(that.name) : that.name != null) {
             return false;
         }
-        if (getPathDelimiter() != null ? !getPathDelimiter().equals(that.getPathDelimiter()) : that.getPathDelimiter() != null) {
+        if (entityPath != null ? !entityPath.equals(that.entityPath) : that.entityPath != null) {
             return false;
         }
-        if (getPrimaryKey() != null ? !getPrimaryKey().equals(that.getPrimaryKey()) : that.getPrimaryKey() != null) {
+        if (pathDelimiter != null ? !pathDelimiter.equals(that.pathDelimiter) : that.pathDelimiter != null) {
             return false;
         }
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getCalls(), that.getCalls())) {
+        if (primaryKey != null ? !primaryKey.equals(that.primaryKey) : that.primaryKey != null) {
             return false;
         }
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(getRemoteCalls(), that.getRemoteCalls())) {
+        if (!Arrays.deepEquals(calls, that.calls)) {
             return false;
         }
-        if (getFallbacks() != null ? !getFallbacks().equals(that.getFallbacks()) : that.getFallbacks() != null) {
+        if (!Arrays.deepEquals(remoteCalls, that.remoteCalls)) {
             return false;
         }
-        if (getHttp() != null ? !getHttp().equals(that.getHttp()) : that.getHttp() != null) {
+        if (fallbacks != null ? !fallbacks.equals(that.fallbacks) : that.fallbacks != null) {
             return false;
         }
-        if (getParams() != null ? !getParams().equals(that.getParams()) : that.getParams() != null) {
+        if (http != null ? !http.equals(that.http) : that.http != null) {
             return false;
         }
-        if (getFiles() != null ? !getFiles().equals(that.getFiles()) : that.getFiles() != null) {
+        if (params != null ? !params.equals(that.params) : that.params != null) {
             return false;
         }
-        if (getEntity() != null ? !getEntity().equals(that.getEntity()) : that.getEntity() != null) {
+        if (files != null ? !files.equals(that.files) : that.files != null) {
             return false;
         }
-        return getRelations() != null ? getRelations().equals(that.getRelations()) : that.getRelations() == null;
-
+        if (entity != null ? !entity.equals(that.entity) : that.entity != null) {
+            return false;
+        }
+        return relations != null ? relations.equals(that.relations) : that.relations == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getTimeout();
-        result = 31 * result + (getEntityPath() != null ? getEntityPath().hashCode() : 0);
-        result = 31 * result + (getPathDelimiter() != null ? getPathDelimiter().hashCode() : 0);
-        result = 31 * result + (getPrimaryKey() != null ? getPrimaryKey().hashCode() : 0);
-        result = 31 * result + (isCollection() ? 1 : 0);
-        result = 31 * result + Arrays.hashCode(getCalls());
-        result = 31 * result + Arrays.hashCode(getRemoteCalls());
-        result = 31 * result + (getFallbacks() != null ? getFallbacks().hashCode() : 0);
-        result = 31 * result + (isDeprecated() ? 1 : 0);
-        result = 31 * result + (getHttp() != null ? getHttp().hashCode() : 0);
-        result = 31 * result + (getParams() != null ? getParams().hashCode() : 0);
-        result = 31 * result + (getFiles() != null ? getFiles().hashCode() : 0);
-        result = 31 * result + (getEntity() != null ? getEntity().hashCode() : 0);
-        result = 31 * result + (getRelations() != null ? getRelations().hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + timeout;
+        result = 31 * result + (entityPath != null ? entityPath.hashCode() : 0);
+        result = 31 * result + (pathDelimiter != null ? pathDelimiter.hashCode() : 0);
+        result = 31 * result + (primaryKey != null ? primaryKey.hashCode() : 0);
+        result = 31 * result + (collection ? 1 : 0);
+        result = 31 * result + Arrays.deepHashCode(calls);
+        result = 31 * result + Arrays.deepHashCode(remoteCalls);
+        result = 31 * result + (fallbacks != null ? fallbacks.hashCode() : 0);
+        result = 31 * result + (deprecated ? 1 : 0);
+        result = 31 * result + (http != null ? http.hashCode() : 0);
+        result = 31 * result + (params != null ? params.hashCode() : 0);
+        result = 31 * result + (files != null ? files.hashCode() : 0);
+        result = 31 * result + (entity != null ? entity.hashCode() : 0);
+        result = 31 * result + (relations != null ? relations.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "ActionSchema{" +
-                "timeout=" + timeout +
+                "name='" + name + '\'' +
+                ", timeout=" + timeout +
                 ", entityPath='" + entityPath + '\'' +
                 ", pathDelimiter='" + pathDelimiter + '\'' +
                 ", primaryKey='" + primaryKey + '\'' +

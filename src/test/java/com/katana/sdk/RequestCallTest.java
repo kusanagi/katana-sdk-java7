@@ -1,5 +1,6 @@
 package com.katana.sdk;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -13,6 +14,9 @@ public class RequestCallTest {
 //        RequestCall object = mockFactory.getRequestCall();
 //        Assert.assertEquals(object, new RequestCall(object));
 //        Assert.assertEquals(-589814501, object.hashCode());
+//        Assert.assertEquals(
+//                "FieldSchema{name='id', type='integer', optional='false'}",
+//                object.toString());
     }
 
 }

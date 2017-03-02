@@ -30,6 +30,9 @@ public class ActionParamHttpSchemaTest {
         ActionParamHttpSchema object = mockFactory.getActionParamHttpSchema();
         Assert.assertEquals(object, new ActionParamHttpSchema(object));
         Assert.assertEquals(-40693173, object.hashCode());
+        Assert.assertEquals(
+                "ActionParamHttpSchema{gateway=true, input='path', param='user_id'}",
+                object.toString());
     }
 
 }

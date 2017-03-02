@@ -20,7 +20,7 @@ public class CommandPayload<T extends Api> {
     }
 
     public CommandPayload(CommandPayload other) {
-        this.commandMeta = new CommandMeta(other.commandMeta);
+        this.commandMeta = other.commandMeta;
     }
 
     /**

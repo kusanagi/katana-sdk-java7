@@ -16,6 +16,9 @@ public class ParamTest {
         Param object = mockFactory.getParam();
         Assert.assertEquals(object, new Param(object));
         Assert.assertEquals(-323295288, object.hashCode());
+        Assert.assertEquals(
+                "Param{name='name', value='James', type='string', exists=false}",
+                object.toString());
     }
 
 }

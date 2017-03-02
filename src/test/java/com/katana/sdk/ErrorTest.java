@@ -29,6 +29,9 @@ public class ErrorTest {
         Error error = new Error();
         Assert.assertEquals(error, new Error(error));
         Assert.assertEquals(-1348468619, error.hashCode());
+        Assert.assertEquals(
+                "Error{message='Unknown error', code='0', status='500 Internal Server Error'}",
+                error.toString());
     }
 
 }

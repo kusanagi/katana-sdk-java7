@@ -132,7 +132,7 @@ public class ActionHttpSchema {
                 ", path='" + path + '\'' +
                 ", method='" + method + '\'' +
                 ", input='" + input + '\'' +
-                ", body='" + body + '\'' +
+                ", body='" + Arrays.toString(body) + '\'' +
                 '}';
     }
 }

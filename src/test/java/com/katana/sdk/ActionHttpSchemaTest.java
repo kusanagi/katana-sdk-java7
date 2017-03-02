@@ -33,6 +33,9 @@ public class ActionHttpSchemaTest {
         ActionHttpSchema object = mockFactory.getActionHttpSchama();
         Assert.assertEquals(object, new ActionHttpSchema(object));
         Assert.assertEquals(-589814501, object.hashCode());
+        Assert.assertEquals(
+                "ActionHttpSchema{gateway=true, path='/posts/{user_id}', method='get', input='path', body='[text/plain]'}",
+                object.toString());
     }
 
 }

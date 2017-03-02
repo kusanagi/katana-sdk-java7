@@ -31,6 +31,9 @@ public class ObjectFieldSchemaTest {
         ObjectFieldSchema object = mockFactory.getObjectFieldSchema();
         Assert.assertEquals(object, new ObjectFieldSchema(object));
         Assert.assertEquals(964088491, object.hashCode());
+        Assert.assertEquals(
+                "ObjectFieldSchema{name='contact', optional=false, field=[FieldSchema{name='id', type='integer', optional='false'}, FieldSchema{name='email', type='null', optional='false'}, FieldSchema{name='location', type='object', optional='false'}], fields=[]}",
+                object.toString());
     }
 
 }

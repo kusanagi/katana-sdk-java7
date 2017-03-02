@@ -29,6 +29,9 @@ public class FieldSchemaTest {
         FieldSchema object = mockFactory.getFieldSchema();
         Assert.assertEquals(object, new FieldSchema(object));
         Assert.assertEquals(573298909, object.hashCode());
+        Assert.assertEquals(
+                "FieldSchema{name='id', type='integer', optional='false'}",
+                object.toString());
     }
 
 }

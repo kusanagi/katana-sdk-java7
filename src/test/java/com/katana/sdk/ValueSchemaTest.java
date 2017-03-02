@@ -29,6 +29,9 @@ public class ValueSchemaTest {
         ValueSchema object = mockFactory.getValueSchema();
         Assert.assertEquals(object, new ValueSchema(object));
         Assert.assertEquals(570075075, object.hashCode());
+        Assert.assertEquals(
+                "ValueSchema{type='integer', value=321}",
+                object.toString());
     }
 
 }
