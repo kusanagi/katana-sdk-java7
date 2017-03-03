@@ -17,6 +17,8 @@ public class Logger {
 
     private static boolean isActive;
 
+    private static String id;
+
     private Logger() {
         // private constructor to block the instantiation of this object
     }
@@ -27,6 +29,10 @@ public class Logger {
 
     public static void deactivate() {
         isActive = false;
+    }
+
+    public static void setId(String id) {
+        Logger.id = id;
     }
 
     public static void log(int type, String message) {
@@ -48,7 +54,7 @@ public class Logger {
         Date date = Calendar.getInstance().getTime();
 
         String time = standardDateFormat.format(date);
-        return time + " [" + getType(type) + "] [SDK] " + message;
+        return time + " [" + getType(type) + "] [SDK] " + message + (id == null ? "" : " |"+id+"|");
     }
 
     private static String getType(int type) {

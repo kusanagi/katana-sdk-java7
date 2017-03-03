@@ -223,7 +223,7 @@ public class Api {
         if (mapping.getServiceSchema().containsKey(name) && mapping.getServiceSchema().get(name).containsKey(version)) {
             return mapping.getServiceSchema().get(name).get(version);
         }
-        return null;
+        throw new IllegalArgumentException("Cannot resolve schema for Service: " + name + " (" + version + ")");
     }
 
     public boolean log(String value) {

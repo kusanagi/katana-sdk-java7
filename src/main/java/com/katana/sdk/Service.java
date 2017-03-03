@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
+import com.katana.api.component.utils.Logger;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.api.component.Constants;
@@ -104,6 +105,7 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
         super.setBaseCommandAttrs(componentType, mapping, command);
         command.setActionName(componentType);
         command.setPath(command.getTransport().getMeta().getGateway().get(1));
+        Logger.setId(command.getTransport().getMeta().getId());
     }
 
     @Override
@@ -116,69 +118,12 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
 
         ServiceSchema serviceSchema = response.getServiceSchema(getName(), getVersion());
         String returnType = serviceSchema.getActionSchema(getName()).getReturnType();
-        transportResult.setReturnObject(getReturnObject(componentType, response.getReturnObject(), returnType));
+        transportResult.setReturnObject(response.getReturnObject());
 
         transportCommandReply.setName(getName());
         transportCommandReply.setResult(transportResult);
         commandReplyPayload.setCommandReply(transportCommandReply);
         return commandReplyPayload;
-    }
-
-    private Object getReturnObject(String action, Object returnObject, String returnType) {
-        if (returnType.equals("boolean")){
-            if (returnObject instanceof Boolean) {
-                return returnObject;
-            } else if (returnObject == null) {
-                return false;
-            } else {
-                throwInvalidTypeException(action);
-            }
-        } else if (returnType.equals("integer")){
-            if (returnObject instanceof Integer){
-                return returnObject;
-            } else if (returnObject == null) {
-                return 0;
-            }  else {
-                throwInvalidTypeException(action);
-            }
-        } else if (returnType.equals("float")){
-            if (returnObject instanceof Float){
-                return returnObject;
-            } else if (returnObject == null) {
-                return 0.0f;
-            }  else {
-                throwInvalidTypeException(action);
-            }
-        } else if (returnType.equals("string")){
-            if (returnObject instanceof String){
-                return returnObject;
-            } else if (returnObject == null) {
-                return "";
-            }  else {
-                throwInvalidTypeException(action);
-            }
-        } else if (returnType.equals("array")){
-            if (returnObject instanceof List){
-                return returnObject;
-            } else if (returnObject == null) {
-                return new ArrayList<>();
-            }  else {
-                throwInvalidTypeException(action);
-            }
-        } else if (returnType.equals("object")){
-            if (returnObject instanceof Map){
-                return returnObject;
-            } else if (returnObject == null) {
-                return new HashMap();
-            }  else {
-                throwInvalidTypeException(action);
-            }
-        }
-        return null;
-    }
-
-    private Object throwInvalidTypeException(String action) {
-        throw new IllegalArgumentException("Invalid return type given in " + getName() + " " + getVersion() + " for action: " + action );
     }
 
     @Override

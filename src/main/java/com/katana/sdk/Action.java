@@ -2,8 +2,16 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.Api;
+import com.katana.api.commands.CallCommandPayload;
+import com.katana.api.component.Serializer;
+import com.katana.api.component.utils.MessagePackSerializer;
+import com.katana.api.replies.ErrorPayload;
+import com.katana.api.replies.ReturnReplyPayload;
+import org.zeromq.ZMQ;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +83,22 @@ public class Action extends Api {
     }
 
     public Object getReturnObject() {
+//        ActionSchema actionSchema = getServiceSchema(getName(), getVersion()).getActionSchema(getActionName());
+//
+//        if (returnType.equals("boolean") && !(returnObject instanceof Boolean)) {
+//            throwInvalidTypeException();
+//        } else if (returnType.equals("integer") && !(returnObject instanceof Integer)){
+//            throwInvalidTypeException();
+//        } else if (returnType.equals("float") && !(returnObject instanceof Float)){
+//            throwInvalidTypeException();
+//        } else if (returnType.equals("string") && !(returnObject instanceof String)){
+//            throwInvalidTypeException();
+//        } else if (returnType.equals("array") && !(returnObject instanceof List)){
+//            throwInvalidTypeException();
+//        } else if (returnType.equals("object") && !(returnObject instanceof Map)){
+//            throwInvalidTypeException();
+//        }
+
         return returnObject;
     }
 
@@ -301,6 +325,9 @@ public class Action extends Api {
      * @return Return false if the Service did not include a file server
      */
     public Action setDownload(File file) {
+        if (!getServiceSchema(getName(), getVersion()).hasFileServer()){
+            throw new IllegalArgumentException("File server not configured: \"" + getName() + "\" (" + getVersion() + ")");
+        }
         this.transport.setBody(file);
         return this;
     }
@@ -631,6 +658,72 @@ public class Action extends Api {
         return this;
     }
 
+    public Object call(String service, String version, String action, List<Param> params, List<File> files) {
+        ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
+
+        // Validate is there are local files
+        if (files != null) {
+            for (File file : files) {
+                if (file.isLocal()) {
+                    throw new IllegalArgumentException("File " + file.getName() + " is local");
+                }
+            }
+        }
+
+        // Build the payload
+        Callee callee = new Callee();
+        callee.setAction(getActionName());
+        callee.setCalleeInfo(new String[]{service, version, action});
+        callee.setTransport(getTransport());
+        callee.setParam(params);
+        callee.setFiles(files);
+
+        CallCommandPayload.CallCommand callCommand = new CallCommandPayload.CallCommand();
+        callCommand.setArgument(callee);
+
+        CallCommandPayload payload = new CallCommandPayload();
+        payload.setCommand(callCommand);
+
+        // Send Payload
+        Serializer serializer = new MessagePackSerializer();
+        ZMQ.Context context = ZMQ.context(1);
+        ZMQ.Socket requester = context.socket(ZMQ.REQ);
+        requester.connect("tcp://" + serviceSchema.getAddress());
+        requester.send(new byte[]{0x01}, zmq.ZMQ.ZMQ_SNDMORE);
+        try {
+            requester.send(serializer.serializeInBytes(payload), 0);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
+        // Receive Reply
+        ZMQ.Socket receiver = context.socket(ZMQ.REP);
+        byte[] response = receiver.recv();
+
+        // Close sockets and terminate context
+        receiver.close();
+        requester.close();
+        context.term();
+
+        // Parse Reply
+        ReturnReplyPayload.ReturnCommandReply returnCommandReply;
+        ErrorPayload errorPayload;
+        try {
+            // Extract return and return it
+            returnCommandReply = serializer.deserialize(response, ReturnReplyPayload.ReturnCommandReply.class);
+            return returnCommandReply.getResult().getReturnObject();
+        } catch (IOException e) {
+            try {
+                // Throw Error Payload as exception
+                errorPayload = serializer.deserialize(response, ErrorPayload.class);
+                throw new IllegalArgumentException(errorPayload.getError().getMessage());
+            } catch (IOException e1) {
+                // Throw serialization exception
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        }
+    }
+
     /**
      * Register a Service call with the REQUIRED service argument as the name of the Service to call, the REQUIRED
      * version argument as the version of the given Service, and the REQUIRED action argument as the name of the action
@@ -692,7 +785,21 @@ public class Action extends Api {
      * @param files   array of files
      * @return Return true if the operation was successful
      */
-    public Action call(String service, String version, String action, List<Param> params, List<File> files) {
+    public Action deferCall(String service, String version, String action, List<Param> params, List<File> files) {
+        ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                    throw new IllegalArgumentException(String.format(
+                            "File server not configured: \"%s\" (%s)",
+                            this.name,
+                            this.version));
+                }
+                this.transport.addFile(this.path, service, version, action, file);
+            }
+        }
+
         Map<String, Map<String, List<Call>>> calls = transport.getCalls();
 
         if (calls == null) {
@@ -715,20 +822,6 @@ public class Action extends Api {
             calls.put(this.name, versionCalls);
         }
 
-        ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
-
-        if (files != null) {
-            for (File file : files) {
-                if (file.isLocal() && !serviceSchema.hasFileServer()) {
-                    throw new IllegalArgumentException(String.format(
-                            "File server not configured: \"%s\" (%s)",
-                            this.name,
-                            this.version));
-                }
-                this.transport.addFile(this.path, service, version, action, file);
-            }
-        }
-
         Call call = new Call();
         call.setName(service);
         call.setVersion(version);
@@ -739,6 +832,20 @@ public class Action extends Api {
     }
 
     public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, int timeout) {
+        ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                    throw new IllegalArgumentException(String.format(
+                            "File server not configured: \"%s\" (%s)",
+                            this.name,
+                            this.version));
+                }
+                this.transport.addFile(address, service, version, action, file);
+            }
+        }
+
         Map<String, Map<String, List<Call>>> calls = transport.getCalls();
         List<Call> callList = new ArrayList<>();
 
@@ -753,20 +860,6 @@ public class Action extends Api {
             }
         } else {
             calls.put(this.name, versionCalls);
-        }
-
-        ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
-
-        if (files != null) {
-            for (File file : files) {
-                if (file.isLocal() && !serviceSchema.hasFileServer()) {
-                    throw new IllegalArgumentException(String.format(
-                            "File server not configured: \"%s\" (%s)",
-                            this.name,
-                            this.version));
-                }
-                this.transport.addFile(address, service, version, action, file);
-            }
         }
 
         Call call = new Call();
@@ -832,7 +925,36 @@ public class Action extends Api {
     }
 
     public void setReturn(Object returnObject) {
+        ServiceSchema serviceSchema = getServiceSchema(getName(), getVersion());
+        ActionSchema actionSchema = serviceSchema.getActionSchema(getActionName());
+
+        if (actionSchema.hasReturn()){
+            throw new IllegalArgumentException("Cannot set a return value in \"" + getName() + "\" (" + getVersion() + ") for action: \"" + getActionName() + "\"");
+        }
+
+        validateReturnObjectType(actionSchema.getReturnType());
+
         this.returnObject = returnObject;
+    }
+
+    private void validateReturnObjectType(String returnType) {
+        if (returnType.equals("boolean") && !(returnObject instanceof Boolean)) {
+                throwInvalidTypeException();
+        } else if (returnType.equals("integer") && !(returnObject instanceof Integer)){
+                throwInvalidTypeException();
+        } else if (returnType.equals("float") && !(returnObject instanceof Float)){
+                throwInvalidTypeException();
+        } else if (returnType.equals("string") && !(returnObject instanceof String)){
+                throwInvalidTypeException();
+        } else if (returnType.equals("array") && !(returnObject instanceof List)){
+                throwInvalidTypeException();
+        } else if (returnType.equals("object") && !(returnObject instanceof Map)){
+                throwInvalidTypeException();
+        }
+    }
+
+    private Object throwInvalidTypeException() {
+        throw new IllegalArgumentException("Invalid return type given in " + getName() + " " + getVersion() + " for action: " + getActionName() );
     }
 
     @Override

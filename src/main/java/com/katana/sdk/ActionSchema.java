@@ -61,13 +61,7 @@ public class ActionSchema {
     private List<RelationSchema> relations;
 
     @JsonProperty("R")
-    private ValueSchema returnObject;
-
-    @JsonProperty("t")
-    private String type;
-
-    @JsonProperty("e")
-    private boolean allowEmpty;
+    private ReturnSchema returnObject;
 
     public ActionSchema() {
         timeout = 1000;
@@ -285,11 +279,11 @@ public class ActionSchema {
     }
 
     public boolean hasReturn() {
-        return this.returnObject != null;
+        return this.returnObject != null || this.returnObject.getType() == null;
     }
 
     public String getReturnType() {
-        return this.type;
+        return this.returnObject.getType();
     }
 
     public Map<String, ActionParamSchema> getParams() {

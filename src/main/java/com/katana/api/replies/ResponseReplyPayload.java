@@ -24,17 +24,11 @@ public class ResponseReplyPayload implements CommandReplyResult {
         this.responseCommandReply = other.responseCommandReply;
     }
 
-    /**
-     * @return
-     */
     @JsonIgnore
     public ResponseCommandReply getCommandReply() {
         return responseCommandReply;
     }
 
-    /**
-     * @param responseCommandReply
-     */
     public void setCommandReply(ResponseCommandReply responseCommandReply) {
         this.responseCommandReply = responseCommandReply;
     }
@@ -66,9 +60,6 @@ public class ResponseReplyPayload implements CommandReplyResult {
                 '}';
     }
 
-    /**
-     * Created by juan on 30/09/16.
-     */
     public static class ResponseCommandReply {
 
         @JsonProperty("n")
@@ -77,32 +68,20 @@ public class ResponseReplyPayload implements CommandReplyResult {
         @JsonProperty("r")
         private ResponseResult responseResult;
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public String getName() {
             return name;
         }
 
-        /**
-         * @param name
-         */
         public void setName(String name) {
             this.name = name;
         }
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public ResponseResult getResult() {
             return responseResult;
         }
 
-        /**
-         * @param commandReplyResponseResult
-         */
         public void setResult(ResponseResult commandReplyResponseResult) {
             this.responseResult = commandReplyResponseResult;
         }
@@ -141,25 +120,16 @@ public class ResponseReplyPayload implements CommandReplyResult {
         }
     }
 
-    /**
-     *
-     */
     public static class ResponseResult {
 
         @JsonProperty("R")
         private HttpResponse httpResponse;
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public HttpResponse getHttpResponse() {
             return httpResponse;
         }
 
-        /**
-         * @param httpResponse
-         */
         public void setHttpResponse(HttpResponse httpResponse) {
             this.httpResponse = httpResponse;
         }
