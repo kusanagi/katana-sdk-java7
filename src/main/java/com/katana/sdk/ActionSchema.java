@@ -33,6 +33,9 @@ public class ActionSchema {
     @JsonProperty("C")
     private String[][] calls;
 
+    @JsonProperty("dc")
+    private String[][] deferredCalls;
+
     @JsonProperty("rc")
     private String[][] remoteCalls;
 
@@ -56,6 +59,15 @@ public class ActionSchema {
 
     @JsonProperty("r")
     private List<RelationSchema> relations;
+
+    @JsonProperty("R")
+    private ValueSchema returnObject;
+
+    @JsonProperty("t")
+    private String type;
+
+    @JsonProperty("e")
+    private boolean allowEmpty;
 
     public ActionSchema() {
         timeout = 1000;
@@ -113,6 +125,14 @@ public class ActionSchema {
 
     public void setCalls(String[][] calls) {
         this.calls = calls;
+    }
+
+    public String[][] getDeferredCalls() {
+        return deferredCalls;
+    }
+
+    public void setDeferredCalls(String[][] deferredCalls) {
+        this.deferredCalls = deferredCalls;
     }
 
     public void setRemoteCalls(String[][] remoteCalls) {
@@ -182,8 +202,18 @@ public class ActionSchema {
         return primaryKey;
     }
 
-    public Object resolveEntity(Object data) {
-        return null;
+    public Object resolveEntity(Map<String, Object> data) {
+        if (this.entityPath == null || this.entityPath.isEmpty()) {
+            return data;
+        }
+        String[] keys = this.entityPath.split(this.pathDelimiter);
+        for (String key : keys) {
+            if (!data.containsKey(key) && data.get(key) instanceof Map) {
+                throw new IllegalArgumentException("Cannot resolve entity");
+            }
+            data = (Map) data.get(key);
+        }
+        return data;
     }
 
     public boolean hasEntity() {
@@ -219,6 +249,23 @@ public class ActionSchema {
         return calls;
     }
 
+    public boolean hasDeferCall(String name, String version, String action) {
+        for (String[] call : this.deferredCalls) {
+            if (call[0].equals(name) && call[1].equals(version) && call[2].equals(action)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasDeferCalls() {
+        return this.deferredCalls != null && this.deferredCalls.length != 0;
+    }
+
+    public String[][] getDeferCalls() {
+        return deferredCalls;
+    }
+
     public boolean hasRemoteCall(String address, String name, String version, String action) {
         for (String[] call : this.remoteCalls) {
             if (call[0].equals(address) && call[1].equals(name) &&
@@ -235,6 +282,14 @@ public class ActionSchema {
 
     public String[][] getRemoteCalls() {
         return remoteCalls;
+    }
+
+    public boolean hasReturn() {
+        return this.returnObject != null;
+    }
+
+    public String getReturnType() {
+        return this.type;
     }
 
     public Map<String, ActionParamSchema> getParams() {

@@ -7,7 +7,9 @@ import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.api.component.Constants;
 import com.katana.api.component.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -109,11 +111,74 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
         TransportReplyPayload commandReplyPayload = new TransportReplyPayload();
         TransportReplyPayload.TransportCommandReply transportCommandReply = new TransportReplyPayload.TransportCommandReply();
         TransportReplyPayload.TransportResult transportResult = new TransportReplyPayload.TransportResult();
+
         transportResult.setTransport((Transport) getReply(componentType, response));
+
+        ServiceSchema serviceSchema = response.getServiceSchema(getName(), getVersion());
+        String returnType = serviceSchema.getActionSchema(getName()).getReturnType();
+        transportResult.setReturnObject(getReturnObject(componentType, response.getReturnObject(), returnType));
+
         transportCommandReply.setName(getName());
         transportCommandReply.setResult(transportResult);
         commandReplyPayload.setCommandReply(transportCommandReply);
         return commandReplyPayload;
+    }
+
+    private Object getReturnObject(String action, Object returnObject, String returnType) {
+        if (returnType.equals("boolean")){
+            if (returnObject instanceof Boolean) {
+                return returnObject;
+            } else if (returnObject == null) {
+                return false;
+            } else {
+                throwInvalidTypeException(action);
+            }
+        } else if (returnType.equals("integer")){
+            if (returnObject instanceof Integer){
+                return returnObject;
+            } else if (returnObject == null) {
+                return 0;
+            }  else {
+                throwInvalidTypeException(action);
+            }
+        } else if (returnType.equals("float")){
+            if (returnObject instanceof Float){
+                return returnObject;
+            } else if (returnObject == null) {
+                return 0.0f;
+            }  else {
+                throwInvalidTypeException(action);
+            }
+        } else if (returnType.equals("string")){
+            if (returnObject instanceof String){
+                return returnObject;
+            } else if (returnObject == null) {
+                return "";
+            }  else {
+                throwInvalidTypeException(action);
+            }
+        } else if (returnType.equals("array")){
+            if (returnObject instanceof List){
+                return returnObject;
+            } else if (returnObject == null) {
+                return new ArrayList<>();
+            }  else {
+                throwInvalidTypeException(action);
+            }
+        } else if (returnType.equals("object")){
+            if (returnObject instanceof Map){
+                return returnObject;
+            } else if (returnObject == null) {
+                return new HashMap();
+            }  else {
+                throwInvalidTypeException(action);
+            }
+        }
+        return null;
+    }
+
+    private Object throwInvalidTypeException(String action) {
+        throw new IllegalArgumentException("Invalid return type given in " + getName() + " " + getVersion() + " for action: " + action );
     }
 
     @Override

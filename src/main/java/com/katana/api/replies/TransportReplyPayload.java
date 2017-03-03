@@ -149,10 +149,12 @@ public class TransportReplyPayload implements CommandReplyResult {
         @JsonProperty("T")
         private Transport transport;
 
+        @JsonProperty("R")
+        private Object returnObject;
+
         /**
          * @return
          */
-        @JsonIgnore
         public Transport getTransport() {
             return transport;
         }
@@ -164,30 +166,43 @@ public class TransportReplyPayload implements CommandReplyResult {
             this.transport = transport;
         }
 
+        public Object getReturnObject() {
+            return returnObject;
+        }
+
+        public void setReturnObject(Object returnObject) {
+            this.returnObject = returnObject;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) {
                 return true;
             }
-            if (!(o instanceof TransportResult)) {
+            if (o == null || getClass() != o.getClass()) {
                 return false;
             }
 
-            TransportResult transportResult = (TransportResult) o;
+            TransportResult that = (TransportResult) o;
 
-            return getTransport().equals(transportResult.getTransport());
-
+            if (transport != null ? !transport.equals(that.transport) : that.transport != null) {
+                return false;
+            }
+            return returnObject != null ? returnObject.equals(that.returnObject) : that.returnObject == null;
         }
 
         @Override
         public int hashCode() {
-            return getTransport().hashCode();
+            int result = transport != null ? transport.hashCode() : 0;
+            result = 31 * result + (returnObject != null ? returnObject.hashCode() : 0);
+            return result;
         }
 
         @Override
         public String toString() {
-            return "CallResult{" +
+            return "TransportResult{" +
                     "transport=" + transport +
+                    ", returnObject=" + returnObject +
                     '}';
         }
     }

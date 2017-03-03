@@ -19,6 +19,9 @@ public class Action extends Api {
     @JsonProperty("T")
     private Transport transport;
 
+    @JsonProperty("R")
+    private Object returnObject;
+
     private String actionName;
 
     /**
@@ -69,6 +72,14 @@ public class Action extends Api {
      */
     public void setTransport(Transport transport) {
         this.transport = transport;
+    }
+
+    public Object getReturnObject() {
+        return returnObject;
+    }
+
+    public void setReturnObject(Object returnObject) {
+        this.returnObject = returnObject;
     }
 
     // SDK Methods
@@ -818,6 +829,10 @@ public class Action extends Api {
         errors.add(error);
 
         return this;
+    }
+
+    public void setReturn(Object returnObject) {
+        this.returnObject = returnObject;
     }
 
     @Override
