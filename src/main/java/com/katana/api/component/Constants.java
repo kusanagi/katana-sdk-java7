@@ -5,6 +5,28 @@ package com.katana.api.component;
  */
 public class Constants {
 
+    /**
+     * Defines that there is no value present, in the first part of the reply
+     */
+    public static final int VOID_BYTE = 0x00;
+
+    /**
+     * Defines that calls to other Services have been registered
+     */
+    public static final int CALL_BYTE = 0x01;
+    /**
+     * Defines that files have been registered, which MUST be processed with the file server
+     */
+    public static final int FILE_BYTE = 0x02;
+    /**
+     * Defines that transactions have been registered
+     */
+    public static final int TRANSACTION_BYTE = 0x03;
+    /**
+     * Defines that a download file has been registered, which MUST be used as the Gateway response
+     */
+    public static final int DOWNLOAD_BYTE = 0x04;
+
     public static final String VERSION_PATTERN = "[a-zA-Z0-9*.,_\\-]+";
 
     public static final String SERVICE = "service";
@@ -15,12 +37,6 @@ public class Constants {
     public static final String IPC = "ipc";
 
     public static final String WORKER_ENDPOINT = "ipc://workers";
-
-    public static final int VOID_BYTE = 0x00;
-    public static final int CALL_BYTE = 0x01;
-    public static final int FILE_BYTE = 0x02;
-    public static final int TRANSACTION_BYTE = 0x03;
-    public static final int DOWNLOAD_BYTE = 0x04;
 
     //Patterns
     public static final String WORKER_ENDPOINT_STRING = "%s_%s";

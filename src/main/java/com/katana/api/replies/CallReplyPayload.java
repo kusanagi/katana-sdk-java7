@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Key;
-import com.katana.sdk.RequestCall;
 import com.katana.api.replies.common.CommandReplyResult;
+import com.katana.sdk.RequestCall;
 
 /**
  * Created by juan on 30/09/16.
@@ -14,6 +14,9 @@ import com.katana.api.replies.common.CommandReplyResult;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CallReplyPayload implements CommandReplyResult {
 
+    /**
+     * The reply to a command
+     */
     @JsonProperty(Key.REPLY_PAYLOAD_COMMAND_REPLY)
     private CallCommandReply callCommandReply;
 
@@ -25,17 +28,11 @@ public class CallReplyPayload implements CommandReplyResult {
         this.callCommandReply = other.callCommandReply;
     }
 
-    /**
-     * @return
-     */
     @JsonIgnore
     public CallCommandReply getCommandReply() {
         return callCommandReply;
     }
 
-    /**
-     * @param callCommandReply
-     */
     public void setCommandReply(CallCommandReply callCommandReply) {
         this.callCommandReply = callCommandReply;
     }
@@ -72,39 +69,32 @@ public class CallReplyPayload implements CommandReplyResult {
      */
     public static class CallCommandReply {
 
+        /**
+         * The name of the command processing the reply
+         */
         @JsonProperty(Key.COMMAND_REPLY_NAME)
         private String name;
 
-        public static final String _callResult = "r";
-    @JsonProperty(_callResult)
+        /**
+         * The data provided by the component for the reply
+         */
+        @JsonProperty(Key.COMMAND_REPLY_RESULT)
         private CallResult callResult;
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public String getName() {
             return name;
         }
 
-        /**
-         * @param name
-         */
         public void setName(String name) {
             this.name = name;
         }
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public CallResult getResult() {
             return callResult;
         }
 
-        /**
-         * @param commandReplyCallResult
-         */
         public void setResult(CallResult commandReplyCallResult) {
             this.callResult = commandReplyCallResult;
         }
@@ -143,25 +133,16 @@ public class CallReplyPayload implements CommandReplyResult {
         }
     }
 
-    /**
-     *
-     */
     public static class CallResult {
 
         @JsonProperty(Key.CALL_RESULT_REQUEST_CALL)
         private RequestCall requestCall;
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public RequestCall getRequestCall() {
             return requestCall;
         }
 
-        /**
-         * @param requestCall
-         */
         public void setRequestCall(RequestCall requestCall) {
             this.requestCall = requestCall;
         }

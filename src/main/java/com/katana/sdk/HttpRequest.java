@@ -17,32 +17,61 @@ import java.util.Map;
  * Katana Java SDK
  */
 public class HttpRequest {
+    /**
+     * The HTTP version of the request
+     */
     @JsonProperty(Key.HTTP_REQUEST_PROTOCOL_VERSION)
     private String protocolVersion;
 
+    /**
+     * The HTTP method used for the request
+     */
     @JsonProperty(Key.HTTP_REQUEST_METHOD)
     private String method;
 
+    /**
+     * The URL used for the request
+     */
     @JsonProperty(Key.HTTP_REQUEST_URL)
     private String url;
 
+    /**
+     * An object, where each property is the name of the query string parameter, and the value an array with the
+     * parameter value(s), if no query string exists this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.HTTP_REQUEST_QUERY_PARAMS_ARRAY)
     private Map<String, List<String>> queryParamsArray;
 
+    /**
+     * An object, where each property is the name of the post data parameter, and the value an array with the parameter
+     * value(s), if no post data exists this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.HTTP_REQUEST_POST_PARAMS_ARRAY)
     private Map<String, List<String>> postParamsArray;
 
+    /**
+     * An object, where each property is the name of the HTTP header, and the value the header value, if no headers
+     * exist this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.HTTP_REQUEST_HEADERS)
     private Map<String, List<String>> headers;
 
+    /**
+     * The contents of the HTTP request body, if no content exists in the body an empty string MUST be assumed
+     */
     @JsonProperty(Key.HTTP_REQUEST_BODY)
     private String body;
 
+    /**
+     * An array of File objects which were uploaded in the request, if no files were uploaded this property SHOULD NOT
+     * be defined
+     */
     @JsonProperty(Key.HTTP_REQUEST_FILES)
     private List<File> files;
 
     public HttpRequest() {
         // Default constructor to make possible the serialization of this object.
+        this.body = "";
     }
 
     public HttpRequest(HttpRequest other) {
@@ -56,58 +85,34 @@ public class HttpRequest {
         this.files = other.files;
     }
 
-    /**
-     * @param protocolVersion
-     */
     public void setProtocolVersion(String protocolVersion) {
         this.protocolVersion = protocolVersion;
     }
 
-    /**
-     * @param method
-     */
     public void setMethod(String method) {
         this.method = method;
     }
 
-    /**
-     * @param url
-     */
     public void setUrl(String url) {
         this.url = url;
     }
 
-    /**
-     * @param queryParamsArray
-     */
     public void setQueryParamsArray(Map<String, List<String>> queryParamsArray) {
         this.queryParamsArray = queryParamsArray;
     }
 
-    /**
-     * @param postParamsArray
-     */
     public void setPostParamsArray(Map<String, List<String>> postParamsArray) {
         this.postParamsArray = postParamsArray;
     }
 
-    /**
-     * @param headers
-     */
     public void setHeaders(Map<String, List<String>> headers) {
         this.headers = headers;
     }
 
-    /**
-     * @param body
-     */
     public void setBody(String body) {
         this.body = body;
     }
 
-    /**
-     * @param files
-     */
     public void setFiles(List<File> files) {
         this.files = files;
     }
@@ -148,7 +153,7 @@ public class HttpRequest {
             return new URL(this.url).getProtocol();
         } catch (MalformedURLException e) {
             Logger.log(e);
-            return null;
+            return "";
         }
     }
 
@@ -161,7 +166,7 @@ public class HttpRequest {
             return new URL(this.url).getHost();
         } catch (MalformedURLException e) {
             Logger.log(e);
-            return null;
+            return "";
         }
     }
 
@@ -174,7 +179,7 @@ public class HttpRequest {
             return new URL(this.url).getPath();
         } catch (MalformedURLException e) {
             Logger.log(e);
-            return null;
+            return "";
         }
     }
 

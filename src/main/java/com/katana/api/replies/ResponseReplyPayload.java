@@ -14,6 +14,9 @@ import com.katana.api.replies.common.CommandReplyResult;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseReplyPayload implements CommandReplyResult {
 
+    /**
+     * The reply to a command
+     */
     @JsonProperty(Key.REPLY_PAYLOAD_COMMAND_REPLY)
     private ResponseCommandReply responseCommandReply;
 
@@ -63,9 +66,15 @@ public class ResponseReplyPayload implements CommandReplyResult {
 
     public static class ResponseCommandReply {
 
+        /**
+         * The name of the command processing the reply
+         */
         @JsonProperty(Key.COMMAND_REPLY_NAME)
         private String name;
 
+        /**
+         * The data provided by the component for the reply
+         */
         @JsonProperty(Key.COMMAND_REPLY_RESULT)
         private ResponseResult responseResult;
 

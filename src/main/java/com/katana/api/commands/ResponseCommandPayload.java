@@ -10,6 +10,9 @@ import com.katana.api.commands.common.CommandPayload;
  */
 public class ResponseCommandPayload extends CommandPayload<Response> {
 
+    /**
+     * The semantics of the command
+     */
     @JsonProperty(Key.COMMAND_PAYLOAD_COMMAND)
     private ResponseCommand command;
 
@@ -22,17 +25,11 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
         this.command = other.command;
     }
 
-    /**
-     * @return
-     */
     @Override
     public ResponseCommand getCommand() {
         return command;
     }
 
-    /**
-     * @param command
-     */
     public void setCommand(ResponseCommand command) {
         this.command = command;
     }
@@ -69,11 +66,11 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
                 "} " + super.toString();
     }
 
-    /**
-     * Created by juan on 26/09/16.
-     */
     public static class ResponseCommand extends Command<Response> {
 
+        /**
+         * The key/value arguments for the command, if no arguments exist this property SHOULD NOT be defined
+         */
         @JsonProperty(Key.COMMAND_ARGUMENT)
         private Response argument;
 
@@ -86,17 +83,11 @@ public class ResponseCommandPayload extends CommandPayload<Response> {
             this.argument = new Response(other.argument);
         }
 
-        /**
-         * @return
-         */
         @Override
         public Response getArgument() {
             return argument;
         }
 
-        /**
-         * @param argument
-         */
         public void setArgument(Response argument) {
             this.argument = argument;
         }

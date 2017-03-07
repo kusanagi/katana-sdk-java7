@@ -8,15 +8,28 @@ import com.katana.api.component.Key;
  */
 public class Param {
 
+    /**
+     * The name of the parameter
+     */
     @JsonProperty(Key.PARAM_NAME)
     private String name;
 
+    /**
+     *  The value of the variable, which MAY be converted from the configuration based on the given type value, or null
+     *  if the variable for the given name does not exist
+     */
     @JsonProperty(Key.PARAM_VALUE)
     private Object value;
 
+    /**
+     * The data type of the variable, which MAY be "null", "boolean", "integer", "float", "string", "array" or "object"
+     */
     @JsonProperty(Key.PARAM_TYPE)
     private String type;
 
+    /**
+     * Determines if the parameter was provided in the request
+     */
     private boolean exists;
 
     public Param() {
@@ -58,22 +71,41 @@ public class Param {
 
     // SDK Methods
 
+    /**
+     * @return the name of the parameter.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the value of the parameter, cast to the native data type defined for the parameter. The data type SHOULD
+     * be limited to the data types available.
+     */
     public Object getValue() {
         return value;
     }
 
+    /**
+     * @return the data type of the parameter.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * determine if the parameter exists in the request.
+     * @return true if the parameter exists in the request.
+     */
     public boolean exists() {
         return exists;
     }
 
+    /**
+     * @param name Parameter name
+     * @return a new instance of the Param object, which MUST use the existing attributes of the current instance, but
+     * MUST update the name of the parameter with the given value of the REQUIRED name argument.
+     */
     public Param copyWithName(String name) {
         Param param = new Param();
         param.setName(name);
@@ -83,6 +115,11 @@ public class Param {
         return param;
     }
 
+    /**
+     * @param value Parameter value
+     * @return a new instance of the Param object, which MUST use the existing attributes of the current instance, but
+     * MUST update the value of the parameter with the given value of the REQUIRED value argument.
+     */
     public Param copyWithValue(String value) {
         Param param = new Param();
         param.setName(this.name);
@@ -92,6 +129,11 @@ public class Param {
         return param;
     }
 
+    /**
+     * @param type Parameter type
+     * @return a new instance of the Param object, which MUST use the existing attributes of the current instance, but
+     * MUST update the data type of the parameter with the given value of the REQUIRED type argument.
+     */
     public Param copyWithType(String type) {
         Param param = new Param();
         param.setName(this.name);

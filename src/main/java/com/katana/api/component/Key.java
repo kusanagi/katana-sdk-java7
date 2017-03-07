@@ -86,9 +86,10 @@ public class Key {
     public static final String CALL_NAME = "n";
     public static final String CALL_VERSION = "v";
     public static final String CALL_ACTION = "a";
-    public static final String CALL_PARAMS = "p";
+    public static final String CALL_CALLER = "C";
     public static final String CALL_GATEWAY = "g";
     public static final String CALL_TIMEOUT = "t";
+    public static final String CALL_PARAMS = "p";
 
     //Callee
     public static final String CALLEE_ACTION = "action";
@@ -207,7 +208,7 @@ public class Key {
     public static final String SERVICE_TRANSACTION_NAME = "n";
     public static final String SERVICE_TRANSACTION_VERSION = "v";
     public static final String SERVICE_TRANSACTION_ACTION = "a";
-    public static final String SERVICE_TRANSACTION_CALLEE = "c";
+    public static final String SERVICE_TRANSACTION_CALLER = "c";
     public static final String SERVICE_TRANSACTION_PARAMS = "p";
 
     //Transaction
@@ -244,6 +245,7 @@ public class Key {
     //Value Schema
     public static final String VALUE_SCHEMA_TYPE = "t";
     public static final String VALUE_SCHEMA_VALUE = "v";
+    public static final String VALUE_SCHEMA_ITEMS = "i";
 
     private Key(){
         // private constructor to block the instantiation of this object

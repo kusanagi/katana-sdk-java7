@@ -8,12 +8,22 @@ import com.katana.api.component.Key;
  */
 public class FieldSchema {
 
+    /**
+     * Defines the name of the field
+     */
     @JsonProperty(Key.FIELD_SCHEMA_NAME)
     private String name;
 
+    /**
+     * Defines the data type of the field which MUST be either "null", "boolean", "integer", "number", "string", "array"
+     * or "object"
+     */
     @JsonProperty(Key.FIELD_SCHEMA_TYPE)
     private String type;
 
+    /**
+     * Defines if the field is optional, defaults to false
+     */
     @JsonProperty(Key.FIELD_SCHEMA_OPTIONAL)
     private boolean optional;
 

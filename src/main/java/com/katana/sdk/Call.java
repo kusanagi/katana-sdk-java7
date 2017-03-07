@@ -10,21 +10,45 @@ import java.util.List;
  */
 public class Call {
 
+    /**
+     * The name of the Service to call
+     */
     @JsonProperty(Key.CALL_NAME)
     private String name;
 
+    /**
+     * The version of the Service to call
+     */
     @JsonProperty(Key.CALL_VERSION)
     private String version;
 
+    /**
+     * The name of the action to call
+     */
     @JsonProperty(Key.CALL_ACTION)
     private String action;
 
+    /**
+     * The name of the action that registers the call
+     */
+    @JsonProperty(Key.CALL_CALLER)
+    private String caller;
+
+    /**
+     * Array of objects, each of which define a parameter for the Service call
+     */
     @JsonProperty(Key.CALL_PARAMS)
     private List<Param> params;
 
+    /**
+     * The public address of a Gateway for the Service in another Realm
+     */
     @JsonProperty(Key.CALL_GATEWAY)
     private String gateway;
 
+    /**
+     * The timeout in milliseconds for the call to a Service in another Realm
+     */
     @JsonProperty(Key.CALL_TIMEOUT)
     private int timeout;
 
@@ -63,6 +87,14 @@ public class Call {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public String getCaller() {
+        return caller;
+    }
+
+    public void setCaller(String caller) {
+        this.caller = caller;
     }
 
     public List<Param> getParams() {

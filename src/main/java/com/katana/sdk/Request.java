@@ -8,6 +8,7 @@ import com.katana.api.component.Constants;
 import com.katana.api.component.Key;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +16,21 @@ import java.util.Map;
  * Created by juan on 27/08/16.
  */
 public class Request extends Api {
+    /**
+     * The meta-information about the payload
+     */
     @JsonProperty(Key.REQUEST_META)
     private Meta meta;
 
+    /**
+     * The semantics of the request
+     */
     @JsonProperty(Key.REQUEST_HTTP_REQUEST)
     private HttpRequest httpRequest;
 
+    /**
+     * The semantics of the Service to contact
+     */
     @JsonProperty(Key.REQUEST_REQUEST_CALL)
     private RequestCall requestCall;
 
@@ -47,60 +57,57 @@ public class Request extends Api {
         this.requestCall = other.requestCall;
     }
 
-    /**
-     * @return
-     */
     public Meta getMeta() {
         return this.meta;
     }
 
-    /**
-     * @param meta
-     */
     public void setMeta(Meta meta) {
         this.meta = meta;
     }
 
-    /**
-     * @param httpRequest
-     */
     public void setHttpRequest(HttpRequest httpRequest) {
         this.httpRequest = httpRequest;
     }
 
-    /**
-     * @return
-     */
     public RequestCall getRequestCall() {
         return this.requestCall;
     }
 
-    /**
-     * @param requestCall
-     */
     public void setRequestCall(RequestCall requestCall) {
         this.requestCall = requestCall;
     }
 
     // SDK Methods
 
+    /**
+     * return the protocol implemented by the Gateway component handling the request.
+     * @return the protocol.
+     */
     @JsonIgnore
     public String getGatewayProtocol() {
         return this.meta.getProtocol();
     }
 
+    /**
+     * return the public address of the Gateway component handling the request.
+     * @return the public address
+     */
     @JsonIgnore
     public String getGatewayAddress() {
         return this.meta.getGateway().get(1);
     }
 
+    /**
+     * return the IP address and port of the client which sent the request.
+     * @return the IP address
+     */
     @JsonIgnore
     public String getClientAddress() {
         return this.meta.getClient();
     }
 
     /**
-     * @return Return the name currently defined for the Service, or an empty string if not defined.
+     * @return the name currently defined for the Service, or an empty string if not defined.
      */
     @JsonIgnore
     public String getServiceName() {
@@ -156,6 +163,11 @@ public class Request extends Api {
         return this;
     }
 
+    /**
+     * determine if a parameter with the name specified by the REQUIRED case sensitive name argument has been defined.
+     * @param name param name
+     * @return true if the param has been defined
+     */
     public boolean hasParam(String name) {
         if (this.requestCall.getParams() == null) {
             return false;
@@ -168,19 +180,34 @@ public class Request extends Api {
         return false;
     }
 
+    /**
+     * get the parameter with the REQUIRED case sensitive name argument, and which MUST be returned as a Param object.
+     *
+     * If the parameter was not provided in the request a Param object MUST be returned with the exists property set to
+     * false.
+     * @param name param name
+     * @return the param with the name argument
+     */
     @JsonIgnore
     public Param getParam(String name) {
         if (this.requestCall.getParams() == null) {
-            return null;
+            this.requestCall.setParams(new ArrayList<Param>());
         }
         for (Param param : this.requestCall.getParams()) {
             if (param.getName().equals(name)) {
                 return param;
             }
         }
-        return null;
+        Param param = new Param();
+        param.setName(name);
+        param.setExists(false);
+        return param;
     }
 
+    /**
+     * @return all the parameters and which MUST be returned as an array of Param objects. If no parameters are found an
+     * empty array MUST be returned.
+     */
     @JsonIgnore
     public List<Param> getParams() {
         if (this.requestCall.getParams() == null) {
@@ -190,6 +217,11 @@ public class Request extends Api {
         }
     }
 
+    /**
+     * add the parameter provided as the param argument.
+     * @param param param to be added
+     * @return the instance of the request
+     */
     public Request setParam(Param param) {
         if (this.requestCall == null) {
             this.requestCall.setParams(new ArrayList<Param>());
@@ -198,6 +230,17 @@ public class Request extends Api {
         return this;
     }
 
+    /**
+     * create a new parameter with the REQUIRED name argument, and which MUST be returned as a Param object.
+     *
+     * If the OPTIONAL value or type arguments are specified these MUST also be applied to the Param object. The value of
+     * the type argument MUST be either "null", "boolean", "integer", "float", "string", "array" or "object", where any
+     * other value MUST be accepted as "string".
+     * @param name parameter name
+     * @param value parameter value
+     * @param type parameter data type
+     * @return an instance of the parameter
+     */
     public Param newParam(String name, String value, String type) {
         Param param = new Param();
         param.setName(name);

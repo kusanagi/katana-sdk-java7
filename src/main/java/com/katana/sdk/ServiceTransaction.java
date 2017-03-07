@@ -10,18 +10,33 @@ import java.util.List;
  */
 public class ServiceTransaction {
 
+    /**
+     * The name of the Service
+     */
     @JsonProperty(Key.SERVICE_TRANSACTION_NAME)
     private String name;
 
+    /**
+     * The version of the Service
+     */
     @JsonProperty(Key.SERVICE_TRANSACTION_VERSION)
     private String version;
 
+    /**
+     * The name of the action to call
+     */
     @JsonProperty(Key.SERVICE_TRANSACTION_ACTION)
     private String action;
 
-    @JsonProperty(Key.SERVICE_TRANSACTION_CALLEE)
-    private String callee;
+    /**
+     * The name of the action that registers the transaction
+     */
+    @JsonProperty(Key.SERVICE_TRANSACTION_CALLER)
+    private String caller;
 
+    /**
+     * Array of objects, each of which define a parameter for the Service call
+     */
     @JsonProperty(Key.SERVICE_TRANSACTION_PARAMS)
     private List<Param> params;
 
@@ -33,7 +48,7 @@ public class ServiceTransaction {
         this.name = other.name;
         this.version = other.version;
         this.action = other.action;
-        this.callee = other.callee;
+        this.caller = other.caller;
         this.params = other.params;
     }
 
@@ -61,12 +76,12 @@ public class ServiceTransaction {
         this.action = action;
     }
 
-    public String getCallee() {
-        return callee;
+    public String getCaller() {
+        return caller;
     }
 
-    public void setCallee(String callee) {
-        this.callee = callee;
+    public void setCaller(String caller) {
+        this.caller = caller;
     }
 
     public List<Param> getParams() {
@@ -97,7 +112,7 @@ public class ServiceTransaction {
         if (action != null ? !action.equals(that.action) : that.action != null) {
             return false;
         }
-        if (callee != null ? !callee.equals(that.callee) : that.callee != null) {
+        if (caller != null ? !caller.equals(that.caller) : that.caller != null) {
             return false;
         }
         return params != null ? params.equals(that.params) : that.params == null;
@@ -108,7 +123,7 @@ public class ServiceTransaction {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (version != null ? version.hashCode() : 0);
         result = 31 * result + (action != null ? action.hashCode() : 0);
-        result = 31 * result + (callee != null ? callee.hashCode() : 0);
+        result = 31 * result + (caller != null ? caller.hashCode() : 0);
         result = 31 * result + (params != null ? params.hashCode() : 0);
         return result;
     }
@@ -119,7 +134,7 @@ public class ServiceTransaction {
                 "name='" + name + '\'' +
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +
-                ", callee='" + callee + '\'' +
+                ", caller='" + caller + '\'' +
                 ", params=" + params +
                 '}';
     }

@@ -18,20 +18,42 @@ import java.nio.file.Paths;
  */
 public class File {
 
+
+    /**
+     * File name
+     */
     private String name;
 
+    /**
+     * The host and path to the file, which MUST be formed by the file server of the component and the file path; It
+     * MUST also include the "http://" protocol scheme. In case of files being uploaded by a service, path would be the
+     * full path to the local file, including the "file://" protocol scheme
+     */
     @JsonProperty(Key.FILE_PATH)
     private String path;
 
+    /**
+     * The access token, as defined in the configuration for the component, which MUST NOT exist when a file is being
+     * uploaded
+     */
     @JsonProperty(Key.FILE_MIME)
     private String mime;
 
+    /**
+     * The original filename of the upload to the Gateway or file provided by a Service, which MUST NOT contain the path
+     */
     @JsonProperty(Key.FILE_FILENAME)
     private String filename;
 
+    /**
+     * The size of the file in bytes
+     */
     @JsonProperty(Key.FILE_SIZE)
     private String size;
 
+    /**
+     * The mime-type of the file content, which SHOULD default to "text/plain"
+     */
     @JsonProperty(Key.FILE_TOKEN)
     private String token;
 
@@ -94,35 +116,61 @@ public class File {
 
     //SDK Methods
 
+    /**
+     * @return the name of the parameter for the file.
+     */
     @JsonIgnore
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the full path for the file, if local the path MUST begin with "file://", otherwise "http://".
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * @return  the MIME type of the file.
+     */
     public String getMime() {
         return mime;
     }
 
+    /**
+     * @return the filename of the file, but MUST NOT include the file path.
+     */
     public String getFilename() {
         return filename;
     }
 
+    /**
+     * @return the size of the file in bytes.
+     */
     public String getSize() {
         return size;
     }
 
+    /**
+     * @return the token for the file server where the file is hosted, otherwise it MUST return an
+     */
     public String getToken() {
         return token;
     }
 
+    /**
+     * determine if a path is defined for the file.
+     * @return true if a path is defined for the file.
+     */
     public boolean exists() {
         return this.exists;
     }
 
+    /**
+     * determine if a local file beggining with "file://" has been defined for the file.
+     * @return true if a local file beggining with "file://" has been defined for the file.
+     */
     @JsonIgnore
     public boolean isLocal() {
         try {
@@ -134,6 +182,12 @@ public class File {
         }
     }
 
+    /**
+     * @return the contents of the file. If the path property begins with "file://", the contents MUST be accessed from
+     * the file at that path on the local file system. If the path property begins with "http://", the contents of the
+     * file MUST be accessed by making a GET request to that path, providing the value of the token property in a header
+     * of the HTTP request named "X-Token".
+     */
     public String read() {
         try {
             return new String(Files.readAllBytes(Paths.get(this.path)));
@@ -143,6 +197,11 @@ public class File {
         }
     }
 
+    /**
+     * @param name File name
+     * @return a new instance of the File object, which MUST use the existing attributes of the current instance, but
+     * MUST update the name to identify the file in the request with the given value of the REQUIRED name argument.
+     */
     public File copyWithName(String name) {
         File file = new File();
         file.setName(name);
@@ -155,6 +214,11 @@ public class File {
         return file;
     }
 
+    /**
+     * @param mime Mime of the file
+     * @return a new instance of the File object, which MUST use the existing attributes of the current instance, but
+     * MUST update the MIME type of the file with the given value of the REQUIRED mime argument.
+     */
     public File copyWithMime(String mime) {
         File file = new File();
         file.setName(this.name);

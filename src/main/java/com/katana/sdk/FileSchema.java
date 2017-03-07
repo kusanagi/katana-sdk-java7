@@ -11,32 +11,59 @@ public class FileSchema {
 
     private String name;
 
+    /**
+     * Defines the expected MIME type of the file's content, MAY include multiple MIME types separated by comma (",")
+     * and MUST have a value
+     */
     @JsonProperty(Key.FILE_SCHEMA_MIME)
     private String mime;
 
+    /**
+     * Defines whether the parameter is required or not, defaults to false if not defined
+     */
     @JsonProperty(Key.FILE_SCHEMA_REQUIRED)
     private boolean required;
 
+    /**
+     * Defines the maximum (inclusive by default) size allowed for the given file, not applicable if not defined
+     */
     @JsonProperty(Key.FILE_SCHEMA_MAX)
     private int max;
 
+    /**
+     * Defines that the file size MUST be less than "mx" (maximum), and which MUST be ignored if "mx" (maximum) is not
+     * defined, defaults to false if not defined
+     */
     @JsonProperty(Key.FILE_SCHEMA_EXCLUSIVE_MAX)
     private boolean exclusiveMax;
 
+    /**
+     * Defines the minimum (inclusive by default) size allowed for the given file, not applicable if not defined
+     */
     @JsonProperty(Key.FILE_SCHEMA_MIN)
     private int min;
 
+    /**
+     * Defines that the file size MUST be greater than "mn" (minimum), and which MUST be ignored if "mn" (minimum) is
+     * not defined, defaults to false if not defined
+     */
     @JsonProperty(Key.FILE_SCHEMA_EXCLUSIVE_MIN)
     private boolean exclusiveMin;
 
+    /**
+     * The HTTP semantics defined for the file parameter
+     */
     @JsonProperty(Key.FILE_SCHEMA_HTTP)
     private FileHttpSchema http;
 
     public FileSchema() {
         this.required = false;
+        this.max = Integer.MAX_VALUE;
         this.exclusiveMax = false;
+        this.min = 0;
         this.exclusiveMax = false;
         this.http = new FileHttpSchema();
+        this.mime = "text/plain";
     }
 
     public FileSchema(FileSchema other) {
@@ -87,35 +114,66 @@ public class FileSchema {
 
     //SDK Methods
 
+    /**
+     * @return  the unique name of the file parameter.
+     */
     @JsonIgnore
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the expected MIME type of the file's content, MAY include multiple MIME types separated by comma (","),
+     * or "text/plain" if not defined.
+     */
     public String getMime() {
         return mime;
     }
 
+    /**
+     * determine if the parameter is required, defaults to false.
+     * @return true if the parameter is required
+     */
     public boolean isRequired() {
         return required;
     }
 
+    /**
+     * @return the maximum (inclusive by default) value allowed for the parameter, or the highest possible integer value
+     * of the implementation language if not defined.
+     */
     public int getMax() {
         return max;
     }
 
+    /**
+     * determine if the parameter MUST be less than the value set for the max property, and which MUST return false if
+     * the max property is not defined, defaults to false.
+     * @return true if the parameter MUST be less than the value set for the max property
+     */
     public boolean isExclusiveMax() {
         return exclusiveMax;
     }
 
+    /**
+     * @return the minimum (inclusive by default) value allowed for the parameter, or 0 if not defined.
+     */
     public int getMin() {
         return min;
     }
 
+    /**
+     * determine if the parameter MUST be greater than the value set for the min property, and which MUST return false
+     * if the min property is not defined, defaults to false.
+     * @return true if the parameter MUST be greater than the value set for the min property
+     */
     public boolean isExclusiveMin() {
         return exclusiveMin;
     }
 
+    /**
+     * @return an instance of the HttpFileSchema class for the file parameter using the stored mapping of schemas.
+     */
     @JsonIgnore
     public FileHttpSchema getHttpSchema() {
         return getHttp();

@@ -11,12 +11,22 @@ import java.util.List;
  */
 public class EntitySchema {
 
+    /**
+     * Defines entity fields as an array, where each item is a field schema object
+     */
     @JsonProperty(Key.ENTITY_SCHEMA_FIELD)
     private List<FieldSchema> field;
 
+    /**
+     * Defines entity fields which contain other fields as an array, where each item is an object containing an object
+     * field schema
+     */
     @JsonProperty(Key.ENTITY_SCHEMA_FIELDS)
     private List<ObjectFieldSchema> fields;
 
+    /**
+     * OPTIONAL property that determines if an entity returned by the action MUST be validated, defaults to false
+     */
     @JsonProperty(Key.ENTITY_SCHEMA_VALIDATE)
     private boolean validate;
 

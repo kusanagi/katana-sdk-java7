@@ -9,9 +9,15 @@ import com.katana.api.component.Key;
  */
 public class RelationSchema {
 
+    /**
+     * Defines the name of the Service this relates to
+     */
     @JsonProperty(Key.RELATION_SCHEMA_NAME)
     private String name;
 
+    /**
+     * Defines the type of relation, which MUST be either "one" or "many", defaults to "one"
+     */
     @JsonProperty(Key.RELATION_SCHEMA_TYPE)
     private String type;
 

@@ -9,6 +9,11 @@ import java.util.Map;
  */
 public class Mapping {
 
+    /**
+     * defines the schema for each Service registered with the Discovery component as an object, where each property is
+     * the unique name of each Service, and the value an object, of which each property is a version of that Service and
+     * the value a Service Schema Object
+     */
     private Map<String, Map<String, ServiceSchema>> serviceSchema;
 
     public Mapping() {

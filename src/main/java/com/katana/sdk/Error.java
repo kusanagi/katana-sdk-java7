@@ -9,12 +9,23 @@ import com.katana.api.component.Key;
  */
 public class Error {
 
+    /**
+     * The error message in natural language, if no message exists this property SHOULD NOT be defined, and "Unknown
+     * error" MUST be assumed
+     */
     @JsonProperty(Key.ERROR_MESSAGE)
     private String message;
 
+    /**
+     * The code for the error, if no code exists this property SHOULD NOT be defined, and 0 MUST be assumed
+     */
     @JsonProperty(Key.ERROR_CODE)
     private int code;
 
+    /**
+     * The status for the response if the protocol of the Gateway is HTTP, if no status exists this property SHOULD NOT
+     * be defined, and "500 Internal Server Error" MUST be assumed
+     */
     @JsonProperty(Key.ERROR_STATUS)
     private String status;
 

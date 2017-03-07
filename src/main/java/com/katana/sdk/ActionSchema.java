@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.ExceptionMessage;
 import com.katana.api.component.Key;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by juan on 3/01/17.
@@ -17,51 +14,113 @@ public class ActionSchema {
 
     private String name;
 
+    /**
+     * Defines the number of milliseconds the action is permitted to execute for before considering a timeout by the
+     * component making the request, defaults to 1000 milliseconds if not defined
+     */
     @JsonProperty(Key.ACTION_SCHEMA_TIMEOUT)
     private int timeout;
 
+    /**
+     * Defines the path to the entity in each object returned by the action, defaults to the entity object itself if not
+     * defined
+     */
     @JsonProperty(Key.ACTION_SCHEMA_ENTITY_PATH)
     private String entityPath;
 
+    /**
+     * Defines the delimiter used to specify the traversal between objects in the value provided in the OPTIONAL "e"
+     * (entity path) property, if the "e" (entity path) property is not defined the delimiter MUST be ignored, defaults
+     * to "/" if not defined
+     */
     @JsonProperty(Key.ACTION_SCHEMA_PATH_DELIMITER)
     private String pathDelimiter;
 
+    /**
+     * Defines the name of the property in the entity object which defines the primary key for the entity, defaults to
+     * "id" if not defined
+     */
     @JsonProperty(Key.ACTION_SCHEMA_PRIMARY)
     private String primaryKey;
 
+    /**
+     * Determines if the action returns a collection of entities instead of a single entity object, defaults to false if
+     * not defined
+     */
     @JsonProperty(Key.ACTION_SCHEMA_COLLECTION)
     private boolean collection;
 
+    /**
+     * Defines the run-time calls performed from the action to internal Services within the same Realm, where each item
+     * is an array, of which the first item is the Service name, the second item the version, and the third item the
+     * action to be called
+     */
     @JsonProperty(Key.ACTION_SCHEMA_CALLS)
     private String[][] calls;
 
+    /**
+     * Defines the deferred calls performed from the action to internal Services within the same Realm, where each item
+     * is an array, of which the first item is the Service name, the second item the version, and the third item the
+     * action to be called
+     */
     @JsonProperty(Key.ACTION_SCHEMA_DEFERRED_CALLS)
     private String[][] deferredCalls;
 
+    /**
+     * Defines the calls performed from the action to external Services in another Realm, where each item is an array,
+     * of which the first item is the public address of a Gateway for that Realm, the second item the Service name, the
+     * third item the version, and the fourth item the action to be called
+     */
     @JsonProperty(Key.ACTION_SCHEMA_REMOTE_CALLS)
     private String[][] remoteCalls;
 
+    /**
+     * Defines the Transport fallback schema
+     */
     @JsonProperty(Key.ACTION_SCHEMA_FALLBACKS)
     private Map<String, TransportSchema> fallbacks;
 
+    /**
+     * Defines if the action has been deprecated, defaults to false if not defined
+     */
     @JsonProperty(Key.ACTION_SCHEMA_DEPRECATED)
     private boolean deprecated;
 
+    /**
+     * The HTTP semantics defined for the action
+     */
     @JsonProperty(Key.ACTION_SCHEMA_HTTP)
     private ActionHttpSchema http;
 
+    /**
+     * Defines the action parameters as an object, where each property is the parameter name, and the value an object
+     * containing the action parameter schema
+     */
     @JsonProperty(Key.ACTION_SCHEMA_PARAMS)
     private Map<String, ActionParamSchema> params;
 
+    /**
+     * Defines the file parameters as an object, where each property is the parameter name, and the value an object
+     * containing the file parameter schema
+     */
     @JsonProperty(Key.ACTION_SCHEMA_FILES)
     private Map<String, FileSchema> files;
 
+    /**
+     * Defines the entity schema
+     */
     @JsonProperty(Key.ACTION_SCHEMA_ENTITY)
     private EntitySchema entity;
 
+    /**
+     * Defines the action relations as an array, where each item is an object containing a relation schema
+     */
     @JsonProperty(Key.ACTION_SCHEMA_RELATIONS)
     private List<RelationSchema> relations;
 
+    /**
+     * The return value schema, not present if not defined
+     */
     @JsonProperty(Key.ACTION_SCHEMA_RETURN_OBJECT)
     private ReturnSchema returnObject;
 
@@ -72,6 +131,12 @@ public class ActionSchema {
         collection = false;
         deprecated = false;
         files = new HashMap<>();
+        entityPath = "";
+        entity = new EntitySchema();
+        relations = new ArrayList<>();
+        calls = new String[0][0];
+        deferredCalls = new String[0][0];
+        remoteCalls = new String[0][0];
     }
 
     public ActionSchema(ActionSchema other) {
@@ -173,31 +238,58 @@ public class ActionSchema {
 
     //SDM Methods
 
+    /**
+     * determine if the action has been deprecated, defaults to false.
+     * @return true if the action has been deprecated
+     */
     public boolean isDeprecated() {
         return deprecated;
     }
 
+    /**
+     * determine if the action returns a collection of entities. If false the action SHOULD return a single entity,
+     * defaults to false.
+     * @return true if the action returns a collection of entities
+     */
     public boolean isCollection() {
         return collection;
     }
 
+    /**
+     * @return return the unique name of the action.
+     */
     @JsonIgnore
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the path to the entity, or an empty string if not defined.
+     */
     public String getEntityPath() {
         return entityPath;
     }
 
+    /**
+     * @return the delimiter to use for the entity path, or "/" if not defined.
+     */
     public String getPathDelimiter() {
         return pathDelimiter;
     }
 
+    /**
+     * @return the name of the property in the entity which contains the primary key, or "id" if not defined.
+     */
     public String getPrimaryKey() {
         return primaryKey;
     }
 
+    /**
+     *  take an object and return the entity part, based upon the entity-path and path-delimiter properties in the
+     *  action configuration.
+     * @param data
+     * @return
+     */
     public Object resolveEntity(Map<String, Object> data) {
 
         if (this.entityPath == null || this.entityPath.isEmpty()) {
@@ -213,39 +305,83 @@ public class ActionSchema {
         return data;
     }
 
+    /**
+     * determine if an entity definition exists for the action.
+     * @return true if an entity definition exists for the action.
+     */
     public boolean hasEntity() {
         return this.entity != null;
     }
 
+    /**
+     * @return the entity definition as an object, or an empty object if not defined.
+     */
     public EntitySchema getEntity() {
         return entity;
     }
 
+    /**
+     * determine if any relations exists for the action.
+     * @return true if any relations exists for the action.
+     */
     public boolean hasRelations() {
         return this.relations != null && !this.relations.isEmpty();
     }
 
+    /**
+     * @return the relations as an array, where each item is an array containing the relation type and the Service name,
+     * or an empty array if no relations are defined.
+     */
     public List<RelationSchema> getRelations() {
         return relations;
     }
 
+    /**
+     * determine if a run-time call exists for a Service with the given case-sensitive name argument, and OPTIONAL
+     * version and action arguments.
+     * @param name Service name
+     * @param version Service version
+     * @param action Action name
+     * @return true if a run-time call exists for a Service with the given case-sensitive name argument, and OPTIONAL
+     * version and action arguments.
+     */
     public boolean hasCall(String name, String version, String action) {
         for (String[] call : this.calls) {
-            if (call[0].equals(name) && call[1].equals(version) && call[2].equals(action)) {
+            if (call[0].equals(name) &&
+                    (call[1].equals(version) || version == null || version.isEmpty()) &&
+                    (call[2].equals(action) || action == null || action.isEmpty())) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * determine if any run-time calls exist for the action.
+     * @return true if any run-time calls exist for the action.
+     */
     public boolean hasCalls() {
         return this.calls != null && this.calls.length != 0;
     }
 
+    /**
+     * @return the run-time calls as an array, where each item is an array containing the Service name, the Service version and
+     * the action name as a string, or an empty array if no run-time calls are defined.
+     */
     public String[][] getCalls() {
         return calls;
     }
 
+    /**
+     * determine if a deferred call exists for a Service with the given case-sensitive name argument, and OPTIONAL
+     * version and action arguments.
+     * version and action arguments.
+     * @param name Service name
+     * @param version Service version
+     * @param action Action name
+     * @return true if a deferred call exists for a Service with the given case-sensitive name argument, and OPTIONAL
+     * version and action arguments.
+     */
     public boolean hasDeferCall(String name, String version, String action) {
         for (String[] call : this.deferredCalls) {
             if (call[0].equals(name) && call[1].equals(version) && call[2].equals(action)) {
@@ -255,14 +391,32 @@ public class ActionSchema {
         return false;
     }
 
+    /**
+     * determine if any deferred calls exist for the action.
+     * @return true if any deferred calls exist for the action.
+     */
     public boolean hasDeferCalls() {
         return this.deferredCalls != null && this.deferredCalls.length != 0;
     }
 
+    /**
+     * @return the deferred calls as an array, where each item is an array containing the Service name, the Service
+     * version and the action name as a string, or an empty array if no deferred calls are defined.
+     */
     public String[][] getDeferCalls() {
         return deferredCalls;
     }
 
+
+    /**
+     * determine if a remote call exists for a Service with the given case-sensitive name argument, and OPTIONAL
+     * version and action arguments.
+     * @param name Service name
+     * @param version Service version
+     * @param action Action name
+     * @return true if a remote call exists for a Service with the given case-sensitive name argument, and OPTIONAL
+     * version and action arguments.
+     */
     public boolean hasRemoteCall(String address, String name, String version, String action) {
         for (String[] call : this.remoteCalls) {
             if (call[0].equals(address) && call[1].equals(name) &&
@@ -273,30 +427,60 @@ public class ActionSchema {
         return false;
     }
 
+
+    /**
+     * determine if any remote calls exist for the action.
+     * @return true if any remote calls exist for the action.
+     */
     public boolean hasRemoteCalls() {
         return this.remoteCalls != null && this.remoteCalls.length != 0;
     }
 
+    /**
+     * @return the remote calls as an array, where each item is an array containing the Service name, the Service
+     * version and the action name as a string, or an empty array if no deferred calls are defined.
+     */
     public String[][] getRemoteCalls() {
         return remoteCalls;
     }
 
+    /**
+     * determine if a return value is defined for the action.
+     * @return true if a return value is defined for the action.
+     */
     public boolean hasReturn() {
         return this.returnObject != null || this.returnObject.getType() == null;
     }
 
+    /**
+     * @return the data type of the returned value, which MAY be "null", "boolean", "integer", "float", "string",
+     * "array" or "object".
+     */
     public String getReturnType() {
         return this.returnObject.getType();
     }
 
+    /**
+     * @return an array with the parameters defined for the action, in which each item is the parameter name, in the
+     * order in which they are defined in the configuration file.
+     */
     public Map<String, ActionParamSchema> getParams() {
         return params;
     }
 
+    /**
+     * determine if a parameter schema exists for the REQUIRED case sensitive name argument.
+     * @param name Parameter name
+     * @return true if a parameter schema exists for the REQUIRED case sensitive name argument.
+     */
     public boolean hasParam(String name) {
         return this.params != null && this.params.containsKey(name);
     }
 
+    /**
+     * @param name Parameter name
+     * @return an instance of the ParamSchema class for the parameter defined by the REQUIRED case sensitive name argument using the stored mapping of schemas.
+     */
     public ActionParamSchema getParamSchema(String name) {
         if (!this.params.containsKey(name)) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_RESOLVE_SCHEMA_FOR_PARAMETER, name));
@@ -305,14 +489,28 @@ public class ActionSchema {
         return this.params.get(name);
     }
 
+    /**
+     * @return an array with the files defined for the action, in which each item is the file parameter name, in the
+     * order in which they are defined in the configuration file.
+     */
     public Map<String, FileSchema> getFiles() {
         return files;
     }
 
+    /**
+     * determine if a file parameter schema exists for the REQUIRED case sensitive name argument.
+     * @param name File name
+     * @return true if a file parameter schema exists for the REQUIRED case sensitive name argument.
+     */
     public boolean hasFile(String name) {
         return this.files != null && this.files.containsKey(name);
     }
 
+    /**
+     * @param name File name
+     * @return an instance of the FileSchema class for the file parameter defined by the REQUIRED case sensitive name
+     * argument using the stored mapping of schemas.
+     */
     public FileSchema getFileSchema(String name) {
         if (!this.files.containsKey(name)) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_RESOLVE_SCHEMA_FOR_FILE, name));
@@ -323,6 +521,9 @@ public class ActionSchema {
         return fileSchema;
     }
 
+    /**
+     * @return an instance of the HttpActionSchema class for the action using the stored mapping of schemas.
+     */
     @JsonIgnore
     public ActionHttpSchema getHttpSchema() {
         return getHttp();

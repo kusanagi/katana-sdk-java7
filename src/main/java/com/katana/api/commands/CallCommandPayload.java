@@ -10,6 +10,9 @@ import com.katana.sdk.Callee;
  */
 public class CallCommandPayload extends CommandPayload<Callee> {
 
+    /**
+     * The semantics of the command
+     */
     @JsonProperty(Key.COMMAND_PAYLOAD_COMMAND)
     private CallCommandPayload.CallCommand command;
 
@@ -64,6 +67,9 @@ public class CallCommandPayload extends CommandPayload<Callee> {
 
     public static class CallCommand extends CommandPayload.Command<Callee> {
 
+        /**
+         * The key/value arguments for the command, if no arguments exist this property SHOULD NOT be defined
+         */
         @JsonProperty(Key.COMMAND_ARGUMENT)
         private Callee argument;
 

@@ -9,9 +9,16 @@ import com.katana.api.component.Key;
  */
 public class FileHttpSchema {
 
+    /**
+     * Determines if the file parameter is writable by a HTTP request via the Gateway, if false and the parameter is
+     * provided in the HTTP request it MUST be ignored, defaults to true
+     */
     @JsonProperty(Key.FILE_HTTP_SCHEMA_GATEWAY)
     private boolean gateway;
 
+    /**
+     * Defines the name of the file parameter as specified via HTTP to be mapped to the name property
+     */
     @JsonProperty(Key.FILE_HTTP_SCHEMA_PARAM)
     private String param;
 
@@ -38,11 +45,18 @@ public class FileHttpSchema {
 
     //SDK Methods
 
+    /**
+     * determine if the Gateway can write to the file parameter.
+     * @return true if the Gateway can write to the file parameter.
+     */
     @JsonIgnore
     public boolean isAccessible() {
         return isGateway();
     }
 
+    /**
+     * @return the name as specified via HTTP to be mapped to the name property, or the value of the name property.
+     */
     public String getParam() {
         return param;
     }

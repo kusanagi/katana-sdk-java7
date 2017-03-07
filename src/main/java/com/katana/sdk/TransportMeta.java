@@ -41,6 +41,7 @@ public class TransportMeta {
 
     public TransportMeta() {
         // Default constructor to make possible the serialization of this object.
+        this.origin = new String[0];
     }
 
     public TransportMeta(TransportMeta other) {

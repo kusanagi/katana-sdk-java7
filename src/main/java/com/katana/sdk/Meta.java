@@ -11,24 +11,47 @@ import java.util.List;
  */
 public class Meta {
 
+    /**
+     * The version of the framework
+     */
     @JsonProperty(Key.META_VERSION)
     private String version;
 
+    /**
+     * The UUID version 4 of the request
+     */
     @JsonProperty(Key.META_ID)
     private String id;
 
+    /**
+     * The datetime of the process, in UTC and ISO 8601 format
+     */
     @JsonProperty(Key.META_DATETIME)
     private String datetime;
 
+    /**
+     * The type of Middleware, either 1 if "request" or 2 if "response"
+     */
     @JsonProperty(Key.META_TYPE)
     private int type;
 
+    /**
+     * The protocol implemented by the Gateway
+     */
     @JsonProperty(Key.META_PROTOCOL)
     private String protocol;
 
+    /**
+     * The array of addresses for the Gateway serving the request, where the first item is the internal address and the
+     * second item is the public address
+     */
     @JsonProperty(Key.META_GATEWAY)
     private List<String> gateway;
 
+    /**
+     * The address of the client which sent the request, formatted as "%ADDRESS%:%PORT%", where %ADDRESS% is the IP
+     * address and %PORT% is the port number
+     */
     @JsonProperty(Key.META_CLIENT)
     private String client;
 

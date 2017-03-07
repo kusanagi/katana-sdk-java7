@@ -4,16 +4,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Constants;
 import com.katana.api.component.Key;
 
+import java.util.List;
+
 /**
  * Created by juan on 3/01/17.
  */
 public class ValueSchema {
 
+    /**
+     * Defines the data type of the value, defaults to string if not defined
+     */
     @JsonProperty(Key.VALUE_SCHEMA_TYPE)
     private String type;
 
+    /**
+     * Defines the value of the field when "t" (type) property is not set to "array", if it is set to "object" each
+     * property is the name of the field and the value a value schema, and if it is set to "null" this property is not
+     * required
+     */
     @JsonProperty(Key.VALUE_SCHEMA_VALUE)
     private Object value;
+
+    @JsonProperty(Key.VALUE_SCHEMA_ITEMS)
+    private List<ValueSchema> items;
 
     public ValueSchema() {
         this.type = Constants.TYPE_STRING;
@@ -40,6 +53,14 @@ public class ValueSchema {
         this.value = value;
     }
 
+    public List<ValueSchema> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ValueSchema> items) {
+        this.items = items;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -54,13 +75,17 @@ public class ValueSchema {
         if (type != null ? !type.equals(that.type) : that.type != null) {
             return false;
         }
-        return value != null ? value.equals(that.value) : that.value == null;
+        if (value != null ? !value.equals(that.value) : that.value != null) {
+            return false;
+        }
+        return items != null ? items.equals(that.items) : that.items == null;
     }
 
     @Override
     public int hashCode() {
         int result = type != null ? type.hashCode() : 0;
         result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (items != null ? items.hashCode() : 0);
         return result;
     }
 
@@ -69,6 +94,7 @@ public class ValueSchema {
         return "ValueSchema{" +
                 "type='" + type + '\'' +
                 ", value=" + value +
+                ", items=" + items +
                 '}';
     }
 }

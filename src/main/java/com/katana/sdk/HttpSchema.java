@@ -9,9 +9,15 @@ import com.katana.api.component.Key;
  */
 public class HttpSchema {
 
+    /**
+     * Determines if the Service is accessible to a HTTP request via the Gateway, defaults to true
+     */
     @JsonProperty(Key.HTTP_SCHEMA_GATEWAY)
     private boolean gateway;
 
+    /**
+     * Defines the base path specified for the Service, defaults to ""
+     */
     @JsonProperty(Key.HTTP_SCHEMA_BASE_PATH)
     private String basePath;
 
@@ -39,11 +45,18 @@ public class HttpSchema {
 
     //SDK Methods
 
+    /**
+     * determine if the Gateway has access to the Service.
+     * @return true if the gate way has access to the service
+     */
     @JsonIgnore
     public boolean isAccesible() {
         return isGateway();
     }
 
+    /**
+     * @return  return the base HTTP path for the Service.
+     */
     public String getBasePath() {
         return basePath;
     }

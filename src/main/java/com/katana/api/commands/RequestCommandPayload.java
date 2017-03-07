@@ -9,6 +9,10 @@ import com.katana.api.commands.common.CommandPayload;
  * Created by juan on 26/09/16.
  */
 public class RequestCommandPayload extends CommandPayload<Request> {
+
+    /**
+     * The semantics of the command
+     */
     @JsonProperty(Key.COMMAND_PAYLOAD_COMMAND)
     private RequestCommand command;
 
@@ -21,17 +25,11 @@ public class RequestCommandPayload extends CommandPayload<Request> {
         this.command = other.command;
     }
 
-    /**
-     * @return
-     */
     @Override
     public RequestCommand getCommand() {
         return command;
     }
 
-    /**
-     * @param command
-     */
     public void setCommand(RequestCommand command) {
         this.command = command;
     }
@@ -68,11 +66,11 @@ public class RequestCommandPayload extends CommandPayload<Request> {
                 "} " + super.toString();
     }
 
-    /**
-     * Created by juan on 26/09/16.
-     */
     public static class RequestCommand extends Command<Request> {
 
+        /**
+         * The key/value arguments for the command, if no arguments exist this property SHOULD NOT be defined
+         */
         @JsonProperty(Key.COMMAND_ARGUMENT)
         private Request argument;
 
@@ -85,17 +83,11 @@ public class RequestCommandPayload extends CommandPayload<Request> {
             this.argument = new Request(other.argument);
         }
 
-        /**
-         * @return
-         */
         @Override
         public Request getArgument() {
             return argument;
         }
 
-        /**
-         * @param argument
-         */
         public void setArgument(Request argument) {
             this.argument = argument;
         }

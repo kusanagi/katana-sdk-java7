@@ -122,153 +122,75 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         return context;
     }
 
-    /**
-     * @return
-     */
     public String getComponent() {
         return componentName;
     }
 
-    /**
-     * @param component
-     */
     public void setComponent(String component) {
         this.componentName = component;
     }
 
-    /**
-     * @return
-     */
     public boolean isDisableCompactName() {
         return disableCompactName;
     }
 
-    /**
-     * @param disableCompactName
-     */
     public void setDisableCompactName(boolean disableCompactName) {
         this.disableCompactName = disableCompactName;
     }
 
 
-    /**
-     * Name getter
-     *
-     * @return return the name of the componentName
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Name setter
-     *
-     * @param name name of the componentName
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Version getter
-     *
-     * @return return the version of the componentName
-     */
     public String getVersion() {
         return version;
     }
 
-    /**
-     * Version setter
-     *
-     * @param version version of the componentName
-     */
     public void setVersion(String version) {
         this.version = version;
     }
 
-    /**
-     * Platform version getter
-     *
-     * @return return the version of the platform
-     */
     public String getFrameworkVersion() {
         return frameworkVersion;
     }
 
-    /**
-     * Platform version setter
-     *
-     * @param frameworkVersion
-     */
     public void setFrameworkVersion(String frameworkVersion) {
         this.frameworkVersion = frameworkVersion;
     }
 
-    /**
-     * Socket getter
-     *
-     * @return returns the socket of the componentName
-     */
     public String getSocket() {
         return socket;
     }
 
-    /**
-     * Socket setter
-     *
-     * @param socket socket of the componentName
-     */
     public void setSocket(String socket) {
         this.socket = socket;
     }
 
-    /**
-     * @return
-     */
     public String getTcp() {
         return tcp;
     }
 
-    /**
-     * @param tcp
-     */
     public void setTcp(String tcp) {
         this.tcp = tcp;
     }
 
-    /**
-     * com.katana.api.common.Component variable getter
-     *
-     * @return return a the list of variable for the componentName
-     */
     public Map<String, String> getVar() {
         return var;
     }
 
-    /**
-     * com.katana.api.common.Component variable setter
-     *
-     * @param var list of variables to be used by the componentName
-     */
     public void setVar(Map<String, String> var) {
         this.var = var;
     }
 
-    /**
-     * Debug mode getter
-     *
-     * @return true is the componentName is in debug mode and false otherwise
-     */
     public boolean isDebug() {
         return debug;
     }
 
-    /**
-     * Debug mode setter
-     *
-     * @param debug flag to set the debug mode
-     */
     public void setDebug(boolean debug) {
         this.debug = debug;
     }
@@ -291,36 +213,88 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     // SDK METHODS
 
+    /**
+     * take a function which executes and returns a resource to store under the REQUIRED case sensitive name argument.
+     * If the function does not return a value it MUST be treated as an error.
+     * @param name resource name
+     * @param resource resource function
+     * @return true
+     */
     public boolean setResource(String name, Callable<T> resource) {
         this.resources.put(name, resource);
         return true;
     }
 
+    /**
+     * determine if a resource has been stored under the REQUIRED case sensitive name argument.
+     * @param name resource name
+     * @return true if the resource exist
+     */
     public boolean hasResource(String name) {
         return this.resources.containsKey(name);
     }
 
+    /**
+     *  return the resource stored under the REQUIRED case sensitive name argument. If a resource is not stored under
+     *  the specified name it MUST be treated as an error.
+     * @param name resource name
+     * @return the resource stored under the REQUIRED case sensitive name argument
+     */
     public Callable<T> getResource(String name) {
         return this.resources.get(name);
     }
 
+    /**
+     * take a function, which SHOULD be executed upon first running the userland source file, and return the instance of
+     * the object.
+     *
+     * The instance of the Component class MUST be provided as the first argument of the callback function, while any
+     * value returned by the callback function MUST be ignored.
+     * @param callback callback function
+     * @return the component
+     */
     public Component<T, S, R> startup(EventCallable<R> callback) {
         this.startupCallable = callback;
         return this;
     }
 
+    /**
+     * take a function, which SHOULD be executed if the SDK receives a signal to terminate its process, and return the
+     * instance of the object.
+     *
+     * The instance of the Component class MUST be provided as the first argument of the callback function, while any
+     * value returned by the callback function MUST be ignored.
+     * @param callback callback function
+     * @return the component
+     */
     public Component<T, S, R> shutdown(EventCallable<R> callback) {
         this.shutdownCallable = callback;
         return this;
     }
 
+    /**
+     *  function MUST take a function, which SHOULD be executed whenever an error is thrown or returned from a callback
+     *  when processing a message in userland, and return the instance of the object.
+     *
+     * The instance of the error object caught or returned MUST be provided as the first argument of the callback
+     * function. The type of object SHOULD be the most acceptable to the implementation language. No return value is
+     * expected from this callback function, and any value returned SHOULD be ignored.
+     * @param callback callback function
+     * @return the component
+     */
     public Component<T, S, R> error(EventCallable<R> callback) {
         this.errorCallable = callback;
         return this;
     }
 
     /**
-     * The method to run the componentName
+     * This is where ZeroMQ and MessagePack are implemented, and the long running process initialized to receive incoming
+     * messages.
+     *
+     * Upon executing the userland source code any callback functions registered MUST be stored so they MAY be referenced
+     * by either "request" or "response" in the case of Middleware, or by the specific action name in the case of a
+     * Service. This reference SHOULD then be used to effectively route messages received by the SDK to their relevant
+     * callback function.
      */
     public void run() {
         startSocket();
@@ -341,6 +315,18 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         });
 
         ZMQ.proxy(router, dealer, null);
+    }
+
+    /**
+     * send a string representation of the value argument to stdout as a "DEBUG" log, with a length limit on the value
+     * of 100,000 characters (not including the other elements of the log message, such as the timestamp), and return
+     * true. If the component is not running in debug mode this function MUST NOT send a log, and SHOULD return false.
+     * @param value String to log
+     * @return true if the value gets logged
+     */
+    public boolean log(String value) {
+        Logger.log(Logger.DEBUG, value);
+        return this.debug;
     }
 
     protected abstract void runShutdown();
@@ -390,11 +376,6 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         this.stopped = true;
     }
 
-    public boolean log(String value) {
-        Logger.log(Logger.DEBUG, value);
-        return this.debug;
-    }
-
     private void generateDefaultSocket() {
         this.socket = String.format(Constants.KATANA_DEFAULT_SOCKET_STRING, this.componentName, this.name, this.version);
     }
@@ -413,6 +394,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             return new byte[][]{getReplyMetadata(commandReply), serializer.serializeInBytes(commandReply)};
         } catch (Exception e) {
             Logger.log(e);
+            runErrorCallback();
             try {
                 return new byte[][]{new byte[]{0x00}, serializer.serializeInBytes(getErrorPayload(e))};
             } catch (JsonProcessingException e1) {
@@ -421,6 +403,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             }
         }
     }
+
+    protected abstract void runErrorCallback();
 
     public static ErrorPayload getErrorPayload(Exception e) {
         Error error = new Error();

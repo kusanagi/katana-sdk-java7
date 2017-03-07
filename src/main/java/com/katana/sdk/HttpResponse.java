@@ -15,15 +15,28 @@ import java.util.Map;
  * Katana Java SDK
  */
 public class HttpResponse implements CommandReplyResult {
+    /**
+     * The HTTP version of the response
+     */
     @JsonProperty(Key.HTTP_RESPONSE_PROTOCOL_VERSION)
     private String protocolVersion;
 
+    /**
+     * The HTTP status code and text for the response
+     */
     @JsonProperty(Key.HTTP_RESPONSE_STATUS)
     private String status;
 
+    /**
+     * An object, where each property is the name of the HTTP header, and the value the header value, if no headers
+     * exist this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.HTTP_RESPONSE_HEADERS)
     private Map<String, List<String>> headers;
 
+    /**
+     * The contents of the HTTP response body
+     */
     @JsonProperty(Key.HTTP_RESPONSE_BODY)
     private String body;
 
@@ -146,6 +159,9 @@ public class HttpResponse implements CommandReplyResult {
      * argument, or an empty string if the header does not exist.
      */
     public String getHeader(String name) {
+        if (!this.headers.containsKey(name)){
+            return "";
+        }
         return this.headers.get(name).get(0);
     }
 

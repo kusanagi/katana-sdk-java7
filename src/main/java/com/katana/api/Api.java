@@ -136,6 +136,7 @@ public class Api {
     public void setComponent(Component component) {
         this.component = component;
     }
+
     // SDK Method
 
     /**
@@ -221,7 +222,7 @@ public class Api {
      * Cannot resolve schema for Service: %SERVICE% (%VERSION%)
      * Where %SERVICE% is the name and %VERSION% is the version provided for the Service.
      *
-     * @return
+     * @return The service schema object
      */
     @JsonIgnore
     public ServiceSchema getServiceSchema(String name, String version) {
@@ -231,6 +232,13 @@ public class Api {
         throw new IllegalArgumentException(String.format(CANNOT_RESOLVE_SCHEMA_FOR_SERVICE, name, version));
     }
 
+    /**
+     * send a string representation of the value argument to stdout as a "DEBUG" log, with a length limit on the value
+     * of 100,000 characters (not including the other elements of the log message, such as the timestamp), and return
+     * true. If the component is not running in debug mode this function MUST NOT send a log, and SHOULD return false.
+     * @param value String to log
+     * @return true if the value gets logged
+     */
     public boolean log(String value) {
         Logger.log(Logger.DEBUG, value);
         return true;

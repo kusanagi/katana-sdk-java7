@@ -13,15 +13,27 @@ import java.util.Map;
  */
 public class Response extends Api {
 
+    /**
+     * The meta-information about the payload
+     */
     @JsonProperty(Key.RESPONSE_META)
     private Meta meta;
 
+    /**
+     * The semantics of the original request
+     */
     @JsonProperty(Key.RESPONSE_HTTP_REQUEST)
     private HttpRequest httpRequest;
 
+    /**
+     * The semantics of the response
+     */
     @JsonProperty(Key.RESPONSE_HTTP_RESPONSE)
     private HttpResponse httpResponse;
 
+    /**
+     * The Transport instance
+     */
     @JsonProperty(Key.RESPONSE_TRANSPORT)
     private Transport transport;
 
@@ -37,58 +49,47 @@ public class Response extends Api {
         this.transport = other.transport;
     }
 
-    /**
-     * @param path
-     * @param name
-     * @param version
-     * @param platformVersion
-     * @param variables
-     * @param isDebug
-     */
     public Response(Component component, String path, String name, String version, String platformVersion, Map<String, String> variables, boolean isDebug) {
         super(component, path, name, version, platformVersion, variables, isDebug);
     }
 
-    /**
-     * @return
-     */
     public Meta getMeta() {
         return meta;
     }
 
-    /**
-     * @param meta
-     */
     public void setMeta(Meta meta) {
         this.meta = meta;
     }
 
-    /**
-     * @param httpResponse
-     */
     public void setHttpResponse(HttpResponse httpResponse) {
         this.httpResponse = httpResponse;
     }
 
-    /**
-     * @param transport
-     */
     public void setTransport(Transport transport) {
         this.transport = transport;
     }
 
     // SDK METHODS
 
+    /**
+     * @return the protocol implemented by the Gateway component handling the request.
+     */
     @JsonIgnore
     public String getGatewayProtocol() {
         return this.meta.getProtocol();
     }
 
+    /**
+     * @return the public address of the Gateway component handling the request.
+     */
     @JsonIgnore
     public String getGatewayAddress() {
         return this.meta.getGateway().get(1);
     }
 
+    /**
+     * @return the instance of the HttpRequest class which contains the HTTP semantics of the request made to the Gateway component.
+     */
     public HttpRequest getHttpRequest() {
         return this.httpRequest;
     }

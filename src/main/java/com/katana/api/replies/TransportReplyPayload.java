@@ -14,6 +14,9 @@ import com.katana.api.replies.common.CommandReplyResult;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransportReplyPayload implements CommandReplyResult {
 
+    /**
+     * The reply to a command
+     */
     @JsonProperty(Key.REPLY_PAYLOAD_COMMAND_REPLY)
     private TransportCommandReply transportCommandReply;
 
@@ -25,17 +28,11 @@ public class TransportReplyPayload implements CommandReplyResult {
         this.transportCommandReply = other.transportCommandReply;
     }
 
-    /**
-     * @return
-     */
     @JsonIgnore
     public TransportCommandReply getCommandReply() {
         return transportCommandReply;
     }
 
-    /**
-     * @param transportCommandReply
-     */
     public void setCommandReply(TransportCommandReply transportCommandReply) {
         this.transportCommandReply = transportCommandReply;
     }
@@ -67,43 +64,34 @@ public class TransportReplyPayload implements CommandReplyResult {
                 '}';
     }
 
-    /**
-     * Created by juan on 30/09/16.
-     */
     public static class TransportCommandReply {
 
+        /**
+         * The name of the command processing the reply
+         */
         @JsonProperty(Key.COMMAND_REPLY_NAME)
         private String name;
 
+        /**
+         * The data provided by the component for the reply
+         */
         @JsonProperty(Key.COMMAND_REPLY_RESULT)
         private TransportResult transportResult;
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public String getName() {
             return name;
         }
 
-        /**
-         * @param name
-         */
         public void setName(String name) {
             this.name = name;
         }
 
-        /**
-         * @return
-         */
         @JsonIgnore
         public TransportResult getResult() {
             return transportResult;
         }
 
-        /**
-         * @param commandReplyTransportResult
-         */
         public void setResult(TransportResult commandReplyTransportResult) {
             this.transportResult = commandReplyTransportResult;
         }
@@ -142,9 +130,6 @@ public class TransportReplyPayload implements CommandReplyResult {
         }
     }
 
-    /**
-     *
-     */
     public static class TransportResult {
 
         @JsonProperty(Key.TRANSPORT_RESULT_TRANSPORT)
@@ -153,16 +138,10 @@ public class TransportReplyPayload implements CommandReplyResult {
         @JsonProperty(Key.TRANSPORT_RESULT_RETURN_OBJECT)
         private Object returnObject;
 
-        /**
-         * @return
-         */
         public Transport getTransport() {
             return transport;
         }
 
-        /**
-         * @param transport
-         */
         public void setTransport(Transport transport) {
             this.transport = transport;
         }

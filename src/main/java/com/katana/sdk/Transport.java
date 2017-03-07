@@ -18,30 +18,60 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Transport implements CommandReplyResult {
 
+    /**
+     * The meta-information about the Transport
+     */
     @JsonProperty(Key.TRANSPORT_META)
     private TransportMeta meta;
 
+    /**
+     * An object containing the semantics of the file to download in the response from the Gateway to the client, if no
+     * file is set this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_BODY)
     private File body;
 
+    /**
+     * An object containing the semantics of the files uploaded to the Gateway or sent by a Service, if no files are set
+     * this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_FILES)
     private Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files;
 
+    /**
+     * The data stored by each Service for the response, if no data exists this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_DATA)
     private Map<String, Map<String, Map<String, Map<String, Object>>>> data;
 
+    /**
+     * The relationships defined by each Service with others, if no relations exist this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_RELATIONS)
     private Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations;
 
+    /**
+     * The hyperlinks defined by each Service for the response, where each property is the name of the link, while the
+     * value is the URI [17] itself, if no links exist this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_LINKS)
     private Map<String, Map<String, Map<String, String>>> links;
 
+    /**
+     * The calls to other Services within this request, if no calls exist this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_CALLS)
     private Map<String, Map<String, List<Call>>> calls;
 
+    /**
+     *  The transactions registered by each Service, if no transactions exist this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_TRANSACTIONS)
     private Transaction transactions;
 
+    /**
+     * The errors returned by each Service, if no errors exist this property SHOULD NOT be defined
+     */
     @JsonProperty(Key.TRANSPORT_ERRORS)
     private Map<String, Map<String, Map<String, List<Error>>>> errors;
 

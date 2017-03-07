@@ -8,11 +8,11 @@ import com.katana.api.component.Key;
  * Created by juan on 26/09/16.
  */
 
-/**
- * @param <T>
- */
 public class CommandPayload<T extends Api> {
 
+    /**
+     * Meta-data associated with the command
+     */
     @JsonProperty(Key.COMMAND_PAYLOAD_COMMAND_META)
     private CommandMeta commandMeta;
 
@@ -24,23 +24,14 @@ public class CommandPayload<T extends Api> {
         this.commandMeta = other.commandMeta;
     }
 
-    /**
-     * @return
-     */
     public CommandMeta getCommandMeta() {
         return commandMeta;
     }
 
-    /**
-     * @param commandMeta
-     */
     public void setCommandMeta(CommandMeta commandMeta) {
         this.commandMeta = commandMeta;
     }
 
-    /**
-     * @return
-     */
     public Command<T> getCommand() {
         return null;
     }
@@ -72,15 +63,11 @@ public class CommandPayload<T extends Api> {
                 '}';
     }
 
-    /**
-     * Created by juan on 30/09/16.
-     */
-
-    /**
-     * @param <T>
-     */
     public static class Command<T extends Api> {
 
+        /**
+         * The name of the command to call
+         */
         @JsonProperty(Key.COMMAND_NAME)
         private String name;
 
@@ -92,23 +79,14 @@ public class CommandPayload<T extends Api> {
             this.name = other.name;
         }
 
-        /**
-         * @return
-         */
         public String getName() {
             return name;
         }
 
-        /**
-         * @param name
-         */
         public void setName(String name) {
             this.name = name;
         }
 
-        /**
-         * @return
-         */
         public T getArgument() {
             return null;
         }

@@ -24,12 +24,23 @@ import java.util.Map;
  * Created by juan on 27/08/16.
  */
 public class Action extends Api {
+    /**
+     * The parameters sent to the action, where each property name is the "name" of the parameter and the value an
+     * object, with a property named "v" (value) containing the value of the parameter, and "t" (type) with the data
+     * type of the parameter (object)
+     */
     @JsonProperty(Key.ACTION_PARAMS)
     private List<Param> params;
 
+    /**
+     * The Transport payload as sent from the Gateway or calling Service
+     */
     @JsonProperty(Key.ACTION_TRANSPORT)
     private Transport transport;
 
+    /**
+     * The return object for a runtime call
+     */
     @JsonProperty(Key.ACTION_RETURN_OBJECT)
     private Object returnObject;
 
@@ -49,38 +60,18 @@ public class Action extends Api {
         this.actionName = other.actionName;
     }
 
-    /**
-     * Action name setter
-     *
-     * @param actionName Name of the Action
-     */
     public void setActionName(String actionName) {
         this.actionName = actionName;
     }
 
-    /**
-     * Params setter
-     *
-     * @param params Params object
-     */
     public void setParams(List<Param> params) {
         this.params = params;
     }
 
-    /**
-     * Transport getter
-     *
-     * @return Return the transport object
-     */
     public Transport getTransport() {
         return transport;
     }
 
-    /**
-     * Transport setter
-     *
-     * @param transport Transport object
-     */
     public void setTransport(Transport transport) {
         this.transport = transport;
     }
@@ -120,7 +111,7 @@ public class Action extends Api {
      *
      * @param name  Name of the property
      * @param value Value of the property
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action setProperty(String name, String value) {
         TransportMeta meta = this.transport.getMeta();
@@ -309,7 +300,7 @@ public class Action extends Api {
      * MUST take preference over content for the HTTP response body, and replace it if already defined.
      *
      * @param file File object to register
-     * @return Return false if the Service did not include a file server
+     * @return Return the instance of the action
      */
     public Action setDownload(File file) {
         if (!getServiceSchema(getName(), getVersion()).hasFileServer()){
@@ -325,7 +316,7 @@ public class Action extends Api {
      * If data already exists it MUST be replaced with the given entity.
      *
      * @param entity Entity to be registered
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action setEntity(Object entity) {
         Map<String, Map<String, Map<String, Map<String, Object>>>> pathData = this.transport.getData();
@@ -372,7 +363,7 @@ public class Action extends Api {
      * If data already exists it MUST be replaced with the given collection.
      *
      * @param collection Collection array to be registered
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action setCollection(List<?> collection) {
         setEntity(collection);
@@ -388,7 +379,7 @@ public class Action extends Api {
      * @param primaryKey Primary key argument
      * @param service    Foreign Service
      * @param foreignKey Foreign key argument
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action relateOne(String primaryKey, String service, String foreignKey) {
         Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
@@ -434,7 +425,7 @@ public class Action extends Api {
      * @param primaryKey Primary key argument
      * @param service    Foreign Service
      * @param foreignKey Foreign key argument
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action relateMany(String primaryKey, String service, List<String> foreignKey) {
         Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
@@ -471,6 +462,19 @@ public class Action extends Api {
         return this;
     }
 
+    /**
+     * register a "one-to-one" relation between the entity with the REQUIRED primary_key argument and the remote Service
+     * from another Realm, defined by the REQUIRED address argument as the public address of a Gateway for that Realm,
+     * the REQUIRED service as the name of the Service to relate to, and the foreign key on the entity from that
+     * Service, defined by the REQUIRED foreign_key argument.
+     *
+     * If the relation already exists it MUST be replaced with the given foreign_key.
+     * @param primaryKey Primary key argument
+     * @param address remote address
+     * @param service    Foreign Service
+     * @param foreignKey Foreign key argument
+     * @return Return the instance of the action
+     */
     public Action relateOneRemote(String primaryKey, String address, String service, String foreignKey) {
         Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
 
@@ -505,6 +509,19 @@ public class Action extends Api {
         return this;
     }
 
+    /**
+     * register a "one-to-many" relation between the entity with the REQUIRED primary_key argument and the remote
+     * Service, defined by the REQUIRED address argument as the public address of a Gateway for that Realm, the REQUIRED
+     * service as the name of the Service to relate to, and the foreign keys of the entities from that Service, defined
+     * by the REQUIRED foreign_keys argument.
+     *
+     * If the relation already exists it MUST be replaced with the given foreign_keys.
+     * @param primaryKey Primary key argument
+     * @param address remote address
+     * @param service    Foreign Service
+     * @param foreignKey Foreign keys
+     * @return Return the instance of the action
+     */
     public Action relateManyRemote(String primaryKey, String address, String service, List<String> foreignKey) {
         Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations = this.transport.getRelations();
 
@@ -546,7 +563,7 @@ public class Action extends Api {
      *
      * @param link Link name
      * @param uri  Uri of the link
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action setLink(String link, String uri) {
         Map<String, Map<String, Map<String, String>>> pathLink = this.transport.getLinks();
@@ -577,7 +594,7 @@ public class Action extends Api {
      *
      * @param action Action argument name
      * @param params Params argument
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action commit(String action, List<Param> params) {
         List<ServiceTransaction> commit = this.transport.getTransactions().getCommit();
@@ -603,7 +620,7 @@ public class Action extends Api {
      *
      * @param action Action argument name
      * @param params Params argument
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action rollback(String action, List<Param> params) {
         List<ServiceTransaction> rollback = this.transport.getTransactions().getRollback();
@@ -629,7 +646,7 @@ public class Action extends Api {
      *
      * @param action Action argument name
      * @param params Params argument
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action complete(String action, List<Param> params) {
         List<ServiceTransaction> complete = this.transport.getTransactions().getComplete();
@@ -645,7 +662,19 @@ public class Action extends Api {
         return this;
     }
 
-    public Object call(String service, String version, String action, List<Param> params, List<File> files) {
+    /**
+     * perform a run-time Service call within the same Realm with the REQUIRED service argument as the name of the
+     * Service to call, the REQUIRED version argument as the version of the given Service, and the REQUIRED action
+     * argument as the name of the action to call.
+     * @param service Service name
+     * @param version Service version
+     * @param action Action name
+     * @param params Optional parameters
+     * @param files Optional files
+     * @param timeout timeout in milliseconds
+     * @return The return object of the action called
+     */
+    public Object call(String service, String version, String action, List<Param> params, List<File> files, int timeout) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
         if (!serviceSchema.getActionSchema(this.actionName).hasCalls()){
@@ -654,6 +683,9 @@ public class Action extends Api {
 
         // Validate is there are local files
         if (files != null) {
+            if (!getServiceSchema(this.name, this.version).hasFileServer()){
+                return false;
+            }
             for (File file : files) {
                 if (file.isLocal()) {
                     throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_REFERENCE_LOCAL_FILE, this.name, this.version, this.actionName));
@@ -752,62 +784,13 @@ public class Action extends Api {
      * Register a Service call with the REQUIRED service argument as the name of the Service to call, the REQUIRED
      * version argument as the version of the given Service, and the REQUIRED action argument as the name of the action
      * to call.
-     * <p>
-     * The version argument MAY use the * character as a wildcard to filter and select from the registered Service
-     * components, following the precedence order defined in item 11 of the semantic versioning 2.0.0 [17]
-     * specification, for example:
-     * <p>
-     * A.*.C
-     * <p>
-     * The wildcard character here SHOULD match any sequence of characters which are not * or ".". There MUST be at
-     * least 1 character within that range to match, so "A..C" MUST NOT not be a valid match.
-     * <p>
-     * Any version which matches this pattern MUST be considered a valid candidate. If only 1 component matches, then
-     * that component MUST be selected. If more than 1 component matches, then the previously defined order of
-     * precedence MUST be applied, with the first component in the resulting sort being selected. If no matches are
-     * found the Service MUST NOT resolve, and an error MUST be registered with the following message:
-     * <p>
-     * Service not found for version: "%VERSION%"
-     * <p>
-     * Where %VERSION% is the value provided in the version argument.
-     * <p>
-     * If a wildcard character is provided at the beginning of the value to match, it MUST consider the beginning of
-     * the value of the version until the first character other than *, for example:
-     * <p>
-     * .B.C
-     * <p>
-     * This would match "A.B.C" and "123.B.C", and would resolve "123.B.C" as the selected version. If a wildcard
-     * character is provided at the end of the value to match, it MUST consider the point at which it's at until the
-     * end of any value being checked, for example:
-     * <p>
-     * A.B.*
-     * <p>
-     * This would match "A.B.C" and "A.B.321", and would resolve "A.B.321" as the selected version. If 2 or more
-     * wildcard characters are provided in a sequence, every * character after the first MUST be ignored, for example:
-     * <p>
-     * A.***.C
-     * <p>
-     * This would be interpreted as "A.*.C". If the value to match is only the wildcard character, every registered
-     * version SHOULD be checked.
-     * <p>
-     * The OPTIONAL params argument MUST allow parameters to be specified, where each item in the array MUST be a valid
-     * Param object.
-     * <p>
-     * The OPTIONAL files argument MUST allow files to be specified, where each item in the array MUST be a valid File
-     * object. A File object returned by the get_file() function MAY be used, to propagate a file provided to this
-     * Service.
-     * <p>
-     * If the configuration of the Service did not include a file server this function MUST return false.
-     * <p>
-     * If a call has already been defined for the given service, version and action it MUST be aggregated to the array
-     * of actions to call. The order of this registry is relevant.
      *
      * @param service Service name
      * @param version Version of the service
      * @param action  Action name
-     * @param params  Params argument
-     * @param files   array of files
-     * @return Return true if the operation was successful
+     * @param params  Optional parameters
+     * @param files   An optional array of files
+     * @return Return the instance of the action
      */
     public Action deferCall(String service, String version, String action, List<Param> params, List<File> files) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
@@ -859,6 +842,19 @@ public class Action extends Api {
         return this;
     }
 
+    /**
+     * register a remote Service call with the REQUIRED address argument as the public address of a Gateway for that
+     * Realm, the REQUIRED service argument as the name of the remote Service to call, the REQUIRED version argument as
+     * the version of the given Service, and the REQUIRED action argument as the name of the action to call.
+     * @param address Remote address
+     * @param service Service name
+     * @param version Version of the service
+     * @param action  Action name
+     * @param params  Optional parameters
+     * @param files   An optional array of files
+     * @param timeout time to wait for the response
+     * @return Return the instance of the action
+     */
     public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, int timeout) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
@@ -919,7 +915,7 @@ public class Action extends Api {
      * @param message Error message
      * @param code    Error code
      * @param status  Error status
-     * @return Return true if the operation was successful
+     * @return Return the instance of the action
      */
     public Action error(String message, int code, String status) {
         Error error = new Error();
@@ -956,6 +952,11 @@ public class Action extends Api {
         return this;
     }
 
+    /**
+     * define the value to be returned to a Service which is requesting a value to be returned, and which MUST be of the
+     * type defined as the type property in the action configuration.
+     * @param returnObject the object to be returned
+     */
     public void setReturn(Object returnObject) {
         ServiceSchema serviceSchema = getServiceSchema(getName(), getVersion());
         ActionSchema actionSchema = serviceSchema.getActionSchema(getActionName());

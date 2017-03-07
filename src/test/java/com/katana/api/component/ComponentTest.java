@@ -624,7 +624,7 @@ public class ComponentTest {
         assertEquals("users", transactions.getCommit().get(0).getName());
         assertEquals("1.0.0", transactions.getCommit().get(0).getVersion());
         assertEquals("create", transactions.getCommit().get(0).getAction());
-        assertEquals("save", transactions.getCommit().get(0).getCallee());
+        assertEquals("save", transactions.getCommit().get(0).getCaller());
     }
 
     private void assertCalls(List<Call> calls) {

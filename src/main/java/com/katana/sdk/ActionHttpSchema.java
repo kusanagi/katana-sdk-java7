@@ -11,18 +11,38 @@ import java.util.Arrays;
  */
 public class ActionHttpSchema {
 
+    /**
+     * Determines if the action is accessible to a HTTP request via the Gateway, defaults to true
+     */
     @JsonProperty(Key.ACTION_HTTP_SCHEMA_GATEWAY)
     private boolean gateway;
 
+    /**
+     * Defines the path to resolve to the action, prepended with the value of the OPTIONAL http-base-path configuration
+     * property, and which MAY containing parameters using "{" and "}" around a parameter name, defaults to "/"
+     */
     @JsonProperty(Key.ACTION_HTTP_SCHEMA_PATH)
-    private String path;
 
+    private String path;
+    /**
+     * Defines the HTTP method expected for the request to the Gateway, allowed methods are "get", "put", "post",
+     * "delete", "options", "head" and "patch", defaults to "get" if not defined
+     */
     @JsonProperty(Key.ACTION_HTTP_SCHEMA_METHOD)
     private String method;
 
+    /**
+     * Defines the default HTTP parameter location, MUST be either "path", "query", "header", "form-data" or "body", and
+     * defaults to "query"
+     */
     @JsonProperty(Key.ACTION_HTTP_SCHEMA_INPUT)
     private String input;
 
+    /**
+     * Defines the expected MIME type of the HTTP request body for methods other than "get", "options" and "head", which
+     * MAY include multiple MIME types, defaults to ["application/x-www-form-urlencoded", "multipart/form-data",
+     * "text/plain"]
+     */
     @JsonProperty(Key.ACTION_HTTP_SCHEMA_BODY)
     private String[] body;
 
@@ -32,6 +52,7 @@ public class ActionHttpSchema {
         this.method = "get";
         this.input = "query";
         this.body = new String[]{"text/plain"};
+        this.path = "";
     }
 
     public ActionHttpSchema(ActionHttpSchema other) {
@@ -68,23 +89,42 @@ public class ActionHttpSchema {
 
     //SDK Methods
 
+    /**
+     * determine if the Gateway has access to the action.
+     * @return true if the Gateway has access to the action.
+     */
     @JsonIgnore
     public boolean isAccesible() {
         return isGateway();
     }
 
+    /**
+     * @return the HTTP method for the action, or "get" if not defined.
+     */
     public String getMethod() {
         return method;
     }
 
+    /**
+     * @return the URL path for the action, or an empty string if not defined. Note that if a value is defined for the
+     * http-base-path property it would be prepended to the value of the http-path property if defined.
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * @return the default location of parameters for the action, which MAY be "path", "query", "form-data", "header"
+     * or "body", or "query" if not defined.
+     */
     public String getInput() {
         return input;
     }
 
+    /**
+     * @return the expected MIME type of the HTTP request body, which MAY include multiple MIME types separated by a
+     * comma (","), or "text/plain" if not defined.
+     */
     public String[] getBody() {
         return body;
     }

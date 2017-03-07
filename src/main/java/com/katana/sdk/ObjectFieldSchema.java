@@ -11,15 +11,28 @@ import java.util.List;
  */
 public class ObjectFieldSchema {
 
+    /**
+     * Defines the name of the field
+     */
     @JsonProperty(Key.OBJECT_FIELD_SCHEMA_NAME)
     private String name;
 
+    /**
+     * Defines if the field is optional, defaults to false
+     */
     @JsonProperty(Key.OBJECT_FIELD_SCHEMA_OPTIONAL)
     private boolean optional;
 
+    /**
+     * Defines entity fields as an array, where each item is a field schema object
+     */
     @JsonProperty(Key.OBJECT_FIELD_SCHEMA_FIELD)
     private List<FieldSchema> field;
 
+    /**
+     * Defines entity fields which contain other fields as an array, where each item is an object containing an object
+     * field schema
+     */
     @JsonProperty(Key.OBJECT_FIELD_SCHEMA_FIELDS)
     private List<List<ObjectFieldSchema>> fields;
 

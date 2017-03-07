@@ -33,10 +33,20 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
     }
 
     /**
-     * @param callable
+     * take the name of the action as the case-sensitive name argument and the corresponding function, which SHOULD be
+     * used to process the Service action logic in the userland source file for the specified action. The instance of
+     * the Service object SHOULD be returned.
+     *
+     * An instance of the Action class MUST be provided as the first argument of the callback function, while the value
+     * returned by the callback function MUST be the instance of the Action class passed to the function. The return of
+     * any other value, the absence of a return value or the raising of an exception MUST be treated as an error.
+     * @param action The action name
+     * @param callable the callback function that contains the userland logic of the service
+     * @return The instance of the service
      */
-    public void action(String action, Callable<Action> callable) {
+    public Service action(String action, Callable<Action> callable) {
         this.callables.put(action, callable);
+        return this;
     }
 
     @Override
@@ -137,6 +147,15 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
 
     @Override
     protected void runShutdown() {
-        this.shutdownCallable.run(this);
+        if (this.shutdownCallable != null) {
+            this.shutdownCallable.run(this);
+        }
+    }
+
+    @Override
+    protected void runErrorCallback() {
+        if (this.errorCallable != null) {
+            this.errorCallable.run(this);
+        }
     }
 }

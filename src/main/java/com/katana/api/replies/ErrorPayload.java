@@ -9,6 +9,9 @@ import com.katana.sdk.Error;
  */
 public class ErrorPayload {
 
+    /**
+     * The internal error while processing the payload, which MUST NOT contain an error from the userland code
+     */
     @JsonProperty(Key.ERROR)
     private Error error;
 
@@ -16,16 +19,10 @@ public class ErrorPayload {
         //Empty constructor for serialization
     }
 
-    /**
-     * @return
-     */
     public Error getError() {
         return error;
     }
 
-    /**
-     * @param error
-     */
     public void setError(Error error) {
         this.error = error;
     }

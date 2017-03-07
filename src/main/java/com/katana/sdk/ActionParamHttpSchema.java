@@ -9,12 +9,24 @@ import com.katana.api.component.Key;
  */
 public class ActionParamHttpSchema {
 
+    /**
+     * Determines if the action parameter is writable by a HTTP request via the Gateway, if false and the parameter is
+     * provided in the HTTP request it MUST be ignored, defaults to true
+     */
     @JsonProperty(Key.ACTION_PARAM_HTTP_SCHEMA_GATEWAY)
     private boolean gateway;
 
+    /**
+     * Defines the location of the parameter in the HTTP request, which MUST be "path", "query", "header", "form-data"
+     * or "body", and where if "path" the value of the name property (or a value for http-param was defined) MUST be
+     * present in the template for the http-path property of the action element, defaults to "query"
+     */
     @JsonProperty(Key.ACTION_PARAM_HTTP_SCHEMA_INPUT)
     private String input;
 
+    /**
+     * Defines the name of the action parameter as specified via HTTP to be mapped to the name property
+     */
     @JsonProperty(Key.ACTION_PARAM_HTTP_SCHEMA_PARAM)
     private String param;
 
@@ -47,15 +59,26 @@ public class ActionParamHttpSchema {
 
     //SDK Methods
 
+    /**
+     * determine if the Gateway can write to the parameter.
+     * @return true if the Gateway can write to the parameter.
+     */
     @JsonIgnore
     public boolean isAccessible() {
         return isGateway();
     }
 
+    /**
+     * @return the location of the parameter, which MAY be "path", "query", "form-data", "header" or "body", or "query"
+     * if not defined.
+     */
     public String getInput() {
         return input;
     }
 
+    /**
+     * @return the name as specified via HTTP to be mapped to the name property, or the value of the name property.
+     */
     public String getParam() {
         return param;
     }

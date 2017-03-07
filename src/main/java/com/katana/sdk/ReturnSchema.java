@@ -8,9 +8,16 @@ import com.katana.api.component.Key;
  */
 public class ReturnSchema {
 
+    /**
+     * Defines the type of data expected, which MUST be either "null", "boolean", "integer", "float", "string", "array"
+     * or "object"
+     */
     @JsonProperty(Key.RETURN_SCHEMA_TYPE)
     private String type;
 
+    /**
+     * Determines if an empty value MAY be returned, defaults to false if not defined
+     */
     @JsonProperty(Key.RETURN_SCHEMA_ALLOW_EMPTY)
     private boolean allowEmpty;
 

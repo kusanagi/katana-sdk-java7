@@ -11,20 +11,35 @@ import java.util.List;
  * Katana Java SDK
  */
 public class RequestCall implements CommandReplyResult {
+    /**
+     * The name of the Service, if not defined the value of this property MUST be an empty string
+     */
     @JsonProperty(Key.REQUEST_CALL_SERVICE)
     private String service;
 
+    /**
+     * The version of the Service, if not defined the value of this property MUST be an empty string
+     */
     @JsonProperty(Key.REQUEST_CALL_VERSION)
     private String version;
 
+    /**
+     * The name of the action to execute, if not defined the value of this property MUST be an empty string
+     */
     @JsonProperty(Key.REQUEST_CALL_ACTION)
     private String action;
 
+    /**
+     * Additional parameters to pass to the action
+     */
     @JsonProperty(Key.REQUEST_CALL_PARAMS)
     private List<Param> params;
 
     public RequestCall() {
         // Default constructor to make possible the serialization of this object.
+        this.service = "";
+        this.version = "";
+        this.action = "";
     }
 
     public RequestCall(RequestCall other) {

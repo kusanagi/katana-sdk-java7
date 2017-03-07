@@ -13,18 +13,38 @@ import java.util.Map;
  */
 public class TransportSchema {
 
+    /**
+     * Defines the properties to write to the Transport, where each property is a property name, and the value the value
+     * as a string
+     */
     @JsonProperty(Key.TRANSPORT_SCHEMA_PROPERTIES)
     private Map<String, String> properties;
 
+    /**
+     * Defines the entities to write to the Transport as an array, in which each item of the array is a data object,
+     * where each property is the name of the field, and the value a value schema
+     */
     @JsonProperty(Key.TRANSPORT_SCHEMA_DATA)
     private List<Map<String, ValueSchema>> data;
 
+    /**
+     * Defines the relations to write to the Transport as an array, where each item is an array, where the first item is
+     * the ID of the related entity, the second item the name of the Service being related to, and the third either a
+     * single string value for a one-to-one relationship, or an array of string values for a one-to-many relationship
+     */
     @JsonProperty(Key.TRANSPORT_SCHEMA_RELATIONS)
     private List<List<Object>> relations;
 
+    /**
+     * Defines the links to write to the Transport, where each property is the link name, and the value the link URI
+     */
     @JsonProperty(Key.TRANSPORT_SCHEMA_LINKS)
     private Map<String, String> links;
 
+    /**
+     * Defines the errors to write to the Transport as an array, in which each item is an array, where the first item is
+     * the error message, the second the error code, and the third an optional HTTP status code
+     */
     @JsonProperty(Key.TRANSPORT_SCHEMA_ERRORS)
     private List<List<String>> errors;
 

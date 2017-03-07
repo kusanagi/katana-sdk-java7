@@ -8,6 +8,9 @@ import com.katana.api.component.Key;
  */
 public class CommandMeta {
 
+    /**
+     * The type of component making the request
+     */
     @JsonProperty(Key.COMMAND_META_SCOPE)
     private String scope;
 
@@ -19,16 +22,10 @@ public class CommandMeta {
         this.scope = other.scope;
     }
 
-    /**
-     * @return
-     */
     public String getScope() {
         return scope;
     }
 
-    /**
-     * @param scope
-     */
     public void setScope(String scope) {
         this.scope = scope;
     }

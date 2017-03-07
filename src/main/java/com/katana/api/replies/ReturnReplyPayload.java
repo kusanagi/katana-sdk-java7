@@ -13,6 +13,9 @@ import com.katana.sdk.Transport;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReturnReplyPayload implements CommandReplyResult {
 
+    /**
+     * The reply to a command
+     */
     @JsonProperty(Key.REPLY_PAYLOAD_COMMAND_REPLY)
     private ReturnCommandReply ReturnCommandReply;
 
@@ -62,9 +65,15 @@ public class ReturnReplyPayload implements CommandReplyResult {
 
     public static class ReturnCommandReply {
 
+        /**
+         * The name of the command processing the reply
+         */
         @JsonProperty(Key.COMMAND_REPLY_NAME)
         private String name;
 
+        /**
+         * The data provided by the component for the reply
+         */
         @JsonProperty(Key.COMMAND_REPLY_RESULT)
         private ReturnResult ReturnResult;
 
