@@ -711,6 +711,22 @@ public class Action extends Api {
         try {
             // Extract return and return it
             returnCommandReply = serializer.deserialize(response, ReturnReplyPayload.ReturnCommandReply.class);
+
+            //Merge transports
+            Transport responseTransport = returnCommandReply.getResult().getTransport();
+            merge(this.transport.getMeta().getFallback(), responseTransport.getMeta().getFallback());
+            merge(this.transport.getMeta().getProperties(), responseTransport.getMeta().getProperties());
+            merge(this.transport.getData(), responseTransport.getData());
+            merge(this.transport.getRelations(), responseTransport.getRelations());
+            merge(this.transport.getLinks(), responseTransport.getLinks());
+            merge(this.transport.getCalls(), responseTransport.getCalls());
+            merge(this.transport.getTransactions().getCommit(), responseTransport.getTransactions().getCommit());
+            merge(this.transport.getTransactions().getComplete(), responseTransport.getTransactions().getComplete());
+            merge(this.transport.getTransactions().getRollback(), responseTransport.getTransactions().getRollback());
+            merge(this.transport.getErrors(), responseTransport.getErrors());
+            this.transport.setBody(responseTransport.getBody());
+            merge(this.transport.getFiles(), responseTransport.getFiles());
+
             return returnCommandReply.getResult().getReturnObject();
         } catch (IOException e) {
             try {
@@ -720,6 +736,23 @@ public class Action extends Api {
             } catch (IOException e1) {
                 // Throw serialization exception
                 throw new IllegalArgumentException(e.getMessage());
+            }
+        }
+    }
+
+    private void merge(List list1, List list2) {
+        for(Object object : list2){
+            list1.add(object);
+        }
+    }
+
+    private void merge(Map map1, Map map2) {
+        for (Map.Entry<String, Object> entry : ((Map<String, Object>)map2).entrySet()){
+            Object object = map2.get(entry.getKey());
+            if (map1.containsKey(entry.getKey()) && map1.get(entry.getKey()) instanceof Map && object instanceof Map){
+                merge((Map) map1.get(entry.getKey()), (Map) object);
+            } else {
+                map1.put(entry.getKey(), map2.get(entry.getKey()));
             }
         }
     }
