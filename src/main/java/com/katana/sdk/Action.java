@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.Api;
 import com.katana.api.commands.CallCommandPayload;
 import com.katana.api.component.Constants;
+import com.katana.api.component.ExceptionMessage;
 import com.katana.api.component.Key;
 import com.katana.api.component.Serializer;
 import com.katana.api.component.utils.MessagePackSerializer;
@@ -312,7 +313,7 @@ public class Action extends Api {
      */
     public Action setDownload(File file) {
         if (!getServiceSchema(getName(), getVersion()).hasFileServer()){
-            throw new IllegalArgumentException(String.format(Constants.FILE_SERVER_NOT_CONFIGURED, getName(), getVersion()));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.FILE_SERVER_NOT_CONFIGURED, getName(), getVersion()));
         }
         this.transport.setBody(file);
         return this;
@@ -648,14 +649,14 @@ public class Action extends Api {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
         if (!serviceSchema.getActionSchema(this.actionName).hasCalls()){
-            throw new IllegalArgumentException(String.format(Constants.CALL_NOT_CONFIGURED_CONNECTION_TO_ACTION, this.name,  this.version,  this.actionName));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.CALL_NOT_CONFIGURED, this.name,  this.version,  this.actionName));
         }
 
         // Validate is there are local files
         if (files != null) {
             for (File file : files) {
                 if (file.isLocal()) {
-                    throw new IllegalArgumentException(String.format(Constants.CANNOT_REFERENCE_LOCAL_FILE_CONNECTION_TO_ACTION, this.name, this.version, this.actionName));
+                    throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_REFERENCE_LOCAL_FILE, this.name, this.version, this.actionName));
                 }
             }
         }
@@ -812,14 +813,14 @@ public class Action extends Api {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
         if (!serviceSchema.getActionSchema(this.actionName).hasDeferCalls()){
-            throw new IllegalArgumentException(String.format(Constants.DEFERRED_CALL_NOT_CONFIGURED, this.name, this.version, this.actionName));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.DEFERRED_CALL_NOT_CONFIGURED, this.name, this.version, this.actionName));
         }
 
         if (files != null) {
             for (File file : files) {
                 if (file.isLocal() && !serviceSchema.hasFileServer()) {
                     throw new IllegalArgumentException(String.format(
-                            Constants.FILE_SERVER_NOT_CONFIGURED,
+                            ExceptionMessage.FILE_SERVER_NOT_CONFIGURED,
                             this.name,
                             this.version));
                 }
@@ -862,14 +863,14 @@ public class Action extends Api {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
         if (!serviceSchema.getActionSchema(this.actionName).hasRemoteCalls()){
-            throw new IllegalArgumentException(String.format(Constants.REMOTE_CALL_NOT_CONFIGURED_CONNECTION_TO_ACTION, address, this.name, this.version, this.actionName));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.REMOTE_CALL_NOT_CONFIGURED, address, this.name, this.version, this.actionName));
         }
 
         if (files != null) {
             for (File file : files) {
                 if (file.isLocal() && !serviceSchema.hasFileServer()) {
                     throw new IllegalArgumentException(String.format(
-                            Constants.FILE_SERVER_NOT_CONFIGURED,
+                            ExceptionMessage.FILE_SERVER_NOT_CONFIGURED,
                             this.name,
                             this.version));
                 }
@@ -960,7 +961,7 @@ public class Action extends Api {
         ActionSchema actionSchema = serviceSchema.getActionSchema(getActionName());
 
         if (actionSchema.hasReturn()){
-            throw new IllegalArgumentException(String.format(Constants.CANNOT_SET_A_RETURN_VALUE, getName(), getVersion(), getActionName()));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_SET_A_RETURN_VALUE, getName(), getVersion(), getActionName()));
         }
 
         validateReturnObjectType(actionSchema.getReturnType());
@@ -985,7 +986,7 @@ public class Action extends Api {
     }
 
     private Object throwInvalidTypeException() {
-        throw new IllegalArgumentException(String.format(Constants.INVALID_RETURN_TYPE, getName(), getVersion(), getActionName()));
+        throw new IllegalArgumentException(String.format(ExceptionMessage.INVALID_RETURN_TYPE, getName(), getVersion(), getActionName()));
     }
 
     @Override

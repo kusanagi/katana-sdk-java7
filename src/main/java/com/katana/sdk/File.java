@@ -2,7 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.component.Constants;
+import com.katana.api.component.ExceptionMessage;
 import com.katana.api.component.Key;
 import com.katana.api.component.utils.Logger;
 
@@ -139,7 +139,7 @@ public class File {
             return new String(Files.readAllBytes(Paths.get(this.path)));
         } catch (IOException e) {
             Logger.log(e);
-            throw new IllegalArgumentException(String.format(Constants.FILE_DOES_NOT_EXIST_IN_PATH, this.path));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.FILE_DOES_NOT_EXIST_IN_PATH, this.path));
         }
     }
 

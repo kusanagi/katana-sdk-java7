@@ -32,17 +32,17 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
 
     protected static final Option[] APP_OPTIONS = new Option[]{
-            new Option(new String[]{Constants.SHORT_FRAMEWORK_VERSION_ARG, Constants.FRAMEWORK_VERSION_ARG}, true, true, true),
-            new Option(new String[]{Constants.SHORT_COMPONENT_ARG, Constants.COMPONENT_ARG}, true, true, true),
-            new Option(new String[]{Constants.SHORT_NAME_ARG, Constants.NAME_ARG}, true, true, true),
-            new Option(new String[]{Constants.SHORT_VERSION_ARG, Constants.VERSION_ARG}, true, true, true),
-            new Option(new String[]{Constants.SHORT_SOCKET_ARG, Constants.SOCKET_ARG}, true, false, true),
-            new Option(new String[]{Constants.SHORT_TCP_ARG, Constants.TCP_ARG}, true, false, true),
-            new Option(new String[]{Constants.SHORT_VAR_ARG, Constants.VAR_ARG}, false, false, true),
-            new Option(new String[]{Constants.SHORT_DISABLE_COMPACT_NAMES_ARG, Constants.DISABLE_COMPACT_NAMES_ARG}, true, false, false),
-            new Option(new String[]{Constants.SHORT_DEBUG_ARG, Constants.DEBUG_ARG}, true, false, false),
-            new Option(new String[]{Constants.SHORT_CALLBACK_ARG, Constants.CALLBACK_ARG}, true, false, true),
-            new Option(new String[]{Constants.SHORT_QUIET_ARG, Constants.QUIET_ARG}, true, false, false),
+            new Option(new String[]{Arg.SHORT_FRAMEWORK_VERSION_ARG, Arg.FRAMEWORK_VERSION_ARG}, true, true, true),
+            new Option(new String[]{Arg.SHORT_COMPONENT_ARG, Arg.COMPONENT_ARG}, true, true, true),
+            new Option(new String[]{Arg.SHORT_NAME_ARG, Arg.NAME_ARG}, true, true, true),
+            new Option(new String[]{Arg.SHORT_VERSION_ARG, Arg.VERSION_ARG}, true, true, true),
+            new Option(new String[]{Arg.SHORT_SOCKET_ARG, Arg.SOCKET_ARG}, true, false, true),
+            new Option(new String[]{Arg.SHORT_TCP_ARG, Arg.TCP_ARG}, true, false, true),
+            new Option(new String[]{Arg.SHORT_VAR_ARG, Arg.VAR_ARG}, false, false, true),
+            new Option(new String[]{Arg.SHORT_DISABLE_COMPACT_NAMES_ARG, Arg.DISABLE_COMPACT_NAMES_ARG}, true, false, false),
+            new Option(new String[]{Arg.SHORT_DEBUG_ARG, Arg.DEBUG_ARG}, true, false, false),
+            new Option(new String[]{Arg.SHORT_CALLBACK_ARG, Arg.CALLBACK_ARG}, true, false, true),
+            new Option(new String[]{Arg.SHORT_QUIET_ARG, Arg.QUIET_ARG}, true, false, false),
     };
 
     private final String workerEndpoint;
@@ -527,56 +527,56 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
-                case Constants.SHORT_FRAMEWORK_VERSION_ARG:
+                case Arg.SHORT_FRAMEWORK_VERSION_ARG:
                     this.frameworkVersion = option.getValue();
                     if (!this.frameworkVersion.matches(Constants.VERSION_PATTERN)) {
-                        throw new IllegalArgumentException(String.format(Constants.INVALID_FRAMEWORK_VERSION, this.frameworkVersion));
+                        throw new IllegalArgumentException(String.format(ExceptionMessage.INVALID_FRAMEWORK_VERSION, this.frameworkVersion));
                     }
                     break;
-                case Constants.SHORT_COMPONENT_ARG:
+                case Arg.SHORT_COMPONENT_ARG:
                     this.componentName = option.getValue();
                     if (!this.componentName.equals(Constants.SERVICE) && !this.componentName.equals(Constants.MIDDLEWARE)) {
-                        throw new IllegalArgumentException(String.format(Constants.INVALID_COMPONENT_NAME, this.componentName));
+                        throw new IllegalArgumentException(String.format(ExceptionMessage.INVALID_COMPONENT_NAME, this.componentName));
                     }
                     break;
-                case Constants.SHORT_NAME_ARG:
+                case Arg.SHORT_NAME_ARG:
                     this.name = option.getValue();
                     break;
-                case Constants.SHORT_VERSION_ARG:
+                case Arg.SHORT_VERSION_ARG:
                     this.version = option.getValue();
                     if (!this.version.matches(Constants.VERSION_PATTERN)) {
-                        throw new IllegalArgumentException(String.format(Constants.INVALID_VERSION, this.version));
+                        throw new IllegalArgumentException(String.format(ExceptionMessage.INVALID_VERSION, this.version));
                     }
                     break;
-                case Constants.SHORT_SOCKET_ARG:
+                case Arg.SHORT_SOCKET_ARG:
                     this.socket = option.getValue();
                     break;
-                case Constants.SHORT_TCP_ARG:
+                case Arg.SHORT_TCP_ARG:
                     this.tcp = option.getValue();
                     break;
-                case Constants.SHORT_VAR_ARG:
+                case Arg.SHORT_VAR_ARG:
                     String[] varObject = option.getValue().split("=");
                     if (varObject.length < 2) {
-                        throw new IllegalArgumentException(String.format(Constants.INVALID_VARIABLE, option.getValue()));
+                        throw new IllegalArgumentException(String.format(ExceptionMessage.INVALID_VARIABLE, option.getValue()));
                     }
                     String varName = varObject[0];
                     String varValue = varObject[1];
                     this.var.put(varName, varValue);
                     break;
-                case Constants.SHORT_DISABLE_COMPACT_NAMES_ARG:
+                case Arg.SHORT_DISABLE_COMPACT_NAMES_ARG:
                     this.disableCompactName = true;
                     break;
-                case Constants.SHORT_DEBUG_ARG:
+                case Arg.SHORT_DEBUG_ARG:
                     this.debug = true;
                     break;
-                case Constants.SHORT_CALLBACK_ARG:
+                case Arg.SHORT_CALLBACK_ARG:
                     this.callback = option.getValue();
                     break;
-                case Constants.SHORT_QUIET_ARG:
+                case Arg.SHORT_QUIET_ARG:
                     this.quiet = true;
                     break;
                 default:
-                    Logger.log(Logger.ERROR, String.format(Constants.UNSUPPORTED_PARAMETER, option.getNames()[0]));
+                    Logger.log(Logger.ERROR, String.format(ExceptionMessage.UNSUPPORTED_PARAMETER, option.getNames()[0]));
                     break;
             }
         }

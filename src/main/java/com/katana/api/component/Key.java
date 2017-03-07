@@ -246,6 +246,6 @@ public class Key {
     public static final String VALUE_SCHEMA_VALUE = "v";
 
     private Key(){
-
+        // private constructor to block the instantiation of this object
     }
 }

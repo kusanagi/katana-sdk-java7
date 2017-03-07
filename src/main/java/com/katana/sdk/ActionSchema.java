@@ -2,7 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.katana.api.component.Constants;
+import com.katana.api.component.ExceptionMessage;
 import com.katana.api.component.Key;
 
 import java.util.Arrays;
@@ -206,7 +206,7 @@ public class ActionSchema {
         String[] keys = this.entityPath.split(this.pathDelimiter);
         for (String key : keys) {
             if (!data.containsKey(key) && data.get(key) instanceof Map) {
-                throw new IllegalArgumentException(String.format(Constants.CANNOT_RESOLVE_ENTITY, this.name));
+                throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_RESOLVE_ENTITY, this.name));
             }
             data = (Map) data.get(key);
         }
@@ -299,7 +299,7 @@ public class ActionSchema {
 
     public ActionParamSchema getParamSchema(String name) {
         if (!this.params.containsKey(name)) {
-            throw new IllegalArgumentException(String.format(Constants.CANNOT_RESOLVE_SCHEMA_FOR_PARAMETER, name));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_RESOLVE_SCHEMA_FOR_PARAMETER, name));
         }
 
         return this.params.get(name);
@@ -315,7 +315,7 @@ public class ActionSchema {
 
     public FileSchema getFileSchema(String name) {
         if (!this.files.containsKey(name)) {
-            throw new IllegalArgumentException(String.format(Constants.CANNOT_RESOLVE_SCHEMA_FOR_FILE, name));
+            throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_RESOLVE_SCHEMA_FOR_FILE, name));
         }
 
         FileSchema fileSchema = this.files.get(name);
