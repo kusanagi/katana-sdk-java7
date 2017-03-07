@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Constants;
 
 import java.util.List;
 
@@ -74,8 +75,8 @@ public class ActionParamSchema {
     private ActionParamHttpSchema http;
 
     public ActionParamSchema() {
-        this.type = "string";
-        this.arrayFormat = "csv";
+        this.type = Constants.TYPE_STRING;
+        this.arrayFormat = "";
         this.allowEmpty = false;
         this.required = false;
         this.exclusiveMax = false;
@@ -214,6 +215,9 @@ public class ActionParamSchema {
     }
 
     public String getArrayFormat() {
+        if (this.type.equals(Constants.TYPE_ARRAY) && this.arrayFormat.isEmpty()){
+            return Constants.ARRAY_TYPE_CSV;
+        }
         return arrayFormat;
     }
 

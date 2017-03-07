@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Constants;
 import com.katana.api.component.utils.Logger;
 
 import java.io.IOException;
@@ -37,6 +38,9 @@ public class File {
 
     public File() {
         // Default constructor to make possible the serialization of this object.
+        this.path = "";
+        this.mime = "text/plain";
+        this.token = "";
     }
 
     public File(String name, String path, String mime, String filename, String size, String token, boolean exists) {
@@ -134,7 +138,7 @@ public class File {
             return new String(Files.readAllBytes(Paths.get(this.path)));
         } catch (IOException e) {
             Logger.log(e);
-            return null;
+            throw new IllegalArgumentException(String.format(Constants.FILE_DOES_NOT_EXIST_IN_PATH, this.path));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Constants;
 
 /**
  * Created by juan on 3/01/17.
@@ -14,7 +15,7 @@ public class ValueSchema {
     private Object value;
 
     public ValueSchema() {
-        this.type = "string";
+        this.type = Constants.TYPE_STRING;
     }
 
     public ValueSchema(ValueSchema other) {

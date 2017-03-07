@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.Api;
 import com.katana.api.component.Component;
+import com.katana.api.component.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,7 +213,9 @@ public class Request extends Api {
      */
     public Response newResponse(int code, String text) {
         HttpResponse httpResponse = new HttpResponse();
-        httpResponse.setStatus(code, text);
+        if (getGatewayProtocol().equals(Constants.KATANA_PROTOCOL_HTTP)) {
+            httpResponse.setStatus(code, text);
+        }
 
         Response response = new Response(this.component, this.path, this.name, this.version, this.platformVersion, this.variables, this.isDebug);
         response.setTransport(new Transport());

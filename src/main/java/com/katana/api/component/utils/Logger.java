@@ -14,6 +14,8 @@ public class Logger {
     public static final int WARNING = 2;
     public static final int ERROR = 3;
     public static final int DEBUG = 4;
+    public static final String STANDARD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    public static final String LOG_PATTERN = "%s [%s] [SDK] %s";
 
     private static boolean isActive;
 
@@ -50,11 +52,11 @@ public class Logger {
     }
 
     private static String getLog(int type, String message) {
-        SimpleDateFormat standardDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat standardDateFormat = new SimpleDateFormat(STANDARD_DATE_PATTERN);
         Date date = Calendar.getInstance().getTime();
 
         String time = standardDateFormat.format(date);
-        return time + " [" + getType(type) + "] [SDK] " + message + (id == null ? "" : " |"+id+"|");
+        return String.format(LOG_PATTERN, time, getType(type), message + (id == null ? "" : " |"+id+"|"));
     }
 
     private static String getType(int type) {

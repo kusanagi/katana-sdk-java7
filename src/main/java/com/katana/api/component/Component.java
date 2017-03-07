@@ -30,18 +30,19 @@ import java.util.*;
  */
 public abstract class Component<T extends Api, S extends CommandReplyResult, R extends Component> implements ComponentWorker.WorkerListener {
 
+
     protected static final Option[] APP_OPTIONS = new Option[]{
-            new Option(new String[]{"-f", "--framework-version"}, true, true, true),
-            new Option(new String[]{"-c", "--component"}, true, true, true),
-            new Option(new String[]{"-n", "--name"}, true, true, true),
-            new Option(new String[]{"-v", "--version"}, true, true, true),
-            new Option(new String[]{"-s", "--socket"}, true, false, true),
-            new Option(new String[]{"-t", "--tcp"}, true, false, true),
-            new Option(new String[]{"-V", "--var"}, false, false, true),
-            new Option(new String[]{"-d", "--disable-compact-names"}, true, false, false),
-            new Option(new String[]{"-D", "--debug"}, true, false, false),
-            new Option(new String[]{"-C", "--callback"}, true, false, true),
-            new Option(new String[]{"-q", "--quiet"}, true, false, false),
+            new Option(new String[]{Constants.SHORT_FRAMEWORK_VERSION_ARG, Constants.FRAMEWORK_VERSION_ARG}, true, true, true),
+            new Option(new String[]{Constants.SHORT_COMPONENT_ARG, Constants.COMPONENT_ARG}, true, true, true),
+            new Option(new String[]{Constants.SHORT_NAME_ARG, Constants.NAME_ARG}, true, true, true),
+            new Option(new String[]{Constants.SHORT_VERSION_ARG, Constants.VERSION_ARG}, true, true, true),
+            new Option(new String[]{Constants.SHORT_SOCKET_ARG, Constants.SOCKET_ARG}, true, false, true),
+            new Option(new String[]{Constants.SHORT_TCP_ARG, Constants.TCP_ARG}, true, false, true),
+            new Option(new String[]{Constants.SHORT_VAR_ARG, Constants.VAR_ARG}, false, false, true),
+            new Option(new String[]{Constants.SHORT_DISABLE_COMPACT_NAMES_ARG, Constants.DISABLE_COMPACT_NAMES_ARG}, true, false, false),
+            new Option(new String[]{Constants.SHORT_DEBUG_ARG, Constants.DEBUG_ARG}, true, false, false),
+            new Option(new String[]{Constants.SHORT_CALLBACK_ARG, Constants.CALLBACK_ARG}, true, false, true),
+            new Option(new String[]{Constants.SHORT_QUIET_ARG, Constants.QUIET_ARG}, true, false, false),
     };
 
     private final String workerEndpoint;
@@ -117,7 +118,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             Logger.deactivate();
         }
 
-        this.workerEndpoint = Constants.WORKER_ENDPOINT + "_" + UUID.randomUUID().toString();
+        this.workerEndpoint = String.format(Constants.WORKER_ENDPOINT_STRING, Constants.WORKER_ENDPOINT, UUID.randomUUID().toString());
     }
 
     public ZMQ.Context getContext() {
@@ -371,10 +372,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private void bindSocket() {
         if (this.tcp != null) {
-//            router.bind("tcp://" + System.getProperty("katanaip") + ":" + this.tcp);
-            router.bind("tcp://" + "127.0.0.1" + ":" + this.tcp);
+//            router.bind(String.format(TCP_HOST_STRING, TCP, System.getProperty("katanaip"), this.tcp));
+            router.bind(String.format(Constants.TCP_HOST_STRING, Constants.TCP, "127.0.0.1", this.tcp));
         } else {
-            router.bind("ipc://" + this.socket);
+            router.bind(String.format(Constants.IPC_HOST_STRING, Constants.IPC, this.socket));
         }
 
         dealer.bind(this.workerEndpoint);
@@ -398,7 +399,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     private void generateDefaultSocket() {
-        this.socket = "@katana-" + this.componentName + "-" + this.name + "-" + this.version;
+        this.socket = String.format(Constants.KATANA_DEFAULT_SOCKET_STRING, this.componentName, this.name, this.version);
     }
 
     /**
@@ -428,7 +429,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         Error error = new Error();
         error.setMessage(e.getMessage());
         error.setCode(1);
-        error.setStatus("500 Internal Server Error");
+        error.setStatus(Constants.INTERNAL_SERVER_ERROR_STATUS);
 
         ErrorPayload errorPayload = new ErrorPayload();
         errorPayload.setError(error);
@@ -526,56 +527,56 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private void setMembers(List<Option> options) {
         for (Option option : options) {
             switch (option.getNames()[0]) {
-                case "-f":
+                case Constants.SHORT_FRAMEWORK_VERSION_ARG:
                     this.frameworkVersion = option.getValue();
                     if (!this.frameworkVersion.matches(Constants.VERSION_PATTERN)) {
-                        throw new IllegalArgumentException("Invalid framework version " + this.frameworkVersion);
+                        throw new IllegalArgumentException(String.format(Constants.INVALID_FRAMEWORK_VERSION, this.frameworkVersion));
                     }
                     break;
-                case "-c":
+                case Constants.SHORT_COMPONENT_ARG:
                     this.componentName = option.getValue();
                     if (!this.componentName.equals(Constants.SERVICE) && !this.componentName.equals(Constants.MIDDLEWARE)) {
-                        throw new IllegalArgumentException("Invalid componentName " + this.componentName);
+                        throw new IllegalArgumentException(String.format(Constants.INVALID_COMPONENT_NAME, this.componentName));
                     }
                     break;
-                case "-n":
+                case Constants.SHORT_NAME_ARG:
                     this.name = option.getValue();
                     break;
-                case "-v":
+                case Constants.SHORT_VERSION_ARG:
                     this.version = option.getValue();
                     if (!this.version.matches(Constants.VERSION_PATTERN)) {
-                        throw new IllegalArgumentException("Invalid version " + this.version);
+                        throw new IllegalArgumentException(String.format(Constants.INVALID_VERSION, this.version));
                     }
                     break;
-                case "-s":
+                case Constants.SHORT_SOCKET_ARG:
                     this.socket = option.getValue();
                     break;
-                case "-t":
+                case Constants.SHORT_TCP_ARG:
                     this.tcp = option.getValue();
                     break;
-                case "-V":
+                case Constants.SHORT_VAR_ARG:
                     String[] varObject = option.getValue().split("=");
                     if (varObject.length < 2) {
-                        throw new IllegalArgumentException("Invalid variable " + option.getValue());
+                        throw new IllegalArgumentException(String.format(Constants.INVALID_VARIABLE, option.getValue()));
                     }
                     String varName = varObject[0];
                     String varValue = varObject[1];
                     this.var.put(varName, varValue);
                     break;
-                case "-d":
+                case Constants.SHORT_DISABLE_COMPACT_NAMES_ARG:
                     this.disableCompactName = true;
                     break;
-                case "-D":
+                case Constants.SHORT_DEBUG_ARG:
                     this.debug = true;
                     break;
-                case "-C":
+                case Constants.SHORT_CALLBACK_ARG:
                     this.callback = option.getValue();
                     break;
-                case "-q":
+                case Constants.SHORT_QUIET_ARG:
                     this.quiet = true;
                     break;
                 default:
-                    Logger.log(Logger.ERROR, "Unsupported parameter " + option.getNames()[0]);
+                    Logger.log(Logger.ERROR, String.format(Constants.UNSUPPORTED_PARAMETER, option.getNames()[0]));
                     break;
             }
         }
@@ -590,7 +591,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                 ", version='" + version + '\'' +
                 ", frameworkVersion='" + frameworkVersion + '\'' +
                 ", socket='" + socket + '\'' +
-                ", tcp='" + tcp + '\'' +
+                ", " + Constants.TCP + "='" + tcp + '\'' +
                 ", debug=" + debug +
                 ", var=" + var +
                 ", callback=" + callback +

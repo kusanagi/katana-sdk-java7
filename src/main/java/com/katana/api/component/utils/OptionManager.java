@@ -9,9 +9,7 @@ import java.util.List;
 public class OptionManager {
 
     private static final String HAS_BEEN_SET_MORE_THAN_ONCE = "has been set more than once";
-
     private static final String IS_REQUIRED = "is required";
-
     private static final String IS_NOT_VALID = "is not valid";
 
     private List<Option> options;

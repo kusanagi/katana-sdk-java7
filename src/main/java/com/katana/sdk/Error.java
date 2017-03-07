@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Constants;
 
 /**
  * Created by juan on 26/09/16.
@@ -19,7 +20,7 @@ public class Error {
     public Error() {
         this.message = "Unknown error";
         this.code = 0;
-        this.status = "500 Internal Server Error";
+        this.status = Constants.INTERNAL_SERVER_ERROR_STATUS;
     }
 
     public Error(Error other) {

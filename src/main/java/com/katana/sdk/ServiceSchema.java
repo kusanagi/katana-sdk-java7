@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,6 +110,10 @@ public class ServiceSchema {
     }
 
     public ActionSchema getActionSchema(String name) {
+        if (!this.actionSchemas.containsKey(name)){
+            throw new IllegalArgumentException(String.format(Constants.CANNOT_RESOLVE_SCHEMA_FOR_ACTION, name));
+        }
+
         return this.actionSchemas.get(name);
     }
 

@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Constants;
 
 /**
  * Created by juan on 3/01/17.
@@ -14,7 +15,7 @@ public class RelationSchema {
     private String type;
 
     public RelationSchema() {
-        this.type = "one";
+        this.type = Constants.RELATION_ONE;
     }
 
     public RelationSchema(RelationSchema other) {

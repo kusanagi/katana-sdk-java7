@@ -20,6 +20,9 @@ public class Param {
 
     public Param() {
         // Default constructor to make possible the serialization of this object.
+        this.value = "";
+        this.type = "string";
+        this.exists = false;
     }
 
     public Param(String name, Object value, String type, boolean exists) {

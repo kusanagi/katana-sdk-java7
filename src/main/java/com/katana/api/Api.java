@@ -7,12 +7,15 @@ import com.katana.api.component.utils.Logger;
 import com.katana.sdk.Callable;
 import com.katana.api.component.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by juan on 28/08/16.
  */
 public class Api {
+
+    public static final String CANNOT_RESOLVE_SCHEMA_FOR_SERVICE = "Cannot resolve schema for Service: %s (%s)";
 
     protected Component component;
 
@@ -35,6 +38,8 @@ public class Api {
      */
     public Api() {
         // Default constructor to make possible the serialization of this object.
+        this.variables = new HashMap<>();
+        this.isDebug = false;
     }
 
     /**
@@ -223,7 +228,7 @@ public class Api {
         if (mapping.getServiceSchema().containsKey(name) && mapping.getServiceSchema().get(name).containsKey(version)) {
             return mapping.getServiceSchema().get(name).get(version);
         }
-        throw new IllegalArgumentException("Cannot resolve schema for Service: " + name + " (" + version + ")");
+        throw new IllegalArgumentException(String.format(CANNOT_RESOLVE_SCHEMA_FOR_SERVICE, name, version));
     }
 
     public boolean log(String value) {
