@@ -125,8 +125,6 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
 
         transportResult.setTransport((Transport) getReply(componentType, response));
 
-        ServiceSchema serviceSchema = response.getServiceSchema(getName(), getVersion());
-        String returnType = serviceSchema.getActionSchema(componentType).getReturnType();
         transportResult.setReturnObject(response.getReturnObject());
 
         transportCommandReply.setName(getName());

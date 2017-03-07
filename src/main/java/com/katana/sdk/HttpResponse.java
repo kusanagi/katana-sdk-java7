@@ -124,11 +124,11 @@ public class HttpResponse implements CommandReplyResult {
     @JsonIgnore
     public String getStatusText() {
         String[] split = status.split(" ");
-        String statusText = "";
+        StringBuilder statusText = new StringBuilder();
         for (int i = 1; i < split.length; i++) {
-            statusText += split[i];
+            statusText.append(split[i]);
         }
-        return statusText;
+        return statusText.toString();
     }
 
     /**

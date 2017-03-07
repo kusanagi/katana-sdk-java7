@@ -24,11 +24,11 @@ import java.util.Map;
  */
 public class MockFactory {
 
-    public static final String mocksPath = "/resources/";
+    public static final String MOCKS_PATH = "/resources/";
 
     private <T> T getFromJson(String filename, Class<T> aClass) {
         try {
-            URL url = getClass().getResource(mocksPath + filename);
+            URL url = getClass().getResource(MOCKS_PATH + filename);
             Path path = Paths.get(url.toURI());
             byte[] bytes = Files.readAllBytes(path);
             String command = new String(bytes);

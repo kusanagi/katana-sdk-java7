@@ -9,6 +9,7 @@ import com.katana.api.component.Constants;
 import com.katana.api.component.ExceptionMessage;
 import com.katana.api.component.Key;
 import com.katana.api.component.Serializer;
+import com.katana.api.component.utils.Logger;
 import com.katana.api.component.utils.MessagePackSerializer;
 import com.katana.api.replies.ErrorPayload;
 import com.katana.api.replies.ReturnReplyPayload;
@@ -719,6 +720,7 @@ public class Action extends Api {
         try {
             requester.send(serializer.serializeInBytes(payload), 0);
         } catch (JsonProcessingException e) {
+            Logger.log(e);
             throw new IllegalArgumentException(e.getMessage());
         }
 
@@ -755,11 +757,13 @@ public class Action extends Api {
 
             return returnCommandReply.getResult().getReturnObject();
         } catch (IOException e) {
+            Logger.log(e);
             try {
                 // Throw Error Payload as exception
                 errorPayload = serializer.deserialize(response, ErrorPayload.class);
                 throw new IllegalArgumentException(errorPayload.getError().getMessage());
             } catch (IOException e1) {
+                Logger.log(e1);
                 // Throw serialization exception
                 throw new IllegalArgumentException(e.getMessage());
             }
@@ -976,17 +980,12 @@ public class Action extends Api {
     }
 
     private void validateReturnObjectType(String returnType) {
-        if (returnType.equals(Constants.TYPE_BOOLEAN) && !(returnObject instanceof Boolean)) {
-            throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_INTEGER) && !(returnObject instanceof Integer)) {
-            throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_FLOAT) && !(returnObject instanceof Float)) {
-            throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_STRING) && !(returnObject instanceof String)) {
-            throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_ARRAY) && !(returnObject instanceof List)) {
-            throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_OBJECT) && !(returnObject instanceof Map)) {
+        if ((returnType.equals(Constants.TYPE_BOOLEAN) && !(returnObject instanceof Boolean)) ||
+                (returnType.equals(Constants.TYPE_INTEGER) && !(returnObject instanceof Integer)) ||
+                (returnType.equals(Constants.TYPE_FLOAT) && !(returnObject instanceof Float)) ||
+                (returnType.equals(Constants.TYPE_STRING) && !(returnObject instanceof String)) ||
+                (returnType.equals(Constants.TYPE_ARRAY) && !(returnObject instanceof List)) ||
+                (returnType.equals(Constants.TYPE_OBJECT) && !(returnObject instanceof Map))) {
             throwInvalidTypeException();
         }
     }

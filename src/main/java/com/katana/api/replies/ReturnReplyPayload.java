@@ -17,23 +17,23 @@ public class ReturnReplyPayload implements CommandReplyResult {
      * The reply to a command
      */
     @JsonProperty(Key.REPLY_PAYLOAD_COMMAND_REPLY)
-    private ReturnCommandReply ReturnCommandReply;
+    private ReturnCommandReply returnCommandReply;
 
     public ReturnReplyPayload() {
         //Empty constructor for serialization
     }
 
     public ReturnReplyPayload(ReturnReplyPayload other) {
-        this.ReturnCommandReply = other.ReturnCommandReply;
+        this.returnCommandReply = other.returnCommandReply;
     }
 
     @JsonIgnore
     public ReturnCommandReply getCommandReply() {
-        return ReturnCommandReply;
+        return returnCommandReply;
     }
 
-    public void setCommandReply(ReturnCommandReply ReturnCommandReply) {
-        this.ReturnCommandReply = ReturnCommandReply;
+    public void setCommandReply(ReturnCommandReply returnCommandReply) {
+        this.returnCommandReply = returnCommandReply;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ReturnReplyPayload implements CommandReplyResult {
     @Override
     public String toString() {
         return "CommandReplyPayload{" +
-                "ReturnReplyPayload=" + ReturnCommandReply +
+                "ReturnReplyPayload=" + returnCommandReply +
                 '}';
     }
 
@@ -75,7 +75,7 @@ public class ReturnReplyPayload implements CommandReplyResult {
          * The data provided by the component for the reply
          */
         @JsonProperty(Key.COMMAND_REPLY_RESULT)
-        private ReturnResult ReturnResult;
+        private ReturnResult returnResult;
 
         @JsonIgnore
         public String getName() {
@@ -88,11 +88,11 @@ public class ReturnReplyPayload implements CommandReplyResult {
 
         @JsonIgnore
         public ReturnResult getResult() {
-            return ReturnResult;
+            return returnResult;
         }
 
         public void setResult(ReturnResult commandReplyReturnResult) {
-            this.ReturnResult = commandReplyReturnResult;
+            this.returnResult = commandReplyReturnResult;
         }
 
         @Override
@@ -124,7 +124,7 @@ public class ReturnReplyPayload implements CommandReplyResult {
         public String toString() {
             return "CallResult{" +
                     "name='" + name + '\'' +
-                    ", ReturnResult=" + ReturnResult +
+                    ", returnResult=" + returnResult +
                     '}';
         }
     }
@@ -179,7 +179,7 @@ public class ReturnReplyPayload implements CommandReplyResult {
 
         @Override
         public String toString() {
-            return "ReturnResult{" +
+            return "returnResult{" +
                     "transport=" + transport +
                     ", returnObject=" + returnObject +
                     '}';

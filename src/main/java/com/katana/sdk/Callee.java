@@ -28,6 +28,7 @@ public class Callee extends Api {
     private List<File> files;
 
     public Callee() {
+        //Empty constructor for serialization
     }
 
     public Callee(Callee other) {
