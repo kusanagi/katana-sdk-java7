@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Key;
-import com.katana.sdk.Transport;
 import com.katana.api.replies.common.CommandReplyResult;
+import com.katana.sdk.Transport;
 
 /**
  * Created by juan on 30/09/16.

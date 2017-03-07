@@ -113,6 +113,7 @@ public class ServiceSchema {
 
     /**
      * determine if the Service has a configured file server.
+     *
      * @return true if the service has a configured file server
      */
     public boolean hasFileServer() {
@@ -134,6 +135,7 @@ public class ServiceSchema {
 
     /**
      * determine if an action schema exists for the REQUIRED case sensitive name argument.
+     *
      * @param name Action name
      * @return true if the action exists
      */
@@ -144,11 +146,12 @@ public class ServiceSchema {
     /**
      * an instance of the ActionSchema class for the action defined by the REQUIRED case sensitive name argument, using
      * the stored mapping of schemas.
+     *
      * @param name Action name
      * @return the Action Schema object
      */
     public ActionSchema getActionSchema(String name) {
-        if (!this.actionSchemas.containsKey(name)){
+        if (!this.actionSchemas.containsKey(name)) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_RESOLVE_SCHEMA_FOR_ACTION, name));
         }
 
@@ -157,6 +160,7 @@ public class ServiceSchema {
 
     /**
      * an instance of the HttpServiceSchema class for the Service using the stored mapping of schemas.
+     *
      * @return the Http Action Schema object
      */
     public HttpSchema getHttpSchema() {

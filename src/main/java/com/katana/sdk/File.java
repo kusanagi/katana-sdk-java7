@@ -132,7 +132,7 @@ public class File {
     }
 
     /**
-     * @return  the MIME type of the file.
+     * @return the MIME type of the file.
      */
     public String getMime() {
         return mime;
@@ -161,6 +161,7 @@ public class File {
 
     /**
      * determine if a path is defined for the file.
+     *
      * @return true if a path is defined for the file.
      */
     public boolean exists() {
@@ -169,6 +170,7 @@ public class File {
 
     /**
      * determine if a local file beggining with "file://" has been defined for the file.
+     *
      * @return true if a local file beggining with "file://" has been defined for the file.
      */
     @JsonIgnore

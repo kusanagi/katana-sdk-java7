@@ -64,7 +64,7 @@ public class Transport implements CommandReplyResult {
     private Map<String, Map<String, List<Call>>> calls;
 
     /**
-     *  The transactions registered by each Service, if no transactions exist this property SHOULD NOT be defined
+     * The transactions registered by each Service, if no transactions exist this property SHOULD NOT be defined
      */
     @JsonProperty(Key.TRANSPORT_TRANSACTIONS)
     private Transaction transactions;

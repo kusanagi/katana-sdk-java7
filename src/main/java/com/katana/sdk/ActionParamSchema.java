@@ -54,8 +54,8 @@ public class ActionParamSchema {
     private boolean allowEmpty;
 
     /**
-     *  Defines a default value if none is provided that MUST conform with the value defined by "t" (type), not
-     *  applicable for parameters which are required or if not defined
+     * Defines a default value if none is provided that MUST conform with the value defined by "t" (type), not
+     * applicable for parameters which are required or if not defined
      */
     @JsonProperty(Key.ACTION_PARAM_SCHEMA_DEFAULT_VALUE)
     private String defaultValue;
@@ -100,9 +100,9 @@ public class ActionParamSchema {
     private boolean exclusiveMin;
 
     /**
-     *  Defines the maximum length for the value of the parameter if "t" (type) is set to "string", which MUST be less
-     *  than or equal to the value, where the length of the value of the parameter is defined as the number of its
-     *  characters, as defined in RFC4627, not applicable if not defined
+     * Defines the maximum length for the value of the parameter if "t" (type) is set to "string", which MUST be less
+     * than or equal to the value, where the length of the value of the parameter is defined as the number of its
+     * characters, as defined in RFC4627, not applicable if not defined
      */
     @JsonProperty(Key.ACTION_PARAM_SCHEMA_MAX_LENGTH)
     private int maxLength;
@@ -328,14 +328,14 @@ public class ActionParamSchema {
      * "csv" if the type property is set to "array", or otherwise an empty string if not defined.
      */
     public String getArrayFormat() {
-        if (this.type.equals(Constants.TYPE_ARRAY) && this.arrayFormat.isEmpty()){
+        if (this.type.equals(Constants.TYPE_ARRAY) && this.arrayFormat.isEmpty()) {
             return Constants.ARRAY_TYPE_CSV;
         }
         return arrayFormat;
     }
 
     /**
-     * @return  the ECMA 262 compliant regular expression to validate the parameter, or an empty string if not defined.
+     * @return the ECMA 262 compliant regular expression to validate the parameter, or an empty string if not defined.
      */
     public String getPattern() {
         return pattern;
@@ -343,6 +343,7 @@ public class ActionParamSchema {
 
     /**
      * determine if the parameter allows an empty value, defaults to false.
+     *
      * @return true if the parameter allows an empty value
      */
     public boolean allowEmpty() {
@@ -351,6 +352,7 @@ public class ActionParamSchema {
 
     /**
      * determine if the parameter has a default value defined, defaults to false.
+     *
      * @return true if the parameter has a default value defined
      */
     public boolean hasDefaultValue() {
@@ -366,6 +368,7 @@ public class ActionParamSchema {
 
     /**
      * determine if the parameter is required, defaults to false.
+     *
      * @return true if the parameter is required
      */
     public boolean isRequired() {
@@ -373,7 +376,7 @@ public class ActionParamSchema {
     }
 
     /**
-     * @return  the JSON schema defined for the parameter items, or an empty object if not defined or the type property
+     * @return the JSON schema defined for the parameter items, or an empty object if not defined or the type property
      * is not set to "array".
      */
     public String getItems() {
@@ -391,6 +394,7 @@ public class ActionParamSchema {
     /**
      * determine if the parameter MUST be less than the value set for the max property, and which MUST return false if
      * the max property is not defined, defaults to false.
+     *
      * @return true if the parameter MUST be less than the value set for the max property
      */
     public boolean isExclusiveMax() {
@@ -408,6 +412,7 @@ public class ActionParamSchema {
     /**
      * determine if the parameter MUST be greater than the value set for the min property, and which MUST return false
      * if the min property is not defined, defaults to false.
+     *
      * @return true if the parameter MUST be greater than the value set for the min property
      */
     public boolean isExclusiveMin() {
@@ -446,6 +451,7 @@ public class ActionParamSchema {
 
     /**
      * determine if the parameter MUST contain a set of unique elements, defaults to false.
+     *
      * @return true if the parameter MUST contain a set of unique elements
      */
     public boolean isUniqueItems() {

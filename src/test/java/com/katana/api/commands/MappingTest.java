@@ -17,7 +17,7 @@ public class MappingTest {
         MockFactory mockFactory = new MockFactory();
         Mapping object = mockFactory.getMapping("users", "0.1.0");
         Assert.assertEquals(object, new Mapping(object));
-        Assert.assertEquals(-980277706, object.hashCode());
+        Assert.assertEquals(-980562114, object.hashCode());
     }
 
 }

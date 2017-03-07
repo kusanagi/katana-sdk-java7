@@ -5,7 +5,7 @@ package com.katana.api.component.utils;
  */
 public class Factory {
 
-    private Factory(){
+    private Factory() {
         // private constructor to block the instantiation of this object
     }
 

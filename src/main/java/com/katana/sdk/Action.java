@@ -303,7 +303,7 @@ public class Action extends Api {
      * @return Return the instance of the action
      */
     public Action setDownload(File file) {
-        if (!getServiceSchema(getName(), getVersion()).hasFileServer()){
+        if (!getServiceSchema(getName(), getVersion()).hasFileServer()) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.FILE_SERVER_NOT_CONFIGURED, getName(), getVersion()));
         }
         this.transport.setBody(file);
@@ -467,10 +467,11 @@ public class Action extends Api {
      * from another Realm, defined by the REQUIRED address argument as the public address of a Gateway for that Realm,
      * the REQUIRED service as the name of the Service to relate to, and the foreign key on the entity from that
      * Service, defined by the REQUIRED foreign_key argument.
-     *
+     * <p>
      * If the relation already exists it MUST be replaced with the given foreign_key.
+     *
      * @param primaryKey Primary key argument
-     * @param address remote address
+     * @param address    remote address
      * @param service    Foreign Service
      * @param foreignKey Foreign key argument
      * @return Return the instance of the action
@@ -514,10 +515,11 @@ public class Action extends Api {
      * Service, defined by the REQUIRED address argument as the public address of a Gateway for that Realm, the REQUIRED
      * service as the name of the Service to relate to, and the foreign keys of the entities from that Service, defined
      * by the REQUIRED foreign_keys argument.
-     *
+     * <p>
      * If the relation already exists it MUST be replaced with the given foreign_keys.
+     *
      * @param primaryKey Primary key argument
-     * @param address remote address
+     * @param address    remote address
      * @param service    Foreign Service
      * @param foreignKey Foreign keys
      * @return Return the instance of the action
@@ -666,24 +668,25 @@ public class Action extends Api {
      * perform a run-time Service call within the same Realm with the REQUIRED service argument as the name of the
      * Service to call, the REQUIRED version argument as the version of the given Service, and the REQUIRED action
      * argument as the name of the action to call.
+     *
      * @param service Service name
      * @param version Service version
-     * @param action Action name
-     * @param params Optional parameters
-     * @param files Optional files
+     * @param action  Action name
+     * @param params  Optional parameters
+     * @param files   Optional files
      * @param timeout timeout in milliseconds
      * @return The return object of the action called
      */
     public Object call(String service, String version, String action, List<Param> params, List<File> files, int timeout) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
-        if (!serviceSchema.getActionSchema(this.actionName).hasCalls()){
-            throw new IllegalArgumentException(String.format(ExceptionMessage.CALL_NOT_CONFIGURED, this.name,  this.version,  this.actionName));
+        if (!serviceSchema.getActionSchema(this.actionName).hasCalls()) {
+            throw new IllegalArgumentException(String.format(ExceptionMessage.CALL_NOT_CONFIGURED, this.name, this.version, this.actionName));
         }
 
         // Validate is there are local files
         if (files != null) {
-            if (!getServiceSchema(this.name, this.version).hasFileServer()){
+            if (!getServiceSchema(this.name, this.version).hasFileServer()) {
                 return false;
             }
             for (File file : files) {
@@ -764,15 +767,15 @@ public class Action extends Api {
     }
 
     private void merge(List list1, List list2) {
-        for(Object object : list2){
+        for (Object object : list2) {
             list1.add(object);
         }
     }
 
     private void merge(Map map1, Map map2) {
-        for (Map.Entry<String, Object> entry : ((Map<String, Object>)map2).entrySet()){
+        for (Map.Entry<String, Object> entry : ((Map<String, Object>) map2).entrySet()) {
             Object object = map2.get(entry.getKey());
-            if (map1.containsKey(entry.getKey()) && map1.get(entry.getKey()) instanceof Map && object instanceof Map){
+            if (map1.containsKey(entry.getKey()) && map1.get(entry.getKey()) instanceof Map && object instanceof Map) {
                 merge((Map) map1.get(entry.getKey()), (Map) object);
             } else {
                 map1.put(entry.getKey(), map2.get(entry.getKey()));
@@ -795,7 +798,7 @@ public class Action extends Api {
     public Action deferCall(String service, String version, String action, List<Param> params, List<File> files) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
-        if (!serviceSchema.getActionSchema(this.actionName).hasDeferCalls()){
+        if (!serviceSchema.getActionSchema(this.actionName).hasDeferCalls()) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.DEFERRED_CALL_NOT_CONFIGURED, this.name, this.version, this.actionName));
         }
 
@@ -846,6 +849,7 @@ public class Action extends Api {
      * register a remote Service call with the REQUIRED address argument as the public address of a Gateway for that
      * Realm, the REQUIRED service argument as the name of the remote Service to call, the REQUIRED version argument as
      * the version of the given Service, and the REQUIRED action argument as the name of the action to call.
+     *
      * @param address Remote address
      * @param service Service name
      * @param version Version of the service
@@ -858,7 +862,7 @@ public class Action extends Api {
     public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, int timeout) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
-        if (!serviceSchema.getActionSchema(this.actionName).hasRemoteCalls()){
+        if (!serviceSchema.getActionSchema(this.actionName).hasRemoteCalls()) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.REMOTE_CALL_NOT_CONFIGURED, address, this.name, this.version, this.actionName));
         }
 
@@ -955,13 +959,14 @@ public class Action extends Api {
     /**
      * define the value to be returned to a Service which is requesting a value to be returned, and which MUST be of the
      * type defined as the type property in the action configuration.
+     *
      * @param returnObject the object to be returned
      */
     public void setReturn(Object returnObject) {
         ServiceSchema serviceSchema = getServiceSchema(getName(), getVersion());
         ActionSchema actionSchema = serviceSchema.getActionSchema(getActionName());
 
-        if (actionSchema.hasReturn()){
+        if (actionSchema.hasReturn()) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_SET_A_RETURN_VALUE, getName(), getVersion(), getActionName()));
         }
 
@@ -973,15 +978,15 @@ public class Action extends Api {
     private void validateReturnObjectType(String returnType) {
         if (returnType.equals(Constants.TYPE_BOOLEAN) && !(returnObject instanceof Boolean)) {
             throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_INTEGER) && !(returnObject instanceof Integer)){
+        } else if (returnType.equals(Constants.TYPE_INTEGER) && !(returnObject instanceof Integer)) {
             throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_FLOAT) && !(returnObject instanceof Float)){
+        } else if (returnType.equals(Constants.TYPE_FLOAT) && !(returnObject instanceof Float)) {
             throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_STRING) && !(returnObject instanceof String)){
+        } else if (returnType.equals(Constants.TYPE_STRING) && !(returnObject instanceof String)) {
             throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_ARRAY) && !(returnObject instanceof List)){
+        } else if (returnType.equals(Constants.TYPE_ARRAY) && !(returnObject instanceof List)) {
             throwInvalidTypeException();
-        } else if (returnType.equals(Constants.TYPE_OBJECT) && !(returnObject instanceof Map)){
+        } else if (returnType.equals(Constants.TYPE_OBJECT) && !(returnObject instanceof Map)) {
             throwInvalidTypeException();
         }
     }

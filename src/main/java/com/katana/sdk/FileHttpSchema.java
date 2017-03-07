@@ -47,6 +47,7 @@ public class FileHttpSchema {
 
     /**
      * determine if the Gateway can write to the file parameter.
+     *
      * @return true if the Gateway can write to the file parameter.
      */
     @JsonIgnore

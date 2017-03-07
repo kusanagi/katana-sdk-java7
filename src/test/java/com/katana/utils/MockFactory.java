@@ -5,10 +5,10 @@ import com.katana.api.commands.Mapping;
 import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
 import com.katana.api.commands.common.CommandMeta;
+import com.katana.api.component.Serializer;
 import com.katana.api.component.utils.Logger;
 import com.katana.api.component.utils.MessagePackSerializer;
 import com.katana.sdk.*;
-import com.katana.api.component.Serializer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -85,31 +85,31 @@ public class MockFactory {
     }
 
     public ActionHttpSchema getActionHttpSchama() {
-        return getServiceSchema().getActionSchema("list").getHttp();
+        return getServiceSchema().getActionSchema("read").getHttp();
     }
 
     public ActionParamHttpSchema getActionParamHttpSchema() {
-        return getServiceSchema().getActionSchema("list").getParamSchema("user_id").getHttpSchema();
+        return getActionParamSchema().getHttpSchema();
     }
 
     public ActionParamSchema getActionParamSchema() {
-        return getServiceSchema().getActionSchema("list").getParamSchema("user_id");
+        return getActionSchema().getParamSchema("user_id");
     }
 
     public ActionSchema getActionSchema() {
-        return getServiceSchema().getActionSchema("list");
+        return getServiceSchema().getActionSchema("read");
     }
 
     public EntitySchema getEntitySchema() {
-        return getServiceSchema().getActionSchema("list").getEntity();
+        return getActionSchema().getEntity();
     }
 
     public FieldSchema getFieldSchema() {
-        return getServiceSchema().getActionSchema("list").getEntity().getField().get(0);
+        return getActionSchema().getEntity().getField().get(0);
     }
 
     public FileHttpSchema getFileHttpSchema() {
-        return getActionSchema().getFileSchema("avatar").getHttpSchema();
+        return getFileSchema().getHttpSchema();
     }
 
     public FileSchema getFileSchema() {

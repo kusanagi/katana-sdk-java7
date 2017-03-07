@@ -2,15 +2,13 @@ package com.katana.sdk;
 
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
+import com.katana.api.component.Component;
+import com.katana.api.component.Constants;
 import com.katana.api.component.utils.Logger;
 import com.katana.api.replies.TransportReplyPayload;
 import com.katana.api.replies.common.CommandReplyResult;
-import com.katana.api.component.Constants;
-import com.katana.api.component.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,11 +34,12 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
      * take the name of the action as the case-sensitive name argument and the corresponding function, which SHOULD be
      * used to process the Service action logic in the userland source file for the specified action. The instance of
      * the Service object SHOULD be returned.
-     *
+     * <p>
      * An instance of the Action class MUST be provided as the first argument of the callback function, while the value
      * returned by the callback function MUST be the instance of the Action class passed to the function. The return of
      * any other value, the absence of a return value or the raising of an exception MUST be treated as an error.
-     * @param action The action name
+     *
+     * @param action   The action name
      * @param callable the callback function that contains the userland logic of the service
      * @return The instance of the service
      */
@@ -127,7 +126,7 @@ public class Service extends Component<Action, TransportReplyPayload, Service> {
         transportResult.setTransport((Transport) getReply(componentType, response));
 
         ServiceSchema serviceSchema = response.getServiceSchema(getName(), getVersion());
-        String returnType = serviceSchema.getActionSchema(getName()).getReturnType();
+        String returnType = serviceSchema.getActionSchema(componentType).getReturnType();
         transportResult.setReturnObject(response.getReturnObject());
 
         transportCommandReply.setName(getName());

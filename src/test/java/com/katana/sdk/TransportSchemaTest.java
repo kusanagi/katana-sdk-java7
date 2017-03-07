@@ -1,6 +1,5 @@
 package com.katana.sdk;
 
-import com.katana.sdk.TransportSchema;
 import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,9 +31,9 @@ public class TransportSchemaTest {
         MockFactory mockFactory = new MockFactory();
         TransportSchema object = mockFactory.getTransportSchema();
         Assert.assertEquals(object, new TransportSchema(object));
-        Assert.assertEquals(1723662092, object.hashCode());
+        Assert.assertEquals(-296674616, object.hashCode());
         Assert.assertEquals(
-                "TransportSchema{properties={foo=123}, data=[{id=ValueSchema{type='integer', value=321}, name=ValueSchema{type='string', value=James}, status=ValueSchema{type='null', value=null}, info=ValueSchema{type='array', value=[{v=Hello World}]}, stats=ValueSchema{type='object', value={count={t=integer, v=12345}}}}], relations=[[1, user, 5], [1, comments, [3, 8]]], links={self=/1.0.0/posts}, errors=[[Unable to process posts, 0, 560 Logic Error]]}",
+                "TransportSchema{properties={foo=123}, data=[{id=ValueSchema{type='integer', value=321, items=null}, name=ValueSchema{type='string', value=James, items=null}, status=ValueSchema{type='null', value=null, items=null}, info=ValueSchema{type='array', value=[{v=Hello World}], items=null}, stats=ValueSchema{type='object', value={count={t=integer, v=12345}}, items=null}}], relations=[[1, user, 5], [1, comments, [3, 8]]], links={self=/1.0.0/posts}, errors=[[Unable to process posts, 0, 560 Logic Error]]}",
                 object.toString());
     }
 

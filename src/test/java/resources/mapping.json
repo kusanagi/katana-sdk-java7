@@ -140,6 +140,10 @@
           "n": "posts"
         }
       ],
+      "R": {
+        "t": "integer",
+        "e": false
+      },
       "f": {
         "avatar": {
           "m": "image/jpeg",

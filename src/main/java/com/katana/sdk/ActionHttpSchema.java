@@ -52,7 +52,6 @@ public class ActionHttpSchema {
         this.method = "get";
         this.input = "query";
         this.body = new String[]{"text/plain"};
-        this.path = "";
     }
 
     public ActionHttpSchema(ActionHttpSchema other) {
@@ -91,6 +90,7 @@ public class ActionHttpSchema {
 
     /**
      * determine if the Gateway has access to the action.
+     *
      * @return true if the Gateway has access to the action.
      */
     @JsonIgnore

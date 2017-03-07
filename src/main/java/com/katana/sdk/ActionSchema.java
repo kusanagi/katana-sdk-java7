@@ -240,6 +240,7 @@ public class ActionSchema {
 
     /**
      * determine if the action has been deprecated, defaults to false.
+     *
      * @return true if the action has been deprecated
      */
     public boolean isDeprecated() {
@@ -249,6 +250,7 @@ public class ActionSchema {
     /**
      * determine if the action returns a collection of entities. If false the action SHOULD return a single entity,
      * defaults to false.
+     *
      * @return true if the action returns a collection of entities
      */
     public boolean isCollection() {
@@ -285,8 +287,9 @@ public class ActionSchema {
     }
 
     /**
-     *  take an object and return the entity part, based upon the entity-path and path-delimiter properties in the
-     *  action configuration.
+     * take an object and return the entity part, based upon the entity-path and path-delimiter properties in the
+     * action configuration.
+     *
      * @param data
      * @return
      */
@@ -307,6 +310,7 @@ public class ActionSchema {
 
     /**
      * determine if an entity definition exists for the action.
+     *
      * @return true if an entity definition exists for the action.
      */
     public boolean hasEntity() {
@@ -322,6 +326,7 @@ public class ActionSchema {
 
     /**
      * determine if any relations exists for the action.
+     *
      * @return true if any relations exists for the action.
      */
     public boolean hasRelations() {
@@ -339,9 +344,10 @@ public class ActionSchema {
     /**
      * determine if a run-time call exists for a Service with the given case-sensitive name argument, and OPTIONAL
      * version and action arguments.
-     * @param name Service name
+     *
+     * @param name    Service name
      * @param version Service version
-     * @param action Action name
+     * @param action  Action name
      * @return true if a run-time call exists for a Service with the given case-sensitive name argument, and OPTIONAL
      * version and action arguments.
      */
@@ -358,6 +364,7 @@ public class ActionSchema {
 
     /**
      * determine if any run-time calls exist for the action.
+     *
      * @return true if any run-time calls exist for the action.
      */
     public boolean hasCalls() {
@@ -376,9 +383,10 @@ public class ActionSchema {
      * determine if a deferred call exists for a Service with the given case-sensitive name argument, and OPTIONAL
      * version and action arguments.
      * version and action arguments.
-     * @param name Service name
+     *
+     * @param name    Service name
      * @param version Service version
-     * @param action Action name
+     * @param action  Action name
      * @return true if a deferred call exists for a Service with the given case-sensitive name argument, and OPTIONAL
      * version and action arguments.
      */
@@ -393,6 +401,7 @@ public class ActionSchema {
 
     /**
      * determine if any deferred calls exist for the action.
+     *
      * @return true if any deferred calls exist for the action.
      */
     public boolean hasDeferCalls() {
@@ -403,17 +412,19 @@ public class ActionSchema {
      * @return the deferred calls as an array, where each item is an array containing the Service name, the Service
      * version and the action name as a string, or an empty array if no deferred calls are defined.
      */
+    @JsonIgnore
     public String[][] getDeferCalls() {
-        return deferredCalls;
+        return getDeferredCalls();
     }
 
 
     /**
      * determine if a remote call exists for a Service with the given case-sensitive name argument, and OPTIONAL
      * version and action arguments.
-     * @param name Service name
+     *
+     * @param name    Service name
      * @param version Service version
-     * @param action Action name
+     * @param action  Action name
      * @return true if a remote call exists for a Service with the given case-sensitive name argument, and OPTIONAL
      * version and action arguments.
      */
@@ -430,6 +441,7 @@ public class ActionSchema {
 
     /**
      * determine if any remote calls exist for the action.
+     *
      * @return true if any remote calls exist for the action.
      */
     public boolean hasRemoteCalls() {
@@ -446,6 +458,7 @@ public class ActionSchema {
 
     /**
      * determine if a return value is defined for the action.
+     *
      * @return true if a return value is defined for the action.
      */
     public boolean hasReturn() {
@@ -456,6 +469,7 @@ public class ActionSchema {
      * @return the data type of the returned value, which MAY be "null", "boolean", "integer", "float", "string",
      * "array" or "object".
      */
+    @JsonIgnore
     public String getReturnType() {
         return this.returnObject.getType();
     }
@@ -470,6 +484,7 @@ public class ActionSchema {
 
     /**
      * determine if a parameter schema exists for the REQUIRED case sensitive name argument.
+     *
      * @param name Parameter name
      * @return true if a parameter schema exists for the REQUIRED case sensitive name argument.
      */
@@ -499,6 +514,7 @@ public class ActionSchema {
 
     /**
      * determine if a file parameter schema exists for the REQUIRED case sensitive name argument.
+     *
      * @param name File name
      * @return true if a file parameter schema exists for the REQUIRED case sensitive name argument.
      */

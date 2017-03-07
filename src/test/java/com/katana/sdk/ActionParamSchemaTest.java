@@ -1,6 +1,5 @@
 package com.katana.sdk;
 
-import com.katana.sdk.ActionParamSchema;
 import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +20,6 @@ public class ActionParamSchemaTest {
     @Test
     public void defaultValues() {
         Assert.assertEquals("string", actionParamSchema.getType());
-        Assert.assertEquals("csv", actionParamSchema.getArrayFormat());
         Assert.assertFalse(actionParamSchema.isAllowEmpty());
         Assert.assertFalse(actionParamSchema.isRequired());
         Assert.assertFalse(actionParamSchema.isExclusiveMax());

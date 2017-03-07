@@ -1,6 +1,5 @@
 package com.katana.sdk;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -2,15 +2,18 @@ package com.katana.api.component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.Api;
-import com.katana.api.component.utils.*;
-import com.katana.sdk.Error;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
+import com.katana.api.component.utils.Factory;
+import com.katana.api.component.utils.Logger;
+import com.katana.api.component.utils.Option;
+import com.katana.api.component.utils.OptionManager;
 import com.katana.api.replies.ErrorPayload;
 import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.sdk.ActionSchema;
-import com.katana.sdk.ServiceSchema;
 import com.katana.sdk.Callable;
+import com.katana.sdk.Error;
+import com.katana.sdk.ServiceSchema;
 import org.zeromq.ZMQ;
 
 import java.io.IOException;
@@ -216,7 +219,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * take a function which executes and returns a resource to store under the REQUIRED case sensitive name argument.
      * If the function does not return a value it MUST be treated as an error.
-     * @param name resource name
+     *
+     * @param name     resource name
      * @param resource resource function
      * @return true
      */
@@ -227,6 +231,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     /**
      * determine if a resource has been stored under the REQUIRED case sensitive name argument.
+     *
      * @param name resource name
      * @return true if the resource exist
      */
@@ -235,8 +240,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     /**
-     *  return the resource stored under the REQUIRED case sensitive name argument. If a resource is not stored under
-     *  the specified name it MUST be treated as an error.
+     * return the resource stored under the REQUIRED case sensitive name argument. If a resource is not stored under
+     * the specified name it MUST be treated as an error.
+     *
      * @param name resource name
      * @return the resource stored under the REQUIRED case sensitive name argument
      */
@@ -247,9 +253,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * take a function, which SHOULD be executed upon first running the userland source file, and return the instance of
      * the object.
-     *
+     * <p>
      * The instance of the Component class MUST be provided as the first argument of the callback function, while any
      * value returned by the callback function MUST be ignored.
+     *
      * @param callback callback function
      * @return the component
      */
@@ -261,9 +268,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * take a function, which SHOULD be executed if the SDK receives a signal to terminate its process, and return the
      * instance of the object.
-     *
+     * <p>
      * The instance of the Component class MUST be provided as the first argument of the callback function, while any
      * value returned by the callback function MUST be ignored.
+     *
      * @param callback callback function
      * @return the component
      */
@@ -273,12 +281,13 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     /**
-     *  function MUST take a function, which SHOULD be executed whenever an error is thrown or returned from a callback
-     *  when processing a message in userland, and return the instance of the object.
-     *
+     * function MUST take a function, which SHOULD be executed whenever an error is thrown or returned from a callback
+     * when processing a message in userland, and return the instance of the object.
+     * <p>
      * The instance of the error object caught or returned MUST be provided as the first argument of the callback
      * function. The type of object SHOULD be the most acceptable to the implementation language. No return value is
      * expected from this callback function, and any value returned SHOULD be ignored.
+     *
      * @param callback callback function
      * @return the component
      */
@@ -290,7 +299,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     /**
      * This is where ZeroMQ and MessagePack are implemented, and the long running process initialized to receive incoming
      * messages.
-     *
+     * <p>
      * Upon executing the userland source code any callback functions registered MUST be stored so they MAY be referenced
      * by either "request" or "response" in the case of Middleware, or by the specific action name in the case of a
      * Service. This reference SHOULD then be used to effectively route messages received by the SDK to their relevant
@@ -321,6 +330,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      * send a string representation of the value argument to stdout as a "DEBUG" log, with a length limit on the value
      * of 100,000 characters (not including the other elements of the log message, such as the timestamp), and return
      * true. If the component is not running in debug mode this function MUST NOT send a log, and SHOULD return false.
+     *
      * @param value String to log
      * @return true if the value gets logged
      */

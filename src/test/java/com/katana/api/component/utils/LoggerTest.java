@@ -26,6 +26,7 @@ public class LoggerTest {
     @Before
     public void setup() {
         Logger.activate();
+        Logger.setId(null);
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }

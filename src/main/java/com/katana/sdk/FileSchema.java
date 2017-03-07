@@ -115,7 +115,7 @@ public class FileSchema {
     //SDK Methods
 
     /**
-     * @return  the unique name of the file parameter.
+     * @return the unique name of the file parameter.
      */
     @JsonIgnore
     public String getName() {
@@ -132,6 +132,7 @@ public class FileSchema {
 
     /**
      * determine if the parameter is required, defaults to false.
+     *
      * @return true if the parameter is required
      */
     public boolean isRequired() {
@@ -149,6 +150,7 @@ public class FileSchema {
     /**
      * determine if the parameter MUST be less than the value set for the max property, and which MUST return false if
      * the max property is not defined, defaults to false.
+     *
      * @return true if the parameter MUST be less than the value set for the max property
      */
     public boolean isExclusiveMax() {
@@ -165,6 +167,7 @@ public class FileSchema {
     /**
      * determine if the parameter MUST be greater than the value set for the min property, and which MUST return false
      * if the min property is not defined, defaults to false.
+     *
      * @return true if the parameter MUST be greater than the value set for the min property
      */
     public boolean isExclusiveMin() {

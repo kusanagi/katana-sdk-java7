@@ -15,8 +15,8 @@ public class Param {
     private String name;
 
     /**
-     *  The value of the variable, which MAY be converted from the configuration based on the given type value, or null
-     *  if the variable for the given name does not exist
+     * The value of the variable, which MAY be converted from the configuration based on the given type value, or null
+     * if the variable for the given name does not exist
      */
     @JsonProperty(Key.PARAM_VALUE)
     private Object value;
@@ -95,6 +95,7 @@ public class Param {
 
     /**
      * determine if the parameter exists in the request.
+     *
      * @return true if the parameter exists in the request.
      */
     public boolean exists() {

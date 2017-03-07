@@ -1,16 +1,16 @@
 package com.katana.api.component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.katana.api.*;
-import com.katana.sdk.*;
+import com.katana.api.Api;
 import com.katana.api.commands.ActionCommandPayload;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.RequestCommandPayload;
 import com.katana.api.commands.ResponseCommandPayload;
+import com.katana.api.component.utils.MessagePackSerializer;
 import com.katana.api.replies.CallReplyPayload;
 import com.katana.api.replies.ResponseReplyPayload;
 import com.katana.api.replies.TransportReplyPayload;
-import com.katana.api.component.utils.MessagePackSerializer;
+import com.katana.sdk.*;
 import com.katana.sdk.Error;
 import com.katana.utils.MockFactory;
 import com.katana.utils.TestClient;
@@ -205,7 +205,7 @@ public class ComponentTest {
         final CallReplyPayload[] callReplyPayloads = new CallReplyPayload[1];
 
         final RequestCommandPayload requestCommandPayload = mockFactory.getRequestCommandPayload();
-        final Mapping mapping = mockFactory.getMapping("users", "1.0.0");
+        final Mapping mapping = mockFactory.getMapping("users", "0.2.0");
 
         TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
         testMiddleware.getMiddleware().request(new Callable<Request>() {
@@ -267,7 +267,7 @@ public class ComponentTest {
         assertEquals("0.2.0", request.getServiceVersion());
         assertEquals("example", request.getActionName());
         assertEquals(false, request.hasParam("name"));
-        assertEquals(null, request.getParam("name"));
+        assertEquals(false, request.getParam("name").exists());
         assertEquals(true, request.hasParam("tlf"));
         assertEquals("555555", request.getParam("tlf").getValue());
         assertEquals("string", request.getParam("tlf").getType());
@@ -312,7 +312,7 @@ public class ComponentTest {
         final ResponseReplyPayload[] responseReplyPayloads = new ResponseReplyPayload[1];
 
         final ResponseCommandPayload responseCommandPayload = mockFactory.getResponseCommandPayload();
-        final Mapping mapping = mockFactory.getMapping("posts", "1.0.0");
+        final Mapping mapping = mockFactory.getMapping("users", "0.2.0");
 
         TestMiddleware testMiddleware = new TestMiddleware("-c middleware -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
         testMiddleware.getMiddleware().response(new Callable<Response>() {
@@ -400,7 +400,7 @@ public class ComponentTest {
         final TransportReplyPayload[] transportReplyPayloads = new TransportReplyPayload[1];
 
         final ActionCommandPayload actionCommandPayload = mockFactory.getActionCommandPayload();
-        final Mapping mapping = mockFactory.getMapping("posts", "1.0.0");
+        final Mapping mapping = mockFactory.getMapping("users", "0.2.0");
 
         TestService testService = new TestService("-c service -n users -v 0.2.0 -f 0.1.0 -t " + PORT + " -D -V workers=1");
         testService.getService().action("read", new Callable<Action>() {
@@ -429,7 +429,7 @@ public class ComponentTest {
                 object.commit("create", params);
                 object.rollback("create", params);
                 object.complete("create", params);
-                object.call("posts", "0.1.0", "read", params, null);
+                object.deferCall("posts", "0.1.0", "read", params, null);
                 object.callRemote("http://192.168.55.10", "posts", "0.1.0", "read", params, null, 1000);
                 object.error("Unauthorized", 401, "401 Unauthorized");
                 transports[0] = object.getTransport();
@@ -484,7 +484,7 @@ public class ComponentTest {
         assertEquals(true, actionSchema.isDeprecated());
         assertEquals(1000, actionSchema.getTimeout());
         assertEquals(true, actionSchema.isCollection());
-        assertEquals("list", actionSchema.getName());
+        assertEquals("read", actionSchema.getName());
         assertEquals("entity:data", actionSchema.getEntityPath());
         assertEquals(":", actionSchema.getPathDelimiter());
         assertEquals("uid", actionSchema.getPrimaryKey());
@@ -583,13 +583,13 @@ public class ComponentTest {
     }
 
     private void assertServiceSchema(ServiceSchema serviceSchema) {
-        assertEquals("posts", serviceSchema.getName());
-        assertEquals("1.0.0", serviceSchema.getVersion());
+        assertEquals("users", serviceSchema.getName());
+        assertEquals("0.2.0", serviceSchema.getVersion());
         assertEquals(true, serviceSchema.hasFileServer());
-        assertEquals("list", serviceSchema.getActions().get(0));
-        assertEquals(true, serviceSchema.hasAction("list"));
-        assertEquals(false, serviceSchema.hasAction("read"));
-        assertActionSchema(serviceSchema.getActionSchema("list"));
+        assertEquals("read", serviceSchema.getActions().get(0));
+        assertEquals(true, serviceSchema.hasAction("read"));
+        assertEquals(false, serviceSchema.hasAction("list"));
+        assertActionSchema(serviceSchema.getActionSchema("read"));
         assertHttpSchema(serviceSchema.getHttpSchema());
     }
 
@@ -661,7 +661,7 @@ public class ComponentTest {
         assertEquals(2, action.getFiles().size());
 
         assertTransport(action.getTransport());
-        assertServiceSchema(action.getServiceSchema("posts", "1.0.0"));
+        assertServiceSchema(action.getServiceSchema("users", "0.2.0"));
     }
 
     @Test

@@ -8,7 +8,6 @@ import com.katana.api.component.Constants;
 import com.katana.api.component.Key;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,6 +80,7 @@ public class Request extends Api {
 
     /**
      * return the protocol implemented by the Gateway component handling the request.
+     *
      * @return the protocol.
      */
     @JsonIgnore
@@ -90,6 +90,7 @@ public class Request extends Api {
 
     /**
      * return the public address of the Gateway component handling the request.
+     *
      * @return the public address
      */
     @JsonIgnore
@@ -99,6 +100,7 @@ public class Request extends Api {
 
     /**
      * return the IP address and port of the client which sent the request.
+     *
      * @return the IP address
      */
     @JsonIgnore
@@ -165,6 +167,7 @@ public class Request extends Api {
 
     /**
      * determine if a parameter with the name specified by the REQUIRED case sensitive name argument has been defined.
+     *
      * @param name param name
      * @return true if the param has been defined
      */
@@ -182,9 +185,10 @@ public class Request extends Api {
 
     /**
      * get the parameter with the REQUIRED case sensitive name argument, and which MUST be returned as a Param object.
-     *
+     * <p>
      * If the parameter was not provided in the request a Param object MUST be returned with the exists property set to
      * false.
+     *
      * @param name param name
      * @return the param with the name argument
      */
@@ -219,6 +223,7 @@ public class Request extends Api {
 
     /**
      * add the parameter provided as the param argument.
+     *
      * @param param param to be added
      * @return the instance of the request
      */
@@ -232,13 +237,14 @@ public class Request extends Api {
 
     /**
      * create a new parameter with the REQUIRED name argument, and which MUST be returned as a Param object.
-     *
+     * <p>
      * If the OPTIONAL value or type arguments are specified these MUST also be applied to the Param object. The value of
      * the type argument MUST be either "null", "boolean", "integer", "float", "string", "array" or "object", where any
      * other value MUST be accepted as "string".
-     * @param name parameter name
+     *
+     * @param name  parameter name
      * @param value parameter value
-     * @param type parameter data type
+     * @param type  parameter data type
      * @return an instance of the parameter
      */
     public Param newParam(String name, String value, String type) {

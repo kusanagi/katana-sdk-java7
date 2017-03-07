@@ -1,6 +1,5 @@
 package com.katana.sdk;
 
-import com.katana.sdk.ServiceTransaction;
 import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +16,7 @@ public class ServiceTransactionTest {
         Assert.assertEquals(object, new ServiceTransaction(object));
         Assert.assertEquals(-723744961, object.hashCode());
         Assert.assertEquals(
-                "ServiceTransaction{name='users', version='1.0.0', action='create', callee='save', params=[Param{name='user_id', value='123', type='integer', exists=false}]}",
+                "ServiceTransaction{name='users', version='1.0.0', action='create', caller='save', params=[Param{name='user_id', value='123', type='integer', exists=false}]}",
                 object.toString());
     }
 

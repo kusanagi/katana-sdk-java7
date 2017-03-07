@@ -47,6 +47,7 @@ public class HttpSchema {
 
     /**
      * determine if the Gateway has access to the Service.
+     *
      * @return true if the gate way has access to the service
      */
     @JsonIgnore
@@ -55,7 +56,7 @@ public class HttpSchema {
     }
 
     /**
-     * @return  return the base HTTP path for the Service.
+     * @return return the base HTTP path for the Service.
      */
     public String getBasePath() {
         return basePath;

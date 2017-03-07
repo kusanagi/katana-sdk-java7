@@ -1,6 +1,5 @@
 package com.katana.sdk;
 
-import com.katana.sdk.Error;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

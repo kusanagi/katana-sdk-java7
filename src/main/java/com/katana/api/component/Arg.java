@@ -125,7 +125,7 @@ public class Arg {
      */
     public static final String QUIET_ARG = "--quiet";
 
-    private Arg(){
+    private Arg() {
 
     }
 }

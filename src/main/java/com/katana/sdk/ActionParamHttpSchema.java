@@ -61,6 +61,7 @@ public class ActionParamHttpSchema {
 
     /**
      * determine if the Gateway can write to the parameter.
+     *
      * @return true if the Gateway can write to the parameter.
      */
     @JsonIgnore

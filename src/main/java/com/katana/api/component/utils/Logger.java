@@ -56,7 +56,7 @@ public class Logger {
         Date date = Calendar.getInstance().getTime();
 
         String time = standardDateFormat.format(date);
-        return String.format(LOG_PATTERN, time, getType(type), message + (id == null ? "" : " |"+id+"|"));
+        return String.format(LOG_PATTERN, time, getType(type), message + (id == null ? "" : " |" + id + "|"));
     }
 
     private static String getType(int type) {

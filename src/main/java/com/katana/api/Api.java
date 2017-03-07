@@ -2,10 +2,11 @@ package com.katana.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.katana.api.commands.Mapping;
-import com.katana.sdk.ServiceSchema;
+import com.katana.api.component.Component;
+import com.katana.api.component.ExceptionMessage;
 import com.katana.api.component.utils.Logger;
 import com.katana.sdk.Callable;
-import com.katana.api.component.Component;
+import com.katana.sdk.ServiceSchema;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +15,6 @@ import java.util.Map;
  * Created by juan on 28/08/16.
  */
 public class Api {
-
-    public static final String CANNOT_RESOLVE_SCHEMA_FOR_SERVICE = "Cannot resolve schema for Service: %s (%s)";
 
     protected Component component;
 
@@ -229,13 +228,14 @@ public class Api {
         if (mapping.getServiceSchema().containsKey(name) && mapping.getServiceSchema().get(name).containsKey(version)) {
             return mapping.getServiceSchema().get(name).get(version);
         }
-        throw new IllegalArgumentException(String.format(CANNOT_RESOLVE_SCHEMA_FOR_SERVICE, name, version));
+        throw new IllegalArgumentException(String.format(ExceptionMessage.CANNOT_RESOLVE_SCHEMA_FOR_SERVICE, name, version));
     }
 
     /**
      * send a string representation of the value argument to stdout as a "DEBUG" log, with a length limit on the value
      * of 100,000 characters (not including the other elements of the log message, such as the timestamp), and return
      * true. If the component is not running in debug mode this function MUST NOT send a log, and SHOULD return false.
+     *
      * @param value String to log
      * @return true if the value gets logged
      */

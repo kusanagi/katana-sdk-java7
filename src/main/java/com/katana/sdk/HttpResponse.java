@@ -125,7 +125,7 @@ public class HttpResponse implements CommandReplyResult {
     public String getStatusText() {
         String[] split = status.split(" ");
         String statusText = "";
-        for (int i = 1; i < split.length; i++){
+        for (int i = 1; i < split.length; i++) {
             statusText += split[i];
         }
         return statusText;
@@ -159,7 +159,7 @@ public class HttpResponse implements CommandReplyResult {
      * argument, or an empty string if the header does not exist.
      */
     public String getHeader(String name) {
-        if (!this.headers.containsKey(name)){
+        if (!this.headers.containsKey(name)) {
             return "";
         }
         return this.headers.get(name).get(0);

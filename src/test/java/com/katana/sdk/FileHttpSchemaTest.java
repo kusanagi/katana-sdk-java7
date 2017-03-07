@@ -1,6 +1,5 @@
 package com.katana.sdk;
 
-import com.katana.sdk.FileHttpSchema;
 import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;

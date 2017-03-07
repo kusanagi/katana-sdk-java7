@@ -1,6 +1,5 @@
 package com.katana.sdk;
 
-import com.katana.sdk.ValueSchema;
 import com.katana.utils.MockFactory;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,9 +27,9 @@ public class ValueSchemaTest {
         MockFactory mockFactory = new MockFactory();
         ValueSchema object = mockFactory.getValueSchema();
         Assert.assertEquals(object, new ValueSchema(object));
-        Assert.assertEquals(570075075, object.hashCode());
+        Assert.assertEquals(492458141, object.hashCode());
         Assert.assertEquals(
-                "ValueSchema{type='integer', value=321}",
+                "ValueSchema{type='integer', value=321, items=null}",
                 object.toString());
     }
 

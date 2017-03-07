@@ -23,8 +23,9 @@ public class ExceptionMessage {
     public static final String CANNOT_RESOLVE_SCHEMA_FOR_FILE = "Cannot resolve schema for file: %s";
     public static final String FILE_DOES_NOT_EXIST_IN_PATH = "File does not exist in path: %s";
     public static final String CANNOT_RESOLVE_SCHEMA_FOR_ACTION = "Cannot resolve schema for action: %s";
+    public static final String CANNOT_RESOLVE_SCHEMA_FOR_SERVICE = "Cannot resolve schema for service: %s (%s)";
 
-    private ExceptionMessage(){
+    private ExceptionMessage() {
         // private constructor to block the instantiation of this object
     }
 }
