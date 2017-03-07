@@ -2,6 +2,7 @@ package com.katana.api.component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.Api;
+import com.katana.api.component.utils.*;
 import com.katana.sdk.Error;
 import com.katana.api.commands.Mapping;
 import com.katana.api.commands.common.CommandPayload;
@@ -9,10 +10,6 @@ import com.katana.api.replies.ErrorPayload;
 import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.sdk.ActionSchema;
 import com.katana.sdk.ServiceSchema;
-import com.katana.api.component.utils.Logger;
-import com.katana.api.component.utils.MessagePackSerializer;
-import com.katana.api.component.utils.Option;
-import com.katana.api.component.utils.OptionManager;
 import com.katana.sdk.Callable;
 import org.zeromq.ZMQ;
 
@@ -101,8 +98,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     public Component(String[] args) {
         this.var = new HashMap<>();
         this.resources = new HashMap<>();
-        this.serializer = new MessagePackSerializer();
-        this.optionManager = new OptionManager();
+        this.serializer = Factory.getSerializer();
+        this.optionManager = Factory.getOptionManager();
         this.optionManager.setOptions(Arrays.asList(APP_OPTIONS));
         this.workers = new ArrayList<>();
 
