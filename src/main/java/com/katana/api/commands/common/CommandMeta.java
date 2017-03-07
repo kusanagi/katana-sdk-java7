@@ -1,13 +1,14 @@
 package com.katana.api.commands.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 26/09/16.
  */
 public class CommandMeta {
 
-    @JsonProperty("s")
+    @JsonProperty(Key.COMMAND_META_SCOPE)
     private String scope;
 
     public CommandMeta() {

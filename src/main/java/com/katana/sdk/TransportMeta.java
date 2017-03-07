@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,28 +15,28 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransportMeta {
 
-    @JsonProperty("v")
+    @JsonProperty(Key.TRANSPORT_META_VERSION)
     private String version;
 
-    @JsonProperty("i")
+    @JsonProperty(Key.TRANSPORT_META_ID)
     private String id;
 
-    @JsonProperty("d")
+    @JsonProperty(Key.TRANSPORT_META_DATETIME)
     private String datetime;
 
-    @JsonProperty("g")
+    @JsonProperty(Key.TRANSPORT_META_GATEWAY)
     private List<String> gateway;
 
-    @JsonProperty("o")
+    @JsonProperty(Key.TRANSPORT_META_ORIGIN)
     private String[] origin;
 
-    @JsonProperty("l")
+    @JsonProperty(Key.TRANSPORT_META_LEVEL)
     private int level;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.TRANSPORT_META_FALLBACK)
     private List<List<Object>> fallback;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.TRANSPORT_META_PROPERTIES)
     private Map<String, String> properties;
 
     public TransportMeta() {

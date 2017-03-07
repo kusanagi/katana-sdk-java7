@@ -3,6 +3,7 @@ package com.katana.sdk;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 import com.katana.api.replies.common.CommandReplyResult;
 
 import java.util.ArrayList;
@@ -17,31 +18,31 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Transport implements CommandReplyResult {
 
-    @JsonProperty("m")
+    @JsonProperty(Key.TRANSPORT_META)
     private TransportMeta meta;
 
-    @JsonProperty("b")
+    @JsonProperty(Key.TRANSPORT_BODY)
     private File body;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.TRANSPORT_FILES)
     private Map<String, Map<String, Map<String, Map<String, Map<String, File>>>>> files;
 
-    @JsonProperty("d")
+    @JsonProperty(Key.TRANSPORT_DATA)
     private Map<String, Map<String, Map<String, Map<String, Object>>>> data;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.TRANSPORT_RELATIONS)
     private Map<String, Map<String, Map<String, Map<String, Map<String, Object>>>>> relations;
 
-    @JsonProperty("l")
+    @JsonProperty(Key.TRANSPORT_LINKS)
     private Map<String, Map<String, Map<String, String>>> links;
 
-    @JsonProperty("C")
+    @JsonProperty(Key.TRANSPORT_CALLS)
     private Map<String, Map<String, List<Call>>> calls;
 
-    @JsonProperty("t")
+    @JsonProperty(Key.TRANSPORT_TRANSACTIONS)
     private Transaction transactions;
 
-    @JsonProperty("e")
+    @JsonProperty(Key.TRANSPORT_ERRORS)
     private Map<String, Map<String, Map<String, List<Error>>>> errors;
 
     /**

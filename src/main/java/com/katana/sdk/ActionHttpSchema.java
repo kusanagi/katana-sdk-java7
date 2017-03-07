@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.Arrays;
 
@@ -10,19 +11,19 @@ import java.util.Arrays;
  */
 public class ActionHttpSchema {
 
-    @JsonProperty("g")
+    @JsonProperty(Key.ACTION_HTTP_SCHEMA_GATEWAY)
     private boolean gateway;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.ACTION_HTTP_SCHEMA_PATH)
     private String path;
 
-    @JsonProperty("m")
+    @JsonProperty(Key.ACTION_HTTP_SCHEMA_METHOD)
     private String method;
 
-    @JsonProperty("i")
+    @JsonProperty(Key.ACTION_HTTP_SCHEMA_INPUT)
     private String input;
 
-    @JsonProperty("b")
+    @JsonProperty(Key.ACTION_HTTP_SCHEMA_BODY)
     private String[] body;
 
     public ActionHttpSchema() {

@@ -3,6 +3,7 @@ package com.katana.sdk;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 import com.katana.api.component.utils.Logger;
 
 import java.io.IOException;
@@ -19,19 +20,19 @@ public class File {
 
     private String name;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.FILE_PATH)
     private String path;
 
-    @JsonProperty("m")
+    @JsonProperty(Key.FILE_MIME)
     private String mime;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.FILE_FILENAME)
     private String filename;
 
-    @JsonProperty("s")
+    @JsonProperty(Key.FILE_SIZE)
     private String size;
 
-    @JsonProperty("t")
+    @JsonProperty(Key.FILE_TOKEN)
     private String token;
 
     private boolean exists;

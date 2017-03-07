@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.List;
 
@@ -9,22 +10,22 @@ import java.util.List;
  */
 public class Call {
 
-    @JsonProperty("n")
+    @JsonProperty(Key.CALL_NAME)
     private String name;
 
-    @JsonProperty("v")
+    @JsonProperty(Key.CALL_VERSION)
     private String version;
 
-    @JsonProperty("a")
+    @JsonProperty(Key.CALL_ACTION)
     private String action;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.CALL_PARAMS)
     private List<Param> params;
 
-    @JsonProperty("g")
+    @JsonProperty(Key.CALL_GATEWAY)
     private String gateway;
 
-    @JsonProperty("t")
+    @JsonProperty(Key.CALL_TIMEOUT)
     private int timeout;
 
     public Call() {

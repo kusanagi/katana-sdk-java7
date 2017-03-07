@@ -2,7 +2,7 @@ package com.katana.api.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.commands.common.CommandPayload;
-import com.katana.sdk.Action;
+import com.katana.api.component.Key;
 import com.katana.sdk.Callee;
 
 /**
@@ -10,7 +10,7 @@ import com.katana.sdk.Callee;
  */
 public class CallCommandPayload extends CommandPayload<Callee> {
 
-    @JsonProperty("c")
+    @JsonProperty(Key.COMMAND_PAYLOAD_COMMAND)
     private CallCommandPayload.CallCommand command;
 
     public CallCommandPayload() {
@@ -64,7 +64,7 @@ public class CallCommandPayload extends CommandPayload<Callee> {
 
     public static class CallCommand extends CommandPayload.Command<Callee> {
 
-        @JsonProperty("a")
+        @JsonProperty(Key.COMMAND_ARGUMENT)
         private Callee argument;
 
         public CallCommand() {

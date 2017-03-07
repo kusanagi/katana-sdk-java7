@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.List;
 
@@ -10,13 +11,13 @@ import java.util.List;
  */
 public class Transaction {
 
-    @JsonProperty("c")
+    @JsonProperty(Key.TRANSACTION_COMMIT)
     private List<ServiceTransaction> commit;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.TRANSACTION_ROLLBACK)
     private List<ServiceTransaction> rollback;
 
-    @JsonProperty("C")
+    @JsonProperty(Key.TRANSACTION_COMPLETE)
     private List<ServiceTransaction> complete;
 
     public Transaction() {

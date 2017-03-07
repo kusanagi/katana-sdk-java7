@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.Api;
 import com.katana.api.commands.CallCommandPayload;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 import com.katana.api.component.Serializer;
 import com.katana.api.component.utils.MessagePackSerializer;
 import com.katana.api.replies.ErrorPayload;
@@ -22,13 +23,13 @@ import java.util.Map;
  * Created by juan on 27/08/16.
  */
 public class Action extends Api {
-    @JsonProperty("p")
+    @JsonProperty(Key.ACTION_PARAMS)
     private List<Param> params;
 
-    @JsonProperty("T")
+    @JsonProperty(Key.ACTION_TRANSPORT)
     private Transport transport;
 
-    @JsonProperty("R")
+    @JsonProperty(Key.ACTION_RETURN_OBJECT)
     private Object returnObject;
 
     private String actionName;
@@ -378,10 +379,10 @@ public class Action extends Api {
     }
 
     /**
-     * Register a "one-to-one" relation between the entity with the REQUIRED primary_key argument and the foreign
+     * Register a "one-to-one" relation between the entity with the REQUIRED primary argument and the foreign
      * Service, defined by the REQUIRED case sensitive service argument, and the foreign key on the entity from that
-     * Service, defined by the REQUIRED foreign_key argument.
-     * If the relation already exists it MUST be replaced with the given foreign_key.
+     * Service, defined by the REQUIRED foreign argument.
+     * If the relation already exists it MUST be replaced with the given foreign.
      *
      * @param primaryKey Primary key argument
      * @param service    Foreign Service
@@ -424,10 +425,10 @@ public class Action extends Api {
     }
 
     /**
-     * Register a "one-to-many" relation between the entity with the REQUIRED primary_key argument and the foreign
+     * Register a "one-to-many" relation between the entity with the REQUIRED primary argument and the foreign
      * Service, defined by the REQUIRED case sensitive service argument, and the foreign keys of the entities from
-     * that Service, defined by the REQUIRED foreign_keys argument.
-     * If the relation already exists it MUST be replaced with the given foreign_keys.
+     * that Service, defined by the REQUIRED foreigns argument.
+     * If the relation already exists it MUST be replaced with the given foreigns.
      *
      * @param primaryKey Primary key argument
      * @param service    Foreign Service

@@ -2,16 +2,17 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 3/01/17.
  */
 public class ValueSchema {
 
-    @JsonProperty("t")
+    @JsonProperty(Key.VALUE_SCHEMA_TYPE)
     private String type;
 
-    @JsonProperty("v")
+    @JsonProperty(Key.VALUE_SCHEMA_VALUE)
     private Object value;
 
     public ValueSchema() {

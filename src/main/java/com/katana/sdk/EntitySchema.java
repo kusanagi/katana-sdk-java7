@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.List;
  */
 public class EntitySchema {
 
-    @JsonProperty("f")
+    @JsonProperty(Key.ENTITY_SCHEMA_FIELD)
     private List<FieldSchema> field;
 
-    @JsonProperty("F")
+    @JsonProperty(Key.ENTITY_SCHEMA_FIELDS)
     private List<ObjectFieldSchema> fields;
 
-    @JsonProperty("V")
+    @JsonProperty(Key.ENTITY_SCHEMA_VALIDATE)
     private boolean validate;
 
     public EntitySchema() {

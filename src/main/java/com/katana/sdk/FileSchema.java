@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 3/01/17.
@@ -10,25 +11,25 @@ public class FileSchema {
 
     private String name;
 
-    @JsonProperty("m")
+    @JsonProperty(Key.FILE_SCHEMA_MIME)
     private String mime;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.FILE_SCHEMA_REQUIRED)
     private boolean required;
 
-    @JsonProperty("mx")
+    @JsonProperty(Key.FILE_SCHEMA_MAX)
     private int max;
 
-    @JsonProperty("ex")
+    @JsonProperty(Key.FILE_SCHEMA_EXCLUSIVE_MAX)
     private boolean exclusiveMax;
 
-    @JsonProperty("mn")
+    @JsonProperty(Key.FILE_SCHEMA_MIN)
     private int min;
 
-    @JsonProperty("en")
+    @JsonProperty(Key.FILE_SCHEMA_EXCLUSIVE_MIN)
     private boolean exclusiveMin;
 
-    @JsonProperty("h")
+    @JsonProperty(Key.FILE_SCHEMA_HTTP)
     private FileHttpSchema http;
 
     public FileSchema() {

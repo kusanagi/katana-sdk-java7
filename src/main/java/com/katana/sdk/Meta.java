@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.List;
 
@@ -10,25 +11,25 @@ import java.util.List;
  */
 public class Meta {
 
-    @JsonProperty("v")
+    @JsonProperty(Key.META_VERSION)
     private String version;
 
-    @JsonProperty("i")
+    @JsonProperty(Key.META_ID)
     private String id;
 
-    @JsonProperty("d")
+    @JsonProperty(Key.META_DATETIME)
     private String datetime;
 
-    @JsonProperty("t")
+    @JsonProperty(Key.META_TYPE)
     private int type;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.META_PROTOCOL)
     private String protocol;
 
-    @JsonProperty("g")
+    @JsonProperty(Key.META_GATEWAY)
     private List<String> gateway;
 
-    @JsonProperty("c")
+    @JsonProperty(Key.META_CLIENT)
     private String client;
 
     public Meta() {

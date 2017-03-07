@@ -3,6 +3,7 @@ package com.katana.sdk;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,52 +17,52 @@ public class ActionSchema {
 
     private String name;
 
-    @JsonProperty("x")
+    @JsonProperty(Key.ACTION_SCHEMA_TIMEOUT)
     private int timeout;
 
-    @JsonProperty("e")
+    @JsonProperty(Key.ACTION_SCHEMA_ENTITY_PATH)
     private String entityPath;
 
-    @JsonProperty("d")
+    @JsonProperty(Key.ACTION_SCHEMA_PATH_DELIMITER)
     private String pathDelimiter;
 
-    @JsonProperty("k")
+    @JsonProperty(Key.ACTION_SCHEMA_PRIMARY)
     private String primaryKey;
 
-    @JsonProperty("c")
+    @JsonProperty(Key.ACTION_SCHEMA_COLLECTION)
     private boolean collection;
 
-    @JsonProperty("C")
+    @JsonProperty(Key.ACTION_SCHEMA_CALLS)
     private String[][] calls;
 
-    @JsonProperty("dc")
+    @JsonProperty(Key.ACTION_SCHEMA_DEFERRED_CALLS)
     private String[][] deferredCalls;
 
-    @JsonProperty("rc")
+    @JsonProperty(Key.ACTION_SCHEMA_REMOTE_CALLS)
     private String[][] remoteCalls;
 
-    @JsonProperty("F")
+    @JsonProperty(Key.ACTION_SCHEMA_FALLBACKS)
     private Map<String, TransportSchema> fallbacks;
 
-    @JsonProperty("D")
+    @JsonProperty(Key.ACTION_SCHEMA_DEPRECATED)
     private boolean deprecated;
 
-    @JsonProperty("h")
+    @JsonProperty(Key.ACTION_SCHEMA_HTTP)
     private ActionHttpSchema http;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.ACTION_SCHEMA_PARAMS)
     private Map<String, ActionParamSchema> params;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.ACTION_SCHEMA_FILES)
     private Map<String, FileSchema> files;
 
-    @JsonProperty("E")
+    @JsonProperty(Key.ACTION_SCHEMA_ENTITY)
     private EntitySchema entity;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.ACTION_SCHEMA_RELATIONS)
     private List<RelationSchema> relations;
 
-    @JsonProperty("R")
+    @JsonProperty(Key.ACTION_SCHEMA_RETURN_OBJECT)
     private ReturnSchema returnObject;
 
     public ActionSchema() {

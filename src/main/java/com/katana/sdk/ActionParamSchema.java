@@ -3,6 +3,7 @@ package com.katana.sdk;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 
 import java.util.List;
 
@@ -11,67 +12,67 @@ import java.util.List;
  */
 public class ActionParamSchema {
 
-    @JsonProperty("n")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_NAME)
     private String name;
 
-    @JsonProperty("t")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_TYPE)
     private String type;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_FORMAT)
     private String format;
 
-    @JsonProperty("af")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_ARRAY_FORMAT)
     private String arrayFormat;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_PATTERN)
     private String pattern;
 
-    @JsonProperty("e")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_ALLOW_EMPTY)
     private boolean allowEmpty;
 
-    @JsonProperty("d")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_DEFAULT_VALUE)
     private String defaultValue;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_REQUIRED)
     private boolean required;
 
-    @JsonProperty("i")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_ITEMS)
     private String items;
 
-    @JsonProperty("mx")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_MAX)
     private int max;
 
-    @JsonProperty("ex")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_EXCLUSIVE_MAX)
     private boolean exclusiveMax;
 
-    @JsonProperty("mn")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_MIN)
     private int min;
 
-    @JsonProperty("en")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_EXCLUSIVE_MIN)
     private boolean exclusiveMin;
 
-    @JsonProperty("xl")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_MAX_LENGTH)
     private int maxLength;
 
-    @JsonProperty("nl")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_MIN_LENGTH)
     private int minLength;
 
-    @JsonProperty("xi")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_MAX_ITEMS)
     private int maxItems;
 
-    @JsonProperty("ni")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_MIN_ITEMS)
     private int minItems;
 
-    @JsonProperty("ui")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_UNIQUE_ITEMS)
     private boolean uniqueItems;
 
-    @JsonProperty("em")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_ENUMERATION)
     private List<String> enumeration;
 
-    @JsonProperty("mo")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_MULTIPLE_OF)
     private int multipleOf;
 
-    @JsonProperty("h")
+    @JsonProperty(Key.ACTION_PARAM_SCHEMA_HTTP)
     private ActionParamHttpSchema http;
 
     public ActionParamSchema() {

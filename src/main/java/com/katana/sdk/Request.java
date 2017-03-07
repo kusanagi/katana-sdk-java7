@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.Api;
 import com.katana.api.component.Component;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +15,13 @@ import java.util.Map;
  * Created by juan on 27/08/16.
  */
 public class Request extends Api {
-    @JsonProperty("m")
+    @JsonProperty(Key.REQUEST_META)
     private Meta meta;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.REQUEST_HTTP_REQUEST)
     private HttpRequest httpRequest;
 
-    @JsonProperty("c")
+    @JsonProperty(Key.REQUEST_REQUEST_CALL)
     private RequestCall requestCall;
 
     public Request() {

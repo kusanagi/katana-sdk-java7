@@ -2,19 +2,20 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 3/01/17.
  */
 public class ActionParamHttpSchema {
 
-    @JsonProperty("g")
+    @JsonProperty(Key.ACTION_PARAM_HTTP_SCHEMA_GATEWAY)
     private boolean gateway;
 
-    @JsonProperty("i")
+    @JsonProperty(Key.ACTION_PARAM_HTTP_SCHEMA_INPUT)
     private String input;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.ACTION_PARAM_HTTP_SCHEMA_PARAM)
     private String param;
 
     public ActionParamHttpSchema() {

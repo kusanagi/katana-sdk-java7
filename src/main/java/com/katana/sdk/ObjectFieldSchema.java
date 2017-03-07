@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +11,16 @@ import java.util.List;
  */
 public class ObjectFieldSchema {
 
-    @JsonProperty("n")
+    @JsonProperty(Key.OBJECT_FIELD_SCHEMA_NAME)
     private String name;
 
-    @JsonProperty("o")
+    @JsonProperty(Key.OBJECT_FIELD_SCHEMA_OPTIONAL)
     private boolean optional;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.OBJECT_FIELD_SCHEMA_FIELD)
     private List<FieldSchema> field;
 
-    @JsonProperty("F")
+    @JsonProperty(Key.OBJECT_FIELD_SCHEMA_FIELDS)
     private List<List<ObjectFieldSchema>> fields;
 
     public ObjectFieldSchema() {

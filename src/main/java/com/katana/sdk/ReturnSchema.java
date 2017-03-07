@@ -1,16 +1,17 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 /**
  * Created by jega on 3/03/17.
  */
 public class ReturnSchema {
 
-    @JsonProperty("t")
+    @JsonProperty(Key.RETURN_SCHEMA_TYPE)
     private String type;
 
-    @JsonProperty("e")
+    @JsonProperty(Key.RETURN_SCHEMA_ALLOW_EMPTY)
     private boolean allowEmpty;
 
     public String getType() {

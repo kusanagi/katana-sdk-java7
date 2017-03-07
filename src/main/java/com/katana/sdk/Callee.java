@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.Api;
+import com.katana.api.component.Key;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,19 +12,19 @@ import java.util.List;
  */
 public class Callee extends Api {
 
-    @JsonProperty("action")
+    @JsonProperty(Key.CALLEE_ACTION)
     private String action;
 
-    @JsonProperty("callee")
+    @JsonProperty(Key.CALLEE_CALLEE_INFO)
     private String[] calleeInfo;
 
-    @JsonProperty("transport")
+    @JsonProperty(Key.CALLEE_TRANSPORT)
     private Transport transport;
 
-    @JsonProperty("params")
+    @JsonProperty(Key.CALLEE_PARAM)
     private List<Param> param;
 
-    @JsonProperty("files")
+    @JsonProperty(Key.CALLEE_FILES)
     private List<File> files;
 
     public Callee() {

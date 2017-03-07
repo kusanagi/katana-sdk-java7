@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 import com.katana.api.component.utils.Logger;
 
 import java.net.MalformedURLException;
@@ -16,28 +17,28 @@ import java.util.Map;
  * Katana Java SDK
  */
 public class HttpRequest {
-    @JsonProperty("v")
+    @JsonProperty(Key.HTTP_REQUEST_PROTOCOL_VERSION)
     private String protocolVersion;
 
-    @JsonProperty("m")
+    @JsonProperty(Key.HTTP_REQUEST_METHOD)
     private String method;
 
-    @JsonProperty("u")
+    @JsonProperty(Key.HTTP_REQUEST_URL)
     private String url;
 
-    @JsonProperty("q")
+    @JsonProperty(Key.HTTP_REQUEST_QUERY_PARAMS_ARRAY)
     private Map<String, List<String>> queryParamsArray;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.HTTP_REQUEST_POST_PARAMS_ARRAY)
     private Map<String, List<String>> postParamsArray;
 
-    @JsonProperty("h")
+    @JsonProperty(Key.HTTP_REQUEST_HEADERS)
     private Map<String, List<String>> headers;
 
-    @JsonProperty("b")
+    @JsonProperty(Key.HTTP_REQUEST_BODY)
     private String body;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.HTTP_REQUEST_FILES)
     private List<File> files;
 
     public HttpRequest() {

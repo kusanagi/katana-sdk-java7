@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.Api;
 import com.katana.api.component.Component;
+import com.katana.api.component.Key;
 
 import java.util.Map;
 
@@ -12,16 +13,16 @@ import java.util.Map;
  */
 public class Response extends Api {
 
-    @JsonProperty("m")
+    @JsonProperty(Key.RESPONSE_META)
     private Meta meta;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.RESPONSE_HTTP_REQUEST)
     private HttpRequest httpRequest;
 
-    @JsonProperty("R")
+    @JsonProperty(Key.RESPONSE_HTTP_RESPONSE)
     private HttpResponse httpResponse;
 
-    @JsonProperty("T")
+    @JsonProperty(Key.RESPONSE_TRANSPORT)
     private Transport transport;
 
     public Response() {

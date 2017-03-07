@@ -3,6 +3,7 @@ package com.katana.sdk;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,16 +19,16 @@ public class ServiceSchema {
 
     private String version;
 
-    @JsonProperty("a")
+    @JsonProperty(Key.SERVICE_SCHEMA_ADDRESS)
     private String address;
 
-    @JsonProperty("f")
+    @JsonProperty(Key.SERVICE_SCHEMA_FILES)
     private boolean files;
 
-    @JsonProperty("h")
+    @JsonProperty(Key.SERVICE_SCHEMA_HTTP_SCHEMA)
     private HttpSchema httpSchema;
 
-    @JsonProperty("ac")
+    @JsonProperty(Key.SERVICE_SCHEMA_ACTION_SCHEMAS)
     private Map<String, ActionSchema> actionSchemas;
 
     public ServiceSchema() {

@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,19 +13,19 @@ import java.util.Map;
  */
 public class TransportSchema {
 
-    @JsonProperty("p")
+    @JsonProperty(Key.TRANSPORT_SCHEMA_PROPERTIES)
     private Map<String, String> properties;
 
-    @JsonProperty("d")
+    @JsonProperty(Key.TRANSPORT_SCHEMA_DATA)
     private List<Map<String, ValueSchema>> data;
 
-    @JsonProperty("r")
+    @JsonProperty(Key.TRANSPORT_SCHEMA_RELATIONS)
     private List<List<Object>> relations;
 
-    @JsonProperty("l")
+    @JsonProperty(Key.TRANSPORT_SCHEMA_LINKS)
     private Map<String, String> links;
 
-    @JsonProperty("e")
+    @JsonProperty(Key.TRANSPORT_SCHEMA_ERRORS)
     private List<List<String>> errors;
 
     public TransportSchema() {

@@ -2,19 +2,20 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.component.Constants;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 26/09/16.
  */
 public class Error {
 
-    @JsonProperty("m")
+    @JsonProperty(Key.ERROR_MESSAGE)
     private String message;
 
-    @JsonProperty("c")
+    @JsonProperty(Key.ERROR_CODE)
     private int code;
 
-    @JsonProperty("s")
+    @JsonProperty(Key.ERROR_STATUS)
     private String status;
 
     public Error() {

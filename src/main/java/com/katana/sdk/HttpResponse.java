@@ -2,6 +2,7 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 import com.katana.api.replies.common.CommandReplyResult;
 
 import java.util.ArrayList;
@@ -14,16 +15,16 @@ import java.util.Map;
  * Katana Java SDK
  */
 public class HttpResponse implements CommandReplyResult {
-    @JsonProperty("v")
+    @JsonProperty(Key.HTTP_RESPONSE_PROTOCOL_VERSION)
     private String protocolVersion;
 
-    @JsonProperty("s")
+    @JsonProperty(Key.HTTP_RESPONSE_STATUS)
     private String status;
 
-    @JsonProperty("h")
+    @JsonProperty(Key.HTTP_RESPONSE_HEADERS)
     private Map<String, List<String>> headers;
 
-    @JsonProperty("b")
+    @JsonProperty(Key.HTTP_RESPONSE_BODY)
     private String body;
 
     public HttpResponse() {

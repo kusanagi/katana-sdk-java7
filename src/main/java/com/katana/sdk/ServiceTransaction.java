@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 import java.util.List;
 
@@ -9,19 +10,19 @@ import java.util.List;
  */
 public class ServiceTransaction {
 
-    @JsonProperty("n")
+    @JsonProperty(Key.SERVICE_TRANSACTION_NAME)
     private String name;
 
-    @JsonProperty("v")
+    @JsonProperty(Key.SERVICE_TRANSACTION_VERSION)
     private String version;
 
-    @JsonProperty("a")
+    @JsonProperty(Key.SERVICE_TRANSACTION_ACTION)
     private String action;
 
-    @JsonProperty("c")
+    @JsonProperty(Key.SERVICE_TRANSACTION_CALLEE)
     private String callee;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.SERVICE_TRANSACTION_PARAMS)
     private List<Param> params;
 
     public ServiceTransaction() {

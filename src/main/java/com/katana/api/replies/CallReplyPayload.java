@@ -3,6 +3,7 @@ package com.katana.api.replies;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 import com.katana.sdk.RequestCall;
 import com.katana.api.replies.common.CommandReplyResult;
 
@@ -13,7 +14,7 @@ import com.katana.api.replies.common.CommandReplyResult;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CallReplyPayload implements CommandReplyResult {
 
-    @JsonProperty("cr")
+    @JsonProperty(Key.REPLY_PAYLOAD_COMMAND_REPLY)
     private CallCommandReply callCommandReply;
 
     public CallReplyPayload() {
@@ -71,10 +72,11 @@ public class CallReplyPayload implements CommandReplyResult {
      */
     public static class CallCommandReply {
 
-        @JsonProperty("n")
+        @JsonProperty(Key.COMMAND_REPLY_NAME)
         private String name;
 
-        @JsonProperty("r")
+        public static final String _callResult = "r";
+    @JsonProperty(_callResult)
         private CallResult callResult;
 
         /**
@@ -146,7 +148,7 @@ public class CallReplyPayload implements CommandReplyResult {
      */
     public static class CallResult {
 
-        @JsonProperty("c")
+        @JsonProperty(Key.CALL_RESULT_REQUEST_CALL)
         private RequestCall requestCall;
 
         /**

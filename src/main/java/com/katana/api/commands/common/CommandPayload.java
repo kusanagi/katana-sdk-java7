@@ -2,6 +2,7 @@ package com.katana.api.commands.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.katana.api.Api;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 26/09/16.
@@ -12,7 +13,7 @@ import com.katana.api.Api;
  */
 public class CommandPayload<T extends Api> {
 
-    @JsonProperty("m")
+    @JsonProperty(Key.COMMAND_PAYLOAD_COMMAND_META)
     private CommandMeta commandMeta;
 
     public CommandPayload() {
@@ -80,7 +81,7 @@ public class CommandPayload<T extends Api> {
      */
     public static class Command<T extends Api> {
 
-        @JsonProperty("n")
+        @JsonProperty(Key.COMMAND_NAME)
         private String name;
 
         public Command() {

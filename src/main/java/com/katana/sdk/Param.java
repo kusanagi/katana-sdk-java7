@@ -1,19 +1,20 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 18/11/16.
  */
 public class Param {
 
-    @JsonProperty("n")
+    @JsonProperty(Key.PARAM_NAME)
     private String name;
 
-    @JsonProperty("v")
+    @JsonProperty(Key.PARAM_VALUE)
     private Object value;
 
-    @JsonProperty("t")
+    @JsonProperty(Key.PARAM_TYPE)
     private String type;
 
     private boolean exists;

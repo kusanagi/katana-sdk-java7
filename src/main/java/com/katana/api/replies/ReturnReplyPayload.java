@@ -3,6 +3,7 @@ package com.katana.api.replies;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 import com.katana.api.replies.common.CommandReplyResult;
 import com.katana.sdk.Transport;
 
@@ -12,7 +13,7 @@ import com.katana.sdk.Transport;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReturnReplyPayload implements CommandReplyResult {
 
-    @JsonProperty("cr")
+    @JsonProperty(Key.REPLY_PAYLOAD_COMMAND_REPLY)
     private ReturnCommandReply ReturnCommandReply;
 
     public ReturnReplyPayload() {
@@ -61,10 +62,10 @@ public class ReturnReplyPayload implements CommandReplyResult {
 
     public static class ReturnCommandReply {
 
-        @JsonProperty("n")
+        @JsonProperty(Key.COMMAND_REPLY_NAME)
         private String name;
 
-        @JsonProperty("r")
+        @JsonProperty(Key.COMMAND_REPLY_RESULT)
         private ReturnResult ReturnResult;
 
         @JsonIgnore
@@ -121,10 +122,10 @@ public class ReturnReplyPayload implements CommandReplyResult {
 
     public static class ReturnResult {
 
-        @JsonProperty("T")
+        @JsonProperty(Key.RETURN_RESULT_TRANSPORT)
         private Transport transport;
 
-        @JsonProperty("R")
+        @JsonProperty(Key.RETURN_RESULT_RETURN_OBJECT)
         private Object returnObject;
 
         public Transport getTransport() {

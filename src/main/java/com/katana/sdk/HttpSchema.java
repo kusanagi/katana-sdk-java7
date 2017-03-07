@@ -2,16 +2,17 @@ package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 3/01/17.
  */
 public class HttpSchema {
 
-    @JsonProperty("g")
+    @JsonProperty(Key.HTTP_SCHEMA_GATEWAY)
     private boolean gateway;
 
-    @JsonProperty("b")
+    @JsonProperty(Key.HTTP_SCHEMA_BASE_PATH)
     private String basePath;
 
     public HttpSchema() {

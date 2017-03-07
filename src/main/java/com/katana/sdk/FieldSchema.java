@@ -1,19 +1,20 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 
 /**
  * Created by juan on 3/01/17.
  */
 public class FieldSchema {
 
-    @JsonProperty("n")
+    @JsonProperty(Key.FIELD_SCHEMA_NAME)
     private String name;
 
-    @JsonProperty("t")
+    @JsonProperty(Key.FIELD_SCHEMA_TYPE)
     private String type;
 
-    @JsonProperty("o")
+    @JsonProperty(Key.FIELD_SCHEMA_OPTIONAL)
     private boolean optional;
 
     public FieldSchema() {

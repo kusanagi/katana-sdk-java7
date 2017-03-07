@@ -1,6 +1,7 @@
 package com.katana.sdk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 import com.katana.api.replies.common.CommandReplyResult;
 
 import java.util.List;
@@ -10,16 +11,16 @@ import java.util.List;
  * Katana Java SDK
  */
 public class RequestCall implements CommandReplyResult {
-    @JsonProperty("s")
+    @JsonProperty(Key.REQUEST_CALL_SERVICE)
     private String service;
 
-    @JsonProperty("v")
+    @JsonProperty(Key.REQUEST_CALL_VERSION)
     private String version;
 
-    @JsonProperty("a")
+    @JsonProperty(Key.REQUEST_CALL_ACTION)
     private String action;
 
-    @JsonProperty("p")
+    @JsonProperty(Key.REQUEST_CALL_PARAMS)
     private List<Param> params;
 
     public RequestCall() {

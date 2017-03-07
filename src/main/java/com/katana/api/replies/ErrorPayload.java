@@ -1,6 +1,7 @@
 package com.katana.api.replies;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.katana.api.component.Key;
 import com.katana.sdk.Error;
 
 /**
@@ -8,7 +9,7 @@ import com.katana.sdk.Error;
  */
 public class ErrorPayload {
 
-    @JsonProperty("E")
+    @JsonProperty(Key.ERROR)
     private Error error;
 
     public ErrorPayload() {
