@@ -14,7 +14,7 @@ Requirements
 Installation
 ------------
 
-In order to install the SDK you need to install the JDK 1.7: 
+In order to install the SDK you need to install the JDK 1.7:
 
 #### JDK 1.7:
 
