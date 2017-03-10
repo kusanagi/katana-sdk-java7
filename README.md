@@ -51,9 +51,9 @@ First, create a file named `middleware.xml`, with the following configuration:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
-<middleware xmlns="urn:katana:middleware" name="" version="" protocol="urn:katana:protocol:http">
+<middleware xmlns="urn:katana:middleware" name="middleware_name" version="middleware_version" protocol="urn:katana:protocol:http">
     ...
-    <engine runner="urn:katana:runner:java7" path="oauth.jar">
+    <engine runner="urn:katana:runner:java7" path="middleware_file.jar">
         <variable name="workers" value="5"/>
     ...
 </middleware>
@@ -63,9 +63,9 @@ Then, create a file named `service.xml`, with the following configuration:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
-<service xmlns="urn:katana:service" name="" version="">
+<service xmlns="urn:katana:service" name="service_name" version="service_version">
     ...
-    <engine runner="urn:katana:runner:java7" path="oauth.jar">
+    <engine runner="urn:katana:runner:java7" path="service_file.jar" process-min="1" process-max="1">
         <variable name="workers" value="5"/>
     ...
 </service>
