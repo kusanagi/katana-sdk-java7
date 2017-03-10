@@ -381,7 +381,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
         dealer.close();
         router.close();
-//        context.term();
+        context.term();
 
         this.stopped = true;
     }
@@ -406,7 +406,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             Logger.log(e);
             runErrorCallback();
             try {
-                return new byte[][]{new byte[]{0x00}, serializer.serializeInBytes(getErrorPayload(e))};
+                byte[] bytes = serializer.serializeInBytes(getErrorPayload(e));
+                return new byte[][]{new byte[]{0x00}, bytes};
             } catch (JsonProcessingException e1) {
                 Logger.log(e1);
                 return new byte[][]{new byte[]{0x00}, new byte[0]};
@@ -501,7 +502,9 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private S processRequest(String componentType, Mapping mapping, CommandPayload<T> commandPayload) {
         T command = commandPayload.getCommand().getArgument();
         setBaseCommandAttrs(componentType, mapping, command);
-        getCallable(componentType).run(command);
+
+        Callable<T> callable = getCallable(componentType);
+        callable.run(command);
 
         return getCommandReplyPayload(componentType, command);
     }

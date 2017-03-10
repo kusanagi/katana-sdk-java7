@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.katana.api.Api;
 import com.katana.api.commands.CallCommandPayload;
+import com.katana.api.commands.common.CommandMeta;
 import com.katana.api.component.Constants;
 import com.katana.api.component.ExceptionMessage;
 import com.katana.api.component.Key;
@@ -706,9 +707,14 @@ public class Action extends Api {
         callee.setFiles(files);
 
         CallCommandPayload.CallCommand callCommand = new CallCommandPayload.CallCommand();
+        callCommand.setName("runtime-call");
         callCommand.setArgument(callee);
 
+        CommandMeta callCommandMeta = new CommandMeta();
+        callCommandMeta.setScope("service");
+
         CallCommandPayload payload = new CallCommandPayload();
+        payload.setCommandMeta(callCommandMeta);
         payload.setCommand(callCommand);
 
         // Send Payload
@@ -757,10 +763,10 @@ public class Action extends Api {
 
             return returnCommandReply.getResult().getReturnObject();
         } catch (IOException e) {
-            Logger.log(e);
             try {
                 // Throw Error Payload as exception
                 errorPayload = serializer.deserialize(response, ErrorPayload.class);
+                Logger.log(e);
                 throw new IllegalArgumentException(errorPayload.getError().getMessage());
             } catch (IOException e1) {
                 Logger.log(e1);

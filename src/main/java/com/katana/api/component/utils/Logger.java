@@ -14,6 +14,7 @@ public class Logger {
     public static final int WARNING = 2;
     public static final int ERROR = 3;
     public static final int DEBUG = 4;
+
     public static final String STANDARD_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String LOG_PATTERN = "%s [%s] [SDK] %s";
 
@@ -73,7 +74,7 @@ public class Logger {
     }
 
     private static void logToStdout(String message) {
-        java.util.logging.Logger.getGlobal().log(Level.INFO, message);
+//        java.util.logging.Logger.getGlobal().log(Level.INFO, message);
         System.out.println(message);
     }
 }

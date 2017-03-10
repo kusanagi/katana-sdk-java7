@@ -1,5 +1,6 @@
 package com.katana.api.component;
 
+import com.katana.api.component.utils.Logger;
 import org.zeromq.ZMQ;
 
 
@@ -61,7 +62,7 @@ public class ComponentWorker extends Thread {
 
     public void stopSocket() {
         socketObj.close();
-//        context.term();
+        context.term();
     }
 
     public interface WorkerListener {
