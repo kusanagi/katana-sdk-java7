@@ -396,7 +396,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
         dealer.close();
         router.close();
-        context.term();
+//        context.term();
 
         this.stopped = true;
     }

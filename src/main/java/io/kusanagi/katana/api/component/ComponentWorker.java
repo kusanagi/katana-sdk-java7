@@ -76,7 +76,7 @@ public class ComponentWorker extends Thread {
 
     public void stopSocket() {
         socketObj.close();
-        context.term();
+//        context.term();
     }
 
     public interface WorkerListener {
