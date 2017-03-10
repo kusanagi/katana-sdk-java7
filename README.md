@@ -1,5 +1,6 @@
 KATANA SDK for Java 7
 =====================
+[![Build Status](https://travis-ci.org/kusanagi/katana-sdk-java7.svg?branch=master)](https://travis-ci.org/kusanagi/katana-sdk-java7)
 
 Java SDK to interface with the **KATANA**™ framework (https://katana.kusanagi.io).
 
