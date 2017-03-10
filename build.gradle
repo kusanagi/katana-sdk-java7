@@ -3,6 +3,7 @@ version '1.0'
 
 apply plugin: 'application'
 apply plugin: "jacoco"
+apply plugin: "com.github.kt3k.coveralls"
 
 applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib -Dkatanaip=127.0.0.1"]
 
@@ -27,10 +28,6 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
-}
-
-plugins {
-    id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
 jacocoTestReport {
