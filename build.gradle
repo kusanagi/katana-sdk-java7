@@ -29,6 +29,10 @@ jar {
     }
 }
 
+plugins {
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
