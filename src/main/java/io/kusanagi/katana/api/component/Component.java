@@ -105,6 +105,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     private OptionManager optionManager;
 
     private boolean stopped;
+    private Mapping mapping;
 
     /**
      * Initialize the componentName with the command line arguments
@@ -449,6 +450,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         }
 
         Mapping mapping = new Mapping();
+        mapping.setServiceSchema(new HashMap<String, Map<String, ServiceSchema>>());
 
         Map<String, Object> schemas = serializer.deserialize(mappings, Map.class);
         for (Map.Entry serviceKey : schemas.entrySet()) {
@@ -469,12 +471,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                 }
 
                 Map<String, ServiceSchema> newVersionMap = new HashMap<>();
-                Map<String, Map<String, ServiceSchema>> newServiceSchema = new HashMap<>();
-
                 newVersionMap.put((String) versionKey.getKey(), serviceSchema);
-                newServiceSchema.put((String) serviceKey.getKey(), newVersionMap);
-
-                mapping.setServiceSchema(newServiceSchema);
+                mapping.getServiceSchema().put((String) serviceKey.getKey(), newVersionMap);
             }
         }
 
@@ -498,7 +496,11 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         command.setPlatformVersion(this.getFrameworkVersion());
         command.setDebug(this.isDebug());
         command.setVariables(this.getVar());
-        command.setMapping(mapping);
+        if (mapping != null && !mapping.getServiceSchema().isEmpty()) {
+            this.mapping = mapping;
+        }
+        command.setMapping(this.mapping);
+
     }
 
     /**

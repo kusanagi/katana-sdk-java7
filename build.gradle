@@ -18,6 +18,7 @@ version '1.0'
 
 apply plugin: 'application'
 apply plugin: "jacoco"
+apply plugin: 'nexus'
 
 applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib -Dkatanaip=127.0.0.1"]
 
@@ -52,6 +53,7 @@ buildscript {
     }
     dependencies {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1"
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.6.1'
     }
 }
 

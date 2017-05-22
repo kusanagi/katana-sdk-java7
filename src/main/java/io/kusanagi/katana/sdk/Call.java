@@ -159,6 +159,9 @@ public class Call {
         if (action != null ? !action.equals(call.action) : call.action != null) {
             return false;
         }
+        if (caller != null ? !caller.equals(call.caller) : call.caller != null) {
+            return false;
+        }
         if (params != null ? !params.equals(call.params) : call.params != null) {
             return false;
         }
@@ -170,6 +173,7 @@ public class Call {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (version != null ? version.hashCode() : 0);
         result = 31 * result + (action != null ? action.hashCode() : 0);
+        result = 31 * result + (caller != null ? caller.hashCode() : 0);
         result = 31 * result + (params != null ? params.hashCode() : 0);
         result = 31 * result + (gateway != null ? gateway.hashCode() : 0);
         result = 31 * result + timeout;
@@ -182,6 +186,7 @@ public class Call {
                 "name='" + name + '\'' +
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +
+                ", caller='" + caller + '\'' +
                 ", params=" + params +
                 ", gateway='" + gateway + '\'' +
                 ", timeout=" + timeout +
