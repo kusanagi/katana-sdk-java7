@@ -10,7 +10,7 @@ if [ "$TRAVIS_REPO_SLUG" == "kusanagi/katana-sdk-java7" ] && [ "$TRAVIS_BRANCH" 
 
   echo -e "Starting publish to Sonatype...\n"
 
-  ./gradlew uploadArchives -PnexusUsername="${SONATYPE_USERNAME}" -PnexusPassword="${SONATYPE_PASSWORD}" -Psigning.keyId="${SIGN_KEY}" -Psigning.password="${SIGN_PASS}" -Psigning.secretKeyRingFile=../maven.gpg
+  ./gradlew -Psigning.keyId='${SIGN_KEY}' -Psigning.password='${SIGN_PASS}' -Psigning.secretKeyRingFile=maven.gpg -PossrhUsername='${SONATYPE_USERNAME}' -PossrhPassword='${SONATYPE_PASSWORD}' uploadArchives
   RETVAL=$?
 
   if [ $RETVAL -eq 0 ]; then
