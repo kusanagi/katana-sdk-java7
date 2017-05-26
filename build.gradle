@@ -14,11 +14,10 @@
  */
 
 group 'com.katana.sdk'
-version '1.0'
+version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
 apply plugin: "jacoco"
-apply plugin: 'nexus'
 
 applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib -Dkatanaip=127.0.0.1"]
 
@@ -58,6 +57,7 @@ buildscript {
 }
 
 apply plugin: "com.github.kt3k.coveralls"
+apply from: 'gradle/publish.gradle'
 
 jacocoTestReport {
     reports {

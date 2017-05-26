@@ -2,7 +2,7 @@
 # This script initiates the Gradle publishing task when pushes to master occur.
 # NOTE: Travis-CI can only publish SNAPSHOT versions.
 
-if [ "$TRAVIS_REPO_SLUG" == "kusanagi/katana-sdk-java7" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_REPO_SLUG" == "kusanagi/katana-sdk-java7" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
   if [[ $(./gradlew -q getVersion) != *SNAPSHOT* ]]; then
       echo 'Travis can only publish snapshots.'
       return 0
@@ -10,7 +10,7 @@ if [ "$TRAVIS_REPO_SLUG" == "kusanagi/katana-sdk-java7" ] && [ "$TRAVIS_PULL_REQ
 
   echo -e "Starting publish to Sonatype...\n"
 
-  ./gradlew uploadArchives -PnexusUsername="${NEXUS_USERNAME}" -PnexusPassword="${NEXUS_PASSWORD}"
+  ./gradlew uploadArchives -PnexusUsername="${SONATYPE_USERNAME}" -PnexusPassword="${SONATYPE_PASSWORD}" -Psigning.keyId="${SIGN_KEY}" -Psigning.password="${SIGN_PASS}" -Psigning.secretKeyRingFile=../maven.gpg
   RETVAL=$?
 
   if [ $RETVAL -eq 0 ]; then
