@@ -13,11 +13,16 @@
  *
  */
 
-group 'com.katana.sdk'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'application'
 apply plugin: "jacoco"
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group 'io.kusanagi'
+archivesBaseName = "katana-sdk-java7"
+version '1.0'
+
+mainClassName = 'io.kusanagi.katana.api.component.Component'
 
 applicationDefaultJvmArgs = ["-Djava.library.path=/usr/local/lib -Dkatanaip=127.0.0.1"]
 
@@ -52,12 +57,10 @@ buildscript {
     }
     dependencies {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1"
-        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.6.1'
     }
 }
 
 apply plugin: "com.github.kt3k.coveralls"
-apply from: 'gradle/publish.gradle'
 
 jacocoTestReport {
     reports {
@@ -67,3 +70,69 @@ jacocoTestReport {
     }
 }
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'katana-sdk-java7'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Java SDK to interface with the KATANA™ framework'
+                url 'https://github.com/kusanagi/katana-sdk-java7'
+
+                organization {
+                    name 'kusanagi'
+                    url 'https://kusanagi.io/'
+                }
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'http://www.opensource.org/licenses/mit-license.php'
+                        distribution 'repo'
+                    }
+                }
+                scm {
+                    url 'https://github.com/kusanagi/katana-sdk-java7'
+                    connection 'scm:git:https://github.com/kusanagi/katana-sdk-java7.git'
+                    developerConnection 'scm:git@github.com:kusanagi/katana-sdk-java7.git'
+                }
+                developers {
+                    developer {
+                        id 'jega'
+                        name 'Juan Garcia'
+                        email 'jegasmlm@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
