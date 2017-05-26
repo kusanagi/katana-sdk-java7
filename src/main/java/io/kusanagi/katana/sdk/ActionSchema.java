@@ -487,7 +487,7 @@ public class ActionSchema {
 
     /**
      * @return the data type of the returned value, which MAY be "null", "boolean", "integer", "float", "string",
-     * "array" or "object".
+     * "array", "object" or "binary".
      */
     @JsonIgnore
     public String getReturnType() {

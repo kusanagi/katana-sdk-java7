@@ -303,6 +303,16 @@ public class Transport implements CommandReplyResult {
     }
 
     /**
+     *
+     * @return The execution time in milliseconds that was spent by the **Service** that was the origin of the request,
+     * which is **0** until the call is processed *(integer)
+     */
+    @JsonIgnore
+    public int getOriginDuration(){
+        return this.meta.getDuration();
+    }
+
+    /**
      * Get a custom userland property with the REQUIRED case sensitive name argument.
      * The default argument is the OPTIONAL value to use if the property does not exist. If the property is defined in
      * the Transport, but does not have a value, the value of the default argument SHOULD NOT be applied.

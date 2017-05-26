@@ -14,7 +14,7 @@
  */
 
 group 'com.katana.sdk'
-version '1.0'
+version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
 apply plugin: "jacoco"
@@ -52,10 +52,12 @@ buildscript {
     }
     dependencies {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1"
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.6.1'
     }
 }
 
 apply plugin: "com.github.kt3k.coveralls"
+apply from: 'gradle/publish.gradle'
 
 jacocoTestReport {
     reports {

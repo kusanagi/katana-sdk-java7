@@ -119,16 +119,14 @@ public class Arg {
     public static final String DEBUG_ARG = "--debug";
 
     /**
-     * short argument key for the callback with the format %CALLBACK%:%PATH% where %CALLBACK% is the callback to run and
-     * %PATH% is the absolute or relative path to a local file with a payload to be used in a single execution.
+     * short argument for an OPTIONAL action name to be called in a single execution. If present, a *payload* MUST be provided through *stdin*
      */
-    public static final String SHORT_CALLBACK_ARG = "-C";
+    public static final String SHORT_ACTION_ARG = "-A";
 
     /**
-     * argument key for the callback with the format %CALLBACK%:%PATH% where %CALLBACK% is the callback to run and
-     * %PATH% is the absolute or relative path to a local file with a payload to be used in a single execution.
+     * An OPTIONAL action name to be called in a single execution. If present, a *payload* MUST be provided through *stdin*
      */
-    public static final String CALLBACK_ARG = "--callback";
+    public static final String ACTION_ARG = "--action";
 
     /**
      * short argument key for the switch, which if defined MUST disable all logs, even if -D or --debug is present.

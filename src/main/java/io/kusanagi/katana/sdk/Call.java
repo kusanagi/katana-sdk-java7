@@ -15,6 +15,7 @@
 
 package io.kusanagi.katana.sdk;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kusanagi.katana.api.component.Key;
 
@@ -23,7 +24,14 @@ import java.util.List;
 /**
  * Created by juan on 18/11/16.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Call {
+
+    /**
+     * The duration of the **Service** call in milliseconds, which is **0** until the call is processed
+     */
+    @JsonProperty(Key.CALL_DURATION)
+    private int duration;
 
     /**
      * The name of the Service to call
@@ -78,6 +86,14 @@ public class Call {
         this.params = other.params;
         this.gateway = other.gateway;
         this.timeout = other.timeout;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public String getName() {
@@ -147,6 +163,9 @@ public class Call {
 
         Call call = (Call) o;
 
+        if (duration != call.duration) {
+            return false;
+        }
         if (timeout != call.timeout) {
             return false;
         }
@@ -159,6 +178,9 @@ public class Call {
         if (action != null ? !action.equals(call.action) : call.action != null) {
             return false;
         }
+        if (caller != null ? !caller.equals(call.caller) : call.caller != null) {
+            return false;
+        }
         if (params != null ? !params.equals(call.params) : call.params != null) {
             return false;
         }
@@ -167,9 +189,11 @@ public class Call {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = duration;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (version != null ? version.hashCode() : 0);
         result = 31 * result + (action != null ? action.hashCode() : 0);
+        result = 31 * result + (caller != null ? caller.hashCode() : 0);
         result = 31 * result + (params != null ? params.hashCode() : 0);
         result = 31 * result + (gateway != null ? gateway.hashCode() : 0);
         result = 31 * result + timeout;
@@ -179,9 +203,11 @@ public class Call {
     @Override
     public String toString() {
         return "Call{" +
-                "name='" + name + '\'' +
+                "duration=" + duration +
+                ", name='" + name + '\'' +
                 ", version='" + version + '\'' +
                 ", action='" + action + '\'' +
+                ", caller='" + caller + '\'' +
                 ", params=" + params +
                 ", gateway='" + gateway + '\'' +
                 ", timeout=" + timeout +

@@ -254,7 +254,7 @@ public class Request extends Api {
      * create a new parameter with the REQUIRED name argument, and which MUST be returned as a Param object.
      * <p>
      * If the OPTIONAL value or type arguments are specified these MUST also be applied to the Param object. The value of
-     * the type argument MUST be either "null", "boolean", "integer", "float", "string", "array" or "object", where any
+     * the type argument MUST be either "null", "boolean", "integer", "float", "string", "array", "object" or "binary", where any
      * other value MUST be accepted as "string".
      *
      * @param name  parameter name

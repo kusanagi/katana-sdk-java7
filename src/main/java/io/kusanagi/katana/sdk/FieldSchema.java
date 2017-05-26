@@ -30,7 +30,7 @@ public class FieldSchema {
     private String name;
 
     /**
-     * Defines the data type of the field which MUST be either "null", "boolean", "integer", "number", "string", "array"
+     * Defines the data type of the field which MUST be either "null", "boolean", "integer", "float", "string", "array"
      * or "object"
      */
     @JsonProperty(Key.FIELD_SCHEMA_TYPE)

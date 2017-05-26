@@ -15,8 +15,8 @@
 
 package io.kusanagi.katana.api.component;
 
+import io.kusanagi.katana.api.component.utils.Logger;
 import org.zeromq.ZMQ;
-
 
 /**
  * Created by juan on 1/10/16.
