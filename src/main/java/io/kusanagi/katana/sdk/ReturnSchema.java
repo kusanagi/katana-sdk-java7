@@ -24,8 +24,8 @@ import io.kusanagi.katana.api.component.Key;
 public class ReturnSchema {
 
     /**
-     * Defines the type of data expected, which MUST be either "null", "boolean", "integer", "float", "string", "array"
-     * or "object"
+     * Defines the type of data expected, which MUST be either "null", "boolean", "integer", "float", "string", "array",
+     * "object" or "binary"
      */
     @JsonProperty(Key.RETURN_SCHEMA_TYPE)
     private String type;

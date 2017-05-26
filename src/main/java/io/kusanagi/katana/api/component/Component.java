@@ -56,7 +56,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
             new Option(new String[]{Arg.SHORT_VAR_ARG, Arg.VAR_ARG}, false, false, true),
             new Option(new String[]{Arg.SHORT_DISABLE_COMPACT_NAMES_ARG, Arg.DISABLE_COMPACT_NAMES_ARG}, true, false, false),
             new Option(new String[]{Arg.SHORT_DEBUG_ARG, Arg.DEBUG_ARG}, true, false, false),
-            new Option(new String[]{Arg.SHORT_CALLBACK_ARG, Arg.CALLBACK_ARG}, true, false, true),
+            new Option(new String[]{Arg.SHORT_ACTION_ARG, Arg.ACTION_ARG}, true, false, true),
             new Option(new String[]{Arg.SHORT_QUIET_ARG, Arg.QUIET_ARG}, true, false, false),
     };
 
@@ -80,7 +80,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
 
     private Map<String, String> var;
 
-    private String callback;
+    private String action;
 
     private boolean quiet;
 
@@ -214,12 +214,12 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
         this.debug = debug;
     }
 
-    public String getCallback() {
-        return callback;
+    public String getAction() {
+        return action;
     }
 
-    public void setCallback(String callback) {
-        this.callback = callback;
+    public void setAction(String action) {
+        this.action = action;
     }
 
     public boolean isQuiet() {
@@ -270,10 +270,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      * take a function, which SHOULD be executed upon first running the userland source file, and return the instance of
      * the object.
      * <p>
-     * The instance of the Component class MUST be provided as the first argument of the callback function, while any
-     * value returned by the callback function MUST be ignored.
+     * The instance of the Component class MUST be provided as the first argument of the action function, while any
+     * value returned by the action function MUST be ignored.
      *
-     * @param callback callback function
+     * @param callback action function
      * @return the component
      */
     public Component<T, S, R> startup(EventCallable<R> callback) {
@@ -285,10 +285,10 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      * take a function, which SHOULD be executed if the SDK receives a signal to terminate its process, and return the
      * instance of the object.
      * <p>
-     * The instance of the Component class MUST be provided as the first argument of the callback function, while any
-     * value returned by the callback function MUST be ignored.
+     * The instance of the Component class MUST be provided as the first argument of the action function, while any
+     * value returned by the action function MUST be ignored.
      *
-     * @param callback callback function
+     * @param callback action function
      * @return the component
      */
     public Component<T, S, R> shutdown(EventCallable<R> callback) {
@@ -297,14 +297,14 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
     }
 
     /**
-     * function MUST take a function, which SHOULD be executed whenever an error is thrown or returned from a callback
+     * function MUST take a function, which SHOULD be executed whenever an error is thrown or returned from a action
      * when processing a message in userland, and return the instance of the object.
      * <p>
-     * The instance of the error object caught or returned MUST be provided as the first argument of the callback
+     * The instance of the error object caught or returned MUST be provided as the first argument of the action
      * function. The type of object SHOULD be the most acceptable to the implementation language. No return value is
-     * expected from this callback function, and any value returned SHOULD be ignored.
+     * expected from this action function, and any value returned SHOULD be ignored.
      *
-     * @param callback callback function
+     * @param callback action function
      * @return the component
      */
     public Component<T, S, R> error(EventCallable<R> callback) {
@@ -316,30 +316,49 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
      * This is where ZeroMQ and MessagePack are implemented, and the long running process initialized to receive incoming
      * messages.
      * <p>
-     * Upon executing the userland source code any callback functions registered MUST be stored so they MAY be referenced
+     * Upon executing the userland source code any action functions registered MUST be stored so they MAY be referenced
      * by either "request" or "response" in the case of Middleware, or by the specific action name in the case of a
      * Service. This reference SHOULD then be used to effectively route messages received by the SDK to their relevant
-     * callback function.
+     * action function.
      */
     public void run() {
-        startSocket();
-
-        setWorkers();
-
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                if (shutdownCallable != null) {
-                    runShutdown();
-                }
-
-                if (!stopped) {
-                    stopSocket();
+        if (this.action != null) {
+            Scanner in = new Scanner(System.in);
+            String payload = in.next();
+            try {
+                CommandPayload<T> command = serializer.deserialize(payload, getCommandPayloadClass(this.action));
+                S commandReply = processRequest(this.action, null, command);
+                System.out.print(serializer.serializeInJson(commandReply));
+            } catch (Exception e) {
+                Logger.log(e);
+                runErrorCallback();
+                try {
+                    System.out.print(serializer.serializeInJson(getErrorPayload(e)));
+                } catch (JsonProcessingException e1) {
+                    Logger.log(e1);
+                    System.out.print("");
                 }
             }
-        });
+        } else {
+            startSocket();
 
-        ZMQ.proxy(router, dealer, null);
+            setWorkers();
+
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                @Override
+                public void run() {
+                    if (shutdownCallable != null) {
+                        runShutdown();
+                    }
+
+                    if (!stopped) {
+                        stopSocket();
+                    }
+                }
+            });
+
+            ZMQ.proxy(router, dealer, null);
+        }
     }
 
     /**
@@ -580,8 +599,8 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                 case Arg.SHORT_DEBUG_ARG:
                     this.debug = true;
                     break;
-                case Arg.SHORT_CALLBACK_ARG:
-                    this.callback = option.getValue();
+                case Arg.SHORT_ACTION_ARG:
+                    this.action = option.getValue();
                     break;
                 case Arg.SHORT_QUIET_ARG:
                     this.quiet = true;
@@ -605,7 +624,7 @@ public abstract class Component<T extends Api, S extends CommandReplyResult, R e
                 ", " + Constants.TCP + "='" + tcp + '\'' +
                 ", debug=" + debug +
                 ", var=" + var +
-                ", callback=" + callback +
+                ", action=" + action +
                 ", quiet=" + quiet +
                 '}';
     }

@@ -52,6 +52,12 @@ public class Response extends Api {
     @JsonProperty(Key.RESPONSE_TRANSPORT)
     private Transport transport;
 
+    /**
+     * The value returned by the initial **Service** called in the request
+     */
+    @JsonProperty(Key.RESPONSE_RETURN)
+    private Object returnObject;
+
     public Response() {
         // Default constructor to make possible the serialization of this object.
     }
@@ -82,6 +88,14 @@ public class Response extends Api {
 
     public void setTransport(Transport transport) {
         this.transport = transport;
+    }
+
+    public Object getReturnObject() {
+        return returnObject;
+    }
+
+    public void setReturnObject(Object returnObject) {
+        this.returnObject = returnObject;
     }
 
     // SDK METHODS
@@ -118,6 +132,26 @@ public class Response extends Api {
     }
 
     /**
+     * @return whether or not the initial **Service** called in the request has a return value, and returned a value
+     * in its command reply.
+     */
+    public boolean hasReturn(){
+        return this.returnObject != null;
+    }
+
+    /**
+     *
+     * @return the value returned by the initial **Service** called in the request.
+     */
+    @JsonIgnore
+    public Object getReturn(){
+        if (this.returnObject == null){
+            throw new IllegalArgumentException("No return value defined on " + getName() + " (" + version + ")");//TODO add action to the error message
+        }
+        return getReturnObject();
+    }
+
+    /**
      * @return Return an instance of the deserialize-only Transport interface.
      */
     public Transport getTransport() {
@@ -129,7 +163,7 @@ public class Response extends Api {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Response)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         if (!super.equals(o)) {
@@ -138,26 +172,29 @@ public class Response extends Api {
 
         Response response = (Response) o;
 
-        if (getMeta() != null ? !getMeta().equals(response.getMeta()) : response.getMeta() != null) {
+        if (meta != null ? !meta.equals(response.meta) : response.meta != null) {
             return false;
         }
-        if (getHttpRequest() != null ? !getHttpRequest().equals(response.getHttpRequest()) : response.getHttpRequest() != null) {
+        if (httpRequest != null ? !httpRequest.equals(response.httpRequest) : response.httpRequest != null) {
             return false;
         }
-        if (getHttpResponse() != null ? !getHttpResponse().equals(response.getHttpResponse()) : response.getHttpResponse() != null) {
+        if (httpResponse != null ? !httpResponse.equals(response.httpResponse) : response.httpResponse != null) {
             return false;
         }
-        return getTransport() != null ? getTransport().equals(response.getTransport()) : response.getTransport() == null;
-
+        if (transport != null ? !transport.equals(response.transport) : response.transport != null) {
+            return false;
+        }
+        return returnObject != null ? returnObject.equals(response.returnObject) : response.returnObject == null;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (getMeta() != null ? getMeta().hashCode() : 0);
-        result = 31 * result + (getHttpRequest() != null ? getHttpRequest().hashCode() : 0);
-        result = 31 * result + (getHttpResponse() != null ? getHttpResponse().hashCode() : 0);
-        result = 31 * result + (getTransport() != null ? getTransport().hashCode() : 0);
+        result = 31 * result + (meta != null ? meta.hashCode() : 0);
+        result = 31 * result + (httpRequest != null ? httpRequest.hashCode() : 0);
+        result = 31 * result + (httpResponse != null ? httpResponse.hashCode() : 0);
+        result = 31 * result + (transport != null ? transport.hashCode() : 0);
+        result = 31 * result + (returnObject != null ? returnObject.hashCode() : 0);
         return result;
     }
 
@@ -168,6 +205,7 @@ public class Response extends Api {
                 ", httpRequest=" + httpRequest +
                 ", httpResponse=" + httpResponse +
                 ", transport=" + transport +
-                "} " + super.toString();
+                ", returnObject=" + returnObject +
+                '}';
     }
 }

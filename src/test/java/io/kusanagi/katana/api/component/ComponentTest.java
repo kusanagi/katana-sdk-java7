@@ -155,7 +155,7 @@ public class ComponentTest {
         assertEquals(PORT, component.getTcp());
         assertEquals(true, component.isDebug());
         assertEquals(true, component.isQuiet());
-        assertEquals("request:callback", component.getCallback());
+        assertEquals("request:callback", component.getAction());
         assertEquals("socket", component.getSocket());
         assertEquals(3, component.getVar().size());
         assertEquals("value1", component.getVar().get("var1"));

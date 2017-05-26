@@ -30,7 +30,6 @@ import io.kusanagi.katana.api.component.utils.MessagePackSerializer;
 import io.kusanagi.katana.api.replies.ErrorPayload;
 import io.kusanagi.katana.api.replies.ReturnReplyPayload;
 import org.zeromq.ZMQ;
-import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -187,13 +186,13 @@ public class Action extends Api {
     /**
      * Create a new parameter with the REQUIRED name argument
      * If the OPTIONAL value or type arguments are specified these MUST also be applied to the Param object. The value
-     * of the type argument MUST be either "null", "boolean", "integer", "float", "string", "array" or "object", where
+     * of the type argument MUST be either "null", "boolean", "integer", "float", "string", "array", "object" or "binary", where
      * any other value MUST be accepted as "string".
      * When creating a new Param object the value of the exists property MUST be false.
      *
      * @param name  Name of the new param
      * @param value Value of the new param
-     * @param type  Data type of the new param, MUST be either "null", "boolean", "integer", "float", "string", "array" or "object"
+     * @param type  Data type of the new param, MUST be either "null", "boolean", "integer", "float", "string", "array", "object" or "binary"
      * @return Return the new param
      */
     public Param newParam(String name, String value, String type) {
@@ -321,7 +320,7 @@ public class Action extends Api {
      * @return Return the instance of the action
      */
     public Action setDownload(File file) {
-        if (!getServiceSchema(getName(), getVersion()).hasFileServer()) {
+        if (mapping != null && !getServiceSchema(getName(), getVersion()).hasFileServer()) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.FILE_SERVER_NOT_CONFIGURED, getName(), getVersion()));
         }
         this.transport.setBody(file);
@@ -704,7 +703,7 @@ public class Action extends Api {
 
         // Validate is there are local files
         if (files != null) {
-            if (!getServiceSchema(this.name, this.version).hasFileServer()) {
+            if (mapping != null && !getServiceSchema(this.name, this.version).hasFileServer()) {
                 return false;
             }
             for (File file : files) {
@@ -765,19 +764,19 @@ public class Action extends Api {
                 returnCommandReply = serializer.deserialize(bytes, ReturnReplyPayload.class);
 
 //                //Merge transports
-//                Transport responseTransport = returnCommandReply.getCommandReply().getResult().getTransport();
-//                merge(this.transport.getMeta().getFallback(), responseTransport.getMeta().getFallback());
-//                merge(this.transport.getMeta().getProperties(), responseTransport.getMeta().getProperties());
-//                merge(this.transport.getData(), responseTransport.getData());
-//                merge(this.transport.getRelations(), responseTransport.getRelations());
-//                merge(this.transport.getLinks(), responseTransport.getLinks());
-//                merge(this.transport.getCalls(), responseTransport.getCalls());
-//                merge(this.transport.getTransactions().getCommit(), responseTransport.getTransactions().getCommit());
-//                merge(this.transport.getTransactions().getComplete(), responseTransport.getTransactions().getComplete());
-//                merge(this.transport.getTransactions().getRollback(), responseTransport.getTransactions().getRollback());
-//                merge(this.transport.getErrors(), responseTransport.getErrors());
-//                this.transport.setBody(responseTransport.getBody());
-//                merge(this.transport.getFiles(), responseTransport.getFiles());
+                Transport responseTransport = returnCommandReply.getCommandReply().getResult().getTransport();
+                merge(this.transport.getMeta().getFallback(), responseTransport.getMeta().getFallback());
+                merge(this.transport.getMeta().getProperties(), responseTransport.getMeta().getProperties());
+                merge(this.transport.getData(), responseTransport.getData());
+                merge(this.transport.getRelations(), responseTransport.getRelations());
+                merge(this.transport.getLinks(), responseTransport.getLinks());
+                merge(this.transport.getCalls(), responseTransport.getCalls());
+                merge(this.transport.getTransactions().getCommit(), responseTransport.getTransactions().getCommit());
+                merge(this.transport.getTransactions().getComplete(), responseTransport.getTransactions().getComplete());
+                merge(this.transport.getTransactions().getRollback(), responseTransport.getTransactions().getRollback());
+                merge(this.transport.getErrors(), responseTransport.getErrors());
+                this.transport.setBody(responseTransport.getBody());
+                merge(this.transport.getFiles(), responseTransport.getFiles());
 
                 return returnCommandReply.getCommandReply().getResult().getReturnObject();
             } catch (IOException e) {
@@ -840,13 +839,13 @@ public class Action extends Api {
     public Action deferCall(String service, String version, String action, List<Param> params, List<File> files) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
-        if (!serviceSchema.getActionSchema(this.actionName).hasDeferCall(service, version, action)) {
+        if (mapping != null && !serviceSchema.getActionSchema(this.actionName).hasDeferCall(service, version, action)) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.DEFERRED_CALL_NOT_CONFIGURED, this.name, this.version, this.actionName));
         }
 
         if (files != null) {
             for (File file : files) {
-                if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                if (file.isLocal() && mapping != null && !serviceSchema.hasFileServer()) {
                     throw new IllegalArgumentException(String.format(
                             ExceptionMessage.FILE_SERVER_NOT_CONFIGURED,
                             this.name,
@@ -907,13 +906,13 @@ public class Action extends Api {
     public Action callRemote(String address, String service, String version, String action, List<Param> params, List<File> files, int timeout) {
         ServiceSchema serviceSchema = getServiceSchema(this.name, this.version);
 
-        if (!serviceSchema.getActionSchema(this.actionName).hasRemoteCalls()) {
+        if (mapping != null && !serviceSchema.getActionSchema(this.actionName).hasRemoteCalls()) {
             throw new IllegalArgumentException(String.format(ExceptionMessage.REMOTE_CALL_NOT_CONFIGURED, address, this.name, this.version, this.actionName));
         }
 
         if (files != null) {
             for (File file : files) {
-                if (file.isLocal() && !serviceSchema.hasFileServer()) {
+                if (file.isLocal() && mapping != null && !serviceSchema.hasFileServer()) {
                     throw new IllegalArgumentException(String.format(
                             ExceptionMessage.FILE_SERVER_NOT_CONFIGURED,
                             this.name,

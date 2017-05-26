@@ -35,8 +35,8 @@ public class ActionParamSchema {
     private String name;
 
     /**
-     * Defines the type of data expected, which MUST be either "null", "boolean", "integer", "number", "string", "array"
-     * or "object", defaults to "string" if not defined
+     * Defines the type of data expected, which MUST be either "null", "boolean", "integer", "float", "string", "array",
+     * "object" or "binary", defaults to "string" if not defined
      */
     @JsonProperty(Key.ACTION_PARAM_SCHEMA_TYPE)
     private String type;
@@ -322,7 +322,7 @@ public class ActionParamSchema {
     }
 
     /**
-     * @return the data type of the parameter, which MAY be "null", "boolean", "integer", "number", "string", "array",
+     * @return the data type of the parameter, which MAY be "null", "boolean", "integer", "float", "string", "array",
      * "object" or "file", or "string" if not defined.
      */
     public String getType() {

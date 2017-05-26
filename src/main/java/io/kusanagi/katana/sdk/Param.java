@@ -37,7 +37,7 @@ public class Param {
     private Object value;
 
     /**
-     * The data type of the variable, which MAY be "null", "boolean", "integer", "float", "string", "array" or "object"
+     * The data type of the variable, which MAY be "null", "boolean", "integer", "float", "string", "array", "object" or "binary"
      */
     @JsonProperty(Key.PARAM_TYPE)
     private String type;
