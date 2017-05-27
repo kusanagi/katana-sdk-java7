@@ -16,9 +16,6 @@ os:
 sudo: false
 
 addons:
-  apt:
-    packages:
-      - oracle-java7-installer
   branch:
     - master
 
