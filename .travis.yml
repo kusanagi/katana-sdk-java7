@@ -1,7 +1,6 @@
 language: java
 
 jdk:
-  - oraclejdk8
   - oraclejdk7
 
 env:
@@ -17,9 +16,6 @@ os:
 sudo: false
 
 addons:
-  apt:
-    packages:
-      - oracle-java8-installer
   branch:
     - master
 
