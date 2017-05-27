@@ -57,10 +57,12 @@ buildscript {
     }
     dependencies {
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1"
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.8.0"
     }
 }
 
 apply plugin: "com.github.kt3k.coveralls"
+apply plugin: 'io.codearte.nexus-staging'
 
 jacocoTestReport {
     reports {
@@ -135,4 +137,9 @@ uploadArchives {
             }
         }
     }
+}
+
+nexusStaging {
+    username = ossrhUsername
+    password = ossrhPassword
 }
