@@ -144,7 +144,7 @@ public class ComponentTest {
 
     @Test
     public void main_withValidArguments_setClassMembers() {
-        String args = "-c service -n name -v 0.2.0 -f 0.1.0 -s socket -t " + PORT + " -d -A list -q --debug " +
+        String args = "-c service -n name -v 0.2.0 -f 0.1.0 -s socket -t " + PORT + " -d -A list -L 7 --debug " +
                 "-V var1=value1 -V var2=value2 --var var3=value3";
         Component component = new Service(args.split(" "));
 
@@ -154,7 +154,7 @@ public class ComponentTest {
         assertEquals("0.1.0", component.getFrameworkVersion());
         assertEquals(PORT, component.getTcp());
         assertEquals(true, component.isDebug());
-        assertEquals(true, component.isQuiet());
+        assertEquals(7, component.getLogLevel());
         assertEquals("list", component.getAction());
         assertEquals("socket", component.getSocket());
         assertEquals(3, component.getVar().size());
