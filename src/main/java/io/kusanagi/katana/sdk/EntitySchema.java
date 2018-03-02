@@ -61,6 +61,7 @@ public class EntitySchema {
     public EntitySchema() {
         field = new ArrayList<>();
         fields = new ArrayList<>();
+        name = "";
         validate = false;
         primaryKey = "id";
     }
@@ -68,6 +69,7 @@ public class EntitySchema {
     public EntitySchema(EntitySchema other) {
         this.field = other.field;
         this.fields = other.fields;
+        this.name = other.name;
         this.validate = other.validate;
         this.primaryKey = other.primaryKey;
     }

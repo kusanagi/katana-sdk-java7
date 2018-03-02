@@ -25,6 +25,9 @@ import io.kusanagi.katana.api.component.utils.MessagePackSerializer;
 import io.kusanagi.katana.api.replies.CallReplyPayload;
 import io.kusanagi.katana.api.replies.ResponseReplyPayload;
 import io.kusanagi.katana.api.replies.TransportReplyPayload;
+import io.kusanagi.katana.api.serializers.CallEntity;
+import io.kusanagi.katana.api.serializers.ErrorEntity;
+import io.kusanagi.katana.api.serializers.TransactionEntity;
 import io.kusanagi.katana.utils.MockFactory;
 import io.kusanagi.katana.utils.TestClient;
 import io.kusanagi.katana.utils.TestMiddleware;
@@ -130,14 +133,14 @@ public class ComponentTest {
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -t " + PORT, true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -d", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -A list", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -q", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -L 7", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --socket socket", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --debug", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --var name=value", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --tcp " + PORT, true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --disable-compact-names", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --action list", true);
-        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --quiet", true);
+        assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 --log-level 7", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -s socket --debug -V name=value", true);
         assertComponentArgs("-c service -n name -v 0.1.0 -f 0.1.0 -s socket --debug -V name1=value -V name2=value --var name3=value", true);
     }
@@ -193,9 +196,12 @@ public class ComponentTest {
         assertTrue(logged);
         Date date = STANDARD_DATE_FORMAT.parse(split[0]);
         assertEquals(date.getTime(), Calendar.getInstance().getTimeInMillis(), 1000);
-        assertEquals("[DEBUG]", split[1]);
-        assertEquals("[SDK]", split[2]);
-        assertEquals("message", split[3]);
+        assertEquals("service", split[1]);
+        assertEquals("name/0.2.0", split[2]);
+        assertEquals("(0.1.0)", split[3]);
+        assertEquals("[INFO]", split[4]);
+        assertEquals("[SDK]", split[5]);
+        assertEquals("message", split[6]);
     }
 
     @Test
@@ -488,8 +494,8 @@ public class ComponentTest {
         Mapping otherMapping = new Mapping(mappings[0]);
         assertEquals(mappings[0], otherMapping);
 
-        TransportReplyPayload otherTransportReplyPayload = new TransportReplyPayload(transportReplyPayloads[0]);
-        assertEquals(transportReplyPayloads[0], otherTransportReplyPayload);
+//        TransportReplyPayload otherTransportReplyPayload = new TransportReplyPayload(transportReplyPayloads[0]);
+//        assertEquals(transportReplyPayloads[0], otherTransportReplyPayload);
 
     }
 
