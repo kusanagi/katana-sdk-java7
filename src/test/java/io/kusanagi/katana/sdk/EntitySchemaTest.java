@@ -44,9 +44,9 @@ public class EntitySchemaTest {
         MockFactory mockFactory = new MockFactory();
         EntitySchema object = mockFactory.getEntitySchema();
         Assert.assertEquals(object, new EntitySchema(object));
-        Assert.assertEquals(2003584586, object.hashCode());
+        Assert.assertEquals(1299440963, object.hashCode());
         Assert.assertEquals(
-                "EntitySchema{field=[FieldSchema{name='id', type='integer', optional='false'}, FieldSchema{name='name', type='string', optional='false'}, FieldSchema{name='active', type='boolean', optional='false'}, FieldSchema{name='is_admin', type='boolean', optional='true'}], fields=[ObjectFieldSchema{name='contact', optional=false, field=[FieldSchema{name='id', type='integer', optional='false'}, FieldSchema{name='email', type='null', optional='false'}, FieldSchema{name='location', type='object', optional='false'}], fields=[]}], validate=true}",
+                "EntitySchema{field=[FieldSchema{name='id', type='integer', optional='false'}, FieldSchema{name='name', type='string', optional='false'}, FieldSchema{name='active', type='boolean', optional='false'}, FieldSchema{name='is_admin', type='boolean', optional='true'}], fields=[ObjectFieldSchema{name='contact', optional=false, field=[FieldSchema{name='id', type='integer', optional='false'}, FieldSchema{name='email', type='null', optional='false'}, FieldSchema{name='location', type='object', optional='false'}], fields=[]}], name='', validate=true, primaryKey='id'}",
                 object.toString());
     }
 

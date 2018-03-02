@@ -15,31 +15,21 @@
 
 package io.kusanagi.katana.sdk;
 
-import java.util.List;
-
 /**
- * Created by jega on 2/03/18.
+ * Created by jega on 1/03/18.
  */
-public class Transaction {
+public class Caller {
 
-    private String type;
     private String name;
     private String version;
-    private String callerAction;
-    private String calleeAction;
-    private List<Param> params;
+    private String action;
+    private Callee callee;
 
-    public Transaction(String type, String name, String version, String callerAction, String calleeAction, List<Param> params) {
-        this.type = type;
+    public Caller(String name, String version, String action, Callee callee) {
         this.name = name;
         this.version = version;
-        this.callerAction = callerAction;
-        this.calleeAction = calleeAction;
-        this.params = params;
-    }
-
-    public String getType() {
-        return type;
+        this.action = action;
+        this.callee = callee;
     }
 
     public String getName() {
@@ -50,15 +40,11 @@ public class Transaction {
         return version;
     }
 
-    public String getCallerAction() {
-        return callerAction;
+    public String getAction() {
+        return action;
     }
 
-    public String getCalleeAction() {
-        return calleeAction;
-    }
-
-    public List<Param> getParams() {
-        return params;
+    public Callee getCallee() {
+        return callee;
     }
 }

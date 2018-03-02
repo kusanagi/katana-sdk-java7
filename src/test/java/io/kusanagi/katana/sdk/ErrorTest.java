@@ -15,6 +15,7 @@
 
 package io.kusanagi.katana.sdk;
 
+import io.kusanagi.katana.api.serializers.ErrorEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +25,11 @@ import org.junit.Test;
  */
 public class ErrorTest {
 
-    private Error error;
+    private ErrorEntity error;
 
     @Before
     public void setup() {
-        this.error = new Error();
+        this.error = new ErrorEntity();
     }
 
     @Test
@@ -40,11 +41,11 @@ public class ErrorTest {
 
     @Test
     public void equalsAndHashcode() {
-        Error error = new Error();
-        Assert.assertEquals(error, new Error(error));
+        ErrorEntity error = new ErrorEntity();
+        Assert.assertEquals(error, new ErrorEntity(error));
         Assert.assertEquals(-1348468619, error.hashCode());
         Assert.assertEquals(
-                "Error{message='Unknown error', code='0', status='500 Internal Server Error'}",
+                "ErrorEntity{message='Unknown error', code='0', status='500 Internal Server Error'}",
                 error.toString());
     }
 
